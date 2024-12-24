@@ -21,6 +21,23 @@
 #include <string.h>
 #include "cJSON.h"
 #include "cm_base64.h"
+#include "circular_log.h"
+
+static char* TAG_NAME = "ota process";
+
+// 添加日志标签定义
+#define OTA_TAG "OTA"
+
+// 添加日志宏定义，只保留关键日志级别
+#define OTA_LOG_ERROR(fmt, ...) log_write(LOG_ERROR, OTA_TAG, fmt, ##__VA_ARGS__)
+#define OTA_LOG_INFO(fmt, ...)  log_write(LOG_INFO, OTA_TAG, fmt, ##__VA_ARGS__)
+
+#ifdef DEBUG  // 在调试模式下才启用 DEBUG 日志
+#define OTA_LOG_DEBUG(fmt, ...) log_write(LOG_DEBUG, OTA_TAG, fmt, ##__VA_ARGS__)
+#else
+#define OTA_LOG_DEBUG(fmt, ...) ((void)0)
+#endif
+
 
 // 通用帧头格式:
 // {
@@ -411,12 +428,13 @@ static int generate_ota_response(char *res, int res_len, msg_header *header, int
 
 static int handle_ota_request(OtaFileInfo *ota_info, char *res, int res_len, msg_header *header)
 {
+    OTA_LOG_INFO("Handle OTA request");
     if (!ota_info || !res || !header)
     {
-        LOGD("Invalid parameters");
+        OTA_LOG_ERROR("Invalid parameters");
         return -1;
     }
-    LOGD("Handle OTA request: version=%s, size=%u", ota_info->version, ota_info->file_size);
+    // OTA_LOG_INFO("Handle OTA request: version=%s, size=%u", ota_info->version, ota_info->file_size);
 
     // 初始化升级状态
     memset(&g_ota_status, 0, sizeof(g_ota_status));
@@ -695,19 +713,21 @@ static int copy_file(const char *src_path, const char *dst_path)
  */
 static int handle_ota_data(char *data, int len, char *res, int res_len, msg_header *header)
 {
+    // LOGD("Handle OTA data packet, length: %d", len);
+    // OTA_LOG_INFO("Handle OTA data packet, length: %d", len);
     if (!data || !res || !header || len <= 0)
     {
-        LOGD("Invalid parameters");
+        OTA_LOG_ERROR("Invalid parameters");
         return generate_ota_response(res, res_len, header, OTA_RESPONSE_ERROR, "Invalid parameters");
     }
 
     if (!g_ota_status.is_updating)
     {
-        LOGD("OTA not started");
+        OTA_LOG_ERROR("OTA not started");
         return generate_ota_response(res, res_len, header, OTA_RESPONSE_ERROR, OTA_MSG_NOT_STARTED);
     }
 
-    LOGD("Handle OTA data packet, length: %d", len);
+    // OTA_LOG_INFO("Handle OTA data packet, length: %d", len);
 
     uint8_t *decoded_data = NULL;
     int decoded_len = parse_ota_data_json(data, len, &decoded_data);
@@ -741,7 +761,7 @@ static int handle_ota_data(char *data, int len, char *res, int res_len, msg_head
             {
                 if (mkdir(dir_path, 0755) != 0)
                 {
-                    LOGD("Failed to create directory: %s, error: %s",
+                    OTA_LOG_ERROR("Failed to create directory: %s, error: %s",
                          dir_path, strerror(errno));
                     free(decoded_data);
                     return generate_ota_response(res, res_len, header,
@@ -753,7 +773,7 @@ static int handle_ota_data(char *data, int len, char *res, int res_len, msg_head
             file = fopen(OTA_TMP_FILE_PATH, "ab");
             if (!file)
             {
-                LOGD("Failed to open file after creating directory: %s",
+                OTA_LOG_ERROR("Failed to open file after creating directory: %s",
                      strerror(errno));
                 free(decoded_data);
                 return generate_ota_response(res, res_len, header,
@@ -766,7 +786,7 @@ static int handle_ota_data(char *data, int len, char *res, int res_len, msg_head
     // 设置文件权限
     if (chmod(OTA_TMP_FILE_PATH, 0644) != 0)
     {
-        LOGD("Failed to set file permissions: %s", strerror(errno));
+        OTA_LOG_ERROR("Failed to set file permissions: %s", strerror(errno));
         // 继续执行，不返回错误
     }
 
@@ -776,7 +796,7 @@ static int handle_ota_data(char *data, int len, char *res, int res_len, msg_head
 
     if (written != decoded_len)
     {
-        LOGD("Failed to write data to file");
+        OTA_LOG_ERROR("Failed to write data to file");
         return generate_ota_response(res, res_len, header, OTA_RESPONSE_ERROR, OTA_MSG_FILE_WRITE_ERROR);
     }
 
@@ -794,20 +814,20 @@ static int handle_ota_data(char *data, int len, char *res, int res_len, msg_head
         char calculated_md5[33];
         if (calculate_file_md5(OTA_TMP_FILE_PATH, calculated_md5) != 0)
         {
-            LOGD("Failed to calculate MD5");
+            OTA_LOG_ERROR("Failed to calculate MD5");
             return generate_ota_response(res, res_len, header, OTA_RESPONSE_ERROR, OTA_MSG_MD5_CALC_FAILED);
         }
 
         // 比较 MD5
         if (strcmp(calculated_md5, g_ota_status.md5) != 0)
         {
-            LOGD("MD5 verification failed. Expected: %s, Got: %s", g_ota_status.md5, calculated_md5);
+            OTA_LOG_ERROR("MD5 verification failed. Expected: %s, Got: %s", g_ota_status.md5, calculated_md5);
             snprintf(msg, sizeof(msg), "MD5 verification failed");
             return generate_ota_response(res, res_len, header, OTA_RESPONSE_ERROR, OTA_MSG_MD5_VERIFY_FAILED);
         }
 
         snprintf(msg, sizeof(msg), "File received completely, MD5 verified");
-        LOGD("File received completely, MD5 verified");
+        OTA_LOG_INFO("File received completely, MD5 verified");
     }
     else
     {
@@ -821,23 +841,24 @@ static int handle_ota_data(char *data, int len, char *res, int res_len, msg_head
  */
 static int handle_ota_verify(char *data, int len, char *res, int res_len, msg_header *header)
 {
+    OTA_LOG_INFO("Verifying OTA package");
     if (!data || !res || !header)
     {
-        LOGD("Invalid parameters");
+        OTA_LOG_ERROR("Invalid parameters");
         return -1;
     }
     if (!g_ota_status.is_updating)
     {
-        LOGD("OTA not started");
+        OTA_LOG_ERROR("OTA not started");
         return generate_ota_response(res, res_len, header, OTA_RESPONSE_ERROR, OTA_MSG_NOT_STARTED);
     }
 
-    LOGD("Handle OTA verify request");
+    OTA_LOG_INFO("Handle OTA verify request");
 
     // 检查文件是否接收完整
     if (g_ota_status.received_size != g_ota_status.total_size)
     {
-        LOGD("File not completely received. Expected: %u, Got: %u",
+        OTA_LOG_ERROR("File not completely received. Expected: %u, Got: %u",
              g_ota_status.total_size, g_ota_status.received_size);
         return generate_ota_response(res, res_len, header, OTA_RESPONSE_ERROR, OTA_MSG_FILE_INCOMPLETE);
     }
@@ -845,16 +866,16 @@ static int handle_ota_verify(char *data, int len, char *res, int res_len, msg_he
     int ret = decompress_ota_file(OTA_TMP_FILE_PATH, OTA_TMP_FILE_PATH_UNZIP);
     if (ret != 0)
     {
-        LOGD("Decompress OTA file failed");
+        OTA_LOG_ERROR("Decompress OTA file failed");
         return generate_ota_response(res, res_len, header, OTA_RESPONSE_ERROR, OTA_MSG_DECOMPRESS_FAILED);
     }
-    LOGD("Decompress OTA file success");
+    OTA_LOG_INFO("Decompress OTA file success");
 
     // 复制到系统app执行路径
     ret = copy_file(OTA_TMP_FILE_PATH_UNZIP, OTA_SYSTEM_APP_EXEC_PATH);
     if (ret != 0)
     {
-        LOGD("Copy OTA file to system app exec path failed");
+        OTA_LOG_ERROR("Copy OTA file to system app exec path failed");
         return generate_ota_response(res, res_len, header, OTA_RESPONSE_ERROR, OTA_MSG_COPY_FAILED);
     }
 
@@ -862,7 +883,7 @@ static int handle_ota_verify(char *data, int len, char *res, int res_len, msg_he
     // TODO: 准备重启
 
     // 重置 OTA 状态
-
+    OTA_LOG_INFO("OTA completed successfully");
     return generate_ota_response(res, res_len, header, OTA_RESPONSE_OK, "OTA completed successfully");
 }
 /**
@@ -871,7 +892,7 @@ static int handle_ota_verify(char *data, int len, char *res, int res_len, msg_he
  */
 static int ota_reboot()
 {
-    LOGD("System will reboot now...");
+    OTA_LOG_INFO("System will reboot now...");
 
     // 同步文件系统,确保数据写入磁盘
     sync();
@@ -887,7 +908,7 @@ static int ota_reboot()
     // 使用reboot系统调用重启系统
     if (reboot(RB_AUTOBOOT) < 0)
     {
-        LOGD("Reboot failed: %s", strerror(errno));
+        OTA_LOG_ERROR("Reboot failed: %s", strerror(errno));
         return -1;
     }
 
@@ -960,14 +981,16 @@ int ota_process(char *res, int res_len, char *data, int len)
     ret = parse_sub_command(data, len, &sub_type);
     if (ret != 0)
     {
-        LOGD("Parse sub command failed");
+        // LOGD("Parse sub command failed");
+        OTA_LOG_ERROR("Parse sub command failed");
         return -1;
     }
     // 解析子命令类型
     ret = parse_msg_header(data, len, &header);
     if (ret != 0)
     {
-        LOGD("Parse msg header failed");
+        // LOGD("Parse msg header failed");
+        OTA_LOG_ERROR("Parse msg header failed");
         return -1;
     }
 
@@ -979,7 +1002,8 @@ int ota_process(char *res, int res_len, char *data, int len)
         ret = parse_ota_request(data, len, &ota_file_info);
         if (ret != 0)
         {
-            LOGD("Parse OTA request failed");
+            // LOGD("Parse OTA request failed");
+            OTA_LOG_ERROR("Parse OTA request failed");
             return -1;
         }
         print_ota_file_info(&ota_file_info);

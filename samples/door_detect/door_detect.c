@@ -11,16 +11,18 @@
 #include "cm_utils.h"
 #include "cm_conf.h"
 #include "cm_config.h"
-
+#include <signal.h>
+#include <unistd.h> // for access()
 #include "cm_common.h"
 #include "wind_process_manager.h"
 #include "wind_connect_up.h"
 #include "yq_mpu.h"
 #include "mpu_ctrl.h"
+#include "circular_log.h"
 static char debug_flag = 0;
 static char *TAG = "door detect";
 static float debug_reference_ang = 0.0;
-
+static volatile int debug_print_enabled = 0; // 0: 不打印，1: 打印
 /****************config param ******************/
 #define DEFAULE_FAB_STABLE_DIFF 0.01f
 #define DEFAULT_DOOR_DIRECTION 1
@@ -37,7 +39,13 @@ static float fab_idle_diff;
 static int calib_time;
 #define CM_CONFIG_FILE "/system/etc/cm_config.ini"
 static CMConfig cm_config_local[100];
-
+static char *TAG_NAME = "door detect";
+#define DEBUG_FLAG_FILE "/tmp/door_debug_enable"
+// 检查调试标志文件是否存在
+static int check_debug_flag_file(void)
+{
+    return (access(DEBUG_FLAG_FILE, F_OK) == 0);
+}
 /****************config param ******************/
 typedef enum
 {
@@ -310,7 +318,7 @@ static int door_open(float angle)
 }
 
 static int image_cache()
-{     
+{
     DoorInfoItem item;
     item.open_count = s_door.open_count;
     item.image_angle = s_door.angle_last_valid;
@@ -508,6 +516,19 @@ void door_status_detect(float yaw, char flag, float capture_angle)
         hmi_srv.door_status = STAT_IDLE;
     }
 
+    if (1)
+    {
+        static unsigned long long last_print_time = 0;
+        unsigned long long current_time = cm_tick_milli();
+
+        // 只在debug_print_enabled为真时打印
+        if (debug_print_enabled && current_time - last_print_time >= 1000)
+        {
+            log_write(LOG_INFO, TAG, "ypr[0] = %f,door_status = %d , reference_yaw = %f", yaw, hmi_srv.door_status, reference_yaw);
+            last_print_time = current_time;
+        }
+    }
+
     if (debug_flag)
     {
         LOGD("[door_status] : %d\n", hmi_srv.door_status);
@@ -520,7 +541,8 @@ void door_status_detect(float yaw, char flag, float capture_angle)
         if (gyroscope_stable(diff_yaw))
         {
             hmi_srv.door_status = STAT_CLOSE;
-            printf("****door status detect [IDLE -> CLOSE]\n\n");
+            log_write(LOG_INFO, TAG, "door status detect [IDLE -> CLOSE]");
+            // printf("****door status detect [IDLE -> CLOSE]\n\n");
         }
         break;
     case STAT_CLOSE:
@@ -543,7 +565,8 @@ void door_status_detect(float yaw, char flag, float capture_angle)
             {
                 s_door.open_count = 1;
             }
-            printf("****door status detect [CLOSE -> ACTION]\n\n");
+            log_write(LOG_INFO, TAG_NAME, "door status detect [CLOSE -> ACTION]\n");
+            // printf("****door status detect [CLOSE -> ACTION]\n\n");
         }
         else if (ret == 2)
         {
@@ -556,7 +579,8 @@ void door_status_detect(float yaw, char flag, float capture_angle)
         if (take_photo_on && angle > capture_angle) // 拍照
         {
             s_door.angle_last_valid = max_angle;
-            LOGD("Image Cache\n");
+            // LOGD("Image Cache\n");
+            log_write(LOG_INFO, TAG_NAME, "Image Cache ,angle [%f]", angle);
             image_cache();
             take_photo_on = 0;
         }
@@ -568,7 +592,8 @@ void door_status_detect(float yaw, char flag, float capture_angle)
             take_photo_on = 0;
             hmi_srv.door_status = STAT_CLOSE;
             max_angle = 0;
-            printf("****door status detect [ACTION -> CLOSE]\n\n");
+            log_write(LOG_INFO, TAG_NAME, "door status detect [ACTION -> CLOSE]");
+            // printf("****door status detect [ACTION -> CLOSE]\n\n");
         }
         if (ret == 1)
         {
@@ -581,12 +606,26 @@ void door_status_detect(float yaw, char flag, float capture_angle)
     debug_state = hmi_srv.door_status;
 }
 
-
+static void toggle_debug_print(int signo)
+{
+    if (signo == SIGUSR1)
+    {
+        debug_print_enabled = !debug_print_enabled;
+        log_write(LOG_INFO, TAG, "Debug print %s", debug_print_enabled ? "enabled" : "disabled");
+    }
+}
 // extern int debug1;
 int cm_is_debug2();
 void *hmi_service_thread(void *args)
 {
-
+    struct sigaction sa;
+    sa.sa_handler = toggle_debug_print;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    if (sigaction(SIGUSR1, &sa, NULL) == -1)
+    {
+        log_write(LOG_ERROR, TAG, "Failed to register signal handler");
+    }
     printf("enter hmi_service_thread\n");
     get_config();
     int err_rd_cnt = 0;
@@ -637,12 +676,6 @@ void *hmi_service_thread(void *args)
         if (gyroscope_read_yqr(ypr) == 0)
         {
             // debug_gs_status = DebugGSStatus::GS_READ_SUCC;
-            if (debug_flag)
-            {
-                printf("ypr[0] = %f ypr[1] = %f ypr[2] = %f\n", ypr[0], ypr[1],ypr[2]);
-                usleep(200000);
-                continue;
-            }
 
             if (fabs(ypr[1] - last_yaw) < 7.2)
             {

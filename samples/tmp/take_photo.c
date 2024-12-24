@@ -5,13 +5,14 @@
 #include "unistd.h"
 #include "stdint.h"
 #include "cJSON.h"
-
+#include "circular_log.h"
 #define PHOTO_STORAGE_DIR "/tmp/camera"
 #define PHOTO_FILE_PATH "/tmp/camera/current.jpg"
 #define MAX_PHOTO_BUFFER_SIZE 5000
 #define TRANSFER_MODE_BINARY 0
 #define TRANSFER_MODE_BASE64 1
 #define CURRENT_TRANSFER_MODE TRANSFER_MODE_BASE64 
+#define TAG_NAME "take_photo"
 
 #define LOGD(fmt, ...)                          \
     do                                          \
@@ -244,14 +245,16 @@ int handle_photo_request(char *response, int response_max_len, const char *reque
     // 解析请求
     if (parse_photo_request(request_data, request_len, &photo_req) != 0) {
         photo_req.header.result = 1;
-        LOGD("Failed to parse photo request\n");
+        // LOGD("Failed to parse photo request\n");
+        log_write(LOG_ERROR, TAG_NAME, "Failed to parse photo request\n");
         return generate_photo_response(response, response_max_len, &photo_req);
     }
 
     // 确保存储目录存在
     if (access(PHOTO_STORAGE_DIR, F_OK) != 0) {
         if (mkdir(PHOTO_STORAGE_DIR, 0777) != 0) {
-            LOGD("Failed to create photo directory: %s\n", strerror(errno));
+            // LOGD("Failed to create photo directory: %s\n", strerror(errno));
+            log_write(LOG_ERROR, TAG_NAME, "Failed to create photo directory: %s\n", strerror(errno));
             photo_req.header.result = 5;
             return generate_photo_response(response, response_max_len, &photo_req);
         }
@@ -265,7 +268,8 @@ int handle_photo_request(char *response, int response_max_len, const char *reque
         
         // 拍新照片
         if (cm_video_take_photo_save_to_file(PHOTO_FILE_PATH) != 0) {
-            LOGD("Failed to take photo\n");
+            // LOGD("Failed to take photo\n");
+            log_write(LOG_ERROR, TAG_NAME, "Failed to take photo\n");
             photo_req.header.result = 3;
             return generate_photo_response(response, response_max_len, &photo_req);
         }
@@ -274,7 +278,8 @@ int handle_photo_request(char *response, int response_max_len, const char *reque
     // 读取照片数据
     FILE *fp = fopen(PHOTO_FILE_PATH, "rb");
     if (!fp) {
-        LOGD("Failed to open photo file: %s\n", strerror(errno));
+        // LOGD("Failed to open photo file: %s\n", strerror(errno));
+        log_write(LOG_ERROR, TAG_NAME, "Failed to open photo file: %s\n", strerror(errno));
         photo_req.header.result = 4;
         return generate_photo_response(response, response_max_len, &photo_req);
     }
@@ -288,7 +293,8 @@ int handle_photo_request(char *response, int response_max_len, const char *reque
         fclose(fp);
         photo_req.header.result = 2;
         photo_req.data_len = 0;
-        LOGD("offset >= size\n");
+        // LOGD("offset >= size\n");
+        log_write(LOG_ERROR, TAG_NAME, "offset >= size\n");
         return generate_photo_response(response, response_max_len, &photo_req);
     }
 
@@ -299,17 +305,20 @@ int handle_photo_request(char *response, int response_max_len, const char *reque
                               MAX_PHOTO_BUFFER_SIZE : photo_req.length, 
                               fp);
     if (photo_req.data_len < 0) {
-        LOGD("Error reading photo data: %s\n", strerror(errno));
+        // LOGD("Error reading photo data: %s\n", strerror(errno));
+        log_write(LOG_ERROR, TAG_NAME, "Error reading photo data: %s\n", strerror(errno));
         fclose(fp);
         photo_req.header.result = 6; // 使用一个合适的错误码
         return generate_photo_response(response, response_max_len, &photo_req);
     } else if (photo_req.data_len == 0 && ferror(fp)) {
-        LOGD("Error reading photo data: %s\n", strerror(errno));
+        // LOGD("Error reading photo data: %s\n", strerror(errno));
+        log_write(LOG_ERROR, TAG_NAME, "Error reading photo data: %s\n", strerror(errno));
         fclose(fp);
         photo_req.header.result = 6; // 使用一个合适的错误码
         return generate_photo_response(response, response_max_len, &photo_req);
     } else if (photo_req.data_len == 0 && feof(fp)) {
-        LOGD("End of file reached unexpectedly\n");
+        // LOGD("End of file reached unexpectedly\n");
+        log_write(LOG_ERROR, TAG_NAME, "End of file reached unexpectedly\n");
         fclose(fp);
         photo_req.header.result = 7; // 使用一个合适的错误码
         return generate_photo_response(response, response_max_len, &photo_req);

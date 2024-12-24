@@ -31,6 +31,17 @@
 #include "ota_process.h"     
 #include "take_photo.h"
 #include "trans_door_image.h"
+#include "circular_log.h"
+static char* TAG_NAME = "modbus_msg";
+
+// 添加日志标签定义
+#define MODBUS_TAG "MODBUS"
+
+// 添加日志宏定义，只保留关键日志级别
+#define MODBUS_LOG_ERROR(fmt, ...) log_write(LOG_ERROR, MODBUS_TAG, fmt, ##__VA_ARGS__)
+#define MODBUS_LOG_INFO(fmt, ...)  log_write(LOG_INFO, MODBUS_TAG, fmt, ##__VA_ARGS__)
+
+/**/
 static int reboot_flag = 0;
 #define REBOOT_COUNTDOWN_SECONDS 3
 WindProOtaRequest ota_req;
@@ -218,7 +229,7 @@ static int wind_connect_uart_read(unsigned char *data, int len)
             c++;
             if (data[0] == 0x01)
             {   
-                printf("data[0] == 0x01\n");
+                // printf("data[0] == 0x01\n");
                 c = 0;
                 step = 2;
             }
@@ -229,7 +240,7 @@ static int wind_connect_uart_read(unsigned char *data, int len)
             c++;
             if (data[1] == 0x17)
             {
-                printf("data[1] == 0x17\n");
+                // printf("data[1] == 0x17\n");
                 c = 0;
                 step = 3;
                 pos += 2;
@@ -256,7 +267,7 @@ static int wind_connect_uart_read(unsigned char *data, int len)
             {
                 data_len = (data[10] << 8) | (data[11]);
                 data_len += 2; // crc
-                LOGD("data len [%d]", data_len);
+                // LOGD("data len [%d]", data_len);
                 if (data_len > 8000)
                 {
                     LOGD("invalid data len [%d]", data_len);
@@ -323,7 +334,7 @@ static int _modbus_rtu_send_msg_pre(uint8_t *req, int req_length)
 }
 
 #include <time.h>
-#define ENABLE_DECODE_TIMING 1
+#define ENABLE_DECODE_TIMING 0
 static int wind_connect_uart_write(unsigned char *data, int len)
 {
     if (s_wind_connect_up.uart_fd <= 0)
@@ -917,7 +928,7 @@ static int wind_serial_parse_data(unsigned char *buf, int len)
 {
     if (buf[1] == 0x17)
     {
-        LOGD("parse data success");
+        // LOGD("parse data success");
         if (len < 20)
         {
             LOGD("invalid data\n");
@@ -925,17 +936,17 @@ static int wind_serial_parse_data(unsigned char *buf, int len)
         }
 
         int data_len = (buf[18] | buf[19] << 8);
-        LOGD("data len = %d", data_len);
+        LOGD("modbus msg len = %d\n", data_len);
         char *data = serial_recv_data;
         if (data_len > 7000)
         {
             LOGD("data_len too long [%d]", data_len);
             return -2;
         }
-        LOGD("data_len = %d", data_len);    
+        // LOGD("data_len = %d", data_len);    
         memcpy(data, buf + 20, data_len);
         // LOGD("data = [%s]", data);
-        printf("start parse\n");
+        // printf("start parse\n");
         unsigned char rdata[8192] = {0};
         int rdata_len = sizeof(rdata);
         int data_index = 4;
@@ -945,54 +956,59 @@ static int wind_serial_parse_data(unsigned char *buf, int len)
         int res_len = 4;
         memset(&s_wind_connect_up.cur_header, 0, sizeof(WindProUpdateHeader));
         int ret = wind_protocol_wrap_up_parse_header(data, data_len, &s_wind_connect_up.cur_header);
-        LOGD("parse header ret = %d cmdType [%x]", ret, s_wind_connect_up.cur_header.cmdType);
+        // LOGD("parse header ret = %d cmdType [%x]", ret, s_wind_connect_up.cur_header.cmdType);
         if (ret >= 0)
         {
             switch (s_wind_connect_up.cur_header.cmdType)
             {
             case WIND_PRO_UP_CMD_VERSION:
+                MODBUS_LOG_INFO("request version");
                 res_len = wind_serial_operate_version(rdata_pos, rdata_len_remain, &s_wind_connect_up.cur_header);
                 break;
             case WIND_PRO_UP_CMD_OPEN_USB_STREAM:
-                LOGD("open usb stream");
+                MODBUS_LOG_INFO("open usb stream");
                 door_deinit();
                 ret = start_usb_connect();
                 res_len = wind_protocol_wrap_up_gen_response_usb_stream((char *)rdata_pos, rdata_len_remain, ret >= 0 ? 0 : 1, &s_wind_connect_up.cur_header);
                 break;
             case WIND_PRO_UP_CMD_CLOSE_USB_STREAM:
-                LOGD("close usb stream");
+                MODBUS_LOG_INFO("close usb stream");
                 stop_usb_connect();
                 door_init();
                 res_len = wind_protocol_wrap_up_gen_response_usb_stream((char *)rdata_pos, rdata_len_remain, 0, &s_wind_connect_up.cur_header);
                 break;
             case WIND_PRO_UP_CMD_QUERY_SYSTEM:
-                LOGD("*****request query system*****\n");
+                LOGD("request query system\n");
                 res_len = wind_serial_system_event(rdata_pos, rdata_len_remain, &s_wind_connect_up.cur_header);
                 break;
             case WIND_PRO_UP_CMD_QUERY_CONFIG:
+                MODBUS_LOG_INFO("request query config");
                 res_len = wind_serial_query_config(rdata_pos, rdata_len_remain, &s_wind_connect_up.cur_header);
                 break;
             case WIND_PRO_UP_CMD_SET_CONFIG:
+                MODBUS_LOG_INFO("request set config");
                 res_len = wind_serial_set_config(rdata_pos, rdata_len_remain, data, data_len, &s_wind_connect_up.cur_header);
                 break;
             case WIND_PRO_UP_CMD_QUERY_PHOTO:
-                LOGD("*****request query photo*****\n");
+                LOGD("request query photo");
                 res_len = handle_trans_door_photo_request(rdata_pos, rdata_len_remain, data, data_len);
                 break;
             case WIND_PRO_UP_CMD_GET_SELF_CHECK_RESULT:
-                LOGD("*****request get self check result*****\n");  
+                MODBUS_LOG_INFO("request get self check result");  
                 res_len = wind_serial_query_self_check_result(rdata_pos, rdata_len_remain, &s_wind_connect_up.cur_header);
                 break;
             case WIND_PRO_UP_CMD_REBOOT:
+                MODBUS_LOG_INFO("request reboot");
                 res_len = wind_serial_request_reboot(rdata_pos, rdata_len_remain, &s_wind_connect_up.cur_header);
                 break;
             case WIND_PRO_UP_CMD_REQUEST_CONNECT:
+                MODBUS_LOG_INFO("request connect");
                 res_len = wind_serial_request_connect((char *)rdata_pos, rdata_len_remain, &s_wind_connect_up.cur_header);
                 break;
 
             /*处理OTA升级相关指令*/
             case WIND_PRO_UP_CMD_OTA:
-                LOGD("*****request ota*****\n");
+                LOGD("request ota");
                 res_len = ota_process((char *)rdata_pos, rdata_len_remain, data, data_len);
                 break;
             case WIND_PRO_UP_CMD_OTA_DATA_TRANS_PACKET:
@@ -1004,7 +1020,7 @@ static int wind_serial_parse_data(unsigned char *buf, int len)
 
             /*拍照功能*/
             case WIND_PRO_UP_CMD_TAKE_PHOTO:
-                LOGD("*****request take photo*****\n");
+                MODBUS_LOG_INFO("request take photo");
                 res_len = handle_photo_request(rdata_pos, rdata_len_remain, data, data_len);
                 break;
 
@@ -1018,7 +1034,7 @@ static int wind_serial_parse_data(unsigned char *buf, int len)
             return -4;
         }
         res_len = res_len+4+2+2;//Magic + channel + cmdlen
-        printf("end parse\n");
+        // printf("end parse\n");
         rdata[0] = buf[0];
         rdata[1] = buf[1];
         rdata[3] = (res_len & 0xff);
@@ -1033,11 +1049,11 @@ static int wind_serial_parse_data(unsigned char *buf, int len)
         // }
         printf("\n");
         // ret = wind_modbus_wrap_send(rdata, res_len + data_index);
-        print_timestamp("start send data");
+        // print_timestamp("start send data");
         /*************这里更改了***************** */
         ret = wind_connect_uart_write(rdata, res_len + 4);
         /*************这里更改了***************** */
-        print_timestamp("end send data");
+        // print_timestamp("end send data");
         // LOGD("response data len [%d] buf [%s]", ret, rdata + data_index);
         if (reboot_flag == 1)
         {
@@ -1095,7 +1111,7 @@ static int wind_serial_run()
         //  LOGD("send data : %x %x  ret [%d]", test_buf[0],test_buf[1], ret);
 
         // system("echo 'AT+COMMAND' > /dev/ttyS0");
-        printf("parse data\n");
+        // printf("parse data\n");
         wind_serial_parse_data(buf, ret);
     }
     usleep(1000);

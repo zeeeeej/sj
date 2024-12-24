@@ -136,6 +136,6 @@ exit:
     LOGD("Duration: %llu ms", duration);
     LOGD("Final result: %s", checkProperty->result ? "SUCCESS" : "FAILED");
     LOGD(" ***End of Gyroscope Self Check*** ");
-
+    
     return checkProperty->result ? 0 : -1;
 }

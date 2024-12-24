@@ -105,8 +105,10 @@ OBJS += $(KIVA_ENV_SRC_DIR)/../samples/Peripheral/uart/cm_uart.o \
 	$(KIVA_ENV_SRC_DIR)/../samples/tmp/MessageDispatcher.o \
 	$(KIVA_ENV_SRC_DIR)/../samples/tmp/MessageDispaterPort.o \
 	$(KIVA_ENV_SRC_DIR)/../samples/tmp/trans_door_image.o \
-	$(KIVA_ENV_SRC_DIR)/../samples/Peripheral/usb/wind_usb_connect.o 
-	
+	$(KIVA_ENV_SRC_DIR)/../samples/Peripheral/usb/wind_usb_connect.o \
+	$(KIVA_ENV_SRC_DIR)/../samples/log/circular_log.o \
+	$(KIVA_ENV_SRC_DIR)/../samples/command/cli_command.o
+
 ifeq ($(KIVA_ISP_OSD), y)
 	CFLAGS += -DOSD_ENABLE
 	OBJS += $(KIVA_ENV_SRC_DIR)/common/$(IMP_COMMON)/imp_isposd.o
@@ -142,7 +144,9 @@ INCLUDES +=	-I$(KIVA_ENV_LIBS_DIR)/ucamcore/include \
 		-I$(KIVA_ENV_TOP)/samples/Peripheral/wdt/ \
 		-I$(KIVA_ENV_TOP)/samples/door_detect \
 		-I$(KIVA_ENV_TOP)/samples/tmp \
-		-I$(KIVA_ENV_TOP)/samples/Peripheral/usb
+		-I$(KIVA_ENV_TOP)/samples/Peripheral/usb \
+		-I$(KIVA_ENV_TOP)/samples/log \
+		-I$(KIVA_ENV_TOP)/samples/command
 
 ifeq ($(KIVA_ISP_OSD), y)
 	INCLUDES += -I$(KIVA_ENV_LIBS_DIR)/png/include/$(HOST)

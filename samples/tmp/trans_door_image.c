@@ -12,6 +12,10 @@
 #define TRANSFER_MODE_BINARY 0
 #define TRANSFER_MODE_BASE64 1
 #define CURRENT_TRANSFER_MODE TRANSFER_MODE_BASE64 
+#include "circular_log.h"
+static const char *TAG_NAME = "trans_door_image";
+
+
 
 #define LOGD(fmt, ...)                          \
     do                                          \
@@ -129,7 +133,8 @@ static int generate_photo_response(char *response, int max_len, const PhotoReque
     
     cJSON *result = cJSON_CreateObject();
     if (!result) {
-        LOGD("Failed to create result object\n");
+        // LOGD("Failed to create result object\n");
+        log_write(LOG_ERROR, TAG_NAME, "Failed to create result object\n");
         cJSON_Delete(root);
         return -1;
     }
@@ -144,7 +149,8 @@ static int generate_photo_response(char *response, int max_len, const PhotoReque
         // Base64模式
         char *base64_buffer = malloc(photo->data_len * 3);  // 预留足够的Base64编码空间
         if (!base64_buffer) {
-            LOGD("Failed to allocate memory for base64 buffer\n");
+            // LOGD("Failed to allocate memory for base64 buffer\n");
+            log_write(LOG_ERROR, TAG_NAME, "Failed to allocate memory for base64 buffer\n");
             cJSON_Delete(root);
             return -1;
         }
@@ -152,7 +158,8 @@ static int generate_photo_response(char *response, int max_len, const PhotoReque
         size_t base64_len = photo->data_len * 3;
         if (cm_base64_encode((unsigned char *)base64_buffer, &base64_len, 
                             photo->data, photo->data_len) != 0) {
-            LOGD("Failed to encode photo data\n");
+            // LOGD("Failed to encode photo data\n");
+            log_write(LOG_ERROR, TAG_NAME, "Failed to encode photo data\n");
             free(base64_buffer);
             cJSON_Delete(root);
             return -1;
@@ -175,7 +182,8 @@ static int generate_photo_response(char *response, int max_len, const PhotoReque
         
         // 检查缓冲区大小
         if (strlen(json_str) > max_len) {
-            LOGD("JSON string length exceeds max_len\n");
+            // LOGD("JSON string length exceeds max_len\n");
+            log_write(LOG_ERROR, TAG_NAME, "JSON string length exceeds max_len\n");
             free(base64_buffer);
             cJSON_free(json_str);
             cJSON_Delete(root);
@@ -250,7 +258,7 @@ int handle_trans_door_photo_request(char *response, int response_max_len, const 
     // 解析请求
     if (parse_photo_request(request_data, request_len, &photo_req) != 0) {
         photo_req.header.result = 1;
-        LOGD("Failed to parse photo request\n");
+        log_write(LOG_ERROR, TAG_NAME, "Failed to parse photo request");
         return generate_photo_response(response, response_max_len, &photo_req);
     }
 
@@ -263,24 +271,34 @@ int handle_trans_door_photo_request(char *response, int response_max_len, const 
     // 确保存储目录存在
     if (access(image_path, F_OK) != 0) {
         /*目录不存在*/
-        LOGD("file not exist\n");
+        log_write(LOG_ERROR, TAG_NAME, "file not exist");
         photo_req.header.result = 1;
         return generate_photo_response(response, response_max_len, &photo_req);
     }
-
+    // log_write(LOG_INFO, TAG_NAME, "image path : %s", image_path);
 
     // 读取照片数据
     FILE *fp = fopen(image_path, "rb");
     if (!fp) {
-        LOGD("Failed to open photo file: %s\n", strerror(errno));
+        log_write(LOG_ERROR, TAG_NAME, "Failed to open photo file: %s", strerror(errno));
         photo_req.header.result = 4;
         return generate_photo_response(response, response_max_len, &photo_req);
     }
 
     // 获取文件大小
-    fseek(fp, 0, SEEK_END);
-    photo_req.size = ftell(fp);
-    
+    // fseek(fp, 0, SEEK_END);
+    // photo_req.size = ftell(fp);
+    // printf("file size: %lu\n", photo_req.size);
+    struct stat st;
+    if (stat(image_path, &st) == 0) {
+        photo_req.size = st.st_size;
+        printf("File size: %llu\n", (unsigned long long)photo_req.size);
+    } else {
+        printf("stat failed: %s\n", strerror(errno));
+    }
+
+
+
     // 检查偏移量
     if (photo_req.offset >= photo_req.size) {
         fclose(fp);
@@ -297,17 +315,20 @@ int handle_trans_door_photo_request(char *response, int response_max_len, const 
                               MAX_PHOTO_BUFFER_SIZE : photo_req.length, 
                               fp);
     if (photo_req.data_len < 0) {
-        LOGD("Error reading photo data: %s\n", strerror(errno));
+        // LOGD("Error reading photo data: %s\n", strerror(errno));
+        log_write(LOG_ERROR, TAG_NAME, "Error reading photo data: %s\n", strerror(errno));
         fclose(fp);
         photo_req.header.result = 6; // 使用一个合适的错误码
         return generate_photo_response(response, response_max_len, &photo_req);
     } else if (photo_req.data_len == 0 && ferror(fp)) {
-        LOGD("Error reading photo data: %s\n", strerror(errno));
+        // LOGD("Error reading photo data: %s\n", strerror(errno));
+        log_write(LOG_ERROR, TAG_NAME, "Error reading photo data: %s\n", strerror(errno));
         fclose(fp);
         photo_req.header.result = 6; // 使用一个合适的错误码
         return generate_photo_response(response, response_max_len, &photo_req);
     } else if (photo_req.data_len == 0 && feof(fp)) {
-        LOGD("End of file reached unexpectedly\n");
+        // LOGD("End of file reached unexpectedly\n");
+        log_write(LOG_ERROR, TAG_NAME, "End of file reached unexpectedly\n");
         fclose(fp);
         photo_req.header.result = 7; // 使用一个合适的错误码
         return generate_photo_response(response, response_max_len, &photo_req);
@@ -315,13 +336,21 @@ int handle_trans_door_photo_request(char *response, int response_max_len, const 
 
     fclose(fp);
 
+
+    int progress = (photo_req.offset + photo_req.data_len) * 100 / photo_req.size;
+    LOGD("Transfer progress: %d%% (%d/%lu bytes)\n", 
+         progress, photo_req.offset + photo_req.data_len, photo_req.size);
+
     // 检查是否是最后一帧
     if (photo_req.offset + photo_req.data_len >= photo_req.size) {
+        printf("file size: %lu\n", photo_req.size);
+        log_write(LOG_INFO, TAG_NAME, "Transfer completed successfully: %s", image_path);
         delete_img(image_path);  // 删除临时文件
+        log_write(LOG_INFO, TAG_NAME, "Temporary file deleted: %s", image_path);
     }
 
     // 生成响应
     photo_req.header.result = 0;
-    LOGD("response : %s\n", response);
+    // LOGD("response : %s\n", response);
     return generate_photo_response(response, response_max_len, &photo_req);
 }
