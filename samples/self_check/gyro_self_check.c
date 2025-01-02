@@ -78,29 +78,39 @@ int gyro_self_check_start(SelfCheckProperty *checkProperty)
     }
 
     /*等待陀螺仪就绪*/
-    while(1)
-    {
-        if (gyroscope_ready()!=0)
-        {
-            LOGD("wait for gyro ready");
-            sleep(1);
-        }
-        else{
-            break;
-        }
-    }
+    /*不需要等待陀螺仪校准，仅读取角速度数据*/
+    // while(1)
+    // {
+    //     if (gyroscope_ready()!=0)
+    //     {
+    //         LOGD("wait for gyro ready");
+    //         sleep(1);
+    //     }
+    //     else{
+    //         break;
+    //     }
+    // }
     
 
-
-    // 读取并验证YPR数据
+        // 读取并验证YPR数据
     float gyro[3] = {0};
     float accel[3] = {0};
+    /*先过滤前几次数据*/
+    for(int i = 0; i < 10; i++)
+    {
+        gyroscope_read_gyro(gyro, accel);
+        usleep(1000);
+    }
+
+
+
     float prev_ypr[3] = {0};
     bool first_read = true;
     int valid_reads = 0;
 
     for (int i = 0; i < MPU_READ_ATTEMPTS; i++) {
         float ypr[3] = {0};
+        /*仅读取角速度数据*/
         ret = gyroscope_read_gyro(gyro, accel);
 
         LOGD("Read attempt %d/%d - result [%d] YPR values: [%.2f, %.2f, %.2f]", 

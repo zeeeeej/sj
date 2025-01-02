@@ -713,7 +713,7 @@ static int copy_file(const char *src_path, const char *dst_path)
  */
 static int handle_ota_data(char *data, int len, char *res, int res_len, msg_header *header)
 {
-    // LOGD("Handle OTA data packet, length: %d", len);
+    LOGD("Handle OTA data packet, length: %d", len);
     // OTA_LOG_INFO("Handle OTA data packet, length: %d", len);
     if (!data || !res || !header || len <= 0)
     {

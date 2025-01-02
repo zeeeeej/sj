@@ -32,6 +32,8 @@
 #include "take_photo.h"
 #include "trans_door_image.h"
 #include "circular_log.h"
+#include "debug_logger.h"
+#include "file_trans.h"
 static char* TAG_NAME = "modbus_msg";
 
 // 添加日志标签定义
@@ -145,14 +147,20 @@ static int enable_uart_recv()
     }
 }
 
+
+
+
+
 static int wind_connect_uart_open()
 {
     char *dev = "/dev/ttyS0";
     int ret = cm_uart_open(dev);
+    int speed = 230400;
+    printf("485 speed: %d\n", speed);
     if (ret > 0)
     {
         s_wind_connect_up.uart_fd = ret;
-        ret = cm_uart_init(ret, 230400, 0, 8, 1, 'n');
+        ret = cm_uart_init(ret, speed, 0, 8, 1, 'n');
         if (ret < 0)
         {
             LOGD("uart init failed\n");
@@ -363,12 +371,18 @@ static int wind_connect_uart_write(unsigned char *data, int len)
 
 
     int ret = cm_uart_send_until(s_wind_connect_up.uart_fd, data, len);
-// #if WIND_CONNECT_UP_DEBUG
-    // for (int i = 0; i < len; i++)
-    // {
-    //     printf("%02x ", data[i]);
-    // }
-    // LOGD("send data length : %d\n",ret);
+
+/*=============send_debug================*/
+    debug_log("wind_debug", DEBUG_LOG_DEBUG,"send data length : %d\n",ret);
+    for (int i = 0; i < len; i++)
+    {
+        debug_log("wind_debug", DEBUG_LOG_DEBUG,"%02x ", data[i]);
+    }
+    debug_log("wind_debug", DEBUG_LOG_DEBUG,"\n");
+/*=============send_debug================*/
+
+
+
 // #endif
 #if ENABLE_DECODE_TIMING
     clock_gettime(CLOCK_MONOTONIC, &end);
@@ -436,10 +450,10 @@ WindSystemEvent *wind_system_event_pop()
     }
     return NULL;
 }
-
+extern char *version;
 static int wind_serial_operate_version(unsigned char *res, int len, WindProUpdateHeader *header)
 {
-    return wind_protocol_wrap_up_gen_response_version((char *)res, len, header, "signel_disp_v1.0.1");
+    return wind_protocol_wrap_up_gen_response_version((char *)res, len, header, version);
 }
 
 static int wind_serial_system_event(unsigned char *res, int len, WindProUpdateHeader *header)
@@ -936,7 +950,7 @@ static int wind_serial_parse_data(unsigned char *buf, int len)
         }
 
         int data_len = (buf[18] | buf[19] << 8);
-        LOGD("modbus msg len = %d\n", data_len);
+        debug_log("wind_info",DEBUG_LOG_INFO,"modbus msg len = %d\n", data_len);
         char *data = serial_recv_data;
         if (data_len > 7000)
         {
@@ -978,7 +992,7 @@ static int wind_serial_parse_data(unsigned char *buf, int len)
                 res_len = wind_protocol_wrap_up_gen_response_usb_stream((char *)rdata_pos, rdata_len_remain, 0, &s_wind_connect_up.cur_header);
                 break;
             case WIND_PRO_UP_CMD_QUERY_SYSTEM:
-                LOGD("request query system\n");
+                debug_log("wind_info",DEBUG_LOG_INFO,"request query system\n");
                 res_len = wind_serial_system_event(rdata_pos, rdata_len_remain, &s_wind_connect_up.cur_header);
                 break;
             case WIND_PRO_UP_CMD_QUERY_CONFIG:
@@ -1020,10 +1034,13 @@ static int wind_serial_parse_data(unsigned char *buf, int len)
 
             /*拍照功能*/
             case WIND_PRO_UP_CMD_TAKE_PHOTO:
-                MODBUS_LOG_INFO("request take photo");
+                // MODBUS_LOG_INFO("request take photo");
+                printf("request take photo\n");
                 res_len = handle_photo_request(rdata_pos, rdata_len_remain, data, data_len);
                 break;
-
+            case WIND_PRO_UP_CMD_FILE_TRANS:
+                res_len = handle_file_trans_request(rdata_pos, rdata_len_remain, data, data_len);
+                break;
             default:
                 break;
             }
@@ -1047,7 +1064,7 @@ static int wind_serial_parse_data(unsigned char *buf, int len)
         // {
         //     printf("%02x ", rdata[i]);
         // }
-        printf("\n");
+        // printf("\n");
         // ret = wind_modbus_wrap_send(rdata, res_len + data_index);
         // print_timestamp("start send data");
         /*************这里更改了***************** */
@@ -1095,23 +1112,18 @@ static int wind_serial_run()
     int ret = wind_connect_uart_read(buf, len);
     // print_timestamp("read data end");
     unsigned long long s1 = cm_gettime_tick();
-#if WIND_CONNECT_UP_DEBUG
-    // for (int i = 0; i < ret; i++)
-    // {
-    //     printf("%02x ", buf[i]);
-    // }
-    // printf("\n");
-#endif
+
+/*=======debug=======*/
+    debug_log("wind_debug",DEBUG_LOG_DEBUG,"recv data len = %d\n", ret);
+    for (int i = 0; i < ret; i++)
+    {
+        debug_log("wind_debug",DEBUG_LOG_DEBUG,"%02x ", buf[i]);
+    }
+    debug_log("wind_debug",DEBUG_LOG_DEBUG,"\n");
+/*=======debug=======*/
+
     if (ret > 0)
     {
-        usleep(10000);
-        // enable_uart_send();
-        //  char test_buf[10] = {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a};
-        //  int ret = cm_uart_send_until(s_wind_connect_up.uart_fd, test_buf, 2);
-        //  LOGD("send data : %x %x  ret [%d]", test_buf[0],test_buf[1], ret);
-
-        // system("echo 'AT+COMMAND' > /dev/ttyS0");
-        // printf("parse data\n");
         wind_serial_parse_data(buf, ret);
     }
     usleep(1000);

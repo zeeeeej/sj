@@ -328,7 +328,7 @@ static int image_cache()
     LOGD("mkdir new [%s]\n", new_path);
     system(new_path);
 
-    snprintf(item.image_path, sizeof(item.image_path), "/tmp/data/%llu/img-%llu-%d.jpg", item.open_count,
+    snprintf(item.image_path, sizeof(item.image_path), "/tmp/data/img-%llu-%d.jpg",
              item.open_count, (int)item.image_angle);
 
     cm_video_take_photo_save_to_file(item.image_path);

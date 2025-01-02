@@ -272,15 +272,6 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
 
     void GetDataThread(void)
     {
-        
-        std::ofstream log_file;
-    log_file.open("/system/gyr0_avg_log.txt", std::ios::app);
-    if (!log_file.is_open()) {
-            LOGD("Failed to open log file");
-        }
-        static float test_max = 0;
-        static float sum_gyr0 = 0;  // 累加 gyr[0] 的值
-        static int count_gyr0 = 0;  // 计数器
         float temp;
         LOGD("Lsm6ds3trc_GetDataThread start 2");
         prctl(PR_SET_NAME, "mpudata");
@@ -345,10 +336,6 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
                 gyr[2] = 0;
             IMUupdate(gyr[2] / 1000, gyr[1] / 1000, -gyr[0] / 1000, acc[2] / 1000, acc[1] / 1000, acc[0] / 1000);
             std::this_thread::sleep_for(std::chrono::milliseconds(6));
-        }
-        // 关闭文件
-        if (log_file.is_open()) {
-            log_file.close();
         }
         LOGD("mpu thread exit!!!");
     }

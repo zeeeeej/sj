@@ -12,7 +12,7 @@
 #define TRANSFER_MODE_BINARY 0
 #define TRANSFER_MODE_BASE64 1
 #define CURRENT_TRANSFER_MODE  TRANSFER_MODE_BINARY
-#define TAG_NAME "take_photo"
+#define TAG_NAME "file_trans"
 
 #define LOGD(fmt, ...)                          \
     do                                          \
@@ -41,11 +41,14 @@ typedef struct {
     uint64_t size;        // 照片总大小
     uint8_t  data[MAX_PHOTO_BUFFER_SIZE]; // 照片数据
     int data_len;        // 实际读取的数据长度
-} PhotoRequest;
+    char file_name[256]; // 文件名
+    char file_path[256]; // 文件路径
+    int file_trans_type; //发送or接收
+} FileTransRequest;
 
-static int parse_photo_request(const char *json_data, int len, PhotoRequest *photo)
+static int parse_file_trans_request(const char *json_data, int len, FileTransRequest *file_trans)
 {
-    if (!json_data || !photo || len <= 0) {
+    if (!json_data || !file_trans || len <= 0) {
         printf("Invalid input parameters\n");
         return -1;
     }
@@ -59,20 +62,20 @@ static int parse_photo_request(const char *json_data, int len, PhotoRequest *pho
     // 解析时间戳和序列号等基本信息
     cJSON *item = cJSON_GetObjectItem(root, "timestamp");
     if (item && cJSON_IsNumber(item)) {
-        photo->header.timestamp = (uint64_t)cJSON_GetNumberValue(item);
-        // LOGD("timestamp: %llu\n", photo->header.timestamp);
+        file_trans->header.timestamp = (uint64_t)cJSON_GetNumberValue(item);
+        // LOGD("timestamp: %llu\n", file_trans->header.timestamp);
     }
 
     item = cJSON_GetObjectItem(root, "seqNum");
     if (item && cJSON_IsNumber(item)) {
-        photo->header.seqNum = (uint32_t)cJSON_GetNumberValue(item);
-        // LOGD("seqNum: %u\n", photo->header.seqNum);
+        file_trans->header.seqNum = (uint32_t)cJSON_GetNumberValue(item);
+        // LOGD("seqNum: %u\n", file_trans->header.seqNum);
     }
 
     item = cJSON_GetObjectItem(root, "cmdType");
     if (item && cJSON_IsNumber(item)) {
-        photo->header.cmdType = (uint32_t)cJSON_GetNumberValue(item);
-        // LOGD("cmdType: %u\n", photo->header.cmdType);
+        file_trans->header.cmdType = (uint32_t)cJSON_GetNumberValue(item);
+        // LOGD("cmdType: %u\n", file_trans->header.cmdType);
     }
 
     // 解析info对象
@@ -83,36 +86,43 @@ static int parse_photo_request(const char *json_data, int len, PhotoRequest *pho
         return -1;
     }
 
-    item = cJSON_GetObjectItem(info, "open_count");
-    if (item && cJSON_IsNumber(item)) {
-        photo->open_count = (uint32_t)cJSON_GetNumberValue(item);
-        // LOGD("open_count: %u\n", photo->open_count);
+    item = cJSON_GetObjectItem(info, "file_name");
+    if (item && cJSON_IsString(item)) {
+        char *file_name = cJSON_GetStringValue(item);
+        if (file_name) {
+            strncpy(file_trans->file_name, file_name, sizeof(file_trans->file_name) - 1);
+            file_trans->file_name[sizeof(file_trans->file_name) - 1] = '\0'; // Ensure null-termination
+            // LOGD("file_name: %s\n", file_trans->file_name);
+        }
+    }
+
+    item = cJSON_GetObjectItem(info, "file_path");
+    if (item && cJSON_IsString(item)) {  // Corrected to check for string type
+        char *file_path = cJSON_GetStringValue(item);
+        if (file_path) {
+            strncpy(file_trans->file_path, file_path, sizeof(file_trans->file_path) - 1);
+            file_trans->file_path[sizeof(file_trans->file_path) - 1] = '\0'; // Ensure null-termination
+            // LOGD("file_path: %s\n", file_trans->file_path);
+        }
     }
 
     item = cJSON_GetObjectItem(info, "length");
     if (item && cJSON_IsNumber(item)) {
-        photo->length = (uint64_t)cJSON_GetNumberValue(item);
-        // LOGD("length: %llu\n", photo->length);
+        file_trans->length = (uint64_t)cJSON_GetNumberValue(item);
+        // LOGD("length: %llu\n", file_trans->length);
     }
-
-    item = cJSON_GetObjectItem(info, "angle");
+    item = cJSON_GetObjectItem(info, "file_trans_type");
     if (item && cJSON_IsNumber(item)) {
-        photo->angle = (int)cJSON_GetNumberValue(item);
-        // LOGD("angle: %d\n", photo->angle);
-    }
-
-    item = cJSON_GetObjectItem(info, "offset");
-    if (item && cJSON_IsNumber(item)) {
-        photo->offset = (uint64_t)cJSON_GetNumberValue(item);
-        // LOGD("offset: %llu\n", photo->offset);
+        file_trans->file_trans_type = (int)cJSON_GetNumberValue(item);
+        // LOGD("file_trans_type: %d\n", file_trans->file_trans_type);
     }
 
     cJSON_Delete(root);
     return 0;
 }
-static int generate_photo_response(char *response, int max_len, const PhotoRequest *photo) 
+static int generate_file_trans_response(char *response, int max_len, const FileTransRequest *file_trans) 
 {
-    if (!response || !photo || max_len <= 0) {
+    if (!response || !file_trans || max_len <= 0) {
         LOGD("Invalid input parameters\n");
         return -1;
     }
@@ -124,9 +134,9 @@ static int generate_photo_response(char *response, int max_len, const PhotoReque
     }
 
     // 添加基本信息
-    cJSON_AddNumberToObject(root, "timestamp", photo->header.timestamp);
-    cJSON_AddNumberToObject(root, "seqNum", photo->header.seqNum);
-    cJSON_AddNumberToObject(root, "cmdType", photo->header.cmdType);
+    cJSON_AddNumberToObject(root, "timestamp", file_trans->header.timestamp);
+    cJSON_AddNumberToObject(root, "seqNum", file_trans->header.seqNum);
+    cJSON_AddNumberToObject(root, "cmdType", file_trans->header.cmdType);
     
     cJSON *result = cJSON_CreateObject();
     if (!result) {
@@ -136,8 +146,8 @@ static int generate_photo_response(char *response, int max_len, const PhotoReque
     }
 
     // 添加结果信息
-    cJSON_AddNumberToObject(result, "error", photo->header.result);
-    cJSON_AddNumberToObject(result, "size", photo->size);
+    cJSON_AddNumberToObject(result, "error", file_trans->header.result);
+    cJSON_AddNumberToObject(result, "size", file_trans->size);
     cJSON_AddNumberToObject(result, "mode", CURRENT_TRANSFER_MODE);
 
     #if CURRENT_TRANSFER_MODE == TRANSFER_MODE_BASE64
@@ -195,7 +205,7 @@ static int generate_photo_response(char *response, int max_len, const PhotoReque
     #else
     {
         // 二进制模式
-        cJSON_AddNumberToObject(result, "length", photo->data_len);
+        cJSON_AddNumberToObject(result, "length", file_trans->data_len);
         cJSON_AddItemToObject(root, "result", result);
 
         // 添加二进制数据标记
@@ -213,7 +223,7 @@ static int generate_photo_response(char *response, int max_len, const PhotoReque
         int separator_len = strlen(separator);
         
         // 检查缓冲区大小
-        if (json_len + separator_len + photo->data_len > max_len) {
+        if (json_len + separator_len + file_trans->data_len > max_len) {
             cJSON_free(json_str);
             cJSON_Delete(root);
             return -1;
@@ -222,116 +232,102 @@ static int generate_photo_response(char *response, int max_len, const PhotoReque
         // 拼接数据
         memcpy(response, json_str, json_len);
         memcpy(response + json_len, separator, separator_len);
-        memcpy(response + json_len + separator_len, photo->data, photo->data_len);
-        // printf("data len: %d\n", photo->data_len);
+        memcpy(response + json_len + separator_len, file_trans->data, file_trans->data_len);
+        // printf("data len: %d\n", file_trans->data_len);
         // printf("data: ");
-        // for(int i = 0; i < photo->data_len; i++)
+        // for(int i = 0; i < file_trans->data_len; i++)
         // {
-        //     printf("%x ", photo->data[i]);
+        //     printf("%x ", file_trans->data[i]);
         // }
         printf("\n");
         cJSON_free(json_str);
         cJSON_Delete(root);
-        printf("response len: %d\n", json_len + separator_len + photo->data_len);
-        return json_len + separator_len + photo->data_len;
+        printf("response len: %d\n", json_len + separator_len + file_trans->data_len);
+        return json_len + separator_len + file_trans->data_len;
     }
     #endif
 }
 
-int handle_photo_request(char *response, int response_max_len, const char *request_data, int request_len)
+int handle_file_trans_request(char *response, int response_max_len, const char *request_data, int request_len)
 {
-    PhotoRequest photo_req = {0};
+    FileTransRequest file_trans_req = {0};
     
     // 解析请求
-    if (parse_photo_request(request_data, request_len, &photo_req) != 0) {
-        photo_req.header.result = 1;
+    if (parse_file_trans_request(request_data, request_len, &file_trans_req) != 0) {
+        file_trans_req.header.result = 1;
         // LOGD("Failed to parse photo request\n");
         log_write(LOG_ERROR, TAG_NAME, "Failed to parse photo request\n");
-        return generate_photo_response(response, response_max_len, &photo_req);
+        return generate_file_trans_response(response, response_max_len, &file_trans_req);
     }
 
     // 确保存储目录存在
-    if (access(PHOTO_STORAGE_DIR, F_OK) != 0) {
-        if (mkdir(PHOTO_STORAGE_DIR, 0777) != 0) {
-            // LOGD("Failed to create photo directory: %s\n", strerror(errno));
-            log_write(LOG_ERROR, TAG_NAME, "Failed to create photo directory: %s\n", strerror(errno));
-            photo_req.header.result = 5;
-            return generate_photo_response(response, response_max_len, &photo_req);
-        }
-        chmod(PHOTO_STORAGE_DIR, 0777);
+    if (access(file_trans_req.file_path, F_OK) != 0) {
+            log_write(LOG_ERROR, TAG_NAME, "file path not exist %s", file_trans_req.file_path);
+            file_trans_req.header.result = 5;
+        return generate_file_trans_response(response, response_max_len, &file_trans_req);
     }
 
-    // 当offset为0时，表示新的拍照请求
-    if (photo_req.offset == 0) {
-        // 如果已存在照片文件，先删除
-        unlink(PHOTO_FILE_PATH);
-        
-        // 拍新照片
-        if (cm_video_take_photo_save_to_file(PHOTO_FILE_PATH) != 0) {
-            // LOGD("Failed to take photo\n");
-            log_write(LOG_ERROR, TAG_NAME, "Failed to take photo\n");
-            photo_req.header.result = 3;
-            return generate_photo_response(response, response_max_len, &photo_req);
-        }
-    }
+    log_write(LOG_INFO, TAG_NAME, "file path: %s", file_trans_req.file_path);
+    log_write(LOG_INFO, TAG_NAME, "file name: %s", file_trans_req.file_name);
+    log_write(LOG_INFO, TAG_NAME, "file trans type: %d", file_trans_req.file_trans_type);
 
     // 读取照片数据
-    FILE *fp = fopen(PHOTO_FILE_PATH, "rb");
+    FILE *fp = fopen(file_trans_req.file_path, "rb");
     if (!fp) {
         // LOGD("Failed to open photo file: %s\n", strerror(errno));
         log_write(LOG_ERROR, TAG_NAME, "Failed to open photo file: %s\n", strerror(errno));
-        photo_req.header.result = 4;
-        return generate_photo_response(response, response_max_len, &photo_req);
+        file_trans_req.header.result = 4;
+        return generate_file_trans_response(response, response_max_len, &file_trans_req);
     }
 
     // 获取文件大小
     fseek(fp, 0, SEEK_END);
-    photo_req.size = ftell(fp);
+    file_trans_req.size = ftell(fp);
     
     // 检查偏移量
-    if (photo_req.offset >= photo_req.size) {
+    if (file_trans_req.offset >= file_trans_req.size) {
         fclose(fp);
-        photo_req.header.result = 2;
-        photo_req.data_len = 0;
+        file_trans_req.header.result = 2;
+        file_trans_req.data_len = 0;
         // LOGD("offset >= size\n");
         log_write(LOG_ERROR, TAG_NAME, "offset >= size\n");
-        return generate_photo_response(response, response_max_len, &photo_req);
+        return generate_file_trans_response(response, response_max_len, &file_trans_req);
     }
 
     // 读取请求的数据块
-    fseek(fp, photo_req.offset, SEEK_SET);
-    photo_req.data_len = fread(photo_req.data, 1, 
-                              photo_req.length > MAX_PHOTO_BUFFER_SIZE ? 
-                              MAX_PHOTO_BUFFER_SIZE : photo_req.length, 
+    fseek(fp, file_trans_req.offset, SEEK_SET);
+    file_trans_req.data_len = fread(file_trans_req.data, 1, 
+                              file_trans_req.length > MAX_PHOTO_BUFFER_SIZE ? 
+                              MAX_PHOTO_BUFFER_SIZE : file_trans_req.length, 
                               fp);
-    if (photo_req.data_len < 0) {
+    if (file_trans_req.data_len < 0) {
         // LOGD("Error reading photo data: %s\n", strerror(errno));
         log_write(LOG_ERROR, TAG_NAME, "Error reading photo data: %s\n", strerror(errno));
         fclose(fp);
-        photo_req.header.result = 6; // 使用一个合适的错误码
-        return generate_photo_response(response, response_max_len, &photo_req);
-    } else if (photo_req.data_len == 0 && ferror(fp)) {
+        file_trans_req.header.result = 6; // 使用一个合适的错误码
+        return generate_file_trans_response(response, response_max_len, &file_trans_req);
+    } else if (file_trans_req.data_len == 0 && ferror(fp)) {
         // LOGD("Error reading photo data: %s\n", strerror(errno));
         log_write(LOG_ERROR, TAG_NAME, "Error reading photo data: %s\n", strerror(errno));
         fclose(fp);
-        photo_req.header.result = 6; // 使用一个合适的错误码
-        return generate_photo_response(response, response_max_len, &photo_req);
-    } else if (photo_req.data_len == 0 && feof(fp)) {
+        file_trans_req.header.result = 6; // 使用一个合适的错误码
+        return generate_file_trans_response(response, response_max_len, &file_trans_req);
+    } else if (file_trans_req.data_len == 0 && feof(fp)) {
         // LOGD("End of file reached unexpectedly\n");
         log_write(LOG_ERROR, TAG_NAME, "End of file reached unexpectedly\n");
         fclose(fp);
-        photo_req.header.result = 7; // 使用一个合适的错误码
-        return generate_photo_response(response, response_max_len, &photo_req);
+        file_trans_req.header.result = 7; // 使用一个合适的错误码
+        return generate_file_trans_response(response, response_max_len, &file_trans_req);
     }
 
     fclose(fp);
 
     // 检查是否是最后一帧
-    if (photo_req.offset + photo_req.data_len >= photo_req.size) {
+    if (file_trans_req.offset + file_trans_req.data_len >= file_trans_req.size) {
         unlink(PHOTO_FILE_PATH);  // 删除临时文件
     }
 
     // 生成响应
-    photo_req.header.result = 0;
-    return generate_photo_response(response, response_max_len, &photo_req);
+    file_trans_req.header.result = 0;
+    return generate_file_trans_response(response, response_max_len, &file_trans_req);
 }

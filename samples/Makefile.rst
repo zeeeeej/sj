@@ -107,8 +107,10 @@ OBJS += $(KIVA_ENV_SRC_DIR)/../samples/Peripheral/uart/cm_uart.o \
 	$(KIVA_ENV_SRC_DIR)/../samples/tmp/trans_door_image.o \
 	$(KIVA_ENV_SRC_DIR)/../samples/Peripheral/usb/wind_usb_connect.o \
 	$(KIVA_ENV_SRC_DIR)/../samples/log/circular_log.o \
-	$(KIVA_ENV_SRC_DIR)/../samples/command/cli_command.o
-
+	$(KIVA_ENV_SRC_DIR)/../samples/command/cli_command.o \
+	$(KIVA_ENV_SRC_DIR)/../samples/log/debug_logger.o \
+	$(KIVA_ENV_SRC_DIR)/../samples/tmp/file_trans.o
+	
 ifeq ($(KIVA_ISP_OSD), y)
 	CFLAGS += -DOSD_ENABLE
 	OBJS += $(KIVA_ENV_SRC_DIR)/common/$(IMP_COMMON)/imp_isposd.o

@@ -15,7 +15,7 @@
 #include "wind_connect.h"
 #include "wdt.h"
 #include "wind_connect_up.h"
-
+//echo V > /dev/watchdog
 #include "door_detect.h"
 #include <string.h>
 #include <errno.h>
@@ -24,17 +24,24 @@
 #include "MessageDispatcher.h"
 #include "circular_log.h"
 #include "cli_command.h"
-// #include "MessageDispaterPort.h"
+#include "debug_logger.h"
 #define TAG_NAME "[MAIN]"
-
 static int b_exited = 0;
 static pthread_t hmi_srv_tid = 0;
-/***********注意版本号要更新两处地方************/
-/***********注意版本号要更新两处地方************/
-/***********注意版本号要更新两处地方************/
-/***********注意版本号要更新两处地方************/
 
-#define VERSION "signel_display_t23_1.0.1"
+
+char *version = "signel_display_t23_1.0.4";
+/*优化上位机出图效率
+作以下改进：
+    1、使用二进制模式来传图
+    2、陀螺仪自检的时候等校准
+    hmi_server会等待陀螺仪校准完成，执行开关门检测判断
+    wind_conn会先启动*/
+    
+#define VERSION_FILE "/system/etc/version"
+#define LOG_FILE "/system/log/t23.log"
+#define LOG_DIR "/system/log"
+#define LOG_FILE_SIZE 1024 * 30
 #define BUILD_DATE __DATE__
 #define BUILD_TIME __TIME__
 static int cmd_version(int argc, char *argv[]) {
@@ -46,39 +53,65 @@ static int cmd_version(int argc, char *argv[]) {
     printf("------------------------------------------\n");
     return 0;
 }
-int main(int argc, char *argv[])
-{   
-    printf("init log system\n");
-    if (log_init("/var/log/t23.log", 1024 * 5) < 0) {
-        fprintf(stderr, "Failed to initialize log system: %s\n", strerror(errno));
+static int write_version_to_file(void) {
+    FILE *fp = fopen(VERSION_FILE, "w");  // 使用"w"模式会清除原有内容
+    if (fp == NULL) {
+        log_write(LOG_ERROR, TAG_NAME, "Failed to open version file: %s", strerror(errno));
         return -1;
     }
-    log_write(LOG_DEBUG, TAG_NAME, "startup [%s:%s] Version [%s]\n", __DATE__, __TIME__, "signel_display_t23_1.0.1");
+
+    // 写入版本信息
+    fprintf(fp, "Version: %s\n", version);
+    // fprintf(fp, "Build Date: %s\n", BUILD_DATE);
+    // fprintf(fp, "Build Time: %s\n", BUILD_TIME);
+
+    fclose(fp);
+    return 0;
+}
+int create_directory(const char* path) {
+    // 尝试创建目录，权限设置为 0755
+    if (mkdir(path, 0755) == 0) {
+        printf("Directory created: %s\n", path);
+        return 0;
+    } else {
+        // 如果目录已经存在，mkdir 会返回 -1 并设置 errno 为 EEXIST
+        if (errno == EEXIST) {
+            return 0;  // 目录已经存在，不是错误
+        } else {
+            perror("Failed to create directory");
+            return -1;
+        }
+    }
+}
+
+int main(int argc, char *argv[])
+{   
+    printf("hello world !\n");
+    printf("init log system\n");
+    /*===========初始化日志系统===========*/
+    if (create_directory(LOG_DIR) != 0) {
+        return -1;
+    }
+    if (log_init(LOG_FILE, LOG_FILE_SIZE) < 0) {
+        fprintf(stderr, "Failed to initialize log system\n");
+        return -1;
+    }
+    log_write(LOG_DEBUG, TAG_NAME, "startup [%s:%s] Version [%s]\n", __DATE__, __TIME__, version);
+
+    // 写入版本信息到文件
+    if (write_version_to_file() < 0) {
+        log_write(LOG_ERROR, TAG_NAME, "Failed to write version information to file");
+    } else {
+        log_write(LOG_INFO, TAG_NAME, "Version information written to %s", VERSION_FILE);
+    }
+    /*===========初始化日志系统===========*/
 
 
-    // if (cli_init() != 0) {
-    //     log_write(LOG_ERROR, TAG_NAME, "Failed to initialize CLI");
-    //     return -1;
-    // }
+    /*===========初始化debug打印系统===========*/
+    debug_logger_init();
+    /*===========初始化debug打印系统===========*/
 
-    // // 注册版本查询命令
-    // static cli_command_t version_cmd = {
-    //     .name = "version",
-    //     .help = "Show system version information",
-    //     .func = cmd_version
-    // };
-
-    // if (cli_register_command(&version_cmd) != 0) {
-    //     log_write(LOG_ERROR, TAG_NAME, "Failed to register version command");
-    //     return -1;
-    // }
-
-    // if (cli_start() != 0) {
-    //     log_write(LOG_ERROR, TAG_NAME, "Failed to start CLI");
-    //     return -1;
-    // }
-
-
+    
     int wdt_disable = (access("/system/etc/wdt_disable", F_OK) == 0);
     if (!wdt_disable)
     {
@@ -98,8 +131,9 @@ int main(int argc, char *argv[])
 
     cm_config_load();
     // wind_connect_init_in_thread();
-    door_init();
     wind_connect_up_start();
+    door_init();
+    
     // printf("create message dispatcher thread\n");
     // ret1 = create_message_dispatcher_thread();
     // if(ret1 != 0)

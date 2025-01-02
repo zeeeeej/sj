@@ -11,6 +11,30 @@
 
 #include "cm_uart.h"
 
+int try_set_baudrate(int fd, speed_t baudrate) {
+    struct termios options;
+    if (tcgetattr(fd, &options) != 0) {
+        perror("tcgetattr");
+        return -1;
+    }
+
+    if (cfsetispeed(&options, baudrate) != 0 || cfsetospeed(&options, baudrate) != 0) {
+        return -1;
+    }
+
+    if (tcsetattr(fd, TCSANOW, &options) != 0) {
+        return -1;
+    }
+
+    return 0;
+}
+
+    speed_t baudrates[] = {
+        B0, B50, B75, B110, B134, B150, B200, B300, B600, B1200,
+        B1800, B2400, B4800, B9600, B19200, B38400, B57600, B115200,
+        B230400, B460800, B500000, B576000, B921600, B1000000, B1152000,
+        B1500000, B2000000, B2500000, B3000000, B3500000, B4000000
+    };
 int cm_uart_open(char *serial_port)
 {
     int fd;
@@ -26,7 +50,13 @@ int cm_uart_open(char *serial_port)
         close(fd);
         return -2;
     }
-
+    // for (size_t i = 0; i < sizeof(baudrates) / sizeof(baudrates[0]); i++) {
+    //     if (try_set_baudrate(fd, baudrates[i]) == 0) {
+    //         printf("Baudrate %ld supported\n", (long)baudrates[i]);
+    //     } else {
+    //         printf("Baudrate %ld not supported\n", (long)baudrates[i]);
+    //     }
+    // }
     return fd;
 }
 

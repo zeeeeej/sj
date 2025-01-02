@@ -30,7 +30,7 @@ enum
     
     WIND_PRO_UP_CMD_OPEN_USB_STREAM = 0x9E,
     WIND_PRO_UP_CMD_CLOSE_USB_STREAM = 0x9F,
-    
+    WIND_PRO_UP_CMD_FILE_TRANS = 0xA0,
 };
 
 typedef struct

@@ -264,8 +264,8 @@ int handle_trans_door_photo_request(char *response, int response_max_len, const 
 
 /*获取图片路径*/
     char image_path[128] = {0};
-    snprintf(image_path, sizeof(image_path), "/tmp/data/%d/img-%d-%d.jpg",
-             photo_req.open_count, photo_req.open_count, photo_req.angle);
+    snprintf(image_path, sizeof(image_path), "/tmp/data/img-%d-%d.jpg",
+              photo_req.open_count, photo_req.angle);
 
 
     // 确保存储目录存在

@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "cm_base64.h": "c"
+        "cm_base64.h": "c",
+        "stdio.h": "c",
+        "string.h": "c"
     }
 }
