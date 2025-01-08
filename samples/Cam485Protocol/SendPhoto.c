@@ -268,3 +268,59 @@ int HnadleGetPictureInfo(uint8_t *msg_buf, uint16_t msg_len)
 
     return 0;
 }
+
+int HandleTakePhoto(uint8_t *msg_buf, uint16_t msg_len)
+{
+    if (msg_buf == NULL || msg_len < 4) {
+        LOGD("TakePhoto Invalid message buffer\n");
+        return -1;
+    }
+    if(msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x06 || msg_buf[3] != 0x00) {
+        LOGD("TakePhoto Invalid message header\n");
+        return -1;
+    }
+
+    if(pic_num > 10)
+    {
+        pic_num = 1;
+    }
+
+    char file_path[256] = {0};
+    snprintf(file_path, sizeof(file_path), "%s%d.jpg", TAKE_PHOTO_TMP_FILE, pic_num);
+    int ret = cm_video_take_photo_save_to_file(file_path);
+    uint8_t response[1024] = {0};
+    uint16_t index = 0;
+    response[index++] = 0xAA;
+    response[index++] = 0x5A;
+    response[index++] = 0x06;
+    response[index++] = 0x00;
+    response[index++] = ret;
+    send_msg_resp(response, index);
+    pic_num++;
+    return 0;
+}
+
+int HandelCameraRoot(uint8_t *msg_buf, uint16_t msg_len)
+{
+    if (msg_buf == NULL || msg_len < 4) {
+        LOGD("CameraRoot Invalid message buffer\n");
+        return -1;
+    }
+    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x05 || msg_buf[3] != 0x00) {
+        LOGD("CameraRoot Invalid message header\n");
+        return -1;
+    }
+
+    sync();
+    int ret = system("reboot");
+
+    uint8_t response[1024] = {0};
+    uint16_t index = 0;
+    response[index++] = 0xAA;
+    response[index++] = 0x5A;
+    response[index++] = 0x05;
+    response[index++] = 0x00;
+    response[index++] = ret;
+    send_msg_resp(response, index);
+    return 0;
+}

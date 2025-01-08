@@ -5,6 +5,10 @@
         "string.h": "c",
         "cm_common.h": "c",
         "cjson.h": "c",
-        "stdint.h": "c"
-    }
+        "stdint.h": "c",
+        "wind_connect_up.h": "c",
+        "wind_process_manager.h": "c"
+    },
+    "cmake.sourceDirectory": "/home/kxy/t23_signal_display/samples",
+    "C_Cpp.errorSquiggles": "enabled"
 }

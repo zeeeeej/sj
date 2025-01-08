@@ -18,6 +18,7 @@
 #include <sys/ioctl.h>
 #include <sys/prctl.h>
 #include <fstream>
+#include <memory>
 #include "cm_common.h"
 // #include "jemalloc/jemalloc.h"
 // #include "knlog.h"

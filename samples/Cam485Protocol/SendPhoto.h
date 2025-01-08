@@ -72,6 +72,7 @@ typedef struct {
 
 static uint8_t IS_take_photo = 0x01;
 static PicInfo_t pic_info[MAX_PIC_NUM] = {0};
+static uint8_t pic_num = 1;
 
 int ParseGetPictureRequest(const uint8_t *msg_buf, uint16_t msg_len,GetPictureRequest_t *req);
 int PackGetPictureResponse(uint8_t *msg_buf, uint16_t buf_size, uint8_t photo_len,const uint8_t result, const uint8_t *photo_data);
@@ -80,5 +81,7 @@ int HandleIsTakePhotoFinshi(uint8_t *msg_buf, uint16_t msg_len);
 int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len);
 int DeletePicture(const uint8_t pic_id);
 int HnadleGetPictureInfo(uint8_t *msg_buf, uint16_t msg_len);
+int HandleTakePhoto(uint8_t *msg_buf, uint16_t msg_len);
+int HandelCameraRoot(uint8_t *msg_buf, uint16_t msg_len);
 
 #endif // _SEMDPHOTO_H_

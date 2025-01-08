@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #include "cm_video_ctrl.h"
 #include "cm_video_interface.h"

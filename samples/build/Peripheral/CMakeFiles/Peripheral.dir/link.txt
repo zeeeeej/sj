@@ -1,0 +1,2 @@
+/usr/bin/ar qc libPeripheral.a CMakeFiles/Peripheral.dir/camera/cm_video_ctrl_t23.c.o CMakeFiles/Peripheral.dir/camera/cm_video_ctrl.c.o CMakeFiles/Peripheral.dir/camera/sample-common.c.o CMakeFiles/Peripheral.dir/mpu/mpu_ctrl.c.o CMakeFiles/Peripheral.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o CMakeFiles/Peripheral.dir/uart/cm_uart.c.o CMakeFiles/Peripheral.dir/usb/sample_uvc_video_ctl.c.o CMakeFiles/Peripheral.dir/usb/wind_usb_connect.c.o CMakeFiles/Peripheral.dir/wdt/wdt.c.o
+/usr/bin/ranlib libPeripheral.a

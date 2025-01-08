@@ -109,7 +109,9 @@ OBJS += $(KIVA_ENV_SRC_DIR)/../samples/Peripheral/uart/cm_uart.o \
 	$(KIVA_ENV_SRC_DIR)/../samples/log/circular_log.o \
 	$(KIVA_ENV_SRC_DIR)/../samples/command/cli_command.o \
 	$(KIVA_ENV_SRC_DIR)/../samples/log/debug_logger.o \
-	$(KIVA_ENV_SRC_DIR)/../samples/tmp/file_trans.o
+	$(KIVA_ENV_SRC_DIR)/../samples/tmp/file_trans.o \
+	$(KIVA_ENV_SRC_DIR)/../samples/Cam485Protocol/Heartbeat.o
+
 	
 ifeq ($(KIVA_ISP_OSD), y)
 	CFLAGS += -DOSD_ENABLE
@@ -148,7 +150,8 @@ INCLUDES +=	-I$(KIVA_ENV_LIBS_DIR)/ucamcore/include \
 		-I$(KIVA_ENV_TOP)/samples/tmp \
 		-I$(KIVA_ENV_TOP)/samples/Peripheral/usb \
 		-I$(KIVA_ENV_TOP)/samples/log \
-		-I$(KIVA_ENV_TOP)/samples/command
+		-I$(KIVA_ENV_TOP)/samples/command \
+		-I$(KIVA_ENV_TOP)/samples/Cam485Protocol 
 
 ifeq ($(KIVA_ISP_OSD), y)
 	INCLUDES += -I$(KIVA_ENV_LIBS_DIR)/png/include/$(HOST)

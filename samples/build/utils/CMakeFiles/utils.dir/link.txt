@@ -1,0 +1,2 @@
+/usr/bin/ar qc libutils.a CMakeFiles/utils.dir/cJSON.c.o CMakeFiles/utils.dir/cm_base64.c.o CMakeFiles/utils.dir/cm_conf.c.o CMakeFiles/utils.dir/cm_list.c.o CMakeFiles/utils.dir/cm_utils.c.o CMakeFiles/utils.dir/jkbytes.c.o
+/usr/bin/ranlib libutils.a
