@@ -46,7 +46,7 @@ static char* TAG_NAME = "modbus_msg";
 /**/
 static int reboot_flag = 0;
 #define REBOOT_COUNTDOWN_SECONDS 3
-WindProOtaRequest ota_req;
+extern WindProOtaRequest ota_req;
 #define DEST_PATH "/system/bin/sample_camera_rst"
 #define MD5_BUF_SIZE 4096
 #define OTA_FILE_PATH "tmp/ota_app/sample_camera_rst.xz" // 文件保存路径

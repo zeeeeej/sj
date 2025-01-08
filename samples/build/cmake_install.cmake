@@ -44,6 +44,9 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
+  include("/home/kxy/t23_signal_display/samples/build/log/cmake_install.cmake")
+  include("/home/kxy/t23_signal_display/samples/build/tmp/cmake_install.cmake")
+  include("/home/kxy/t23_signal_display/samples/build/command/cmake_install.cmake")
   include("/home/kxy/t23_signal_display/samples/build/utils/cmake_install.cmake")
   include("/home/kxy/t23_signal_display/samples/build/Peripheral/cmake_install.cmake")
   include("/home/kxy/t23_signal_display/samples/build/door_detect/cmake_install.cmake")

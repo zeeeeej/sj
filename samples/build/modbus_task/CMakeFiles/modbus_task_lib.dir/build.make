@@ -73,99 +73,99 @@ modbus_task/CMakeFiles/modbus_task_lib.dir/md5.c.o: modbus_task/CMakeFiles/modbu
 modbus_task/CMakeFiles/modbus_task_lib.dir/md5.c.o: ../modbus_task/md5.c
 modbus_task/CMakeFiles/modbus_task_lib.dir/md5.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object modbus_task/CMakeFiles/modbus_task_lib.dir/md5.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/md5.c.o -MF CMakeFiles/modbus_task_lib.dir/md5.c.o.d -o CMakeFiles/modbus_task_lib.dir/md5.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/md5.c
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/md5.c.o -MF CMakeFiles/modbus_task_lib.dir/md5.c.o.d -o CMakeFiles/modbus_task_lib.dir/md5.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/md5.c
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/md5.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/modbus_task_lib.dir/md5.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/md5.c > CMakeFiles/modbus_task_lib.dir/md5.c.i
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/md5.c > CMakeFiles/modbus_task_lib.dir/md5.c.i
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/md5.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modbus_task_lib.dir/md5.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/md5.c -o CMakeFiles/modbus_task_lib.dir/md5.c.s
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/md5.c -o CMakeFiles/modbus_task_lib.dir/md5.c.s
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/flags.make
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.o: ../modbus_task/wind_connect_up.c
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_connect_up.c
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_connect_up.c
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_connect_up.c > CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.i
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_connect_up.c > CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.i
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_connect_up.c -o CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.s
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_connect_up.c -o CMakeFiles/modbus_task_lib.dir/wind_connect_up.c.s
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/flags.make
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect.c.o: ../modbus_task/wind_connect.c
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_connect.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_connect.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_connect.c
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_connect.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_connect.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_connect.c
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/modbus_task_lib.dir/wind_connect.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_connect.c > CMakeFiles/modbus_task_lib.dir/wind_connect.c.i
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_connect.c > CMakeFiles/modbus_task_lib.dir/wind_connect.c.i
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_connect.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modbus_task_lib.dir/wind_connect.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_connect.c -o CMakeFiles/modbus_task_lib.dir/wind_connect.c.s
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_connect.c -o CMakeFiles/modbus_task_lib.dir/wind_connect.c.s
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/flags.make
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.o: ../modbus_task/wind_modbus_wrap.c
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object modbus_task/CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_modbus_wrap.c
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_modbus_wrap.c
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_modbus_wrap.c > CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.i
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_modbus_wrap.c > CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.i
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_modbus_wrap.c -o CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.s
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_modbus_wrap.c -o CMakeFiles/modbus_task_lib.dir/wind_modbus_wrap.c.s
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/flags.make
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.o: ../modbus_task/wind_process_manager.c
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object modbus_task/CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_process_manager.c
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_process_manager.c
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_process_manager.c > CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.i
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_process_manager.c > CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.i
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_process_manager.c -o CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.s
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_process_manager.c -o CMakeFiles/modbus_task_lib.dir/wind_process_manager.c.s
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/flags.make
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.o: ../modbus_task/wind_protocol_wrap_up.c
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap_up.c
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap_up.c
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap_up.c > CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.i
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap_up.c > CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.i
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap_up.c -o CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.s
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap_up.c -o CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap_up.c.s
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/flags.make
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.o: ../modbus_task/wind_protocol_wrap.c
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.o: modbus_task/CMakeFiles/modbus_task_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap.c
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.o -MF CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.o.d -o CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.o -c /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap.c
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap.c > CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.i
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap.c > CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.i
 
 modbus_task/CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap.c -o CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.s
+	cd /home/kxy/t23_signal_display/samples/build/modbus_task && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/modbus_task/wind_protocol_wrap.c -o CMakeFiles/modbus_task_lib.dir/wind_protocol_wrap.c.s
 
 # Object files for target modbus_task_lib
 modbus_task_lib_OBJECTS = \

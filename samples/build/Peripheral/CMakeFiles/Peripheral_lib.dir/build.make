@@ -73,127 +73,127 @@ Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.o: Periphera
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.o: ../Peripheral/camera/cm_video_ctrl_t23.c
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.o -MF CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.o.d -o CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl_t23.c
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.o -MF CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.o.d -o CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl_t23.c
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl_t23.c > CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.i
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl_t23.c > CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.i
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl_t23.c -o CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.s
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl_t23.c -o CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl_t23.c.s
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.o: ../Peripheral/camera/cm_video_ctrl.c
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.o -MF CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.o.d -o CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl.c
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.o -MF CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.o.d -o CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl.c
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl.c > CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.i
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl.c > CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.i
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl.c -o CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.s
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/camera/cm_video_ctrl.c -o CMakeFiles/Peripheral_lib.dir/camera/cm_video_ctrl.c.s
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o: ../Peripheral/camera/sample-common.c
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o -MF CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o.d -o CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/camera/sample-common.c
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o -MF CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o.d -o CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/camera/sample-common.c
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/camera/sample-common.c > CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.i
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/camera/sample-common.c > CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.i
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/camera/sample-common.c -o CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.s
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/camera/sample-common.c -o CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.s
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
 Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o: ../Peripheral/mpu/mpu_ctrl.c
 Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o -MF CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o.d -o CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/mpu/mpu_ctrl.c
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o -MF CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o.d -o CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/mpu/mpu_ctrl.c
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/mpu/mpu_ctrl.c > CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.i
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/mpu/mpu_ctrl.c > CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.i
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/mpu/mpu_ctrl.c -o CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.s
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/mpu/mpu_ctrl.c -o CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.s
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
 Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o: ../Peripheral/mpu/yq_mpu_impl_lsm6ds3trc.cpp
 Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o -MF CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o.d -o CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o -c /home/kxy/t23_signal_display/samples/Peripheral/mpu/yq_mpu_impl_lsm6ds3trc.cpp
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o -MF CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o.d -o CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o -c /home/kxy/t23_signal_display/samples/Peripheral/mpu/yq_mpu_impl_lsm6ds3trc.cpp
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.i"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/mpu/yq_mpu_impl_lsm6ds3trc.cpp > CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.i
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/mpu/yq_mpu_impl_lsm6ds3trc.cpp > CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.i
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.s"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/mpu/yq_mpu_impl_lsm6ds3trc.cpp -o CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.s
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/mpu/yq_mpu_impl_lsm6ds3trc.cpp -o CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.s
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
 Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o: ../Peripheral/uart/cm_uart.c
 Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o -MF CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o.d -o CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/uart/cm_uart.c
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o -MF CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o.d -o CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/uart/cm_uart.c
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/uart/cm_uart.c > CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.i
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/uart/cm_uart.c > CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.i
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/uart/cm_uart.c -o CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.s
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/uart/cm_uart.c -o CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.s
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
 Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o: ../Peripheral/usb/sample_uvc_video_ctl.c
 Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o -MF CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o.d -o CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o -MF CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o.d -o CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c > CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.i
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c > CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.i
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c -o CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.s
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c -o CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.s
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
 Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o: ../Peripheral/usb/wind_usb_connect.c
 Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o -MF CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o.d -o CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o -MF CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o.d -o CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c > CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.i
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c > CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.i
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c -o CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.s
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c -o CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.s
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
 Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o: ../Peripheral/wdt/wdt.c
 Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o -MF CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o.d -o CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/wdt/wdt.c
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o -MF CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o.d -o CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/wdt/wdt.c
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/wdt/wdt.c > CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.i
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/wdt/wdt.c > CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.i
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/wdt/wdt.c -o CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.s
+	cd /home/kxy/t23_signal_display/samples/build/Peripheral && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/wdt/wdt.c -o CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.s
 
 # Object files for target Peripheral_lib
 Peripheral_lib_OBJECTS = \

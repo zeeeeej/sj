@@ -13,9 +13,12 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/kxy/t23_signal_display/samples/CMakeLists.txt"
   "/home/kxy/t23_signal_display/samples/Cam485Protocol/CMakeLists.txt"
   "/home/kxy/t23_signal_display/samples/Peripheral/CMakeLists.txt"
+  "/home/kxy/t23_signal_display/samples/command/CMakeLists.txt"
   "/home/kxy/t23_signal_display/samples/door_detect/CMakeLists.txt"
+  "/home/kxy/t23_signal_display/samples/log/CMakeLists.txt"
   "/home/kxy/t23_signal_display/samples/modbus_task/CMakeLists.txt"
   "/home/kxy/t23_signal_display/samples/self_check/CMakeLists.txt"
+  "/home/kxy/t23_signal_display/samples/tmp/CMakeLists.txt"
   "/home/kxy/t23_signal_display/samples/utils/CMakeLists.txt"
   "/usr/share/cmake-3.22/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake"
@@ -45,6 +48,9 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "log/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "tmp/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "command/CMakeFiles/CMakeDirectoryInformation.cmake"
   "utils/CMakeFiles/CMakeDirectoryInformation.cmake"
   "Peripheral/CMakeFiles/CMakeDirectoryInformation.cmake"
   "door_detect/CMakeFiles/CMakeDirectoryInformation.cmake"
@@ -56,6 +62,9 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/sample_camera_rst.dir/DependInfo.cmake"
+  "log/CMakeFiles/log_lib.dir/DependInfo.cmake"
+  "tmp/CMakeFiles/tmp_lib.dir/DependInfo.cmake"
+  "command/CMakeFiles/cli_command_lib.dir/DependInfo.cmake"
   "utils/CMakeFiles/utils_lib.dir/DependInfo.cmake"
   "Peripheral/CMakeFiles/Peripheral_lib.dir/DependInfo.cmake"
   "door_detect/CMakeFiles/door_detect_lib.dir/DependInfo.cmake"

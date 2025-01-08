@@ -13,9 +13,12 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.22.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.22.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.22.1/CMakeSystem.cmake"
+  "../command/CMakeLists.txt"
   "../door_detect/CMakeLists.txt"
+  "../log/CMakeLists.txt"
   "../modbus_task/CMakeLists.txt"
   "../self_check/CMakeLists.txt"
+  "../tmp/CMakeLists.txt"
   "../utils/CMakeLists.txt"
   "/usr/share/cmake-3.22/Modules/CMakeCInformation.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake"
@@ -45,6 +48,9 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "log/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "tmp/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "command/CMakeFiles/CMakeDirectoryInformation.cmake"
   "utils/CMakeFiles/CMakeDirectoryInformation.cmake"
   "Peripheral/CMakeFiles/CMakeDirectoryInformation.cmake"
   "door_detect/CMakeFiles/CMakeDirectoryInformation.cmake"
@@ -56,6 +62,9 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/sample_camera_rst.dir/DependInfo.cmake"
+  "log/CMakeFiles/log_lib.dir/DependInfo.cmake"
+  "tmp/CMakeFiles/tmp_lib.dir/DependInfo.cmake"
+  "command/CMakeFiles/cli_command_lib.dir/DependInfo.cmake"
   "utils/CMakeFiles/utils_lib.dir/DependInfo.cmake"
   "Peripheral/CMakeFiles/Peripheral_lib.dir/DependInfo.cmake"
   "door_detect/CMakeFiles/door_detect_lib.dir/DependInfo.cmake"

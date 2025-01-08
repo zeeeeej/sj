@@ -130,6 +130,45 @@ sample_camera_rst/fast:
 .PHONY : sample_camera_rst/fast
 
 #=============================================================================
+# Target rules for targets named log_lib
+
+# Build rule for target.
+log_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 log_lib
+.PHONY : log_lib
+
+# fast build rule for target.
+log_lib/fast:
+	$(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/build
+.PHONY : log_lib/fast
+
+#=============================================================================
+# Target rules for targets named tmp_lib
+
+# Build rule for target.
+tmp_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tmp_lib
+.PHONY : tmp_lib
+
+# fast build rule for target.
+tmp_lib/fast:
+	$(MAKE) $(MAKESILENT) -f tmp/CMakeFiles/tmp_lib.dir/build.make tmp/CMakeFiles/tmp_lib.dir/build
+.PHONY : tmp_lib/fast
+
+#=============================================================================
+# Target rules for targets named cli_command_lib
+
+# Build rule for target.
+cli_command_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cli_command_lib
+.PHONY : cli_command_lib
+
+# fast build rule for target.
+cli_command_lib/fast:
+	$(MAKE) $(MAKESILENT) -f command/CMakeFiles/cli_command_lib.dir/build.make command/CMakeFiles/cli_command_lib.dir/build
+.PHONY : cli_command_lib/fast
+
+#=============================================================================
 # Target rules for targets named utils_lib
 
 # Build rule for target.
@@ -241,10 +280,13 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... Cam485Protocol_lib"
 	@echo "... Peripheral_lib"
+	@echo "... cli_command_lib"
 	@echo "... door_detect_lib"
+	@echo "... log_lib"
 	@echo "... modbus_task_lib"
 	@echo "... sample_camera_rst"
 	@echo "... self_check_lib"
+	@echo "... tmp_lib"
 	@echo "... utils_lib"
 	@echo "... sample_camera_rst.o"
 	@echo "... sample_camera_rst.i"

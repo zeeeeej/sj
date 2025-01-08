@@ -1,4 +1,4 @@
-add_library(utils
+add_library(tmp_lib STATIC
     file_trans.c
     file_trans.h
     mem_pool.c
@@ -22,4 +22,4 @@ add_library(utils
     trans_door_image.h
 )
 
-target_include_directories(tmp PUBLIC ${CMAKE_SOURCE_DIR}/tmp)
+target_include_directories(tmp_lib PUBLIC ${CMAKE_SOURCE_DIR}/Peripheral/uart)

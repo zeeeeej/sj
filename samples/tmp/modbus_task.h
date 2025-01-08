@@ -36,7 +36,7 @@ void deinit_modbus_dispatcher(void);
 int dispatch_modbus_command(int func_code, const void *data, size_t length);
 int dispatch_modbus_message(mqd_t mq, const void *data, size_t length, int func_code);
 int fetch_modbus_send_data(void *buffer, size_t buf_size, size_t *recv_len);
-int register_message_queues(mqd_t* recv_que, mqd_t* send_que, int func_code, ModuleInitFuncPtr init_func);
+void register_message_queues(mqd_t* recv_que, mqd_t* send_que, int func_code, ModuleInitFuncPtr init_func);
 int unregister_message_queue(int func_code);
 int get_queue_status(mqd_t mq);
 

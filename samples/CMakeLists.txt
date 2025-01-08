@@ -2,8 +2,31 @@ cmake_minimum_required(VERSION 3.0)
 
 project(samples)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_CXX_EXTENSIONS NO)
+
+
 set (3dparty_DIR ${CMAKE_SOURCE_DIR}/../libs)
 set (SRC_DIR ${CMAKE_SOURCE_DIR}/../src)
+
+
+# 指定交叉编译器路径和相关配置
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR mips)
+
+# 指定工具链的路径
+set(CMAKE_C_COMPILER "/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc")
+set(CMAKE_CXX_COMPILER "/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-g++")
+
+# 指定工具链的其他相关目录
+set(CMAKE_FIND_ROOT_PATH "/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/")
+
+# 设置搜索路径
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
 # 在主CMakeLists.txt中定义全局包含目录变量
 set(COMMON_INCLUDE_DIRS
@@ -31,6 +54,7 @@ set(COMMON_INCLUDE_DIRS
 include_directories(COMMON_INCLUDE_DIRS)
 include_directories(${COMMON_INCLUDE_DIRS})
 
+link_directories(${3dparty_DIR}/t23_sdk/lib/glibc)
 
 find_library(MODBUS_LIB modbus PATHS ${3dparty_DIR}/modbus/lib)
 message(STATUS "Modbus Library: ${MODBUS_LIB}")
@@ -38,6 +62,9 @@ message(STATUS "Modbus Library: ${MODBUS_LIB}")
 
 
 # 添加子目录
+add_subdirectory(log)
+add_subdirectory(tmp)
+add_subdirectory(command)
 add_subdirectory(utils)
 add_subdirectory(Peripheral)
 add_subdirectory(door_detect)
@@ -51,7 +78,6 @@ add_executable(sample_camera_rst
     sample_camera_rst.c
 )
 
-link_directories(../libs/t23_sdk/lib/uclibc)
 target_link_libraries(sample_camera_rst utils_lib door_detect_lib modbus_task_lib Peripheral_lib self_check_lib Cam485Protocol_lib)
 target_include_directories(sample_camera_rst PRIVATE ${COMMON_INCLUDE_DIRS})
 # 链接库文件
@@ -62,8 +88,15 @@ target_link_libraries(sample_camera_rst
     Peripheral_lib 
     self_check_lib 
     Cam485Protocol_lib
+    log_lib
+    tmp_lib
+    cli_command_lib
     ${MODBUS_LIB}
     pthread
+    alog
+    imp
+    sysutils
+    rt
 )
 
 
