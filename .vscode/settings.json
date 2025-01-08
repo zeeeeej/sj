@@ -2,6 +2,8 @@
     "files.associations": {
         "cm_base64.h": "c",
         "stdio.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "cm_common.h": "c",
+        "cjson.h": "c"
     }
 }
