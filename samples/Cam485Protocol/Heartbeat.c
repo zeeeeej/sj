@@ -11,7 +11,7 @@ int SID01_HeartBeat(uint8_t *msg_buf, uint16_t msg_dlc)
     //合法，则构建回复数据帧
     msg_buf[4] = (msg_buf[4] + 1) & 0xFF;
     msg_buf[5] = 0x00;
-
+    send_msg_resp(msg_buf, HEART_FRAME_SIZE);
     return 0;
 }
 

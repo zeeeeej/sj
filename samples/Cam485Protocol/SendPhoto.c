@@ -24,7 +24,6 @@ int ParseGetPictureRequest(const uint8_t *msg_buf, uint16_t msg_len,GetPictureRe
 
 int PackGetPictureResponse(uint8_t *msg_buf, uint16_t buf_size, uint8_t photo_len,const uint8_t result, const uint8_t *photo_data)
 {
-
     uint8_t index = 0;
     msg_buf[index++] = 0xAA;
     msg_buf[index++] = 0x5A;
@@ -37,6 +36,7 @@ int PackGetPictureResponse(uint8_t *msg_buf, uint16_t buf_size, uint8_t photo_le
         memcpy(&msg_buf[index], photo_data, photo_len);
         index += photo_len;
     }
+    send_msg_resp(msg_buf, index);
     return index;
 }
 
@@ -113,7 +113,158 @@ int HandlePhotoRequest(const uint8_t *msg_buf, uint16_t msg_len)
         return PackGetPictureResponse(msg_buf, msg_len, 0, -10, NULL);
     }
     int ret = PackGetPictureResponse(msg_buf, msg_len, base64_len, 0, base64_buffer);
+    IS_take_photo = 0x00;
     free(data);
     free(base64_buffer);
     return ret;
+}
+
+int HandleIsTakePhotoFinshi(uint8_t *msg_buf, uint16_t msg_len)
+{
+    if (msg_buf == NULL || msg_len < 12) 
+    {
+        return -1;
+    }
+    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x0A || msg_buf[3] != 0x00) 
+    {
+        return -1;
+    }
+    msg_buf[0] = 0xAA;
+    msg_buf[1] = 0x5A;
+    msg_buf[2] = 0xAA;
+    msg_buf[3] = 0x01;
+    msg_buf[4] = IS_take_photo;
+    return 0;
+}
+
+int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len)
+{
+    if (msg_buf == NULL || msg_len < 8) 
+    {
+        LOGD("DeletePhoto Invalid message buffer\n");
+        return -1;
+    }
+    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x08 || msg_buf[3] != 0x01) 
+    {
+        LOGD("DeletePhoto Invalid message header\n");
+        return -1;
+    }
+    int ret = DeletePicture(msg_buf[4]);
+    uint8_t response[1024] = {0};  
+    uint16_t index = 0;
+
+    response[index++] = 0xAA;  // 帧头
+    response[index++] = 0x5A;
+    response[index++] = 0x08;  // 主命令
+    response[index++] = 0x01;  // 子命令
+    response[index++] = ret;   // 返回值
+    send_msg_resp(response, index);
+    if (ret != 0) 
+    {
+        LOGD("Failed to delete photo,ret[-1]\n");
+        return -1;
+    }
+    return 0;
+}
+
+int DeletePicture(const uint8_t pic_id)
+{
+    int ret = 0;
+
+    if (pic_id == 0xFF) 
+    {
+        // 删除 1~10 号照片
+        for (int i = 1; i <= 10; i++) 
+        {
+            char photo_file[256];
+            snprintf(photo_file, sizeof(photo_file), "%s%d.jpg", TAKE_PHOTO_TMP_FILE, i);
+            if (access(photo_file, F_OK) == 0) 
+            { 
+                if (unlink(photo_file) != 0) 
+                {
+                    fprintf(stderr, "Failed to delete photo %s: %s\n", photo_file, strerror(errno));
+                    ret = -1;
+                } 
+                else 
+                {
+                    printf("Deleted photo: %s\n", photo_file);
+                }
+            }
+        }
+    } 
+    else 
+    {
+        // 删除单张照片
+        char photo_file[256];
+        snprintf(photo_file, sizeof(photo_file), "%s%d.jpg", TAKE_PHOTO_TMP_FILE, pic_id);
+        if (access(photo_file, F_OK) == 0) 
+        { // 检查文件是否存在
+            if (unlink(photo_file) != 0) 
+            {
+                fprintf(stderr, "Failed to delete photo %s: %s\n", photo_file, strerror(errno));
+                ret = -1;
+            } 
+            else 
+            {
+                printf("Deleted photo: %s\n", photo_file);
+            }
+        } 
+        else 
+        {
+            fprintf(stderr, "Photo file %s not found.\n", photo_file);
+            ret = -1;
+        }
+    }
+
+    return ret;
+}
+
+int HnadleGetPictureInfo(uint8_t *msg_buf, uint16_t msg_len)
+{
+    if (msg_buf == NULL || msg_len < 4) {
+        LOGD("GetPictureInfo Invalid message buffer\n");
+        return -1;
+    }
+
+    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x07 || msg_buf[3] != 0x00) {
+        LOGD("GetPictureInfo Invalid message header\n");
+        return -1;
+    }
+
+    // 构建回复数据帧
+    uint8_t response[1024] = {0};  
+    uint16_t index = 0;
+
+    response[index++] = 0xAA;  // 帧头
+    response[index++] = 0x5A;
+    response[index++] = 0x07;  // 主命令
+    response[index++] = 0x00;  // 子命令
+
+    // 填充图片数量
+    response[index++] = MAX_PIC_NUM;
+
+    for (uint8_t i = 0; i < MAX_PIC_NUM; i++) {
+        PicInfo_t *pic = &pic_info[i];
+
+        response[index++] = pic->pic_id;                // 图片ID
+        response[index++] = pic->trigger_type;         // 触发方式
+        response[index++] = pic->trigger_angle;        // 触发角度
+
+        response[index++] = (pic->capture_time >> 24) & 0xFF;  // 抓取时间
+        response[index++] = (pic->capture_time >> 16) & 0xFF;
+        response[index++] = (pic->capture_time >> 8) & 0xFF;
+        response[index++] = pic->capture_time & 0xFF;
+
+        response[index++] = (pic->image_size >> 24) & 0xFF;  // 图片大小
+        response[index++] = (pic->image_size >> 16) & 0xFF;
+        response[index++] = (pic->image_size >> 8) & 0xFF;
+        response[index++] = pic->image_size & 0xFF;
+
+        memcpy(&response[index], pic->md5, MD5_SIZE);  // MD5
+        index += MD5_SIZE;
+    }
+
+    send_msg_resp(response, index);
+
+    return 0;
 }

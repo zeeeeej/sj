@@ -4,6 +4,7 @@
         "stdio.h": "c",
         "string.h": "c",
         "cm_common.h": "c",
-        "cjson.h": "c"
+        "cjson.h": "c",
+        "stdint.h": "c"
     }
 }

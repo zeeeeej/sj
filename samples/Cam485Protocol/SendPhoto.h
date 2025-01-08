@@ -7,6 +7,19 @@
 #include "sys/stat.h"
 #include "unistd.h"
 #include "circular_log.h"
+#include "CommonInterface.h"
+
+#define MD5_SIZE 16
+#define MAX_PIC_NUM 10
+
+typedef struct {
+    uint8_t pic_id;          // 图片ID (1字节)
+    uint8_t trigger_type;    // 触发方式 (1字节)
+    uint8_t trigger_angle;   // 触发角度 (1字节)
+    uint32_t capture_time;   // 抓取时间戳 (4字节)
+    uint32_t image_size;     // 图片大小 (4字节)
+    uint8_t md5[MD5_SIZE];   // 图片的MD5校验值 (16字节)
+} PicInfo_t;
 
 typedef struct {
     uint8_t header[2];        // 帧头，例如 0xAA 0x5A
@@ -27,6 +40,25 @@ typedef struct {
     uint8_t pic_data[];       // 图片数据（如果 result 为 0x00，则包含图片数据；失败时为空）
 } GetPictureResponse_t;
 
+
+typedef struct 
+{
+    uint8_t header[2];        // 帧头，例如 0xAA 0x5A
+    uint8_t command;          // 主命令，固定为 0x08
+    uint8_t sub_command;      // 子命令，例如 0x01 表示删除图片
+    uint8_t pic_id;           // 图片 ID
+    uint16_t checksum;        // 校验和
+} DeletePictureRequest_t;
+
+typedef struct {
+    uint8_t header[2];       // 帧头 (0xAA, 0x5A)
+    uint8_t command;         // 主命令 (0x07)
+    uint8_t len;             // 数据长度 (1 + pic_num * sizeof(PicInfo_t))
+    uint8_t pic_num;         // 图片数量
+    PicInfo_t pic_info[];    // 图片信息数组 (变长数组)
+} GetPictureInfoResponse_t;
+
+
 #define TAKE_PHOTO_TMP_DIR "/tmp/take_photo"
 #define TAKE_PHOTO_TMP_FILE TAKE_PHOTO_TMP_DIR "/photo.jpg"
 #define TAKE_PHOTO_BUFFER_SIZE 8192
@@ -38,9 +70,15 @@ typedef struct {
 #define CURRENT_TRANSFER_MODE  TRANSFER_MODE_BINARY
 #define TAG_NAME "take_photo"
 
+static uint8_t IS_take_photo = 0x01;
+static PicInfo_t pic_info[MAX_PIC_NUM] = {0};
+
 int ParseGetPictureRequest(const uint8_t *msg_buf, uint16_t msg_len,GetPictureRequest_t *req);
 int PackGetPictureResponse(uint8_t *msg_buf, uint16_t buf_size, uint8_t photo_len,const uint8_t result, const uint8_t *photo_data);
 int HandlePhotoRequest(const uint8_t *msg_buf, uint16_t msg_len);
-
+int HandleIsTakePhotoFinshi(uint8_t *msg_buf, uint16_t msg_len);
+int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len);
+int DeletePicture(const uint8_t pic_id);
+int HnadleGetPictureInfo(uint8_t *msg_buf, uint16_t msg_len);
 
 #endif // _SEMDPHOTO_H_
