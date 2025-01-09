@@ -117,6 +117,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named samples_lib
+
+# Build rule for target.
+samples_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 samples_lib
+.PHONY : samples_lib
+
+# fast build rule for target.
+samples_lib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/build
+.PHONY : samples_lib/fast
+
+#=============================================================================
 # Target rules for targets named sample_camera_rst
 
 # Build rule for target.
@@ -128,6 +141,32 @@ sample_camera_rst: cmake_check_build_system
 sample_camera_rst/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sample_camera_rst.dir/build.make CMakeFiles/sample_camera_rst.dir/build
 .PHONY : sample_camera_rst/fast
+
+#=============================================================================
+# Target rules for targets named src_common_lib
+
+# Build rule for target.
+src_common_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src_common_lib
+.PHONY : src_common_lib
+
+# fast build rule for target.
+src_common_lib/fast:
+	$(MAKE) $(MAKESILENT) -f common_build/CMakeFiles/src_common_lib.dir/build.make common_build/CMakeFiles/src_common_lib.dir/build
+.PHONY : src_common_lib/fast
+
+#=============================================================================
+# Target rules for targets named src_modules_lib
+
+# Build rule for target.
+src_modules_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src_modules_lib
+.PHONY : src_modules_lib
+
+# fast build rule for target.
+src_modules_lib/fast:
+	$(MAKE) $(MAKESILENT) -f modules_build/CMakeFiles/src_modules_lib.dir/build.make modules_build/CMakeFiles/src_modules_lib.dir/build
+.PHONY : src_modules_lib/fast
 
 #=============================================================================
 # Target rules for targets named log_lib
@@ -246,6 +285,30 @@ Cam485Protocol_lib/fast:
 	$(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build
 .PHONY : Cam485Protocol_lib/fast
 
+cm_config.o: cm_config.c.o
+.PHONY : cm_config.o
+
+# target to build an object file
+cm_config.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/cm_config.c.o
+.PHONY : cm_config.c.o
+
+cm_config.i: cm_config.c.i
+.PHONY : cm_config.i
+
+# target to preprocess a source file
+cm_config.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/cm_config.c.i
+.PHONY : cm_config.c.i
+
+cm_config.s: cm_config.c.s
+.PHONY : cm_config.s
+
+# target to generate assembly for a file
+cm_config.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/cm_config.c.s
+.PHONY : cm_config.c.s
+
 sample_camera_rst.o: sample_camera_rst.c.o
 .PHONY : sample_camera_rst.o
 
@@ -285,9 +348,15 @@ help:
 	@echo "... log_lib"
 	@echo "... modbus_task_lib"
 	@echo "... sample_camera_rst"
+	@echo "... samples_lib"
 	@echo "... self_check_lib"
+	@echo "... src_common_lib"
+	@echo "... src_modules_lib"
 	@echo "... tmp_lib"
 	@echo "... utils_lib"
+	@echo "... cm_config.o"
+	@echo "... cm_config.i"
+	@echo "... cm_config.s"
 	@echo "... sample_camera_rst.o"
 	@echo "... sample_camera_rst.i"
 	@echo "... sample_camera_rst.s"

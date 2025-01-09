@@ -5,6 +5,8 @@
 #include <usbcamera.h>
 
 #define MODULE_UVC_CONTROL_NAME	"uvc_control"
+#define DUAL_SENSOR 1
+
 /**
  * init and deinit.
  */

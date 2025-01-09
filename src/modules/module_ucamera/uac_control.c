@@ -10,9 +10,9 @@
 #include <usbcamera.h>
 #include <global_config.h>
 
-#ifndef T23
-#include <imp/imp_dmic.h>
-#endif
+// #ifndef T23
+// #include <imp/imp_dmic.h>
+// #endif
 
 #define MODULE_TAG                     "uac_control"
 
@@ -164,7 +164,8 @@ static void register_audio_func(void)
 	a_func.get_AudioPcm = sample_audio_amic_pcm_get;
 #else
 	if (uac_ctx.dmic_en)
-		a_func.get_AudioPcm = sample_audio_dmic_pcm_get;
+		//a_func.get_AudioPcm = sample_audio_dmic_pcm_get;
+		a_func.get_AudioPcm = sample_audio_amic_pcm_get;
 	else
 		a_func.get_AudioPcm = sample_audio_amic_pcm_get;
 #endif

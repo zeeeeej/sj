@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsamples_lib.a CMakeFiles/samples_lib.dir/cm_config.c.o
+/usr/bin/ranlib libsamples_lib.a

@@ -1,6 +1,13 @@
+/home/kxy/t23_signal_display/build/CMakeFiles/samples_lib.dir
 /home/kxy/t23_signal_display/build/CMakeFiles/sample_camera_rst.dir
 /home/kxy/t23_signal_display/build/CMakeFiles/edit_cache.dir
 /home/kxy/t23_signal_display/build/CMakeFiles/rebuild_cache.dir
+/home/kxy/t23_signal_display/build/common_build/CMakeFiles/src_common_lib.dir
+/home/kxy/t23_signal_display/build/common_build/CMakeFiles/edit_cache.dir
+/home/kxy/t23_signal_display/build/common_build/CMakeFiles/rebuild_cache.dir
+/home/kxy/t23_signal_display/build/modules_build/CMakeFiles/src_modules_lib.dir
+/home/kxy/t23_signal_display/build/modules_build/CMakeFiles/edit_cache.dir
+/home/kxy/t23_signal_display/build/modules_build/CMakeFiles/rebuild_cache.dir
 /home/kxy/t23_signal_display/build/log/CMakeFiles/log_lib.dir
 /home/kxy/t23_signal_display/build/log/CMakeFiles/edit_cache.dir
 /home/kxy/t23_signal_display/build/log/CMakeFiles/rebuild_cache.dir

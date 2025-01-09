@@ -1,0 +1,200 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "door_detect/libdoor_detect_lib.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"include_directories",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"door_detect/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 57,
+				"parent" : 2
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 58,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 6,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/home/kxy/t23_signal_display/samples/COMMON_INCLUDE_DIRS"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/door_detect"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/modbus_task"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/self_check"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/utils"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/tmp"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/log"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/command"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/Cam485Protocol"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/camera"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/wdt"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../libs/t23_sdk/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../libs/modbus/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../libs/ucamcore/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../libs/anticopy/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../src/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../src/common/imp"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../src/common/include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/mpu"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"id" : "door_detect_lib::@5e9785bcc9983edc93f1",
+	"name" : "door_detect_lib",
+	"nameOnDisk" : "libdoor_detect_lib.a",
+	"paths" : 
+	{
+		"build" : "door_detect",
+		"source" : "door_detect"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "door_detect/door_detect.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "door_detect/door_detect.c",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

@@ -63,7 +63,10 @@ CMAKE_BINARY_DIR = /home/kxy/t23_signal_display/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
+all: CMakeFiles/samples_lib.dir/all
 all: CMakeFiles/sample_camera_rst.dir/all
+all: common_build/all
+all: modules_build/all
 all: log/all
 all: tmp/all
 all: command/all
@@ -76,6 +79,8 @@ all: Cam485Protocol/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
+preinstall: common_build/preinstall
+preinstall: modules_build/preinstall
 preinstall: log/preinstall
 preinstall: tmp/preinstall
 preinstall: command/preinstall
@@ -88,7 +93,10 @@ preinstall: Cam485Protocol/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
+clean: CMakeFiles/samples_lib.dir/clean
 clean: CMakeFiles/sample_camera_rst.dir/clean
+clean: common_build/clean
+clean: modules_build/clean
 clean: log/clean
 clean: tmp/clean
 clean: command/clean
@@ -146,6 +154,21 @@ command/clean: command/CMakeFiles/cli_command_lib.dir/clean
 .PHONY : command/clean
 
 #=============================================================================
+# Directory level rules for directory common_build
+
+# Recursive "all" directory target.
+common_build/all: common_build/CMakeFiles/src_common_lib.dir/all
+.PHONY : common_build/all
+
+# Recursive "preinstall" directory target.
+common_build/preinstall:
+.PHONY : common_build/preinstall
+
+# Recursive "clean" directory target.
+common_build/clean: common_build/CMakeFiles/src_common_lib.dir/clean
+.PHONY : common_build/clean
+
+#=============================================================================
 # Directory level rules for directory door_detect
 
 # Recursive "all" directory target.
@@ -189,6 +212,21 @@ modbus_task/preinstall:
 # Recursive "clean" directory target.
 modbus_task/clean: modbus_task/CMakeFiles/modbus_task_lib.dir/clean
 .PHONY : modbus_task/clean
+
+#=============================================================================
+# Directory level rules for directory modules_build
+
+# Recursive "all" directory target.
+modules_build/all: modules_build/CMakeFiles/src_modules_lib.dir/all
+.PHONY : modules_build/all
+
+# Recursive "preinstall" directory target.
+modules_build/preinstall:
+.PHONY : modules_build/preinstall
+
+# Recursive "clean" directory target.
+modules_build/clean: modules_build/CMakeFiles/src_modules_lib.dir/clean
+.PHONY : modules_build/clean
 
 #=============================================================================
 # Directory level rules for directory self_check
@@ -236,9 +274,38 @@ utils/clean: utils/CMakeFiles/utils_lib.dir/clean
 .PHONY : utils/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/samples_lib.dir
+
+# All Build rule for target.
+CMakeFiles/samples_lib.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=31,32 "Built target samples_lib"
+.PHONY : CMakeFiles/samples_lib.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/samples_lib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kxy/t23_signal_display/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/samples_lib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kxy/t23_signal_display/build/CMakeFiles 0
+.PHONY : CMakeFiles/samples_lib.dir/rule
+
+# Convenience name for target.
+samples_lib: CMakeFiles/samples_lib.dir/rule
+.PHONY : samples_lib
+
+# clean rule for target.
+CMakeFiles/samples_lib.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/clean
+.PHONY : CMakeFiles/samples_lib.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/sample_camera_rst.dir
 
 # All Build rule for target.
+CMakeFiles/sample_camera_rst.dir/all: CMakeFiles/samples_lib.dir/all
+CMakeFiles/sample_camera_rst.dir/all: common_build/CMakeFiles/src_common_lib.dir/all
+CMakeFiles/sample_camera_rst.dir/all: modules_build/CMakeFiles/src_modules_lib.dir/all
 CMakeFiles/sample_camera_rst.dir/all: log/CMakeFiles/log_lib.dir/all
 CMakeFiles/sample_camera_rst.dir/all: tmp/CMakeFiles/tmp_lib.dir/all
 CMakeFiles/sample_camera_rst.dir/all: command/CMakeFiles/cli_command_lib.dir/all
@@ -255,7 +322,7 @@ CMakeFiles/sample_camera_rst.dir/all: Cam485Protocol/CMakeFiles/Cam485Protocol_l
 
 # Build rule for subdir invocation for target.
 CMakeFiles/sample_camera_rst.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kxy/t23_signal_display/build/CMakeFiles 53
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kxy/t23_signal_display/build/CMakeFiles 67
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/sample_camera_rst.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/kxy/t23_signal_display/build/CMakeFiles 0
 .PHONY : CMakeFiles/sample_camera_rst.dir/rule
@@ -268,6 +335,58 @@ sample_camera_rst: CMakeFiles/sample_camera_rst.dir/rule
 CMakeFiles/sample_camera_rst.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sample_camera_rst.dir/build.make CMakeFiles/sample_camera_rst.dir/clean
 .PHONY : CMakeFiles/sample_camera_rst.dir/clean
+
+#=============================================================================
+# Target rules for target common_build/CMakeFiles/src_common_lib.dir
+
+# All Build rule for target.
+common_build/CMakeFiles/src_common_lib.dir/all:
+	$(MAKE) $(MAKESILENT) -f common_build/CMakeFiles/src_common_lib.dir/build.make common_build/CMakeFiles/src_common_lib.dir/depend
+	$(MAKE) $(MAKESILENT) -f common_build/CMakeFiles/src_common_lib.dir/build.make common_build/CMakeFiles/src_common_lib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=37,38,39,40,41 "Built target src_common_lib"
+.PHONY : common_build/CMakeFiles/src_common_lib.dir/all
+
+# Build rule for subdir invocation for target.
+common_build/CMakeFiles/src_common_lib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kxy/t23_signal_display/build/CMakeFiles 5
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 common_build/CMakeFiles/src_common_lib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kxy/t23_signal_display/build/CMakeFiles 0
+.PHONY : common_build/CMakeFiles/src_common_lib.dir/rule
+
+# Convenience name for target.
+src_common_lib: common_build/CMakeFiles/src_common_lib.dir/rule
+.PHONY : src_common_lib
+
+# clean rule for target.
+common_build/CMakeFiles/src_common_lib.dir/clean:
+	$(MAKE) $(MAKESILENT) -f common_build/CMakeFiles/src_common_lib.dir/build.make common_build/CMakeFiles/src_common_lib.dir/clean
+.PHONY : common_build/CMakeFiles/src_common_lib.dir/clean
+
+#=============================================================================
+# Target rules for target modules_build/CMakeFiles/src_modules_lib.dir
+
+# All Build rule for target.
+modules_build/CMakeFiles/src_modules_lib.dir/all:
+	$(MAKE) $(MAKESILENT) -f modules_build/CMakeFiles/src_modules_lib.dir/build.make modules_build/CMakeFiles/src_modules_lib.dir/depend
+	$(MAKE) $(MAKESILENT) -f modules_build/CMakeFiles/src_modules_lib.dir/build.make modules_build/CMakeFiles/src_modules_lib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=42,43,44,45,46,47,48 "Built target src_modules_lib"
+.PHONY : modules_build/CMakeFiles/src_modules_lib.dir/all
+
+# Build rule for subdir invocation for target.
+modules_build/CMakeFiles/src_modules_lib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kxy/t23_signal_display/build/CMakeFiles 7
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 modules_build/CMakeFiles/src_modules_lib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kxy/t23_signal_display/build/CMakeFiles 0
+.PHONY : modules_build/CMakeFiles/src_modules_lib.dir/rule
+
+# Convenience name for target.
+src_modules_lib: modules_build/CMakeFiles/src_modules_lib.dir/rule
+.PHONY : src_modules_lib
+
+# clean rule for target.
+modules_build/CMakeFiles/src_modules_lib.dir/clean:
+	$(MAKE) $(MAKESILENT) -f modules_build/CMakeFiles/src_modules_lib.dir/build.make modules_build/CMakeFiles/src_modules_lib.dir/clean
+.PHONY : modules_build/CMakeFiles/src_modules_lib.dir/clean
 
 #=============================================================================
 # Target rules for target log/CMakeFiles/log_lib.dir
@@ -302,7 +421,7 @@ log/CMakeFiles/log_lib.dir/clean:
 tmp/CMakeFiles/tmp_lib.dir/all:
 	$(MAKE) $(MAKESILENT) -f tmp/CMakeFiles/tmp_lib.dir/build.make tmp/CMakeFiles/tmp_lib.dir/depend
 	$(MAKE) $(MAKESILENT) -f tmp/CMakeFiles/tmp_lib.dir/build.make tmp/CMakeFiles/tmp_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=35,36,37,38,39,40,41,42,43,44,45,46 "Built target tmp_lib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=49,50,51,52,53,54,55,56,57,58,59,60 "Built target tmp_lib"
 .PHONY : tmp/CMakeFiles/tmp_lib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -354,7 +473,7 @@ command/CMakeFiles/cli_command_lib.dir/clean:
 utils/CMakeFiles/utils_lib.dir/all:
 	$(MAKE) $(MAKESILENT) -f utils/CMakeFiles/utils_lib.dir/build.make utils/CMakeFiles/utils_lib.dir/depend
 	$(MAKE) $(MAKESILENT) -f utils/CMakeFiles/utils_lib.dir/build.make utils/CMakeFiles/utils_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=47,48,49,50,51,52,53 "Built target utils_lib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=61,62,63,64,65,66,67 "Built target utils_lib"
 .PHONY : utils/CMakeFiles/utils_lib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -458,7 +577,7 @@ modbus_task/CMakeFiles/modbus_task_lib.dir/clean:
 self_check/CMakeFiles/self_check_lib.dir/all:
 	$(MAKE) $(MAKESILENT) -f self_check/CMakeFiles/self_check_lib.dir/build.make self_check/CMakeFiles/self_check_lib.dir/depend
 	$(MAKE) $(MAKESILENT) -f self_check/CMakeFiles/self_check_lib.dir/build.make self_check/CMakeFiles/self_check_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=31,32,33,34 "Built target self_check_lib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=33,34,35,36 "Built target self_check_lib"
 .PHONY : self_check/CMakeFiles/self_check_lib.dir/all
 
 # Build rule for subdir invocation for target.

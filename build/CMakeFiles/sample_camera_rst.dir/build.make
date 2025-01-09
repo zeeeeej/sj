@@ -73,15 +73,15 @@ CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o: CMakeFiles/sample_camera
 CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o: /home/kxy/t23_signal_display/samples/sample_camera_rst.c
 CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o: CMakeFiles/sample_camera_rst.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o"
-	/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o -MF CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o.d -o CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o -c /home/kxy/t23_signal_display/samples/sample_camera_rst.c
+	/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o -MF CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o.d -o CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o -c /home/kxy/t23_signal_display/samples/sample_camera_rst.c
 
 CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.i"
-	/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/sample_camera_rst.c > CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.i
+	/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/sample_camera_rst.c > CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.i
 
 CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.s"
-	/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/sample_camera_rst.c -o CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.s
+	/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/sample_camera_rst.c -o CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.s
 
 # Object files for target sample_camera_rst
 sample_camera_rst_OBJECTS = \
@@ -107,7 +107,11 @@ sample_camera_rst: Cam485Protocol/libCam485Protocol_lib.a
 sample_camera_rst: log/liblog_lib.a
 sample_camera_rst: tmp/libtmp_lib.a
 sample_camera_rst: command/libcli_command_lib.a
-sample_camera_rst: /home/kxy/t23_signal_display/libs/modbus/lib/libmodbus.a
+sample_camera_rst: common_build/libsrc_common_lib.a
+sample_camera_rst: libsamples_lib.a
+sample_camera_rst: modules_build/libsrc_modules_lib.a
+sample_camera_rst: /home/kxy/t23_signal_display/samples/../libs/ucamcore/lib/uclibc/libusbcamera.a
+sample_camera_rst: /home/kxy/t23_signal_display/samples/../libs/modbus/lib/libmodbus.a
 sample_camera_rst: CMakeFiles/sample_camera_rst.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable sample_camera_rst"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sample_camera_rst.dir/link.txt --verbose=$(VERBOSE)

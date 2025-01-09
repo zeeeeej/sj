@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsrc_modules_lib.a CMakeFiles/src_modules_lib.dir/module_config/module_config.c.o CMakeFiles/src_modules_lib.dir/module_ucamera/uac_control.c.o CMakeFiles/src_modules_lib.dir/module_ucamera/uvc_control.c.o
+/usr/bin/ranlib libsrc_modules_lib.a

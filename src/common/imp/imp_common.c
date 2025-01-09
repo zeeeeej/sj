@@ -207,7 +207,7 @@ int sample_system_init(void *param)
 	imp_ctx.sensor_width = sp->sensor_width;
 	imp_ctx.sensor_height = sp->sensor_height;
 
-	ivdc_mode = imp_param->ivdc_info.ivdc_mode;
+	//ivdc_mode = imp_param->ivdc_info.ivdc_mode;
 
 #ifdef OSD_ENABLE
 	if ( IPU_OSD == imp_param->osd_mode){

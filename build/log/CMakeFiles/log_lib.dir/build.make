@@ -73,29 +73,29 @@ log/CMakeFiles/log_lib.dir/circular_log.c.o: log/CMakeFiles/log_lib.dir/flags.ma
 log/CMakeFiles/log_lib.dir/circular_log.c.o: /home/kxy/t23_signal_display/samples/log/circular_log.c
 log/CMakeFiles/log_lib.dir/circular_log.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object log/CMakeFiles/log_lib.dir/circular_log.c.o"
-	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/circular_log.c.o -MF CMakeFiles/log_lib.dir/circular_log.c.o.d -o CMakeFiles/log_lib.dir/circular_log.c.o -c /home/kxy/t23_signal_display/samples/log/circular_log.c
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/circular_log.c.o -MF CMakeFiles/log_lib.dir/circular_log.c.o.d -o CMakeFiles/log_lib.dir/circular_log.c.o -c /home/kxy/t23_signal_display/samples/log/circular_log.c
 
 log/CMakeFiles/log_lib.dir/circular_log.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/circular_log.c.i"
-	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/circular_log.c > CMakeFiles/log_lib.dir/circular_log.c.i
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/circular_log.c > CMakeFiles/log_lib.dir/circular_log.c.i
 
 log/CMakeFiles/log_lib.dir/circular_log.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/circular_log.c.s"
-	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/circular_log.c -o CMakeFiles/log_lib.dir/circular_log.c.s
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/circular_log.c -o CMakeFiles/log_lib.dir/circular_log.c.s
 
 log/CMakeFiles/log_lib.dir/debug_logger.c.o: log/CMakeFiles/log_lib.dir/flags.make
 log/CMakeFiles/log_lib.dir/debug_logger.c.o: /home/kxy/t23_signal_display/samples/log/debug_logger.c
 log/CMakeFiles/log_lib.dir/debug_logger.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object log/CMakeFiles/log_lib.dir/debug_logger.c.o"
-	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/debug_logger.c.o -MF CMakeFiles/log_lib.dir/debug_logger.c.o.d -o CMakeFiles/log_lib.dir/debug_logger.c.o -c /home/kxy/t23_signal_display/samples/log/debug_logger.c
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/debug_logger.c.o -MF CMakeFiles/log_lib.dir/debug_logger.c.o.d -o CMakeFiles/log_lib.dir/debug_logger.c.o -c /home/kxy/t23_signal_display/samples/log/debug_logger.c
 
 log/CMakeFiles/log_lib.dir/debug_logger.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/debug_logger.c.i"
-	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/debug_logger.c > CMakeFiles/log_lib.dir/debug_logger.c.i
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/debug_logger.c > CMakeFiles/log_lib.dir/debug_logger.c.i
 
 log/CMakeFiles/log_lib.dir/debug_logger.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/debug_logger.c.s"
-	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/debug_logger.c -o CMakeFiles/log_lib.dir/debug_logger.c.s
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/debug_logger.c -o CMakeFiles/log_lib.dir/debug_logger.c.s
 
 # Object files for target log_lib
 log_lib_OBJECTS = \
