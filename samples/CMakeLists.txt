@@ -11,22 +11,23 @@ set (3dparty_DIR ${CMAKE_SOURCE_DIR}/../libs)
 set (SRC_DIR ${CMAKE_SOURCE_DIR}/../src)
 
 
-# 指定交叉编译器路径和相关配置
+# 指定交叉编译器路径和相关配置, 交叉编译器的是uclibc版本的
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR mips)
 
 # 指定工具链的路径
-set(CMAKE_C_COMPILER "/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc")
-set(CMAKE_CXX_COMPILER "/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-g++")
+set(CMAKE_C_COMPILER "/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc")
+set(CMAKE_CXX_COMPILER "/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-g++")
 
 # 指定工具链的其他相关目录
-set(CMAKE_FIND_ROOT_PATH "/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/")
+set(CMAKE_FIND_ROOT_PATH "/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/")
 
 # 设置搜索路径
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+
 
 # 在主CMakeLists.txt中定义全局包含目录变量
 set(COMMON_INCLUDE_DIRS
@@ -48,20 +49,26 @@ set(COMMON_INCLUDE_DIRS
     ${SRC_DIR}/include
     ${SRC_DIR}/common/imp
     ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/../src/common/include
+    ${CMAKE_SOURCE_DIR}/../src/include
     CACHE INTERNAL "Common include directories"  
 )
 
 include_directories(COMMON_INCLUDE_DIRS)
 include_directories(${COMMON_INCLUDE_DIRS})
 
-link_directories(${3dparty_DIR}/t23_sdk/lib/glibc)
+link_directories(${3dparty_DIR}/t23_sdk/lib/uclibc)
 
-find_library(MODBUS_LIB modbus PATHS ${3dparty_DIR}/modbus/lib)
-message(STATUS "Modbus Library: ${MODBUS_LIB}")
+# find_library(MODBUS_LIB modbus PATHS ${3dparty_DIR}/modbus/lib)
+# message(STATUS "Modbus Library: ${MODBUS_LIB}")
 
+add_library(samples_lib STATIC cm_config.h cm_config.c)
 
 
 # 添加子目录
+message(STATUS "Adding subdirectory: ${CMAKE_SOURCE_DIR}/../src/common")
+add_subdirectory(${CMAKE_SOURCE_DIR}/../src/common ${CMAKE_BINARY_DIR}/common_build)
+add_subdirectory(${CMAKE_SOURCE_DIR}/../src/modules ${CMAKE_BINARY_DIR}/modules_build)
 add_subdirectory(log)
 add_subdirectory(tmp)
 add_subdirectory(command)
@@ -91,12 +98,16 @@ target_link_libraries(sample_camera_rst
     log_lib
     tmp_lib
     cli_command_lib
-    ${MODBUS_LIB}
+    src_common_lib
+    samples_lib
     pthread
     alog
     imp
     sysutils
     rt
+    src_modules_lib
+    ${3dparty_DIR}/ucamcore/lib/uclibc/libusbcamera.a
+    ${3dparty_DIR}/modbus/lib/libmodbus.a
 )
 
 

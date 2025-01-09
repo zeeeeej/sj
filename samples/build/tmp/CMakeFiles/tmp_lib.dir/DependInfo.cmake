@@ -1,24 +1,46 @@
-
-# Consider dependencies only in project.
-set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
-
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
+  "C"
   )
+# The set of files for implicit dependencies of each language:
+set(CMAKE_DEPENDS_CHECK_C
+  "/home/kxy/t23_signal_display/samples/tmp/MessageDispatcher.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/MessageDispatcher.c.o"
+  "/home/kxy/t23_signal_display/samples/tmp/MessageDispaterPort.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/MessageDispaterPort.c.o"
+  "/home/kxy/t23_signal_display/samples/tmp/file_trans.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/file_trans.c.o"
+  "/home/kxy/t23_signal_display/samples/tmp/mem_pool.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/mem_pool.c.o"
+  "/home/kxy/t23_signal_display/samples/tmp/modbus_master.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/modbus_master.c.o"
+  "/home/kxy/t23_signal_display/samples/tmp/modbus_task.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/modbus_task.c.o"
+  "/home/kxy/t23_signal_display/samples/tmp/ota_process.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/ota_process.c.o"
+  "/home/kxy/t23_signal_display/samples/tmp/self_check_process.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/self_check_process.c.o"
+  "/home/kxy/t23_signal_display/samples/tmp/system_list.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/system_list.c.o"
+  "/home/kxy/t23_signal_display/samples/tmp/take_photo.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/take_photo.c.o"
+  "/home/kxy/t23_signal_display/samples/tmp/trans_door_image.c" "/home/kxy/t23_signal_display/samples/build/tmp/CMakeFiles/tmp_lib.dir/trans_door_image.c.o"
+  )
+set(CMAKE_C_COMPILER_ID "GNU")
 
-# The set of dependency files which are needed:
-set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/kxy/t23_signal_display/samples/tmp/MessageDispatcher.c" "tmp/CMakeFiles/tmp_lib.dir/MessageDispatcher.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/MessageDispatcher.c.o.d"
-  "/home/kxy/t23_signal_display/samples/tmp/MessageDispaterPort.c" "tmp/CMakeFiles/tmp_lib.dir/MessageDispaterPort.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/MessageDispaterPort.c.o.d"
-  "/home/kxy/t23_signal_display/samples/tmp/file_trans.c" "tmp/CMakeFiles/tmp_lib.dir/file_trans.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/file_trans.c.o.d"
-  "/home/kxy/t23_signal_display/samples/tmp/mem_pool.c" "tmp/CMakeFiles/tmp_lib.dir/mem_pool.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/mem_pool.c.o.d"
-  "/home/kxy/t23_signal_display/samples/tmp/modbus_master.c" "tmp/CMakeFiles/tmp_lib.dir/modbus_master.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/modbus_master.c.o.d"
-  "/home/kxy/t23_signal_display/samples/tmp/modbus_task.c" "tmp/CMakeFiles/tmp_lib.dir/modbus_task.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/modbus_task.c.o.d"
-  "/home/kxy/t23_signal_display/samples/tmp/ota_process.c" "tmp/CMakeFiles/tmp_lib.dir/ota_process.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/ota_process.c.o.d"
-  "/home/kxy/t23_signal_display/samples/tmp/self_check_process.c" "tmp/CMakeFiles/tmp_lib.dir/self_check_process.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/self_check_process.c.o.d"
-  "/home/kxy/t23_signal_display/samples/tmp/system_list.c" "tmp/CMakeFiles/tmp_lib.dir/system_list.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/system_list.c.o.d"
-  "/home/kxy/t23_signal_display/samples/tmp/take_photo.c" "tmp/CMakeFiles/tmp_lib.dir/take_photo.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/take_photo.c.o.d"
-  "/home/kxy/t23_signal_display/samples/tmp/trans_door_image.c" "tmp/CMakeFiles/tmp_lib.dir/trans_door_image.c.o" "gcc" "tmp/CMakeFiles/tmp_lib.dir/trans_door_image.c.o.d"
+# The include file search paths:
+set(CMAKE_C_TARGET_INCLUDE_PATH
+  "../COMMON_INCLUDE_DIRS"
+  "../door_detect"
+  "../modbus_task"
+  "../Peripheral"
+  "../self_check"
+  "../utils"
+  "../tmp"
+  "../log"
+  "../command"
+  "../Cam485Protocol"
+  "../Peripheral/camera"
+  "../Peripheral/wdt"
+  "../../libs/t23_sdk/include"
+  "../../libs/modbus/include"
+  "../../libs/ucamcore/include"
+  "../../libs/anticopy/include"
+  "../../src/include"
+  "../../src/common/imp"
+  "../"
+  "../../src/common/include"
+  "../Peripheral/uart"
   )
 
 # Targets to which this target links.

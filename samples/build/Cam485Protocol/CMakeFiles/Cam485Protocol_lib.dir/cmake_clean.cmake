@@ -1,10 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o"
-  "CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o.d"
   "CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o"
-  "CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o.d"
-  "libCam485Protocol_lib.a"
   "libCam485Protocol_lib.pdb"
+  "libCam485Protocol_lib.a"
 )
 
 # Per-language clean rules from dependency scanning.

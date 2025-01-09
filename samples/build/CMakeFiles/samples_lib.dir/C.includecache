@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../utils/cm_common.h
+
+../utils/cm_conf.h
+stdio.h
+-
+
+/home/kxy/t23_signal_display/samples/cm_config.c
+stdlib.h
+-
+unistd.h
+-
+cm_conf.h
+/home/kxy/t23_signal_display/samples/cm_conf.h
+cm_config.h
+/home/kxy/t23_signal_display/samples/cm_config.h
+cm_common.h
+/home/kxy/t23_signal_display/samples/cm_common.h
+
+/home/kxy/t23_signal_display/samples/cm_config.h
+

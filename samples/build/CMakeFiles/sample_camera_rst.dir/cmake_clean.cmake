@@ -1,8 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o"
-  "CMakeFiles/sample_camera_rst.dir/sample_camera_rst.c.o.d"
-  "sample_camera_rst"
   "sample_camera_rst.pdb"
+  "sample_camera_rst"
 )
 
 # Per-language clean rules from dependency scanning.

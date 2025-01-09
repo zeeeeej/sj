@@ -1,10 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/log_lib.dir/circular_log.c.o"
-  "CMakeFiles/log_lib.dir/circular_log.c.o.d"
   "CMakeFiles/log_lib.dir/debug_logger.c.o"
-  "CMakeFiles/log_lib.dir/debug_logger.c.o.d"
-  "liblog_lib.a"
   "liblog_lib.pdb"
+  "liblog_lib.a"
 )
 
 # Per-language clean rules from dependency scanning.

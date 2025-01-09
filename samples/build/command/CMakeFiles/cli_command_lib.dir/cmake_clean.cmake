@@ -1,8 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/cli_command_lib.dir/cli_command.c.o"
-  "CMakeFiles/cli_command_lib.dir/cli_command.c.o.d"
-  "libcli_command_lib.a"
   "libcli_command_lib.pdb"
+  "libcli_command_lib.a"
 )
 
 # Per-language clean rules from dependency scanning.
