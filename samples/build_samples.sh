@@ -1,5 +1,7 @@
 #!/bin/bash
 
+TOOLCHAIN_PATH="/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller"
+
 PROJECT_DIR=$(pwd)
 
 # 构建目录
@@ -14,9 +16,9 @@ fi
 cd "$BUILD_DIR"
 
 # 设置 CMake 编译器和工具链,版本:uclibc0.9.33.2-64bit-r3.3.0.smaller
-export PATH=/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin:$PATH
-export CC=/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc
-export CXX=/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-gnu-g++
+export PATH="$TOOLCHAIN_PATH/bin:$PATH"
+export CC="$TOOLCHAIN_PATH/bin/mips-linux-gnu-gcc"
+export CXX="$TOOLCHAIN_PATH/bin/mips-linux-gnu-g++"
 
 CMAKE_BUILD_TYPE="Release"  # 可以修改为 Debug
 

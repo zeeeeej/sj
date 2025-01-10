@@ -60,15 +60,15 @@ include door_detect/CMakeFiles/door_detect_lib.dir/flags.make
 door_detect/CMakeFiles/door_detect_lib.dir/door_detect.c.o: door_detect/CMakeFiles/door_detect_lib.dir/flags.make
 door_detect/CMakeFiles/door_detect_lib.dir/door_detect.c.o: ../door_detect/door_detect.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object door_detect/CMakeFiles/door_detect_lib.dir/door_detect.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/door_detect && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/door_detect_lib.dir/door_detect.c.o   -c /home/kxy/t23_signal_display/samples/door_detect/door_detect.c
+	cd /home/kxy/t23_signal_display/samples/build/door_detect && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/door_detect_lib.dir/door_detect.c.o   -c /home/kxy/t23_signal_display/samples/door_detect/door_detect.c
 
 door_detect/CMakeFiles/door_detect_lib.dir/door_detect.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/door_detect_lib.dir/door_detect.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/door_detect && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/door_detect/door_detect.c > CMakeFiles/door_detect_lib.dir/door_detect.c.i
+	cd /home/kxy/t23_signal_display/samples/build/door_detect && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/door_detect/door_detect.c > CMakeFiles/door_detect_lib.dir/door_detect.c.i
 
 door_detect/CMakeFiles/door_detect_lib.dir/door_detect.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/door_detect_lib.dir/door_detect.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/door_detect && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/door_detect/door_detect.c -o CMakeFiles/door_detect_lib.dir/door_detect.c.s
+	cd /home/kxy/t23_signal_display/samples/build/door_detect && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/door_detect/door_detect.c -o CMakeFiles/door_detect_lib.dir/door_detect.c.s
 
 door_detect/CMakeFiles/door_detect_lib.dir/door_detect.c.o.requires:
 

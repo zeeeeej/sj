@@ -266,7 +266,7 @@ int HnadleGetPictureInfo(uint8_t *msg_buf, uint16_t msg_len)
 
     send_msg_resp(response, index);
 
-    return 0;
+    return index;
 }
 
 int HandleTakePhoto(uint8_t *msg_buf, uint16_t msg_len)
@@ -297,7 +297,7 @@ int HandleTakePhoto(uint8_t *msg_buf, uint16_t msg_len)
     response[index++] = ret;
     send_msg_resp(response, index);
     pic_num++;
-    return 0;
+    return index;
 }
 
 int HandelCameraRoot(uint8_t *msg_buf, uint16_t msg_len)
@@ -322,5 +322,5 @@ int HandelCameraRoot(uint8_t *msg_buf, uint16_t msg_len)
     response[index++] = 0x00;
     response[index++] = ret;
     send_msg_resp(response, index);
-    return 0;
+    return index;
 }

@@ -60,15 +60,15 @@ include Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
 Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
 Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o: ../Cam485Protocol/Heartbeat.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o   -c /home/kxy/t23_signal_display/samples/Cam485Protocol/Heartbeat.c
+	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o   -c /home/kxy/t23_signal_display/samples/Cam485Protocol/Heartbeat.c
 
 Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/Heartbeat.c > CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.i
+	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/Heartbeat.c > CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.i
 
 Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/Heartbeat.c -o CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.s
+	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/Heartbeat.c -o CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.s
 
 Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o.requires:
 
@@ -84,15 +84,15 @@ Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o.provides.build: C
 Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
 Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o: ../Cam485Protocol/SendPhoto.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o   -c /home/kxy/t23_signal_display/samples/Cam485Protocol/SendPhoto.c
+	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o   -c /home/kxy/t23_signal_display/samples/Cam485Protocol/SendPhoto.c
 
 Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/SendPhoto.c > CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.i
+	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/SendPhoto.c > CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.i
 
 Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/SendPhoto.c -o CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.s
+	cd /home/kxy/t23_signal_display/samples/build/Cam485Protocol && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/SendPhoto.c -o CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.s
 
 Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o.requires:
 

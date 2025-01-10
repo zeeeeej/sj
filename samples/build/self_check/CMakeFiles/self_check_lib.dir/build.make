@@ -60,15 +60,15 @@ include self_check/CMakeFiles/self_check_lib.dir/flags.make
 self_check/CMakeFiles/self_check_lib.dir/cam_self_check.c.o: self_check/CMakeFiles/self_check_lib.dir/flags.make
 self_check/CMakeFiles/self_check_lib.dir/cam_self_check.c.o: ../self_check/cam_self_check.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object self_check/CMakeFiles/self_check_lib.dir/cam_self_check.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/self_check_lib.dir/cam_self_check.c.o   -c /home/kxy/t23_signal_display/samples/self_check/cam_self_check.c
+	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/self_check_lib.dir/cam_self_check.c.o   -c /home/kxy/t23_signal_display/samples/self_check/cam_self_check.c
 
 self_check/CMakeFiles/self_check_lib.dir/cam_self_check.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/self_check_lib.dir/cam_self_check.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/self_check/cam_self_check.c > CMakeFiles/self_check_lib.dir/cam_self_check.c.i
+	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/self_check/cam_self_check.c > CMakeFiles/self_check_lib.dir/cam_self_check.c.i
 
 self_check/CMakeFiles/self_check_lib.dir/cam_self_check.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/self_check_lib.dir/cam_self_check.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/self_check/cam_self_check.c -o CMakeFiles/self_check_lib.dir/cam_self_check.c.s
+	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/self_check/cam_self_check.c -o CMakeFiles/self_check_lib.dir/cam_self_check.c.s
 
 self_check/CMakeFiles/self_check_lib.dir/cam_self_check.c.o.requires:
 
@@ -84,15 +84,15 @@ self_check/CMakeFiles/self_check_lib.dir/cam_self_check.c.o.provides.build: self
 self_check/CMakeFiles/self_check_lib.dir/gyro_self_check.c.o: self_check/CMakeFiles/self_check_lib.dir/flags.make
 self_check/CMakeFiles/self_check_lib.dir/gyro_self_check.c.o: ../self_check/gyro_self_check.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object self_check/CMakeFiles/self_check_lib.dir/gyro_self_check.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/self_check_lib.dir/gyro_self_check.c.o   -c /home/kxy/t23_signal_display/samples/self_check/gyro_self_check.c
+	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/self_check_lib.dir/gyro_self_check.c.o   -c /home/kxy/t23_signal_display/samples/self_check/gyro_self_check.c
 
 self_check/CMakeFiles/self_check_lib.dir/gyro_self_check.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/self_check_lib.dir/gyro_self_check.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/self_check/gyro_self_check.c > CMakeFiles/self_check_lib.dir/gyro_self_check.c.i
+	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/self_check/gyro_self_check.c > CMakeFiles/self_check_lib.dir/gyro_self_check.c.i
 
 self_check/CMakeFiles/self_check_lib.dir/gyro_self_check.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/self_check_lib.dir/gyro_self_check.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/self_check/gyro_self_check.c -o CMakeFiles/self_check_lib.dir/gyro_self_check.c.s
+	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/self_check/gyro_self_check.c -o CMakeFiles/self_check_lib.dir/gyro_self_check.c.s
 
 self_check/CMakeFiles/self_check_lib.dir/gyro_self_check.c.o.requires:
 
@@ -108,15 +108,15 @@ self_check/CMakeFiles/self_check_lib.dir/gyro_self_check.c.o.provides.build: sel
 self_check/CMakeFiles/self_check_lib.dir/self_check.c.o: self_check/CMakeFiles/self_check_lib.dir/flags.make
 self_check/CMakeFiles/self_check_lib.dir/self_check.c.o: ../self_check/self_check.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/samples/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object self_check/CMakeFiles/self_check_lib.dir/self_check.c.o"
-	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/self_check_lib.dir/self_check.c.o   -c /home/kxy/t23_signal_display/samples/self_check/self_check.c
+	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/self_check_lib.dir/self_check.c.o   -c /home/kxy/t23_signal_display/samples/self_check/self_check.c
 
 self_check/CMakeFiles/self_check_lib.dir/self_check.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/self_check_lib.dir/self_check.c.i"
-	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/self_check/self_check.c > CMakeFiles/self_check_lib.dir/self_check.c.i
+	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/self_check/self_check.c > CMakeFiles/self_check_lib.dir/self_check.c.i
 
 self_check/CMakeFiles/self_check_lib.dir/self_check.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/self_check_lib.dir/self_check.c.s"
-	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/self_check/self_check.c -o CMakeFiles/self_check_lib.dir/self_check.c.s
+	cd /home/kxy/t23_signal_display/samples/build/self_check && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller/bin/mips-linux-gnu-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/self_check/self_check.c -o CMakeFiles/self_check_lib.dir/self_check.c.s
 
 self_check/CMakeFiles/self_check_lib.dir/self_check.c.o.requires:
 
