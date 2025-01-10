@@ -73,15 +73,15 @@ command/CMakeFiles/cli_command_lib.dir/cli_command.c.o: command/CMakeFiles/cli_c
 command/CMakeFiles/cli_command_lib.dir/cli_command.c.o: /home/kxy/t23_signal_display/samples/command/cli_command.c
 command/CMakeFiles/cli_command_lib.dir/cli_command.c.o: command/CMakeFiles/cli_command_lib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object command/CMakeFiles/cli_command_lib.dir/cli_command.c.o"
-	cd /home/kxy/t23_signal_display/build/command && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT command/CMakeFiles/cli_command_lib.dir/cli_command.c.o -MF CMakeFiles/cli_command_lib.dir/cli_command.c.o.d -o CMakeFiles/cli_command_lib.dir/cli_command.c.o -c /home/kxy/t23_signal_display/samples/command/cli_command.c
+	cd /home/kxy/t23_signal_display/build/command && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT command/CMakeFiles/cli_command_lib.dir/cli_command.c.o -MF CMakeFiles/cli_command_lib.dir/cli_command.c.o.d -o CMakeFiles/cli_command_lib.dir/cli_command.c.o -c /home/kxy/t23_signal_display/samples/command/cli_command.c
 
 command/CMakeFiles/cli_command_lib.dir/cli_command.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/cli_command_lib.dir/cli_command.c.i"
-	cd /home/kxy/t23_signal_display/build/command && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/command/cli_command.c > CMakeFiles/cli_command_lib.dir/cli_command.c.i
+	cd /home/kxy/t23_signal_display/build/command && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/command/cli_command.c > CMakeFiles/cli_command_lib.dir/cli_command.c.i
 
 command/CMakeFiles/cli_command_lib.dir/cli_command.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/cli_command_lib.dir/cli_command.c.s"
-	cd /home/kxy/t23_signal_display/build/command && /home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/command/cli_command.c -o CMakeFiles/cli_command_lib.dir/cli_command.c.s
+	cd /home/kxy/t23_signal_display/build/command && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/command/cli_command.c -o CMakeFiles/cli_command_lib.dir/cli_command.c.s
 
 # Object files for target cli_command_lib
 cli_command_lib_OBJECTS = \

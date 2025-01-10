@@ -1,0 +1,228 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "common_build/libsrc_common_lib.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"include_directories",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"/home/kxy/t23_signal_display/src/common/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 1,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 56,
+				"parent" : 2
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 57,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 16,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/home/kxy/t23_signal_display/samples/COMMON_INCLUDE_DIRS"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/door_detect"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/modbus_task"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/self_check"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/utils"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/tmp"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/log"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/command"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/Cam485Protocol"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/camera"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/wdt"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../libs/t23_sdk/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../libs/modbus/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../libs/ucamcore/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../libs/anticopy/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../src/include"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../src/common/imp"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/../src/common/include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/usb"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/uart"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3
+			]
+		}
+	],
+	"id" : "src_common_lib::@d8641b722d0b0e31e38c",
+	"name" : "src_common_lib",
+	"nameOnDisk" : "libsrc_common_lib.a",
+	"paths" : 
+	{
+		"build" : "common_build",
+		"source" : "/home/kxy/t23_signal_display/src/common"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				4
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/kxy/t23_signal_display/src/common/load_config.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/kxy/t23_signal_display/src/common/imp/imp_audio_ctl.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/kxy/t23_signal_display/src/common/imp/imp_common.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "/home/kxy/t23_signal_display/src/common/imp/imp_video_ctl.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "/home/kxy/t23_signal_display/src/common/imp/imp-common.h",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}
