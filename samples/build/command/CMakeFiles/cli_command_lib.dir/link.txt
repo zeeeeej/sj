@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcli_command_lib.a  CMakeFiles/cli_command_lib.dir/cli_command.c.o
-/usr/bin/ranlib libcli_command_lib.a

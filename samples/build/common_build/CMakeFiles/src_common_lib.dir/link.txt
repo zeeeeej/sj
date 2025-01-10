@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsrc_common_lib.a  CMakeFiles/src_common_lib.dir/load_config.c.o CMakeFiles/src_common_lib.dir/imp/imp_audio_ctl.c.o CMakeFiles/src_common_lib.dir/imp/imp_common.c.o CMakeFiles/src_common_lib.dir/imp/imp_video_ctl.c.o
-/usr/bin/ranlib libsrc_common_lib.a

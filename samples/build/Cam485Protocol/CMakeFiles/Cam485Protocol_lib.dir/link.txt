@@ -1,2 +1,0 @@
-/usr/bin/ar qc libCam485Protocol_lib.a  CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o
-/usr/bin/ranlib libCam485Protocol_lib.a

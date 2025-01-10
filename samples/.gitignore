@@ -1,0 +1,32 @@
+# 忽略生成的构建目录
+/build/
+
+# 忽略 CMake 生成的缓存文件
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# 忽略日志文件
+*.log
+
+# 忽略二进制文件
+*.o
+*.so
+*.a
+*.out
+*.exe
+*.elf
+
+# 忽略临时文件
+*.swp
+*.tmp
+*.bak
+*.~*
+
+# 忽略系统文件
+.DS_Store
+Thumbs.db
+
+# 忽略工具链文件（如果需要手动生成）
+toolchain.cmake
