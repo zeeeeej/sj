@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TOOLCHAIN_PATH="/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller"
+TOOLCHAIN_ROOT=$(realpath "$(dirname "$0")/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller")
 
 PROJECT_DIR=$(pwd)
 

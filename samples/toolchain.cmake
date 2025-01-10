@@ -1,11 +1,10 @@
-set(TOOLCHAIN_ROOT "/home/kxy/T23_Tool/ISVP-T23-1.1.2-20240204/software/zh/Ingenic-SDK-T23-1.1.2-20240204-zh/resource/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller")
-
+set(TOOLCHAIN_ROOT ${CMAKE_SOURCE_DIR}/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller)
 # 指定交叉编译器路径和相关配置
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR mips)
 
-set(CMAKE_C_COMPILER "${TOOLCHAIN_ROOT}/bin/mips-linux-gnu-gcc")
-set(CMAKE_CXX_COMPILER "${TOOLCHAIN_ROOT}/bin/mips-linux-gnu-g++")
+set(CMAKE_C_COMPILER "${TOOLCHAIN_ROOT}/bin/mips-linux-uclibc-gcc")
+set(CMAKE_CXX_COMPILER "${TOOLCHAIN_ROOT}/bin/mips-linux-uclibc-g++")
 set(CMAKE_FIND_ROOT_PATH "${TOOLCHAIN_ROOT}")
 
 # 设置搜索路径

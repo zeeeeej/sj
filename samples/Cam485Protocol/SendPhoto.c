@@ -40,7 +40,7 @@ int PackGetPictureResponse(uint8_t *msg_buf, uint16_t buf_size, uint8_t photo_le
     return index;
 }
 
-int HandlePhotoRequest(const uint8_t *msg_buf, uint16_t msg_len)
+int HandlePhotoRequest(uint8_t *msg_buf, uint16_t msg_len)
 {
     GetPictureRequest_t req;
     if (ParseGetPictureRequest(msg_buf, msg_len, &req) != 0) 

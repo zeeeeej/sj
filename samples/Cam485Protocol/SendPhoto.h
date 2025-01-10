@@ -76,7 +76,7 @@ static uint8_t pic_num = 1;
 
 int ParseGetPictureRequest(const uint8_t *msg_buf, uint16_t msg_len,GetPictureRequest_t *req);
 int PackGetPictureResponse(uint8_t *msg_buf, uint16_t buf_size, uint8_t photo_len,const uint8_t result, const uint8_t *photo_data);
-int HandlePhotoRequest(const uint8_t *msg_buf, uint16_t msg_len);
+int HandlePhotoRequest(uint8_t *msg_buf, uint16_t msg_len);
 int HandleIsTakePhotoFinshi(uint8_t *msg_buf, uint16_t msg_len);
 int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len);
 int DeletePicture(const uint8_t pic_id);
