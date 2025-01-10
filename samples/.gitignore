@@ -28,5 +28,5 @@ Makefile
 .DS_Store
 Thumbs.db
 
-# 忽略工具链文件（如果需要手动生成）
-toolchain.cmake
+# # 忽略工具链文件（如果需要手动生成）
+# toolchain.cmake
