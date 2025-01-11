@@ -7,7 +7,8 @@
 #include "sys/stat.h"
 #include "unistd.h"
 #include "circular_log.h"
-#include "CommonInterface.h"
+#include "MsgDispatcher.h"
+#include "cm_common.h"
 
 #define MD5_SIZE 16
 #define MAX_PIC_NUM 10
@@ -59,8 +60,8 @@ typedef struct {
 } GetPictureInfoResponse_t;
 
 
-#define TAKE_PHOTO_TMP_DIR "/tmp/take_photo"
-#define TAKE_PHOTO_TMP_FILE TAKE_PHOTO_TMP_DIR "/photo.jpg"
+#define TAKE_PHOTO_TMP_DIR "/tmp/act_trigger"
+#define TAKE_PHOTO_TMP_FILE TAKE_PHOTO_TMP_DIR "/image.jpg"
 #define TAKE_PHOTO_BUFFER_SIZE 8192
 #define PHOTO_STORAGE_DIR "/tmp/camera"
 #define PHOTO_FILE_PATH "/tmp/camera/current.jpg"
@@ -78,7 +79,17 @@ int ParseGetPictureRequest(const uint8_t *msg_buf, uint16_t msg_len,GetPictureRe
 int PackGetPictureResponse(uint8_t *msg_buf, uint16_t buf_size, uint8_t photo_len,const uint8_t result, const uint8_t *photo_data);
 int HandlePhotoRequest(uint8_t *msg_buf, uint16_t msg_len);
 int HandleIsTakePhotoFinshi(uint8_t *msg_buf, uint16_t msg_len);
+
+
+
+int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len);
 int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len);
+
+
+
+
+
+
 int DeletePicture(const uint8_t pic_id);
 int HnadleGetPictureInfo(uint8_t *msg_buf, uint16_t msg_len);
 int HandleTakePhoto(uint8_t *msg_buf, uint16_t msg_len);

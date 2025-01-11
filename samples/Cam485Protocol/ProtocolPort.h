@@ -8,7 +8,9 @@
 #define PACK_HEADER 
 #define PACK_HEADER_LEN         
 
-#define PACKET_TOTAL_LEN        
-void request_take_photo(char *file_name);
+#define PACKET_TOTAL_LEN   
+#include <stdint.h>
+
+uint8_t request_take_photo(char *file_name);
 
 #endif

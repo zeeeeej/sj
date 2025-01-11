@@ -46,6 +46,11 @@ static int SID06_BuildMsgHeader(uint8_t *msg_buf, uint16_t msg_dlc)
     msg_buf[index++] = (uint8_t)((msg_dlc >> 24) & 0xFF); // High byte
 }
 
+static int SID06_BuildMsgResp(uint8_t *msg_buf, uint16_t msg_dlc)
+{
+
+}
+
 int SID06_ActiveScreenshot(uint8_t *msg_buf, uint16_t msg_dlc)
 {
     int ret = 0;

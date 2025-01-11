@@ -137,31 +137,62 @@ int HandleIsTakePhotoFinshi(uint8_t *msg_buf, uint16_t msg_len)
     return 0;
 }
 
-int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len)
+int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len)
 {
     if (msg_buf == NULL || msg_len < 8) 
     {
         LOGD("DeletePhoto Invalid message buffer\n");
         return -1;
     }
-    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x08 || msg_buf[3] != 0x01) 
-    {
-        LOGD("DeletePhoto Invalid message header\n");
+    if (msg_buf[2] < 0x01 || msg_buf[2] > 0x10) {
+        LOGD("Invalid slave address\n");
         return -1;
     }
-    int ret = DeletePicture(msg_buf[4]);
-    uint8_t response[1024] = {0};  
+    const uint8_t *data = &msg_buf[8];
+
+    // 数据段长度直接从帧的长度推算：去掉帧头和校验的长度
+    uint16_t data_length = msg_len - 8 - 2; // 8字节头部 + 1字节校验
+
+    printf("Data length: %d\n", data_length);
+    printf("Data segment: ");
+    for (uint16_t i = 0; i < data_length; i++) {
+        printf("0x%02X ", data[i]);
+    }
+    printf("\n");
+    return data_length;
+}
+
+int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len)
+{
+    int datalen = checkDeletePhoto(msg_buf, msg_len);
+    uint8_t *data = &msg_buf[8];
+    LOGD("Received data:");
+    for (int i = 0; i < datalen; i++) {
+        printf("%02X ", data[i]);
+    }
+    printf("\n");
+
+    // 执行删除操作
+    int ret = DeletePicture(data[0]); // 假设数据的第1字节是照片ID
+    uint8_t response[1024] = {0};
     uint16_t index = 0;
 
+    // 构造响应帧
     response[index++] = 0xAA;  // 帧头
     response[index++] = 0x5A;
+    response[index++] = 0x01;
     response[index++] = 0x08;  // 主命令
     response[index++] = 0x01;  // 子命令
-    response[index++] = ret;   // 返回值
+    response[index++] = 0x00;  // 子命令
+    response[index++] = 0x00;  // 子命令
+    response[index++] = 0x00;  // 子命令
+    response[index++] = (ret == 0) ? 0x00 : 0x01; // 返回值：0x00成功，0x01失败
+
+    // 发送响应帧
     send_msg_resp(response, index);
-    if (ret != 0) 
-    {
-        LOGD("Failed to delete photo,ret[-1]\n");
+
+    if (ret != 0) {
+        LOGD("Failed to delete photo, ret[%d]\n", ret);
         return -1;
     }
     return 0;

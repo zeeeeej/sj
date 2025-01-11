@@ -8,7 +8,11 @@
 #define SID_NUM       16     // 当前共支持 16 个服务
 
 #define SID_01        (0x01) /* 心跳 */
+
 #define SID_06        (0x06) /* 主动抓图 */
+#define SID_08		  (0x08) /* 删除图片 */
+#define SID_09        (0x09) /* 获取图片信息 */
+
 
 typedef struct 
 {
