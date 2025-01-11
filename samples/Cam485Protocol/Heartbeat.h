@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include "CommonInterface.h"
+
 
 //主地址与从地址
 #define CMD_HEARTBEAT 0x01

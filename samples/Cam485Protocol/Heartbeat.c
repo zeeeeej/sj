@@ -1,5 +1,6 @@
 #include "Heartbeat.h"
 #include "cm_common.h"
+#include "MsgDispatcher.h"
 int SID01_HeartBeat(uint8_t *msg_buf, uint16_t msg_dlc)
 {
     int ret = SID01_CheckHeartBeat(msg_buf, msg_dlc);
@@ -7,11 +8,29 @@ int SID01_HeartBeat(uint8_t *msg_buf, uint16_t msg_dlc)
     {
         return -1;
     }
-
+    int index = -1;
+    int seq = 0;
+    char rsp_buf[64] = {0};
     //合法，则构建回复数据帧
-    msg_buf[4] = (msg_buf[4] + 1) & 0xFF;
-    msg_buf[5] = 0x00;
-    send_msg_resp(msg_buf, HEART_FRAME_SIZE);
+    rsp_buf[index++] = 0xAA;
+    rsp_buf[index++] = 0x5A;
+    rsp_buf[index++] = 0x01;
+    rsp_buf[index++] = 0x01;
+
+    rsp_buf[index++] = 0x01;
+    rsp_buf[index++] = 0x00;
+    rsp_buf[index++] = 0x00;
+    rsp_buf[index++] = 0x00;
+
+    seq = msg_buf[8];
+
+
+    rsp_buf[index++] = seq++;
+    rsp_buf[index++] = 0x7F;
+    rsp_buf[index++] = 0xEA;
+
+    LOGD("send heart beat resp\n");
+    send_msg_resp(rsp_buf, HEART_FRAME_SIZE);
     return 0;
 }
 
@@ -37,13 +56,13 @@ int SID01_CheckHeartBeat(const uint8_t *msg_buf, uint16_t msg_dlc)
         return -3;
     }
 
-    for (int i = 5; i < 9; i++) 
-    {
-        if (msg_buf[i] != 0x00) 
-        {
-            LOGD("SID01_CheckHeartBeat: reserved error\n");
-            return -4; 
-        }
-    }
+    // for (int i = 5; i < 9; i++) 
+    // {
+    //     if (msg_buf[i] != 0x00) 
+    //     {
+    //         LOGD("SID01_CheckHeartBeat: reserved error\n");
+    //         return -4; 
+    //     }
+    // }
     return 0;
 }
