@@ -15,6 +15,16 @@ add_library(Cam485Protocol_lib STATIC
     SID06_ActiveScreenshot.c
     ProtocolPort.h
     ProtocolPort.c
+    SID07_QueryPhotoInfo.c
+    SID07_QueryPhotoInfo.h
+    SID09_GetPhoto.c
+    SID09_GetPhoto.h
+    ProtocolPort.c
+    ProtocolPort.h
+    ImageInfoList.c
+    ImageInfoList.h
+    md5.c
+    md5.h
 )
 
 target_include_directories(Cam485Protocol_lib PUBLIC ${CMAKE_SOURCE_DIR}/Cam485Protocol

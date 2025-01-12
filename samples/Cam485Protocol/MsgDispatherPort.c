@@ -1,6 +1,6 @@
 
 #include "cm_uart.h"
-#include "MessageDispaterPort.h"
+#include "MsgDispatherPort.h"
 #include "MsgDispatcher.h"
 #include "cm_common.h"
 
@@ -16,7 +16,7 @@
 #include "termios.h"
 static char *dev = "/dev/ttyS0";
 static int uart_fd;
-
+static pthread_mutex_t uart_mutex = PTHREAD_MUTEX_INITIALIZER;
 static int enable_uart_recv()
 {
     int ret = system("echo 0 > /sys/class/gpio/gpio53/value");
@@ -117,19 +117,53 @@ static int close_uart()
 
 static int uart_recv(unsigned char *data, int len)
 {
-    enable_uart_recv();
-    return cm_uart_recv_simple(uart_fd, data, len);
+    // 加锁
+    pthread_mutex_lock(&uart_mutex);
+
+    int ret = enable_uart_recv();
+    if (ret != 0)
+    {
+        // 解锁并返回错误
+        pthread_mutex_unlock(&uart_mutex);
+        return ret;
+    }
+
+    ret = cm_uart_recv_simple(uart_fd, data, len);
+
+    // 解锁
+    pthread_mutex_unlock(&uart_mutex);
+
+    return ret;
 }
 
 static int uart_send(unsigned char *data, int len)
 {
-    enable_uart_send();
-    return cm_uart_send_until(uart_fd, data, len);
+    // 加锁
+    pthread_mutex_lock(&uart_mutex);
+
+    int ret = enable_uart_send();
+    if (ret != 0)
+    {
+        // 解锁并返回错误
+        LOGD("enable_uart_send error");
+        pthread_mutex_unlock(&uart_mutex);
+        return ret;
+    }
+
+    ret = cm_uart_send_until(uart_fd, data, len);
+
+    // // 刷新发送缓冲区
+    // if (ret >= 0) {
+    //     // TCIOFLUSH 清除输入和输出队列
+    //     // TCOFLUSH 只清除输出队列
+    //     tcflush(uart_fd, TCOFLUSH); // 仅刷新发送缓冲区
+    //     // 或者使用 tcflush(uart_fd, TCIOFLUSH); // 清除输入和输出队列
+    // }
+    // 解锁
+    pthread_mutex_unlock(&uart_mutex);
+
+    return ret;
 }
-
-
-
-
 
 DataTransInterface uart_interface = 
 {

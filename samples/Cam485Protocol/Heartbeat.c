@@ -8,7 +8,7 @@ int SID01_HeartBeat(uint8_t *msg_buf, uint16_t msg_dlc)
     {
         return -1;
     }
-    int index = -1;
+    int index = 0;
     int seq = 0;
     char rsp_buf[64] = {0};
     //合法，则构建回复数据帧
@@ -23,9 +23,12 @@ int SID01_HeartBeat(uint8_t *msg_buf, uint16_t msg_dlc)
     rsp_buf[index++] = 0x00;
 
     seq = msg_buf[8];
-
-
-    rsp_buf[index++] = seq++;
+    seq = seq+1;
+    if(seq == 255)
+    {
+        seq = 0;
+    }
+    rsp_buf[index++] = seq;
     rsp_buf[index++] = 0x7F;
     rsp_buf[index++] = 0xEA;
 

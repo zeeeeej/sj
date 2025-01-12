@@ -11,9 +11,8 @@
 
 #define SID_06        (0x06) /* 主动抓图 */
 #define SID_08		  (0x08) /* 删除图片 */
-#define SID_09        (0x09) /* 获取图片信息 */
-
-
+#define SID_07		  (0x07) /*查询存储的图片信息*/	
+#define SID_09		  (0x09) /*获取图片*/
 typedef struct 
 {
     uint8_t sid;									// 数据帧id

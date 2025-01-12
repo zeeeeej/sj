@@ -26,6 +26,7 @@
 #include "cli_command.h"
 #include "debug_logger.h"
 #include "MsgDispatcher.h"
+#include "ProtocolPort.h"
 #define TAG_NAME "[MAIN]"
 static int b_exited = 0;
 static pthread_t hmi_srv_tid = 0;
@@ -130,6 +131,7 @@ int main(int argc, char *argv[])
 
 
     cm_config_load();
+    Protocol_Init();
     Cam485ProtocolInit();
     // wind_connect_up_start();
     door_init();

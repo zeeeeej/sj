@@ -22,15 +22,7 @@ typedef struct {
     uint8_t md5[MD5_SIZE];   // 图片的MD5校验值 (16字节)
 } PicInfo_t;
 
-typedef struct {
-    uint8_t header[2];        // 帧头，例如 0xAA 0x5A
-    uint8_t command;          // 主命令，固定为 0x09
-    uint8_t sub_command;      // 子命令，例如 0x01 表示获取图片
-    uint8_t pic_id;           // 图片 ID
-    uint32_t offset;          // 偏移量，从图片数据的第 offset 字节开始读取
-    uint32_t read_len;        // 读取的字节数
-    uint16_t checksum;        // 校验和
-} GetPictureRequest_t;
+
 
 
 typedef struct {

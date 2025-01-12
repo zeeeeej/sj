@@ -1,10 +1,10 @@
 /*主动拍照*/
-#include "Heartbeat.h"
 #include "cm_common.h"
 
 #include "stdbool.h"
 #include "SID06_ActiveScreenshot.h"
 #include "ProtocolPort.h"
+#include "ImageInfoList.h"
 /*主动抓图的id值*/
 /*开关门触发的id值*/
 /*这两个是否冲突*
@@ -20,22 +20,22 @@ static uint8_t get_image_id()
     }
 }
 
-bool SID06_ActiveScreenshot_check_len(const uint8_t *msg_buf, uint16_t msg_dlc)
+int SID06_ActiveScreenshotCheck(const uint8_t *msg_buf, uint32_t msg_dlc)
 {
-    bool ret = -1;
+    int ret = 0;
 
     (void)msg_buf;
-    if (msg_dlc != 2)
-        ret = 0;
+    if (msg_dlc != SID06_MSG_REQ_TOTAL_LEN)
+        ret = -1;
 
     return ret;
 }
 
-static int SID06_BuildMsgHeader(uint8_t *msg_buf, uint16_t msg_dlc)
+static int SID06_BuildMsgHeader(uint8_t *msg_buf, uint32_t msg_dlc)
 {
-    int index = -1;
-    msg_buf[index++] = 0x5A;
+    int index = 0;
     msg_buf[index++] = 0xAA;
+    msg_buf[index++] = 0x5A;
     msg_buf[index++] = SLAVE_ADDR;
     msg_buf[index++] = 0x06;
 
@@ -46,28 +46,25 @@ static int SID06_BuildMsgHeader(uint8_t *msg_buf, uint16_t msg_dlc)
     msg_buf[index++] = (uint8_t)((msg_dlc >> 24) & 0xFF); // High byte
 }
 
-static int SID06_BuildMsgResp(uint8_t *msg_buf, uint16_t msg_dlc)
+int SID06_ActiveScreenshot(uint8_t *msg_buf, uint32_t msg_dlc)
 {
-
-}
-
-int SID06_ActiveScreenshot(uint8_t *msg_buf, uint16_t msg_dlc)
-{
+    LOGD("SID06_ActiveScreenshot");
     int ret = 0;
     uint8_t result = 0;
-    uint32_t id;
-    ret = SID06_ActiveScreenshot_check_len(msg_buf, msg_dlc);
+    uint8_t id;
+    ret = SID06_ActiveScreenshotCheck(msg_buf, msg_dlc);
     if (ret != 0)
     {
         return -1;
     }
     char filename[50];    
-    id = get_image_id();                                                      // Buffer to hold the full filename
-    sprintf(filename, "%simage%d.jpg", ACTIVE_TRIGGER_PHOTO_FILE_DIR, id); // Create full filename with directory
+    id = get_image_seq();                                                     // Buffer to hold the full filename
+    sprintf(filename, "%simage_%d.jpg", ACTIVE_TRIGGER_PHOTO_FILE_DIR, id); // Create full filename with directory
     result = request_take_photo(filename); // Pass the full filename to the function
+    generate_image_info(filename);
     char resp_buf[SID06_MSG_RESP_TOTAL_LEN];
-    SID06_BuildMsgResp(resp_buf,SID06_MSG_RESP_DATA_LEN);
+    SID06_BuildMsgHeader(resp_buf,SID06_MSG_RESP_DATA_LEN);
     msg_buf[8] = result;
     msg_buf[9] = id;
-    send_msg_resp(resp_buf,SID06_MSG_RESP_DATA_LEN);
+    send_msg_resp(resp_buf,SID06_MSG_RESP_TOTAL_LEN);
 }

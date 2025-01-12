@@ -11,9 +11,19 @@ typedef struct {
     unsigned char trigger_angle;
     unsigned int capture_time;
     unsigned int image_length;
-    unsigned char md5[16];
+    unsigned char md5[33];
     char file_path[PATH_MAX]; // 存储文件路径
 } DataNode;
+
+typedef struct {
+    unsigned char id;
+    unsigned char trigger_type;
+    unsigned char trigger_angle;
+    unsigned int capture_time;
+    unsigned int image_length;
+    unsigned char md5[16]; // 注意这里只保留16字节的md5值
+} BufferedDataNode;
+
 
 // 初始化链表
 struct ThreadSafeList* initList();
@@ -36,4 +46,8 @@ void appendToActiveTriggerList(DataNode data);
 // 根据文件路径生成图片信息
 void generate_image_info(char *image_path);
 
+BufferedDataNode* copy_both_lists_to_buffer(size_t *buffer_size);
+
+
+int find_file_path_by_id(unsigned char id, char *file_path);
 #endif // THREAD_SAFE_LIST_H

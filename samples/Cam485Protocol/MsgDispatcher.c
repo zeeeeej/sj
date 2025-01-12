@@ -12,7 +12,7 @@
 
 typedef struct MsgNode {
     uint8_t *msg;
-    uint8_t len;
+    uint32_t len;
     struct MsgNode *next;
 } MsgNode;
 
@@ -44,7 +44,7 @@ void init_queue(ThreadSafeQueue *q) {
 }
 
 // 添加消息到队列（追加到尾部）
-int add_msg_to_queue(ThreadSafeQueue *q, const uint8_t *msg, uint8_t len)
+int add_msg_to_queue(ThreadSafeQueue *q, const uint8_t *msg, uint32_t len)
 {
     MsgNode *new_node = (MsgNode *)malloc(sizeof(MsgNode));
     if (new_node == NULL) {
@@ -155,7 +155,7 @@ static uint16_t crc16(uint8_t *buffer, uint16_t buffer_length)
 
     return (crc_hi << 8 | crc_lo);
 }
-uint8_t send_msg_resp(uint8_t *msg, uint8_t len)
+uint8_t send_msg_resp(uint8_t *msg, uint32_t len)
 {
     return add_msg_to_queue(&send_queue, msg, len) == 0 ? 0 : 1; // 0 for success, 1 for failure
 }
@@ -170,13 +170,13 @@ static int send_msg_pre(uint8_t *req, int req_length)
 
     return req_length;
 }
-static uint8_t send_msg_low_level(uint8_t *msg, uint8_t len)
+static uint8_t send_msg_low_level(uint8_t *msg, uint32_t len)
 {
     // send_msg_pre(msg, len);
     return data_trans_interface.send_data(msg, len);
 }
 
-static uint8_t recv_msg_low_level(uint8_t *msg, uint8_t len)
+static uint8_t recv_msg_low_level(uint8_t *msg, uint32_t len)
 {
     return data_trans_interface.recv_data(msg, len);
 }
@@ -196,6 +196,7 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
             received_len = recv_msg_low_level(data + pos, 2);
             if (received_len != 2 || !(data[pos] == 0xAA && data[pos + 1] == 0x5A))
             {
+                usleep(1000);
                 break;
             }
             LOGD("Received frame header\n");
@@ -294,12 +295,13 @@ static void *msg_send_thread(void *arg)
         uint8_t *msg;
         uint8_t len;
         MsgNode *node = NULL;
+        int ret = 0;
         while (1)
         {
             node = remove_msg_from_queue(&send_queue);
             if (node!=NULL)
             {
-                if (MSG_DISPATHER_DEBUG_EN)
+                if (MSG_DISPATHER_SEND_DEBUG_EN)
                 {
                     for (int i = 0; i < node->len; i++)
                     {
@@ -307,7 +309,11 @@ static void *msg_send_thread(void *arg)
                     }
                     printf("\n"); // 换行以便于输出格式
                 }
-                send_msg_low_level(node->msg, node->len);
+                ret = send_msg_low_level(node->msg, node->len);
+                if(ret!= node->len)
+                {
+                    LOGD("error : send data\n");
+                }
                 free(node->msg);
                 free(node);
                 node=NULL;
@@ -322,7 +328,7 @@ static void *msg_poll_thread(void *arg)
     while (1)
     {
         int received_len = msg_poll(MsgRecvBuf, sizeof(MsgRecvBuf));
-        if (MSG_DISPATHER_DEBUG_EN)
+        if (MSG_DISPATHER_RECV_DEBUG_EN)
         {
             for (int i = 0; i < received_len; i++)
             {
@@ -341,7 +347,7 @@ static void *msg_poll_thread(void *arg)
     return NULL;
 }
 
-static void process_message(uint8_t *msg, uint8_t len)
+static void process_message(uint8_t *msg, uint32_t len)
 {
     for (int i = 0; i < SID_NUM; i++)
     {
@@ -370,6 +376,7 @@ static void *msg_process_thread(void *arg)
             free(msg_node->msg);
             free(msg);
         }
+        usleep(1000);
     }
     return NULL;
 }
