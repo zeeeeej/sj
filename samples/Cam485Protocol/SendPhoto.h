@@ -9,6 +9,7 @@
 #include "circular_log.h"
 #include "MsgDispatcher.h"
 #include "cm_common.h"
+#include "SID09_GetPhoto.h"
 
 #define MD5_SIZE 16
 #define MAX_PIC_NUM 10

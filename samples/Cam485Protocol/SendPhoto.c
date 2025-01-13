@@ -13,11 +13,11 @@ int ParseGetPictureRequest(const uint8_t *msg_buf, uint16_t msg_len,GetPictureRe
     req->header[0] = msg_buf[0];
     req->header[1] = msg_buf[1];
     req->command = msg_buf[2];
-    req->sub_command = msg_buf[3];
+    // req->sub_command = msg_buf[3];
     req->pic_id = msg_buf[4];
     req->offset = (msg_buf[5] << 24) | (msg_buf[6] << 16) | (msg_buf[7] << 8) | msg_buf[8];
     req->read_len = (msg_buf[9] << 8) | msg_buf[10];
-    req->checksum = (msg_buf[11] << 8) | msg_buf[12];
+    // req->checksum = (msg_buf[11] << 8) | msg_buf[12];
     return 0;
 }
 
