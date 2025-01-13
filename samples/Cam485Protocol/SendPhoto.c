@@ -1,48 +1,5 @@
 #include "SendPhoto.h"
 
-int ParseGetPictureRequest(const uint8_t *msg_buf, uint16_t msg_len,GetPictureRequest_t *req)
-{
-    if (msg_buf == NULL || req == NULL || msg_len < 12) 
-    {
-        return -1;
-    }
-    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x09) 
-    {
-        return -1;
-    }
-    req->header[0] = msg_buf[0];
-    req->header[1] = msg_buf[1];
-    req->command = msg_buf[2];
-    // req->sub_command = msg_buf[3];
-    req->pic_id = msg_buf[4];
-    req->offset = (msg_buf[5] << 24) | (msg_buf[6] << 16) | (msg_buf[7] << 8) | msg_buf[8];
-    req->read_len = (msg_buf[9] << 8) | msg_buf[10];
-    // req->checksum = (msg_buf[11] << 8) | msg_buf[12];
-    return 0;
-}
-
-
-
-
-
-
-int HandleIsTakePhotoFinshi(uint8_t *msg_buf, uint16_t msg_len)
-{
-    if (msg_buf == NULL || msg_len < 12) 
-    {
-        return -1;
-    }
-    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x0A || msg_buf[3] != 0x00) 
-    {
-        return -1;
-    }
-    msg_buf[0] = 0xAA;
-    msg_buf[1] = 0x5A;
-    msg_buf[2] = 0xAA;
-    msg_buf[3] = 0x01;
-    msg_buf[4] = IS_take_photo;
-    return 0;
-}
 
 int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len)
 {
@@ -129,6 +86,9 @@ int DeletePicture(const uint8_t pic_id)
                 }
             }
         }
+
+        // 删除链表中的所有节点
+        deleteAllNodes(activeTriggerList);
     } 
     else 
     {
@@ -146,119 +106,17 @@ int DeletePicture(const uint8_t pic_id)
             {
                 printf("Deleted photo: %s\n", photo_file);
             }
-        } 
+
+        }
         else 
         {
             fprintf(stderr, "Photo file %s not found.\n", photo_file);
             ret = -1;
         }
+          //删除链表中的节点
+        deleteNodeById(activeTriggerList, pic_id); 
     }
 
     return ret;
 }
 
-int HnadleGetPictureInfo(uint8_t *msg_buf, uint16_t msg_len)
-{
-    if (msg_buf == NULL || msg_len < 4) {
-        LOGD("GetPictureInfo Invalid message buffer\n");
-        return -1;
-    }
-
-    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x07 || msg_buf[3] != 0x00) {
-        LOGD("GetPictureInfo Invalid message header\n");
-        return -1;
-    }
-
-    // 构建回复数据帧
-    uint8_t response[1024] = {0};  
-    uint16_t index = 0;
-
-    response[index++] = 0xAA;  // 帧头
-    response[index++] = 0x5A;
-    response[index++] = 0x07;  // 主命令
-    response[index++] = 0x00;  // 子命令
-
-    // 填充图片数量
-    response[index++] = MAX_PIC_NUM;
-
-    for (uint8_t i = 0; i < MAX_PIC_NUM; i++) {
-        PicInfo_t *pic = &pic_info[i];
-
-        response[index++] = pic->pic_id;                // 图片ID
-        response[index++] = pic->trigger_type;         // 触发方式
-        response[index++] = pic->trigger_angle;        // 触发角度
-
-        response[index++] = (pic->capture_time >> 24) & 0xFF;  // 抓取时间
-        response[index++] = (pic->capture_time >> 16) & 0xFF;
-        response[index++] = (pic->capture_time >> 8) & 0xFF;
-        response[index++] = pic->capture_time & 0xFF;
-
-        response[index++] = (pic->image_size >> 24) & 0xFF;  // 图片大小
-        response[index++] = (pic->image_size >> 16) & 0xFF;
-        response[index++] = (pic->image_size >> 8) & 0xFF;
-        response[index++] = pic->image_size & 0xFF;
-
-        memcpy(&response[index], pic->md5, MD5_SIZE);  // MD5
-        index += MD5_SIZE;
-    }
-
-    send_msg_resp(response, index);
-
-    return index;
-}
-
-int HandleTakePhoto(uint8_t *msg_buf, uint16_t msg_len)
-{
-    if (msg_buf == NULL || msg_len < 4) {
-        LOGD("TakePhoto Invalid message buffer\n");
-        return -1;
-    }
-    if(msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x06 || msg_buf[3] != 0x00) {
-        LOGD("TakePhoto Invalid message header\n");
-        return -1;
-    }
-
-    if(pic_num > 10)
-    {
-        pic_num = 1;
-    }
-
-    char file_path[256] = {0};
-    snprintf(file_path, sizeof(file_path), "%s%d.jpg", TAKE_PHOTO_TMP_FILE, pic_num);
-    int ret = cm_video_take_photo_save_to_file(file_path);
-    uint8_t response[1024] = {0};
-    uint16_t index = 0;
-    response[index++] = 0xAA;
-    response[index++] = 0x5A;
-    response[index++] = 0x06;
-    response[index++] = 0x00;
-    response[index++] = ret;
-    send_msg_resp(response, index);
-    pic_num++;
-    return index;
-}
-
-int HandelCameraRoot(uint8_t *msg_buf, uint16_t msg_len)
-{
-    if (msg_buf == NULL || msg_len < 4) {
-        LOGD("CameraRoot Invalid message buffer\n");
-        return -1;
-    }
-    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x05 || msg_buf[3] != 0x00) {
-        LOGD("CameraRoot Invalid message header\n");
-        return -1;
-    }
-
-    sync();
-    int ret = system("reboot");
-
-    uint8_t response[1024] = {0};
-    uint16_t index = 0;
-    response[index++] = 0xAA;
-    response[index++] = 0x5A;
-    response[index++] = 0x05;
-    response[index++] = 0x00;
-    response[index++] = ret;
-    send_msg_resp(response, index);
-    return index;
-}

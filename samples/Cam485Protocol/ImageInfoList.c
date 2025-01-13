@@ -10,17 +10,7 @@
 #include "md5.h"
 #include "ProtocolPort.h"
 #include "cm_common.h"
-// 定义链表节点
-typedef struct Node {
-    DataNode data;
-    struct Node* next;
-} ListNode;
 
-// 链表头结点和互斥锁
-typedef struct ThreadSafeList {
-    ListNode* head;
-    pthread_mutex_t lock;
-} ThreadSafeList;
 
 
 
@@ -145,9 +135,7 @@ void freeList(ThreadSafeList* list) {
     free(list);
 }
 
-// 静态变量表示两个链表
-static ThreadSafeList* gyroscopeTriggerList;
-static ThreadSafeList* activeTriggerList;
+
 /**
  * 拷贝两个链表的所有节点信息到缓冲区中
  * @param buffer_size 输出缓冲区大小（以元素为单位）
@@ -245,6 +233,79 @@ void appendToActiveTriggerList(DataNode data) {
     appendNode(activeTriggerList, data);
 }
 
+void deleteNodeById(ThreadSafeList *list, unsigned char id)
+{
+    if (list == NULL || list->head == NULL) 
+    {
+        return;
+    }
+
+    // 加锁以确保线程安全
+    pthread_mutex_lock(&list->lock);
+
+    ListNode *current = list->head;
+    ListNode *prev = NULL;
+    while (current != NULL) {
+        if (current->data.id == id) {
+            if (prev == NULL) {
+                list->head = current->next;
+            } else {
+                prev->next = current->next;
+            }
+            free(current);
+            break;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    // 解锁
+    pthread_mutex_unlock(&list->lock);
+}
+
+void deleteAllNodes(ThreadSafeList *list)
+{
+    if (list == NULL || list->head == NULL) {
+        return;
+    }
+
+    // 加锁以确保线程安全
+    pthread_mutex_lock(&list->lock);
+
+    ListNode *current = list->head;
+    ListNode *next;
+    while (current != NULL) {
+        next = current->next;
+        free(current);
+        current = next;
+    }
+    list->head = NULL;
+
+    // 解锁
+    pthread_mutex_unlock(&list->lock);
+}
+
+DataNode *getNodeById(ThreadSafeList *list, unsigned char id)
+{
+    pthread_mutex_lock(&list->lock);
+    if (list == NULL || list->head == NULL) {
+        return NULL;
+    }
+    DataNode *data = NULL;
+    ListNode *current = list->head;
+    ListNode *prev = NULL;
+    while (current != NULL)
+    {
+        if (current->data.id == id)
+        {
+            data = &current->data;
+            break;
+        }
+        prev = current;
+        current = current->next;
+    }
+    return data;
+}
 
 /**
  * 在单个链表中查找指定 id 对应的文件路径

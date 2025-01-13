@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <limits.h>
 
+
 // 定义结构体
 typedef struct {
     unsigned char id;
@@ -24,6 +25,22 @@ typedef struct {
     unsigned char md5[16]; // 注意这里只保留16字节的md5值
 } BufferedDataNode;
 
+// 定义链表节点
+typedef struct Node {
+    DataNode data;
+    struct Node* next;
+} ListNode;
+
+// 链表头结点和互斥锁
+typedef struct ThreadSafeList {
+    ListNode* head;
+    pthread_mutex_t lock;
+} ThreadSafeList;
+
+
+// 静态变量表示两个链表
+static ThreadSafeList* gyroscopeTriggerList;
+static ThreadSafeList* activeTriggerList;
 
 // 初始化链表
 struct ThreadSafeList* initList();
@@ -42,6 +59,16 @@ void appendToGyroscopeTriggerList(DataNode data);
 
 // 向主动触发链表添加节点
 void appendToActiveTriggerList(DataNode data);
+
+//根据ID删除节点
+void deleteNodeById(struct ThreadSafeList* list, unsigned char id);
+
+//删除链表中所有的节点
+void deleteAllNodes(struct ThreadSafeList* list);
+
+// 根据id获取链表中的节点
+DataNode* getNodeById(struct ThreadSafeList* list, unsigned char id);
+
 
 // 根据文件路径生成图片信息
 void generate_image_info(char *image_path);
