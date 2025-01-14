@@ -155,8 +155,19 @@ static uint16_t crc16(uint8_t *buffer, uint16_t buffer_length)
 
     return (crc_hi << 8 | crc_lo);
 }
-uint8_t send_msg_resp(uint8_t *msg, uint32_t len)
+uint8_t send_msg_resp(const uint8_t *msg, uint32_t len)
 {
+    printf("msg content (len = %u):\n", len);
+    for (uint32_t i = 0; i < len; i++) 
+    {
+        printf("0x%02X ", msg[i]);
+        if ((i + 1) % 16 == 0) 
+        {
+            printf("\n");
+        }
+    }
+    printf("\n");
+
     return add_msg_to_queue(&send_queue, msg, len) == 0 ? 0 : 1; // 0 for success, 1 for failure
 }
 static int send_msg_pre(uint8_t *req, int req_length)

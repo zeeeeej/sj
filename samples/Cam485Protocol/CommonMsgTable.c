@@ -3,7 +3,7 @@
 #include "CommonMsgTable.h"
 #include "Heartbeat.h"
 #include "SID06_ActiveScreenshot.h"
-#include "SendPhoto.h"
+#include "SID08_DeletePicture.h"
 #include "SID07_QueryPhotoInfo.h"
 #include "SID09_GetPhoto.h"
 // 服务配置表

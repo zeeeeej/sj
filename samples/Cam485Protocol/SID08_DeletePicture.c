@@ -1,4 +1,4 @@
-#include "SendPhoto.h"
+#include "SID08_DeletePicture.h"
 
 
 int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len)

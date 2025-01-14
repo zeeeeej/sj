@@ -2,8 +2,8 @@ add_library(Cam485Protocol_lib STATIC
     # CommonInterface.h
     Heartbeat.c
     Heartbeat.h
-    SendPhoto.c
-    SendPhoto.h
+    SID08_DeletePicture.c
+    SID08_DeletePicture.h
 
     MsgDispatcher.c
     MsgDispatcher.h

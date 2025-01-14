@@ -44,11 +44,13 @@ static int SID06_BuildMsgHeader(uint8_t *msg_buf, uint32_t msg_dlc)
     msg_buf[index++] = (uint8_t)((msg_dlc >> 8) & 0xFF);  // 2nd byte
     msg_buf[index++] = (uint8_t)((msg_dlc >> 16) & 0xFF); // 3rd byte
     msg_buf[index++] = (uint8_t)((msg_dlc >> 24) & 0xFF); // High byte
-}
+}           
 
 int SID06_ActiveScreenshot(uint8_t *msg_buf, uint32_t msg_dlc)
 {
     LOGD("SID06_ActiveScreenshot");
+    uint8_t resp_buf[SID06_MSG_RESP_TOTAL_LEN];
+    memset(resp_buf, 0, SID06_MSG_RESP_TOTAL_LEN);
     int ret = 0;
     uint8_t result = 0;
     uint8_t id;
@@ -57,14 +59,22 @@ int SID06_ActiveScreenshot(uint8_t *msg_buf, uint32_t msg_dlc)
     {
         return -1;
     }
-    char filename[50];    
-    id = get_image_seq();                                                     // Buffer to hold the full filename
+    char filename[50];
+    id = get_image_seq();                                                   // Buffer to hold the full filename
     sprintf(filename, "%simage_%d.jpg", ACTIVE_TRIGGER_PHOTO_FILE_DIR, id); // Create full filename with directory
-    result = request_take_photo(filename); // Pass the full filename to the function
-    generate_image_info(filename);
-    char resp_buf[SID06_MSG_RESP_TOTAL_LEN];
-    SID06_BuildMsgHeader(resp_buf,SID06_MSG_RESP_DATA_LEN);
-    msg_buf[8] = result;
-    msg_buf[9] = id;
-    send_msg_resp(resp_buf,SID06_MSG_RESP_TOTAL_LEN);
+    result = request_take_photo(filename);                                  // Pass the full filename to the function
+    printf("result = %d", result);
+    printf("id = %d", id);
+    generate_image_info(filename);  
+    
+    SID06_BuildMsgHeader(resp_buf, SID06_MSG_RESP_DATA_LEN);
+    resp_buf[8] = result;
+    resp_buf[9] = id;
+    printf("After header: msg_buf[8] = 0x%02X, msg_buf[9] = 0x%02X\n", resp_buf[8], resp_buf[9]);
+    // for (int i = 0; i < 12; i++)
+    // {
+    //     printf("%02X ",resp_buf[i]); // 打印每个字节的十六进制表示
+    // }
+    // printf("\n"); // 换行以便于输出格式
+    send_msg_resp(resp_buf, SID06_MSG_RESP_TOTAL_LEN);
 }
