@@ -370,6 +370,16 @@
 				"backtrace" : 4,
 				"fragment" : "/home/kxy/t23_signal_display/samples/../libs/modbus/lib/libmodbus.a",
 				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "Peripheral/libPeripheral_lib.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "-lpthread",
+				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"

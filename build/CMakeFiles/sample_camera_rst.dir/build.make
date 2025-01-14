@@ -112,6 +112,7 @@ sample_camera_rst: libsamples_lib.a
 sample_camera_rst: modules_build/libsrc_modules_lib.a
 sample_camera_rst: /home/kxy/t23_signal_display/samples/../libs/ucamcore/lib/uclibc/libusbcamera.a
 sample_camera_rst: /home/kxy/t23_signal_display/samples/../libs/modbus/lib/libmodbus.a
+sample_camera_rst: Peripheral/libPeripheral_lib.a
 sample_camera_rst: CMakeFiles/sample_camera_rst.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable sample_camera_rst"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sample_camera_rst.dir/link.txt --verbose=$(VERBOSE)

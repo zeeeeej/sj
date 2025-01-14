@@ -83,33 +83,177 @@ Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.s"
 	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/Heartbeat.c -o CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.s
 
-Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
-Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/SendPhoto.c
-Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o"
-	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/SendPhoto.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/SID08_DeletePicture.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.o"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/SID08_DeletePicture.c
 
-Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.i"
-	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/SendPhoto.c > CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.i
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.i"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/SID08_DeletePicture.c > CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.i
 
-Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.s"
-	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/SendPhoto.c -o CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.s
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.s"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/SID08_DeletePicture.c -o CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.s
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/MsgDispatcher.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.o"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/MsgDispatcher.c
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.i"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/MsgDispatcher.c > CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.i
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.s"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/MsgDispatcher.c -o CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.s
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/MsgDispatherPort.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.o"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/MsgDispatherPort.c
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.i"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/MsgDispatherPort.c > CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.i
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.s"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/MsgDispatherPort.c -o CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.s
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/CommonMsgTable.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.o"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/CommonMsgTable.c
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.i"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/CommonMsgTable.c > CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.i
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.s"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/CommonMsgTable.c -o CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.s
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/SID06_ActiveScreenshot.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.o"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/SID06_ActiveScreenshot.c
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.i"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/SID06_ActiveScreenshot.c > CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.i
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.s"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/SID06_ActiveScreenshot.c -o CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.s
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/ProtocolPort.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.o"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/ProtocolPort.c
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.i"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/ProtocolPort.c > CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.i
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.s"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/ProtocolPort.c -o CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.s
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/SID07_QueryPhotoInfo.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.o"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/SID07_QueryPhotoInfo.c
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.i"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/SID07_QueryPhotoInfo.c > CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.i
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.s"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/SID07_QueryPhotoInfo.c -o CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.s
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/SID09_GetPhoto.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.o"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/SID09_GetPhoto.c
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.i"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/SID09_GetPhoto.c > CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.i
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.s"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/SID09_GetPhoto.c -o CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.s
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/ImageInfoList.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.o"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/ImageInfoList.c
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.i"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/ImageInfoList.c > CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.i
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.s"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/ImageInfoList.c -o CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.s
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/flags.make
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.o: /home/kxy/t23_signal_display/samples/Cam485Protocol/md5.c
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.o: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.o"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.o -MF CMakeFiles/Cam485Protocol_lib.dir/md5.c.o.d -o CMakeFiles/Cam485Protocol_lib.dir/md5.c.o -c /home/kxy/t23_signal_display/samples/Cam485Protocol/md5.c
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Cam485Protocol_lib.dir/md5.c.i"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Cam485Protocol/md5.c > CMakeFiles/Cam485Protocol_lib.dir/md5.c.i
+
+Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Cam485Protocol_lib.dir/md5.c.s"
+	cd /home/kxy/t23_signal_display/build/Cam485Protocol && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Cam485Protocol/md5.c -o CMakeFiles/Cam485Protocol_lib.dir/md5.c.s
 
 # Object files for target Cam485Protocol_lib
 Cam485Protocol_lib_OBJECTS = \
 "CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o" \
-"CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o"
+"CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.o" \
+"CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.o" \
+"CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.o" \
+"CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.o" \
+"CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.o" \
+"CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.o" \
+"CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.o" \
+"CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.o" \
+"CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.o" \
+"CMakeFiles/Cam485Protocol_lib.dir/md5.c.o"
 
 # External object files for target Cam485Protocol_lib
 Cam485Protocol_lib_EXTERNAL_OBJECTS =
 
 Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.o
-Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o
+Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.o
+Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.o
+Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.o
+Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.o
+Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.o
+Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.o
+Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.o
+Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.o
+Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.o
+Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.o
 Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make
 Cam485Protocol/libCam485Protocol_lib.a: Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C static library libCam485Protocol_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX static library libCam485Protocol_lib.a"
 	cd /home/kxy/t23_signal_display/build/Cam485Protocol && $(CMAKE_COMMAND) -P CMakeFiles/Cam485Protocol_lib.dir/cmake_clean_target.cmake
 	cd /home/kxy/t23_signal_display/build/Cam485Protocol && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Cam485Protocol_lib.dir/link.txt --verbose=$(VERBOSE)
 

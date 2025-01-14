@@ -130,6 +130,30 @@ Cam485Protocol_lib/fast:
 	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build
 .PHONY : Cam485Protocol_lib/fast
 
+CommonMsgTable.o: CommonMsgTable.c.o
+.PHONY : CommonMsgTable.o
+
+# target to build an object file
+CommonMsgTable.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.o
+.PHONY : CommonMsgTable.c.o
+
+CommonMsgTable.i: CommonMsgTable.c.i
+.PHONY : CommonMsgTable.i
+
+# target to preprocess a source file
+CommonMsgTable.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.i
+.PHONY : CommonMsgTable.c.i
+
+CommonMsgTable.s: CommonMsgTable.c.s
+.PHONY : CommonMsgTable.s
+
+# target to generate assembly for a file
+CommonMsgTable.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/CommonMsgTable.c.s
+.PHONY : CommonMsgTable.c.s
+
 Heartbeat.o: Heartbeat.c.o
 .PHONY : Heartbeat.o
 
@@ -154,29 +178,221 @@ Heartbeat.c.s:
 	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/Heartbeat.c.s
 .PHONY : Heartbeat.c.s
 
-SendPhoto.o: SendPhoto.c.o
-.PHONY : SendPhoto.o
+ImageInfoList.o: ImageInfoList.c.o
+.PHONY : ImageInfoList.o
 
 # target to build an object file
-SendPhoto.c.o:
-	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.o
-.PHONY : SendPhoto.c.o
+ImageInfoList.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.o
+.PHONY : ImageInfoList.c.o
 
-SendPhoto.i: SendPhoto.c.i
-.PHONY : SendPhoto.i
+ImageInfoList.i: ImageInfoList.c.i
+.PHONY : ImageInfoList.i
 
 # target to preprocess a source file
-SendPhoto.c.i:
-	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.i
-.PHONY : SendPhoto.c.i
+ImageInfoList.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.i
+.PHONY : ImageInfoList.c.i
 
-SendPhoto.s: SendPhoto.c.s
-.PHONY : SendPhoto.s
+ImageInfoList.s: ImageInfoList.c.s
+.PHONY : ImageInfoList.s
 
 # target to generate assembly for a file
-SendPhoto.c.s:
-	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SendPhoto.c.s
-.PHONY : SendPhoto.c.s
+ImageInfoList.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ImageInfoList.c.s
+.PHONY : ImageInfoList.c.s
+
+MsgDispatcher.o: MsgDispatcher.c.o
+.PHONY : MsgDispatcher.o
+
+# target to build an object file
+MsgDispatcher.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.o
+.PHONY : MsgDispatcher.c.o
+
+MsgDispatcher.i: MsgDispatcher.c.i
+.PHONY : MsgDispatcher.i
+
+# target to preprocess a source file
+MsgDispatcher.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.i
+.PHONY : MsgDispatcher.c.i
+
+MsgDispatcher.s: MsgDispatcher.c.s
+.PHONY : MsgDispatcher.s
+
+# target to generate assembly for a file
+MsgDispatcher.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatcher.c.s
+.PHONY : MsgDispatcher.c.s
+
+MsgDispatherPort.o: MsgDispatherPort.c.o
+.PHONY : MsgDispatherPort.o
+
+# target to build an object file
+MsgDispatherPort.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.o
+.PHONY : MsgDispatherPort.c.o
+
+MsgDispatherPort.i: MsgDispatherPort.c.i
+.PHONY : MsgDispatherPort.i
+
+# target to preprocess a source file
+MsgDispatherPort.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.i
+.PHONY : MsgDispatherPort.c.i
+
+MsgDispatherPort.s: MsgDispatherPort.c.s
+.PHONY : MsgDispatherPort.s
+
+# target to generate assembly for a file
+MsgDispatherPort.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/MsgDispatherPort.c.s
+.PHONY : MsgDispatherPort.c.s
+
+ProtocolPort.o: ProtocolPort.c.o
+.PHONY : ProtocolPort.o
+
+# target to build an object file
+ProtocolPort.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.o
+.PHONY : ProtocolPort.c.o
+
+ProtocolPort.i: ProtocolPort.c.i
+.PHONY : ProtocolPort.i
+
+# target to preprocess a source file
+ProtocolPort.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.i
+.PHONY : ProtocolPort.c.i
+
+ProtocolPort.s: ProtocolPort.c.s
+.PHONY : ProtocolPort.s
+
+# target to generate assembly for a file
+ProtocolPort.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/ProtocolPort.c.s
+.PHONY : ProtocolPort.c.s
+
+SID06_ActiveScreenshot.o: SID06_ActiveScreenshot.c.o
+.PHONY : SID06_ActiveScreenshot.o
+
+# target to build an object file
+SID06_ActiveScreenshot.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.o
+.PHONY : SID06_ActiveScreenshot.c.o
+
+SID06_ActiveScreenshot.i: SID06_ActiveScreenshot.c.i
+.PHONY : SID06_ActiveScreenshot.i
+
+# target to preprocess a source file
+SID06_ActiveScreenshot.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.i
+.PHONY : SID06_ActiveScreenshot.c.i
+
+SID06_ActiveScreenshot.s: SID06_ActiveScreenshot.c.s
+.PHONY : SID06_ActiveScreenshot.s
+
+# target to generate assembly for a file
+SID06_ActiveScreenshot.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID06_ActiveScreenshot.c.s
+.PHONY : SID06_ActiveScreenshot.c.s
+
+SID07_QueryPhotoInfo.o: SID07_QueryPhotoInfo.c.o
+.PHONY : SID07_QueryPhotoInfo.o
+
+# target to build an object file
+SID07_QueryPhotoInfo.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.o
+.PHONY : SID07_QueryPhotoInfo.c.o
+
+SID07_QueryPhotoInfo.i: SID07_QueryPhotoInfo.c.i
+.PHONY : SID07_QueryPhotoInfo.i
+
+# target to preprocess a source file
+SID07_QueryPhotoInfo.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.i
+.PHONY : SID07_QueryPhotoInfo.c.i
+
+SID07_QueryPhotoInfo.s: SID07_QueryPhotoInfo.c.s
+.PHONY : SID07_QueryPhotoInfo.s
+
+# target to generate assembly for a file
+SID07_QueryPhotoInfo.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID07_QueryPhotoInfo.c.s
+.PHONY : SID07_QueryPhotoInfo.c.s
+
+SID08_DeletePicture.o: SID08_DeletePicture.c.o
+.PHONY : SID08_DeletePicture.o
+
+# target to build an object file
+SID08_DeletePicture.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.o
+.PHONY : SID08_DeletePicture.c.o
+
+SID08_DeletePicture.i: SID08_DeletePicture.c.i
+.PHONY : SID08_DeletePicture.i
+
+# target to preprocess a source file
+SID08_DeletePicture.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.i
+.PHONY : SID08_DeletePicture.c.i
+
+SID08_DeletePicture.s: SID08_DeletePicture.c.s
+.PHONY : SID08_DeletePicture.s
+
+# target to generate assembly for a file
+SID08_DeletePicture.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID08_DeletePicture.c.s
+.PHONY : SID08_DeletePicture.c.s
+
+SID09_GetPhoto.o: SID09_GetPhoto.c.o
+.PHONY : SID09_GetPhoto.o
+
+# target to build an object file
+SID09_GetPhoto.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.o
+.PHONY : SID09_GetPhoto.c.o
+
+SID09_GetPhoto.i: SID09_GetPhoto.c.i
+.PHONY : SID09_GetPhoto.i
+
+# target to preprocess a source file
+SID09_GetPhoto.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.i
+.PHONY : SID09_GetPhoto.c.i
+
+SID09_GetPhoto.s: SID09_GetPhoto.c.s
+.PHONY : SID09_GetPhoto.s
+
+# target to generate assembly for a file
+SID09_GetPhoto.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/SID09_GetPhoto.c.s
+.PHONY : SID09_GetPhoto.c.s
+
+md5.o: md5.c.o
+.PHONY : md5.o
+
+# target to build an object file
+md5.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.o
+.PHONY : md5.c.o
+
+md5.i: md5.c.i
+.PHONY : md5.i
+
+# target to preprocess a source file
+md5.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.i
+.PHONY : md5.c.i
+
+md5.s: md5.c.s
+.PHONY : md5.s
+
+# target to generate assembly for a file
+md5.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/md5.c.s
+.PHONY : md5.c.s
 
 # Help Target
 help:
@@ -187,12 +403,39 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Cam485Protocol_lib"
+	@echo "... CommonMsgTable.o"
+	@echo "... CommonMsgTable.i"
+	@echo "... CommonMsgTable.s"
 	@echo "... Heartbeat.o"
 	@echo "... Heartbeat.i"
 	@echo "... Heartbeat.s"
-	@echo "... SendPhoto.o"
-	@echo "... SendPhoto.i"
-	@echo "... SendPhoto.s"
+	@echo "... ImageInfoList.o"
+	@echo "... ImageInfoList.i"
+	@echo "... ImageInfoList.s"
+	@echo "... MsgDispatcher.o"
+	@echo "... MsgDispatcher.i"
+	@echo "... MsgDispatcher.s"
+	@echo "... MsgDispatherPort.o"
+	@echo "... MsgDispatherPort.i"
+	@echo "... MsgDispatherPort.s"
+	@echo "... ProtocolPort.o"
+	@echo "... ProtocolPort.i"
+	@echo "... ProtocolPort.s"
+	@echo "... SID06_ActiveScreenshot.o"
+	@echo "... SID06_ActiveScreenshot.i"
+	@echo "... SID06_ActiveScreenshot.s"
+	@echo "... SID07_QueryPhotoInfo.o"
+	@echo "... SID07_QueryPhotoInfo.i"
+	@echo "... SID07_QueryPhotoInfo.s"
+	@echo "... SID08_DeletePicture.o"
+	@echo "... SID08_DeletePicture.i"
+	@echo "... SID08_DeletePicture.s"
+	@echo "... SID09_GetPhoto.o"
+	@echo "... SID09_GetPhoto.i"
+	@echo "... SID09_GetPhoto.s"
+	@echo "... md5.o"
+	@echo "... md5.i"
+	@echo "... md5.s"
 .PHONY : help
 
 
