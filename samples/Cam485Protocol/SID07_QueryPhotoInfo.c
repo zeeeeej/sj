@@ -25,6 +25,14 @@ static int SID07_BuildMsgHeader(uint8_t *msg_buf, uint32_t msg_dlc)
 int SID07_QueryPhotoInfo(uint8_t *msg_buf, uint32_t msg_dlc)
 {
     LOGD("SID07_QueryPhotoInfo\n");
+
+    /*
+        仅用作测试回包消息
+     */
+    // DataNode node1 = { 1, 0x01, 0x10, 1234567890, 1024, "md5value1", "/path/to/image1.jpg" };
+    // appendToActiveTriggerList(node1);
+
+
     /*info缓冲区*/
     uint8_t* image_info_buf;
     /*image info的个数*/

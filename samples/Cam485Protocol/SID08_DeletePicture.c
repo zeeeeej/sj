@@ -53,7 +53,7 @@ int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len)
     response[index++] = (ret == 0) ? 0x00 : 0x01; // 返回值：0x00成功，0x01失败
 
     // 发送响应帧
-    send_msg_resp(response, index);
+    send_msg_resp(response, index + 2);
 
     if (ret != 0) {
         LOGD("Failed to delete photo, ret[%d]\n", ret);

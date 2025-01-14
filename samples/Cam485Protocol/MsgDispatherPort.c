@@ -84,7 +84,7 @@ static int uart_init()
     if (ret > 0)
     {
         uart_fd = ret;
-        ret = cm_uart_init(ret, 230400, 0, 8, 1, 'n');
+        ret = cm_uart_init(ret, 460800, 0, 8, 1, 'n');
         if (ret < 0)
         {
             LOGD("uart init failed\n");
