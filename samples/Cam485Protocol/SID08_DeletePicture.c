@@ -86,9 +86,18 @@ int DeletePicture(const uint8_t pic_id)
                 }
             }
         }
-
-        // 删除链表中的所有节点
-        deleteAllNodes(activeTriggerList);
+        if(activeTriggerList == NULL)
+        {
+            printf("activeTriggerList is NULL\n");
+        }
+        else
+        {
+            printList(activeTriggerList);
+            deleteAllNodes(activeTriggerList); 
+            printf("After delete\n");
+            printList(activeTriggerList);
+        }
+        
     } 
     else 
     {
@@ -113,8 +122,22 @@ int DeletePicture(const uint8_t pic_id)
             fprintf(stderr, "Photo file %s not found.\n", photo_file);
             ret = -1;
         }
-          //删除链表中的节点
-        deleteNodeById(activeTriggerList, pic_id); 
+        if(activeTriggerList == NULL)
+        {
+            printf("activeTriggerList is NULL\n");
+        }
+        else
+        {
+            printList(activeTriggerList);
+
+            //删除链表中的节点
+            deleteNodeById(activeTriggerList, pic_id); 
+
+            printf("After delete\n");
+            printList(activeTriggerList);
+        }
+
+        
     }
 
     return ret;

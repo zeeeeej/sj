@@ -12,7 +12,8 @@
 #include "cm_common.h"
 
 
-
+ThreadSafeList* gyroscopeTriggerList = NULL;
+ThreadSafeList* activeTriggerList    = NULL;
 
 
 // 初始化链表
@@ -235,9 +236,8 @@ void appendToActiveTriggerList(DataNode data) {
 
 void deleteNodeById(ThreadSafeList *list, unsigned char id)
 {
-    if (list == NULL || list->head == NULL) 
-    {
-        return;
+   if (list == NULL || list->head == NULL) {
+        return; // 链表为空，直接返回
     }
 
     // 加锁以确保线程安全
@@ -245,21 +245,31 @@ void deleteNodeById(ThreadSafeList *list, unsigned char id)
 
     ListNode *current = list->head;
     ListNode *prev = NULL;
+
     while (current != NULL) {
+        // 判断当前节点的数据 id 是否匹配
         if (current->data.id == id) {
+            // 如果匹配，释放当前节点
             if (prev == NULL) {
+                // 删除的是头节点
                 list->head = current->next;
             } else {
+                // 删除的是中间或尾部节点
                 prev->next = current->next;
             }
-            free(current);
-            break;
+
+            // 如果 DataNode 有动态分配的内容（如文件路径），需要额外释放
+            // 这里的 file_path 和 md5 是静态分配的，不需要额外释放
+            free(current); // 释放当前节点
+            pthread_mutex_unlock(&list->lock); // 解锁并退出
+            return;
         }
+        // 继续遍历
         prev = current;
         current = current->next;
     }
 
-    // 解锁
+    // 未找到匹配的节点
     pthread_mutex_unlock(&list->lock);
 }
 
@@ -306,6 +316,7 @@ DataNode *getNodeById(ThreadSafeList *list, unsigned char id)
     }
     return data;
 }
+
 
 /**
  * 在单个链表中查找指定 id 对应的文件路径
@@ -499,11 +510,16 @@ void generate_image_info(char *image_path) {
     data.file_path[PATH_MAX - 1] = '\0'; // 确保字符串结束
     printf("trigger_type : %d\n",trigger_type);
     // 根据触发类型决定添加到哪个链表
-    if (trigger_type ==GYRO_TRIGGER_TYPE ) {
+    if (trigger_type ==GYRO_TRIGGER_TYPE ) 
+    {
         appendToGyroscopeTriggerList(data);
-    } else if (trigger_type == ACTIVE_TRIGGER_TYPE) {
+    } 
+    else if (trigger_type == ACTIVE_TRIGGER_TYPE) 
+    {
         appendToActiveTriggerList(data);
-    } else {
+    } 
+    else 
+    {
         printf("unkow tigerr type : %d\n", trigger_type);
     }
     // printList(gyroscopeTriggerList);

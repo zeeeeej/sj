@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <limits.h>
 
+#define PATH_MAX 1024
 
 // 定义结构体
 typedef struct {
@@ -39,8 +40,8 @@ typedef struct ThreadSafeList {
 
 
 // 静态变量表示两个链表
-static ThreadSafeList* gyroscopeTriggerList;
-static ThreadSafeList* activeTriggerList;
+extern ThreadSafeList* gyroscopeTriggerList;
+extern ThreadSafeList* activeTriggerList;
 
 // 初始化链表
 struct ThreadSafeList* initList();
@@ -68,6 +69,7 @@ void deleteAllNodes(struct ThreadSafeList* list);
 
 // 根据id获取链表中的节点
 DataNode* getNodeById(struct ThreadSafeList* list, unsigned char id);
+
 
 
 // 根据文件路径生成图片信息

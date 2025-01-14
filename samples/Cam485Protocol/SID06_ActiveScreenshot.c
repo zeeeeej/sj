@@ -71,10 +71,5 @@ int SID06_ActiveScreenshot(uint8_t *msg_buf, uint32_t msg_dlc)
     resp_buf[8] = result;
     resp_buf[9] = id;
     printf("After header: msg_buf[8] = 0x%02X, msg_buf[9] = 0x%02X\n", resp_buf[8], resp_buf[9]);
-    // for (int i = 0; i < 12; i++)
-    // {
-    //     printf("%02X ",resp_buf[i]); // 打印每个字节的十六进制表示
-    // }
-    // printf("\n"); // 换行以便于输出格式
     send_msg_resp(resp_buf, SID06_MSG_RESP_TOTAL_LEN);
 }
