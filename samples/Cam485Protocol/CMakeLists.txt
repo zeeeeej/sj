@@ -11,6 +11,14 @@ add_library(Cam485Protocol_lib STATIC
     MsgDispatherPort.h
     CommonMsgTable.c
     CommonMsgTable.h
+    SID02_QueryAttribute.h
+    SID02_QueryAttribute.c
+    SID03_SetAttribute.h
+    SID03_SetAttribute.c
+    SID04_RestoreFactorySettings.h
+    SID04_RestoreFactorySettings.c
+    SID05_ResetCamera.h
+    SID05_ResetCamera.c
     SID06_ActiveScreenshot.h
     SID06_ActiveScreenshot.c
     ProtocolPort.h
@@ -19,6 +27,14 @@ add_library(Cam485Protocol_lib STATIC
     SID07_QueryPhotoInfo.h
     SID09_GetPhoto.c
     SID09_GetPhoto.h
+    SID0A_PhotoGetComplete.h
+    SID0A_PhotoGetComplete.c
+    SID0B_FirmwareUpdateNotice.h
+    SID0B_FirmwareUpdateNotice.c
+    SID0C_SendFirmwareUpdatePacket.h
+    SID0C_SendFirmwareUpdatePacket.c
+    SID0D_DoorOpenOrCloseSignal.h
+    SID0D_DoorOpenOrCloseSignal.c
     ProtocolPort.c
     ProtocolPort.h
     ImageInfoList.c
