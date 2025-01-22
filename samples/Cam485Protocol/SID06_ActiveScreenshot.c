@@ -25,7 +25,7 @@ int SID06_ActiveScreenshotCheck(const uint8_t *msg_buf, uint32_t msg_dlc)
     int ret = 0;
 
     (void)msg_buf;
-    if (msg_dlc != SID06_MSG_REQ_TOTAL_LEN)
+    if (msg_dlc < SID06_MSG_REQ_TOTAL_LEN)  
         ret = -1;
 
     return ret;

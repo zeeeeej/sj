@@ -10,17 +10,20 @@
 #include "MsgDispatcher.h"
 #include "ImageInfoList.h"
 
-static char resp_buf[5000];
+#define RESPSIZE                (5000)
+
+static char resp_buf[RESPSIZE];
 
 static int ParseGetPictureRequest(const uint8_t *msg_buf, uint32_t msg_len,GetPictureRequest_t *req)
 {
     if (msg_buf == NULL || req == NULL || msg_len < 19) 
     {
+        LOGD("error:msg_len = %d",msg_len);
         return -1;
     }
     if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x01 || msg_buf[3] != 0x09) 
     {
-        return -1;
+        return -2;
     }
     req->header[0] = msg_buf[0];
     req->header[1] = msg_buf[1];
@@ -31,6 +34,13 @@ static int ParseGetPictureRequest(const uint8_t *msg_buf, uint32_t msg_len,GetPi
     req->pic_id = msg_buf[8];
     req->offset = (msg_buf[12] << 24) | (msg_buf[11] << 16) | (msg_buf[10] << 8) | msg_buf[9];
     req->read_len = (msg_buf[16] << 24) | (msg_buf[15] << 16) | (msg_buf[14] << 8) | msg_buf[13];
+
+    /*单次传输获取的数据不能超过5000，5000是resp的容量，这里取4950，剩余的给包头和校验等*/
+    if (req->read_len > RESPSIZE-50)
+    {
+        LOGD("error:read_len is too long! read_len = %d",req->read_len);
+        return -3;
+    }
 
     // req->offset = (msg_buf[9] << 24) | (msg_buf[10] << 16) | (msg_buf[11] << 8) | msg_buf[12];
     // req->read_len = (msg_buf[13] << 24) | (msg_buf[14] << 16) | (msg_buf[15] << 8) | msg_buf[16];
@@ -88,9 +98,10 @@ int SID09_GetPhoto(uint8_t *msg_buf, uint32_t msg_len)
 {
     GetPictureRequest_t req;
     int negative_payload_len = 1;
-    if (ParseGetPictureRequest(msg_buf, msg_len, &req) != 0) 
+    int res = ParseGetPictureRequest(msg_buf, msg_len, &req);
+    if(0 != res)
     {
-        LOGD("Failed to parse photo request,ret[-1]\n");
+        LOGD("Failed to parse photo request,ret[%d]\n",res);
         return PackGetPictureResponse(resp_buf,negative_payload_len,NULL,0,1);
     }
     if (req.command != 0x09) 

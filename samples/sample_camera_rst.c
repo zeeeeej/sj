@@ -145,19 +145,19 @@ int main(int argc, char *argv[])
     // }
 
 
-    printf("create hmi service thread\n");
-    extern void *hmi_service_thread(void *args);
-    int ret = pthread_create(&hmi_srv_tid, NULL, hmi_service_thread, NULL);
-    if (ret != 0)
-    {
-        fprintf(stderr, "Error creating thread: %s\n", strerror(ret));
+    // printf("create hmi service thread\n");
+    // extern void *hmi_service_thread(void *args);
+    // int ret = pthread_create(&hmi_srv_tid, NULL, hmi_service_thread, NULL);
+    // if (ret != 0)
+    // {
+    //     fprintf(stderr, "Error creating thread: %s\n", strerror(ret));
 
-        return 1; 
-    }
-    else
-    {
-        printf("Thread created successfully.\n");
-    }
+    //     return 1; 
+    // }
+    // else
+    // {
+    //     printf("Thread created successfully.\n");
+    // }
     while (!b_exited)
     {
         if (!wdt_disable)
