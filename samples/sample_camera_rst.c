@@ -7,11 +7,8 @@
 #include "door_detect.h"
 #include "cm_common.h"
 #include "module_config.h"
-#include <module_ucamera_control.h>
 #include <stdlib.h>
-
 #include "wdt.h"
-
 //echo V > /dev/watchdog
 #include "door_detect.h"
 #include <string.h>
@@ -24,12 +21,14 @@
 #include "MsgDispatcher.h"
 #include "ProtocolPort.h"
 #include <sys/stat.h>
+#include "Log_init.h"
+#include <elog.h>
 #define TAG_NAME "[MAIN]"
 static int b_exited = 0;
 static pthread_t hmi_srv_tid = 0;
 
 
-char *version = "signel_display_t23_1.0.4";
+char *version = "jml_V1.0.1";
 
     
 #define VERSION_FILE "/system/etc/version"
@@ -44,62 +43,34 @@ static int write_version_to_file(void) {
         log_write(LOG_ERROR, TAG_NAME, "Failed to open version file: %s", strerror(errno));
         return -1;
     }
-
     // 写入版本信息
     fprintf(fp, "Version: %s\n", version);
-    // fprintf(fp, "Build Date: %s\n", BUILD_DATE);
-    // fprintf(fp, "Build Time: %s\n", BUILD_TIME);
-
     fclose(fp);
     return 0;
 }
-int create_directory(const char* path) {
-    // 尝试创建目录，权限设置为 0755
-    if (mkdir(path, 0755) == 0) {
-        printf("Directory created: %s\n", path);
-        return 0;
-    } else {
-        // 如果目录已经存在，mkdir 会返回 -1 并设置 errno 为 EEXIST
-        if (errno == EEXIST) {
-            return 0;  // 目录已经存在，不是错误
-        } else {
-            perror("Failed to create directory");
-            return -1;
-        }
-    }
-}
+
 
 int main(int argc, char *argv[])
 {   
-    printf("hello world !\n");
-    printf("init log system\n");
-    /*===========初始化日志系统===========*/
-    if (create_directory(LOG_DIR) != 0) {
-        return -1;
-    }
-    if (log_init(LOG_FILE, LOG_FILE_SIZE) < 0) {
-        fprintf(stderr, "Failed to initialize log system\n");
-        return -1;
-    }
-    log_write(LOG_DEBUG, TAG_NAME, "startup [%s:%s] Version [%s]\n", __DATE__, __TIME__, version);
 
-    // 写入版本信息到文件
+    my_log_init();
+    log_i("startup [%s:%s] Version [%s]", __DATE__, __TIME__, version);
+    /*写入版本信息到文件*/
     if (write_version_to_file() < 0) {
-        log_write(LOG_ERROR, TAG_NAME, "Failed to write version information to file");
+        log_e("Failed to write version information to file");
     } else {
-        log_write(LOG_INFO, TAG_NAME, "Version information written to %s", VERSION_FILE);
+        log_i("Version information written to %s", VERSION_FILE);
     }
-    /*===========初始化日志系统===========*/
-    debug_logger_init();
 
-    
+
+    /*启动看门狗*/
     int wdt_disable = (access("/system/etc/wdt_disable", F_OK) == 0);
     if (!wdt_disable)
     {
         wdt_enable();
         wdt_set_timeout(15);
         int timeout = wdt_get_timeout();
-        LOGD("wdt timeout set to [%d]\n", timeout);
+        log_i("wdt timeout set to [%d]\n", timeout);
     }
 
     /*初始化video模块*/
@@ -109,7 +80,6 @@ int main(int argc, char *argv[])
     int ret1;
 
 
-    // cm_config_load();
     Protocol_Init();
     Cam485ProtocolInit();
     // wind_connect_up_start();
@@ -118,19 +88,19 @@ int main(int argc, char *argv[])
 
 
 
-    printf("create hmi service thread\n");
-    extern void *hmi_service_thread(void *args);
-    int ret = pthread_create(&hmi_srv_tid, NULL, hmi_service_thread, NULL);
-    if (ret != 0)
-    {
-        fprintf(stderr, "Error creating thread: %s\n", strerror(ret));
+    // printf("create hmi service thread\n");
+    // extern void *hmi_service_thread(void *args);
+    // int ret = pthread_create(&hmi_srv_tid, NULL, hmi_service_thread, NULL);
+    // if (ret != 0)
+    // {
+    //     fprintf(stderr, "Error creating thread: %s\n", strerror(ret));
 
-        return 1; 
-    }
-    else
-    {
-        printf("Thread created successfully.\n");
-    }
+    //     return 1; 
+    // }
+    // else
+    // {
+    //     printf("Thread created successfully.\n");
+    // }
     while (!b_exited)
     {
         if (!wdt_disable)

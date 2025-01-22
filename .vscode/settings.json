@@ -10,7 +10,8 @@
         "wind_process_manager.h": "c",
         "rope": "c",
         "regex": "c",
-        "sid08_deletepicture.h": "c"
+        "sid08_deletepicture.h": "c",
+        "module_ucamera_control.h": "c"
     },
     "cmake.sourceDirectory": "/home/kxy/t23_signal_display/samples",
     "C_Cpp.errorSquiggles": "enabled"
