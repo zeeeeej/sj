@@ -364,6 +364,9 @@ int wind_sample_get_frame();
 int wind_sample_get_video_stream();
 int wind_sample_get_video_stream_byfd();
 int wind_sample_get_jpeg_snap();
+int wind_sample_get_Luminance();
+
+int wind_sample_set_luminance(int value);
 
 int wind_sample_SetIRCUT(int enable);
 void *wind_sample_soft_photosensitive_ctrl(void *p);

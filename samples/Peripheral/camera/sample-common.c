@@ -1312,6 +1312,17 @@ int wind_sample_get_jpeg_snap()
 	return 0;
 }
 
+int wind_sample_get_Luminance()
+{
+
+    return uvc_pu_brightness_get(0);
+}
+
+int wind_sample_set_luminance(int value)
+{
+    return uvc_pu_brightness_set(0,value);
+}
+
 int wind_sample_get_video_stream_byfd()
 {
     int streamFd[FS_CHN_NUM], vencFd[FS_CHN_NUM], maxVencFd = 0;

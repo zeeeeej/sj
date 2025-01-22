@@ -1,6 +1,9 @@
 #ifndef MsgDispatcher
 #define MsgDispatcher
 
+#include "ParseIni.h"
+
+
 #define SLAVE_ADDR 0x01
 
 #define MSG_DISPATHER_RECV_DEBUG_EN  1

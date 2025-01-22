@@ -41,15 +41,18 @@ add_library(Cam485Protocol_lib STATIC
     ImageInfoList.h
     md5.c
     md5.h
+    ParseIni.h
+    ParseIni.c
 )
 
 target_include_directories(Cam485Protocol_lib PUBLIC ${CMAKE_SOURCE_DIR}/Cam485Protocol
-${CMAKE_SOURCE_DIR}/Peripheral/uart)
+    ${CMAKE_SOURCE_DIR}/Peripheral/uart
+    ${CMAKE_SOURCE_DIR}/Peripheral/camera
+)
 
 
 
 target_link_libraries(Cam485Protocol_lib 
 
     Peripheral_lib 
-
 )
