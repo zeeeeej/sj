@@ -11,9 +11,6 @@ add_library(Peripheral_lib STATIC
     ${CMAKE_SOURCE_DIR}/Peripheral/mpu/yq_mpu.h
     ${CMAKE_SOURCE_DIR}/Peripheral/uart/cm_uart.c
     ${CMAKE_SOURCE_DIR}/Peripheral/uart/cm_uart.h
-    ${CMAKE_SOURCE_DIR}/Peripheral/usb/sample_uvc_video_ctl.c
-    ${CMAKE_SOURCE_DIR}/Peripheral/usb/wind_usb_connect.c
-    ${CMAKE_SOURCE_DIR}/Peripheral/usb/wind_usb_connect.h
     ${CMAKE_SOURCE_DIR}/Peripheral/wdt/wdt.c
     ${CMAKE_SOURCE_DIR}/Peripheral/wdt/wdt.h
 )
