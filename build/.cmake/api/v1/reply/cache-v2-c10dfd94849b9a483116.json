@@ -779,7 +779,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "12"
+			"value" : "10"
 		},
 		{
 			"name" : "CMAKE_OBJCOPY",
@@ -1151,7 +1151,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/kxy/t23_signal_display/samples/door_detect;/home/kxy/t23_signal_display/samples/modbus_task;/home/kxy/t23_signal_display/samples/Peripheral;/home/kxy/t23_signal_display/samples/self_check;/home/kxy/t23_signal_display/samples/utils;/home/kxy/t23_signal_display/samples/tmp;/home/kxy/t23_signal_display/samples/log;/home/kxy/t23_signal_display/samples/command;/home/kxy/t23_signal_display/samples/Cam485Protocol;/home/kxy/t23_signal_display/samples/Peripheral/camera;/home/kxy/t23_signal_display/samples/Peripheral/wdt;/home/kxy/t23_signal_display/samples/../libs/t23_sdk/include;/home/kxy/t23_signal_display/samples/../libs/modbus/include;/home/kxy/t23_signal_display/samples/../libs/ucamcore/include;/home/kxy/t23_signal_display/samples/../libs/anticopy/include;/home/kxy/t23_signal_display/samples/../src/include;/home/kxy/t23_signal_display/samples/../src/common/imp;/home/kxy/t23_signal_display/samples;/home/kxy/t23_signal_display/samples/../src/common/include;/home/kxy/t23_signal_display/samples/../src/include"
+			"value" : "/home/kxy/t23_signal_display/samples/door_detect;/home/kxy/t23_signal_display/samples/Peripheral;/home/kxy/t23_signal_display/samples/self_check;/home/kxy/t23_signal_display/samples/utils;/home/kxy/t23_signal_display/samples/log;/home/kxy/t23_signal_display/samples/command;/home/kxy/t23_signal_display/samples/Cam485Protocol;/home/kxy/t23_signal_display/samples/Peripheral/camera;/home/kxy/t23_signal_display/samples/Peripheral/wdt;/home/kxy/t23_signal_display/samples/../libs/t23_sdk/include;/home/kxy/t23_signal_display/samples/../libs/modbus/include;/home/kxy/t23_signal_display/samples/../libs/ucamcore/include;/home/kxy/t23_signal_display/samples/../libs/anticopy/include;/home/kxy/t23_signal_display/samples/../src/include;/home/kxy/t23_signal_display/samples/../src/common/imp;/home/kxy/t23_signal_display/samples;/home/kxy/t23_signal_display/samples/../src/common/include;/home/kxy/t23_signal_display/samples/../src/include"
 		},
 		{
 			"name" : "Cam485Protocol_lib_LIB_DEPENDS",
@@ -1163,7 +1163,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "general;Peripheral_lib;"
+			"value" : "general;log_lib;general;Peripheral_lib;"
 		},
 		{
 			"name" : "MODBUS_LIB",

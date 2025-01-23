@@ -27,37 +27,37 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 83,
+				"line" : 79,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 59,
-				"parent" : 0
-			},
-			{
-				"command" : 2,
-				"file" : 0,
-				"line" : 87,
-				"parent" : 0
-			},
-			{
-				"command" : 2,
-				"file" : 0,
-				"line" : 90,
-				"parent" : 0
-			},
-			{
-				"command" : 3,
-				"file" : 0,
-				"line" : 56,
-				"parent" : 0
-			},
-			{
-				"command" : 3,
-				"file" : 0,
 				"line" : 57,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 83,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 86,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 54,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 55,
 				"parent" : 0
 			}
 		]
@@ -83,10 +83,6 @@
 				},
 				{
 					"backtrace" : 6,
-					"path" : "/home/kxy/t23_signal_display/samples/modbus_task"
-				},
-				{
-					"backtrace" : 6,
 					"path" : "/home/kxy/t23_signal_display/samples/Peripheral"
 				},
 				{
@@ -96,10 +92,6 @@
 				{
 					"backtrace" : 6,
 					"path" : "/home/kxy/t23_signal_display/samples/utils"
-				},
-				{
-					"backtrace" : 6,
-					"path" : "/home/kxy/t23_signal_display/samples/tmp"
 				},
 				{
 					"backtrace" : 6,
@@ -159,11 +151,23 @@
 				},
 				{
 					"backtrace" : 3,
-					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/usb"
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/uart"
 				},
 				{
 					"backtrace" : 3,
-					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/uart"
+					"path" : "/home/kxy/t23_signal_display/samples/log/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/kxy/t23_signal_display/samples/log/port"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/home/kxy/t23_signal_display/samples/log/src"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/usb"
 				}
 			],
 			"language" : "C",
@@ -177,10 +181,6 @@
 	[
 		{
 			"backtrace" : 4,
-			"id" : "samples_lib::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 4,
 			"id" : "src_common_lib::@d8641b722d0b0e31e38c"
 		},
 		{
@@ -188,12 +188,8 @@
 			"id" : "src_modules_lib::@b7b3d1ad654555241cac"
 		},
 		{
-			"backtrace" : 4,
+			"backtrace" : 3,
 			"id" : "log_lib::@e2c7cea07f24a8229370"
-		},
-		{
-			"backtrace" : 4,
-			"id" : "tmp_lib::@f86c1b4986b64c4005a1"
 		},
 		{
 			"backtrace" : 4,
@@ -210,10 +206,6 @@
 		{
 			"backtrace" : 3,
 			"id" : "door_detect_lib::@5e9785bcc9983edc93f1"
-		},
-		{
-			"backtrace" : 3,
-			"id" : "modbus_task_lib::@5edc0da31f6ed0fd66b5"
 		},
 		{
 			"backtrace" : 3,
@@ -258,11 +250,6 @@
 			},
 			{
 				"backtrace" : 3,
-				"fragment" : "modbus_task/libmodbus_task_lib.a",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 3,
 				"fragment" : "Peripheral/libPeripheral_lib.a",
 				"role" : "libraries"
 			},
@@ -288,11 +275,6 @@
 			},
 			{
 				"backtrace" : 3,
-				"fragment" : "modbus_task/libmodbus_task_lib.a",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 3,
 				"fragment" : "Peripheral/libPeripheral_lib.a",
 				"role" : "libraries"
 			},
@@ -313,22 +295,12 @@
 			},
 			{
 				"backtrace" : 4,
-				"fragment" : "tmp/libtmp_lib.a",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 4,
 				"fragment" : "command/libcli_command_lib.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 4,
 				"fragment" : "common_build/libsrc_common_lib.a",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 4,
-				"fragment" : "libsamples_lib.a",
 				"role" : "libraries"
 			},
 			{

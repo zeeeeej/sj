@@ -97,19 +97,163 @@ log/CMakeFiles/log_lib.dir/debug_logger.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/debug_logger.c.s"
 	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/debug_logger.c -o CMakeFiles/log_lib.dir/debug_logger.c.s
 
+log/CMakeFiles/log_lib.dir/port/elog_file_port.c.o: log/CMakeFiles/log_lib.dir/flags.make
+log/CMakeFiles/log_lib.dir/port/elog_file_port.c.o: /home/kxy/t23_signal_display/samples/log/port/elog_file_port.c
+log/CMakeFiles/log_lib.dir/port/elog_file_port.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object log/CMakeFiles/log_lib.dir/port/elog_file_port.c.o"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/port/elog_file_port.c.o -MF CMakeFiles/log_lib.dir/port/elog_file_port.c.o.d -o CMakeFiles/log_lib.dir/port/elog_file_port.c.o -c /home/kxy/t23_signal_display/samples/log/port/elog_file_port.c
+
+log/CMakeFiles/log_lib.dir/port/elog_file_port.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/port/elog_file_port.c.i"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/port/elog_file_port.c > CMakeFiles/log_lib.dir/port/elog_file_port.c.i
+
+log/CMakeFiles/log_lib.dir/port/elog_file_port.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/port/elog_file_port.c.s"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/port/elog_file_port.c -o CMakeFiles/log_lib.dir/port/elog_file_port.c.s
+
+log/CMakeFiles/log_lib.dir/port/elog_port.c.o: log/CMakeFiles/log_lib.dir/flags.make
+log/CMakeFiles/log_lib.dir/port/elog_port.c.o: /home/kxy/t23_signal_display/samples/log/port/elog_port.c
+log/CMakeFiles/log_lib.dir/port/elog_port.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object log/CMakeFiles/log_lib.dir/port/elog_port.c.o"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/port/elog_port.c.o -MF CMakeFiles/log_lib.dir/port/elog_port.c.o.d -o CMakeFiles/log_lib.dir/port/elog_port.c.o -c /home/kxy/t23_signal_display/samples/log/port/elog_port.c
+
+log/CMakeFiles/log_lib.dir/port/elog_port.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/port/elog_port.c.i"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/port/elog_port.c > CMakeFiles/log_lib.dir/port/elog_port.c.i
+
+log/CMakeFiles/log_lib.dir/port/elog_port.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/port/elog_port.c.s"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/port/elog_port.c -o CMakeFiles/log_lib.dir/port/elog_port.c.s
+
+log/CMakeFiles/log_lib.dir/src/elog.c.o: log/CMakeFiles/log_lib.dir/flags.make
+log/CMakeFiles/log_lib.dir/src/elog.c.o: /home/kxy/t23_signal_display/samples/log/src/elog.c
+log/CMakeFiles/log_lib.dir/src/elog.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object log/CMakeFiles/log_lib.dir/src/elog.c.o"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/src/elog.c.o -MF CMakeFiles/log_lib.dir/src/elog.c.o.d -o CMakeFiles/log_lib.dir/src/elog.c.o -c /home/kxy/t23_signal_display/samples/log/src/elog.c
+
+log/CMakeFiles/log_lib.dir/src/elog.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/src/elog.c.i"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/src/elog.c > CMakeFiles/log_lib.dir/src/elog.c.i
+
+log/CMakeFiles/log_lib.dir/src/elog.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/src/elog.c.s"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/src/elog.c -o CMakeFiles/log_lib.dir/src/elog.c.s
+
+log/CMakeFiles/log_lib.dir/src/elog_utils.c.o: log/CMakeFiles/log_lib.dir/flags.make
+log/CMakeFiles/log_lib.dir/src/elog_utils.c.o: /home/kxy/t23_signal_display/samples/log/src/elog_utils.c
+log/CMakeFiles/log_lib.dir/src/elog_utils.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object log/CMakeFiles/log_lib.dir/src/elog_utils.c.o"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/src/elog_utils.c.o -MF CMakeFiles/log_lib.dir/src/elog_utils.c.o.d -o CMakeFiles/log_lib.dir/src/elog_utils.c.o -c /home/kxy/t23_signal_display/samples/log/src/elog_utils.c
+
+log/CMakeFiles/log_lib.dir/src/elog_utils.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/src/elog_utils.c.i"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/src/elog_utils.c > CMakeFiles/log_lib.dir/src/elog_utils.c.i
+
+log/CMakeFiles/log_lib.dir/src/elog_utils.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/src/elog_utils.c.s"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/src/elog_utils.c -o CMakeFiles/log_lib.dir/src/elog_utils.c.s
+
+log/CMakeFiles/log_lib.dir/src/elog_async.c.o: log/CMakeFiles/log_lib.dir/flags.make
+log/CMakeFiles/log_lib.dir/src/elog_async.c.o: /home/kxy/t23_signal_display/samples/log/src/elog_async.c
+log/CMakeFiles/log_lib.dir/src/elog_async.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object log/CMakeFiles/log_lib.dir/src/elog_async.c.o"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/src/elog_async.c.o -MF CMakeFiles/log_lib.dir/src/elog_async.c.o.d -o CMakeFiles/log_lib.dir/src/elog_async.c.o -c /home/kxy/t23_signal_display/samples/log/src/elog_async.c
+
+log/CMakeFiles/log_lib.dir/src/elog_async.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/src/elog_async.c.i"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/src/elog_async.c > CMakeFiles/log_lib.dir/src/elog_async.c.i
+
+log/CMakeFiles/log_lib.dir/src/elog_async.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/src/elog_async.c.s"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/src/elog_async.c -o CMakeFiles/log_lib.dir/src/elog_async.c.s
+
+log/CMakeFiles/log_lib.dir/src/elog_buf.c.o: log/CMakeFiles/log_lib.dir/flags.make
+log/CMakeFiles/log_lib.dir/src/elog_buf.c.o: /home/kxy/t23_signal_display/samples/log/src/elog_buf.c
+log/CMakeFiles/log_lib.dir/src/elog_buf.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object log/CMakeFiles/log_lib.dir/src/elog_buf.c.o"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/src/elog_buf.c.o -MF CMakeFiles/log_lib.dir/src/elog_buf.c.o.d -o CMakeFiles/log_lib.dir/src/elog_buf.c.o -c /home/kxy/t23_signal_display/samples/log/src/elog_buf.c
+
+log/CMakeFiles/log_lib.dir/src/elog_buf.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/src/elog_buf.c.i"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/src/elog_buf.c > CMakeFiles/log_lib.dir/src/elog_buf.c.i
+
+log/CMakeFiles/log_lib.dir/src/elog_buf.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/src/elog_buf.c.s"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/src/elog_buf.c -o CMakeFiles/log_lib.dir/src/elog_buf.c.s
+
+log/CMakeFiles/log_lib.dir/src/elog_file.c.o: log/CMakeFiles/log_lib.dir/flags.make
+log/CMakeFiles/log_lib.dir/src/elog_file.c.o: /home/kxy/t23_signal_display/samples/log/src/elog_file.c
+log/CMakeFiles/log_lib.dir/src/elog_file.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object log/CMakeFiles/log_lib.dir/src/elog_file.c.o"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/src/elog_file.c.o -MF CMakeFiles/log_lib.dir/src/elog_file.c.o.d -o CMakeFiles/log_lib.dir/src/elog_file.c.o -c /home/kxy/t23_signal_display/samples/log/src/elog_file.c
+
+log/CMakeFiles/log_lib.dir/src/elog_file.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/src/elog_file.c.i"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/src/elog_file.c > CMakeFiles/log_lib.dir/src/elog_file.c.i
+
+log/CMakeFiles/log_lib.dir/src/elog_file.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/src/elog_file.c.s"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/src/elog_file.c -o CMakeFiles/log_lib.dir/src/elog_file.c.s
+
+log/CMakeFiles/log_lib.dir/log_test.c.o: log/CMakeFiles/log_lib.dir/flags.make
+log/CMakeFiles/log_lib.dir/log_test.c.o: /home/kxy/t23_signal_display/samples/log/log_test.c
+log/CMakeFiles/log_lib.dir/log_test.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object log/CMakeFiles/log_lib.dir/log_test.c.o"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/log_test.c.o -MF CMakeFiles/log_lib.dir/log_test.c.o.d -o CMakeFiles/log_lib.dir/log_test.c.o -c /home/kxy/t23_signal_display/samples/log/log_test.c
+
+log/CMakeFiles/log_lib.dir/log_test.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/log_test.c.i"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/log_test.c > CMakeFiles/log_lib.dir/log_test.c.i
+
+log/CMakeFiles/log_lib.dir/log_test.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/log_test.c.s"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/log_test.c -o CMakeFiles/log_lib.dir/log_test.c.s
+
+log/CMakeFiles/log_lib.dir/Log_init.c.o: log/CMakeFiles/log_lib.dir/flags.make
+log/CMakeFiles/log_lib.dir/Log_init.c.o: /home/kxy/t23_signal_display/samples/log/Log_init.c
+log/CMakeFiles/log_lib.dir/Log_init.c.o: log/CMakeFiles/log_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object log/CMakeFiles/log_lib.dir/Log_init.c.o"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT log/CMakeFiles/log_lib.dir/Log_init.c.o -MF CMakeFiles/log_lib.dir/Log_init.c.o.d -o CMakeFiles/log_lib.dir/Log_init.c.o -c /home/kxy/t23_signal_display/samples/log/Log_init.c
+
+log/CMakeFiles/log_lib.dir/Log_init.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/log_lib.dir/Log_init.c.i"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/log/Log_init.c > CMakeFiles/log_lib.dir/Log_init.c.i
+
+log/CMakeFiles/log_lib.dir/Log_init.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/log_lib.dir/Log_init.c.s"
+	cd /home/kxy/t23_signal_display/build/log && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/log/Log_init.c -o CMakeFiles/log_lib.dir/Log_init.c.s
+
 # Object files for target log_lib
 log_lib_OBJECTS = \
 "CMakeFiles/log_lib.dir/circular_log.c.o" \
-"CMakeFiles/log_lib.dir/debug_logger.c.o"
+"CMakeFiles/log_lib.dir/debug_logger.c.o" \
+"CMakeFiles/log_lib.dir/port/elog_file_port.c.o" \
+"CMakeFiles/log_lib.dir/port/elog_port.c.o" \
+"CMakeFiles/log_lib.dir/src/elog.c.o" \
+"CMakeFiles/log_lib.dir/src/elog_utils.c.o" \
+"CMakeFiles/log_lib.dir/src/elog_async.c.o" \
+"CMakeFiles/log_lib.dir/src/elog_buf.c.o" \
+"CMakeFiles/log_lib.dir/src/elog_file.c.o" \
+"CMakeFiles/log_lib.dir/log_test.c.o" \
+"CMakeFiles/log_lib.dir/Log_init.c.o"
 
 # External object files for target log_lib
 log_lib_EXTERNAL_OBJECTS =
 
 log/liblog_lib.a: log/CMakeFiles/log_lib.dir/circular_log.c.o
 log/liblog_lib.a: log/CMakeFiles/log_lib.dir/debug_logger.c.o
+log/liblog_lib.a: log/CMakeFiles/log_lib.dir/port/elog_file_port.c.o
+log/liblog_lib.a: log/CMakeFiles/log_lib.dir/port/elog_port.c.o
+log/liblog_lib.a: log/CMakeFiles/log_lib.dir/src/elog.c.o
+log/liblog_lib.a: log/CMakeFiles/log_lib.dir/src/elog_utils.c.o
+log/liblog_lib.a: log/CMakeFiles/log_lib.dir/src/elog_async.c.o
+log/liblog_lib.a: log/CMakeFiles/log_lib.dir/src/elog_buf.c.o
+log/liblog_lib.a: log/CMakeFiles/log_lib.dir/src/elog_file.c.o
+log/liblog_lib.a: log/CMakeFiles/log_lib.dir/log_test.c.o
+log/liblog_lib.a: log/CMakeFiles/log_lib.dir/Log_init.c.o
 log/liblog_lib.a: log/CMakeFiles/log_lib.dir/build.make
 log/liblog_lib.a: log/CMakeFiles/log_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C static library liblog_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking C static library liblog_lib.a"
 	cd /home/kxy/t23_signal_display/build/log && $(CMAKE_COMMAND) -P CMakeFiles/log_lib.dir/cmake_clean_target.cmake
 	cd /home/kxy/t23_signal_display/build/log && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/log_lib.dir/link.txt --verbose=$(VERBOSE)
 

@@ -133,9 +133,6 @@
 			"path" : "log/CMakeLists.txt"
 		},
 		{
-			"path" : "tmp/CMakeLists.txt"
-		},
-		{
 			"path" : "command/CMakeLists.txt"
 		},
 		{
@@ -146,9 +143,6 @@
 		},
 		{
 			"path" : "door_detect/CMakeLists.txt"
-		},
-		{
-			"path" : "modbus_task/CMakeLists.txt"
 		},
 		{
 			"path" : "self_check/CMakeLists.txt"

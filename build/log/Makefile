@@ -130,6 +130,30 @@ log_lib/fast:
 	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/build
 .PHONY : log_lib/fast
 
+Log_init.o: Log_init.c.o
+.PHONY : Log_init.o
+
+# target to build an object file
+Log_init.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/Log_init.c.o
+.PHONY : Log_init.c.o
+
+Log_init.i: Log_init.c.i
+.PHONY : Log_init.i
+
+# target to preprocess a source file
+Log_init.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/Log_init.c.i
+.PHONY : Log_init.c.i
+
+Log_init.s: Log_init.c.s
+.PHONY : Log_init.s
+
+# target to generate assembly for a file
+Log_init.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/Log_init.c.s
+.PHONY : Log_init.c.s
+
 circular_log.o: circular_log.c.o
 .PHONY : circular_log.o
 
@@ -178,6 +202,198 @@ debug_logger.c.s:
 	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/debug_logger.c.s
 .PHONY : debug_logger.c.s
 
+log_test.o: log_test.c.o
+.PHONY : log_test.o
+
+# target to build an object file
+log_test.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/log_test.c.o
+.PHONY : log_test.c.o
+
+log_test.i: log_test.c.i
+.PHONY : log_test.i
+
+# target to preprocess a source file
+log_test.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/log_test.c.i
+.PHONY : log_test.c.i
+
+log_test.s: log_test.c.s
+.PHONY : log_test.s
+
+# target to generate assembly for a file
+log_test.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/log_test.c.s
+.PHONY : log_test.c.s
+
+port/elog_file_port.o: port/elog_file_port.c.o
+.PHONY : port/elog_file_port.o
+
+# target to build an object file
+port/elog_file_port.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/port/elog_file_port.c.o
+.PHONY : port/elog_file_port.c.o
+
+port/elog_file_port.i: port/elog_file_port.c.i
+.PHONY : port/elog_file_port.i
+
+# target to preprocess a source file
+port/elog_file_port.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/port/elog_file_port.c.i
+.PHONY : port/elog_file_port.c.i
+
+port/elog_file_port.s: port/elog_file_port.c.s
+.PHONY : port/elog_file_port.s
+
+# target to generate assembly for a file
+port/elog_file_port.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/port/elog_file_port.c.s
+.PHONY : port/elog_file_port.c.s
+
+port/elog_port.o: port/elog_port.c.o
+.PHONY : port/elog_port.o
+
+# target to build an object file
+port/elog_port.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/port/elog_port.c.o
+.PHONY : port/elog_port.c.o
+
+port/elog_port.i: port/elog_port.c.i
+.PHONY : port/elog_port.i
+
+# target to preprocess a source file
+port/elog_port.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/port/elog_port.c.i
+.PHONY : port/elog_port.c.i
+
+port/elog_port.s: port/elog_port.c.s
+.PHONY : port/elog_port.s
+
+# target to generate assembly for a file
+port/elog_port.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/port/elog_port.c.s
+.PHONY : port/elog_port.c.s
+
+src/elog.o: src/elog.c.o
+.PHONY : src/elog.o
+
+# target to build an object file
+src/elog.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog.c.o
+.PHONY : src/elog.c.o
+
+src/elog.i: src/elog.c.i
+.PHONY : src/elog.i
+
+# target to preprocess a source file
+src/elog.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog.c.i
+.PHONY : src/elog.c.i
+
+src/elog.s: src/elog.c.s
+.PHONY : src/elog.s
+
+# target to generate assembly for a file
+src/elog.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog.c.s
+.PHONY : src/elog.c.s
+
+src/elog_async.o: src/elog_async.c.o
+.PHONY : src/elog_async.o
+
+# target to build an object file
+src/elog_async.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_async.c.o
+.PHONY : src/elog_async.c.o
+
+src/elog_async.i: src/elog_async.c.i
+.PHONY : src/elog_async.i
+
+# target to preprocess a source file
+src/elog_async.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_async.c.i
+.PHONY : src/elog_async.c.i
+
+src/elog_async.s: src/elog_async.c.s
+.PHONY : src/elog_async.s
+
+# target to generate assembly for a file
+src/elog_async.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_async.c.s
+.PHONY : src/elog_async.c.s
+
+src/elog_buf.o: src/elog_buf.c.o
+.PHONY : src/elog_buf.o
+
+# target to build an object file
+src/elog_buf.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_buf.c.o
+.PHONY : src/elog_buf.c.o
+
+src/elog_buf.i: src/elog_buf.c.i
+.PHONY : src/elog_buf.i
+
+# target to preprocess a source file
+src/elog_buf.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_buf.c.i
+.PHONY : src/elog_buf.c.i
+
+src/elog_buf.s: src/elog_buf.c.s
+.PHONY : src/elog_buf.s
+
+# target to generate assembly for a file
+src/elog_buf.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_buf.c.s
+.PHONY : src/elog_buf.c.s
+
+src/elog_file.o: src/elog_file.c.o
+.PHONY : src/elog_file.o
+
+# target to build an object file
+src/elog_file.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_file.c.o
+.PHONY : src/elog_file.c.o
+
+src/elog_file.i: src/elog_file.c.i
+.PHONY : src/elog_file.i
+
+# target to preprocess a source file
+src/elog_file.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_file.c.i
+.PHONY : src/elog_file.c.i
+
+src/elog_file.s: src/elog_file.c.s
+.PHONY : src/elog_file.s
+
+# target to generate assembly for a file
+src/elog_file.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_file.c.s
+.PHONY : src/elog_file.c.s
+
+src/elog_utils.o: src/elog_utils.c.o
+.PHONY : src/elog_utils.o
+
+# target to build an object file
+src/elog_utils.c.o:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_utils.c.o
+.PHONY : src/elog_utils.c.o
+
+src/elog_utils.i: src/elog_utils.c.i
+.PHONY : src/elog_utils.i
+
+# target to preprocess a source file
+src/elog_utils.c.i:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_utils.c.i
+.PHONY : src/elog_utils.c.i
+
+src/elog_utils.s: src/elog_utils.c.s
+.PHONY : src/elog_utils.s
+
+# target to generate assembly for a file
+src/elog_utils.c.s:
+	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/src/elog_utils.c.s
+.PHONY : src/elog_utils.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -187,12 +403,39 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... log_lib"
+	@echo "... Log_init.o"
+	@echo "... Log_init.i"
+	@echo "... Log_init.s"
 	@echo "... circular_log.o"
 	@echo "... circular_log.i"
 	@echo "... circular_log.s"
 	@echo "... debug_logger.o"
 	@echo "... debug_logger.i"
 	@echo "... debug_logger.s"
+	@echo "... log_test.o"
+	@echo "... log_test.i"
+	@echo "... log_test.s"
+	@echo "... port/elog_file_port.o"
+	@echo "... port/elog_file_port.i"
+	@echo "... port/elog_file_port.s"
+	@echo "... port/elog_port.o"
+	@echo "... port/elog_port.i"
+	@echo "... port/elog_port.s"
+	@echo "... src/elog.o"
+	@echo "... src/elog.i"
+	@echo "... src/elog.s"
+	@echo "... src/elog_async.o"
+	@echo "... src/elog_async.i"
+	@echo "... src/elog_async.s"
+	@echo "... src/elog_buf.o"
+	@echo "... src/elog_buf.i"
+	@echo "... src/elog_buf.s"
+	@echo "... src/elog_file.o"
+	@echo "... src/elog_file.i"
+	@echo "... src/elog_file.s"
+	@echo "... src/elog_utils.o"
+	@echo "... src/elog_utils.i"
+	@echo "... src/elog_utils.s"
 .PHONY : help
 
 

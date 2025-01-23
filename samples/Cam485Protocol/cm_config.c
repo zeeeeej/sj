@@ -24,7 +24,7 @@ void Set_Camera_config(uint16_t width, uint16_t height)
     return;
 }
 
-void Get_g_slave_address()
+const char * Get_g_slave_address()
 {
     const char *value = get_config_value("slave_device", "slave_address");
     log_i("slave_address : %s\n",value);
@@ -38,7 +38,7 @@ void Get_g_slave_address()
     }
 }
 
-void Get_Camera_config()
+const char * Get_Camera_config()
 {
     const char *value = get_config_value("camera", "width");
     log_i("width : %s\n",value);
@@ -62,6 +62,27 @@ void Get_Camera_config()
     {
         uint16_t height = 0;
     }
+}
+
+const char *ReadFirware()
+{
+    char *buffer;
+    size_t buffer_size;
+    FILE *file = fopen(VERSION_FILE, "r");
+    if (!file) 
+    {
+        log_e("无法打开版本文件");
+        return "";
+    }
+    if (fgets(buffer, buffer_size, file) == NULL) 
+    {
+        log_e("读取版本号失败");
+        fclose(file);
+        return;
+    }
+    buffer[strcspn(buffer, "\n")] = '\0';
+    fclose(file);
+    return buffer;
 }
 
 void LoadConfig()

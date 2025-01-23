@@ -117,19 +117,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named samples_lib
-
-# Build rule for target.
-samples_lib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 samples_lib
-.PHONY : samples_lib
-
-# fast build rule for target.
-samples_lib/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/build
-.PHONY : samples_lib/fast
-
-#=============================================================================
 # Target rules for targets named sample_camera_rst
 
 # Build rule for target.
@@ -180,19 +167,6 @@ log_lib: cmake_check_build_system
 log_lib/fast:
 	$(MAKE) $(MAKESILENT) -f log/CMakeFiles/log_lib.dir/build.make log/CMakeFiles/log_lib.dir/build
 .PHONY : log_lib/fast
-
-#=============================================================================
-# Target rules for targets named tmp_lib
-
-# Build rule for target.
-tmp_lib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tmp_lib
-.PHONY : tmp_lib
-
-# fast build rule for target.
-tmp_lib/fast:
-	$(MAKE) $(MAKESILENT) -f tmp/CMakeFiles/tmp_lib.dir/build.make tmp/CMakeFiles/tmp_lib.dir/build
-.PHONY : tmp_lib/fast
 
 #=============================================================================
 # Target rules for targets named cli_command_lib
@@ -247,19 +221,6 @@ door_detect_lib/fast:
 .PHONY : door_detect_lib/fast
 
 #=============================================================================
-# Target rules for targets named modbus_task_lib
-
-# Build rule for target.
-modbus_task_lib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 modbus_task_lib
-.PHONY : modbus_task_lib
-
-# fast build rule for target.
-modbus_task_lib/fast:
-	$(MAKE) $(MAKESILENT) -f modbus_task/CMakeFiles/modbus_task_lib.dir/build.make modbus_task/CMakeFiles/modbus_task_lib.dir/build
-.PHONY : modbus_task_lib/fast
-
-#=============================================================================
 # Target rules for targets named self_check_lib
 
 # Build rule for target.
@@ -284,30 +245,6 @@ Cam485Protocol_lib: cmake_check_build_system
 Cam485Protocol_lib/fast:
 	$(MAKE) $(MAKESILENT) -f Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build.make Cam485Protocol/CMakeFiles/Cam485Protocol_lib.dir/build
 .PHONY : Cam485Protocol_lib/fast
-
-cm_config.o: cm_config.c.o
-.PHONY : cm_config.o
-
-# target to build an object file
-cm_config.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/cm_config.c.o
-.PHONY : cm_config.c.o
-
-cm_config.i: cm_config.c.i
-.PHONY : cm_config.i
-
-# target to preprocess a source file
-cm_config.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/cm_config.c.i
-.PHONY : cm_config.c.i
-
-cm_config.s: cm_config.c.s
-.PHONY : cm_config.s
-
-# target to generate assembly for a file
-cm_config.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/samples_lib.dir/build.make CMakeFiles/samples_lib.dir/cm_config.c.s
-.PHONY : cm_config.c.s
 
 sample_camera_rst.o: sample_camera_rst.c.o
 .PHONY : sample_camera_rst.o
@@ -346,17 +283,11 @@ help:
 	@echo "... cli_command_lib"
 	@echo "... door_detect_lib"
 	@echo "... log_lib"
-	@echo "... modbus_task_lib"
 	@echo "... sample_camera_rst"
-	@echo "... samples_lib"
 	@echo "... self_check_lib"
 	@echo "... src_common_lib"
 	@echo "... src_modules_lib"
-	@echo "... tmp_lib"
 	@echo "... utils_lib"
-	@echo "... cm_config.o"
-	@echo "... cm_config.i"
-	@echo "... cm_config.s"
 	@echo "... sample_camera_rst.o"
 	@echo "... sample_camera_rst.i"
 	@echo "... sample_camera_rst.s"

@@ -153,38 +153,10 @@ Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.s"
 	cd /home/kxy/t23_signal_display/build/Peripheral && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/uart/cm_uart.c -o CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.s
 
-Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
-Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o: /home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c
-Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o"
-	cd /home/kxy/t23_signal_display/build/Peripheral && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o -MF CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o.d -o CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c
-
-Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.i"
-	cd /home/kxy/t23_signal_display/build/Peripheral && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c > CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.i
-
-Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.s"
-	cd /home/kxy/t23_signal_display/build/Peripheral && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c -o CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.s
-
-Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
-Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o: /home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c
-Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o"
-	cd /home/kxy/t23_signal_display/build/Peripheral && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o -MF CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o.d -o CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c
-
-Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.i"
-	cd /home/kxy/t23_signal_display/build/Peripheral && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c > CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.i
-
-Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.s"
-	cd /home/kxy/t23_signal_display/build/Peripheral && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c -o CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.s
-
 Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/flags.make
 Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o: /home/kxy/t23_signal_display/samples/Peripheral/wdt/wdt.c
 Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o: Peripheral/CMakeFiles/Peripheral_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o"
 	cd /home/kxy/t23_signal_display/build/Peripheral && /home/kxy/t23_signal_display/samples/../toolchain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller/bin/mips-linux-uclibc-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o -MF CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o.d -o CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o -c /home/kxy/t23_signal_display/samples/Peripheral/wdt/wdt.c
 
 Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.i: cmake_force
@@ -203,8 +175,6 @@ Peripheral_lib_OBJECTS = \
 "CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o" \
 "CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o" \
 "CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o" \
-"CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o" \
-"CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o" \
 "CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o"
 
 # External object files for target Peripheral_lib
@@ -216,12 +186,10 @@ Peripheral/libPeripheral_lib.a: Peripheral/CMakeFiles/Peripheral_lib.dir/camera/
 Peripheral/libPeripheral_lib.a: Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o
 Peripheral/libPeripheral_lib.a: Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o
 Peripheral/libPeripheral_lib.a: Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o
-Peripheral/libPeripheral_lib.a: Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o
-Peripheral/libPeripheral_lib.a: Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o
 Peripheral/libPeripheral_lib.a: Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o
 Peripheral/libPeripheral_lib.a: Peripheral/CMakeFiles/Peripheral_lib.dir/build.make
 Peripheral/libPeripheral_lib.a: Peripheral/CMakeFiles/Peripheral_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX static library libPeripheral_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kxy/t23_signal_display/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX static library libPeripheral_lib.a"
 	cd /home/kxy/t23_signal_display/build/Peripheral && $(CMAKE_COMMAND) -P CMakeFiles/Peripheral_lib.dir/cmake_clean_target.cmake
 	cd /home/kxy/t23_signal_display/build/Peripheral && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Peripheral_lib.dir/link.txt --verbose=$(VERBOSE)
 

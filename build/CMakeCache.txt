@@ -215,7 +215,7 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
 //Dependencies for the target
-Cam485Protocol_lib_LIB_DEPENDS:STATIC=general;Peripheral_lib;
+Cam485Protocol_lib_LIB_DEPENDS:STATIC=general;log_lib;general;Peripheral_lib;
 
 //Path to a library.
 MODBUS_LIB:FILEPATH=/home/kxy/t23_signal_display/libs/modbus/lib/libmodbus.a
@@ -365,7 +365,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=12
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=10
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -409,7 +409,7 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Common include directories
-COMMON_INCLUDE_DIRS:INTERNAL=/home/kxy/t23_signal_display/samples/door_detect;/home/kxy/t23_signal_display/samples/modbus_task;/home/kxy/t23_signal_display/samples/Peripheral;/home/kxy/t23_signal_display/samples/self_check;/home/kxy/t23_signal_display/samples/utils;/home/kxy/t23_signal_display/samples/tmp;/home/kxy/t23_signal_display/samples/log;/home/kxy/t23_signal_display/samples/command;/home/kxy/t23_signal_display/samples/Cam485Protocol;/home/kxy/t23_signal_display/samples/Peripheral/camera;/home/kxy/t23_signal_display/samples/Peripheral/wdt;/home/kxy/t23_signal_display/samples/../libs/t23_sdk/include;/home/kxy/t23_signal_display/samples/../libs/modbus/include;/home/kxy/t23_signal_display/samples/../libs/ucamcore/include;/home/kxy/t23_signal_display/samples/../libs/anticopy/include;/home/kxy/t23_signal_display/samples/../src/include;/home/kxy/t23_signal_display/samples/../src/common/imp;/home/kxy/t23_signal_display/samples;/home/kxy/t23_signal_display/samples/../src/common/include;/home/kxy/t23_signal_display/samples/../src/include
+COMMON_INCLUDE_DIRS:INTERNAL=/home/kxy/t23_signal_display/samples/door_detect;/home/kxy/t23_signal_display/samples/Peripheral;/home/kxy/t23_signal_display/samples/self_check;/home/kxy/t23_signal_display/samples/utils;/home/kxy/t23_signal_display/samples/log;/home/kxy/t23_signal_display/samples/command;/home/kxy/t23_signal_display/samples/Cam485Protocol;/home/kxy/t23_signal_display/samples/Peripheral/camera;/home/kxy/t23_signal_display/samples/Peripheral/wdt;/home/kxy/t23_signal_display/samples/../libs/t23_sdk/include;/home/kxy/t23_signal_display/samples/../libs/modbus/include;/home/kxy/t23_signal_display/samples/../libs/ucamcore/include;/home/kxy/t23_signal_display/samples/../libs/anticopy/include;/home/kxy/t23_signal_display/samples/../src/include;/home/kxy/t23_signal_display/samples/../src/common/imp;/home/kxy/t23_signal_display/samples;/home/kxy/t23_signal_display/samples/../src/common/include;/home/kxy/t23_signal_display/samples/../src/include
 //ADVANCED property for variable: ZLIB_INCLUDE_DIR
 ZLIB_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ZLIB_LIBRARY_DEBUG

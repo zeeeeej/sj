@@ -274,54 +274,6 @@ uart/cm_uart.c.s:
 	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Peripheral/CMakeFiles/Peripheral_lib.dir/build.make Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.s
 .PHONY : uart/cm_uart.c.s
 
-usb/sample_uvc_video_ctl.o: usb/sample_uvc_video_ctl.c.o
-.PHONY : usb/sample_uvc_video_ctl.o
-
-# target to build an object file
-usb/sample_uvc_video_ctl.c.o:
-	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Peripheral/CMakeFiles/Peripheral_lib.dir/build.make Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o
-.PHONY : usb/sample_uvc_video_ctl.c.o
-
-usb/sample_uvc_video_ctl.i: usb/sample_uvc_video_ctl.c.i
-.PHONY : usb/sample_uvc_video_ctl.i
-
-# target to preprocess a source file
-usb/sample_uvc_video_ctl.c.i:
-	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Peripheral/CMakeFiles/Peripheral_lib.dir/build.make Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.i
-.PHONY : usb/sample_uvc_video_ctl.c.i
-
-usb/sample_uvc_video_ctl.s: usb/sample_uvc_video_ctl.c.s
-.PHONY : usb/sample_uvc_video_ctl.s
-
-# target to generate assembly for a file
-usb/sample_uvc_video_ctl.c.s:
-	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Peripheral/CMakeFiles/Peripheral_lib.dir/build.make Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.s
-.PHONY : usb/sample_uvc_video_ctl.c.s
-
-usb/wind_usb_connect.o: usb/wind_usb_connect.c.o
-.PHONY : usb/wind_usb_connect.o
-
-# target to build an object file
-usb/wind_usb_connect.c.o:
-	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Peripheral/CMakeFiles/Peripheral_lib.dir/build.make Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o
-.PHONY : usb/wind_usb_connect.c.o
-
-usb/wind_usb_connect.i: usb/wind_usb_connect.c.i
-.PHONY : usb/wind_usb_connect.i
-
-# target to preprocess a source file
-usb/wind_usb_connect.c.i:
-	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Peripheral/CMakeFiles/Peripheral_lib.dir/build.make Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.i
-.PHONY : usb/wind_usb_connect.c.i
-
-usb/wind_usb_connect.s: usb/wind_usb_connect.c.s
-.PHONY : usb/wind_usb_connect.s
-
-# target to generate assembly for a file
-usb/wind_usb_connect.c.s:
-	cd /home/kxy/t23_signal_display/build && $(MAKE) $(MAKESILENT) -f Peripheral/CMakeFiles/Peripheral_lib.dir/build.make Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.s
-.PHONY : usb/wind_usb_connect.c.s
-
 wdt/wdt.o: wdt/wdt.c.o
 .PHONY : wdt/wdt.o
 
@@ -373,12 +325,6 @@ help:
 	@echo "... uart/cm_uart.o"
 	@echo "... uart/cm_uart.i"
 	@echo "... uart/cm_uart.s"
-	@echo "... usb/sample_uvc_video_ctl.o"
-	@echo "... usb/sample_uvc_video_ctl.i"
-	@echo "... usb/sample_uvc_video_ctl.s"
-	@echo "... usb/wind_usb_connect.o"
-	@echo "... usb/wind_usb_connect.i"
-	@echo "... usb/wind_usb_connect.s"
 	@echo "... wdt/wdt.o"
 	@echo "... wdt/wdt.i"
 	@echo "... wdt/wdt.s"

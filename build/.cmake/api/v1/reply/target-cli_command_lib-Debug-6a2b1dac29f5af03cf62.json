@@ -3,7 +3,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "self_check/libself_check_lib.a"
+			"path" : "command/libcli_command_lib.a"
 		}
 	],
 	"backtrace" : 1,
@@ -12,12 +12,11 @@
 		"commands" : 
 		[
 			"add_library",
-			"include_directories",
-			"target_include_directories"
+			"include_directories"
 		],
 		"files" : 
 		[
-			"self_check/CMakeLists.txt",
+			"command/CMakeLists.txt",
 			"CMakeLists.txt"
 		],
 		"nodes" : 
@@ -37,20 +36,14 @@
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 56,
+				"line" : 54,
 				"parent" : 2
 			},
 			{
 				"command" : 1,
 				"file" : 1,
-				"line" : 57,
+				"line" : 55,
 				"parent" : 2
-			},
-			{
-				"command" : 2,
-				"file" : 0,
-				"line" : 10,
-				"parent" : 0
 			}
 		]
 	},
@@ -75,10 +68,6 @@
 				},
 				{
 					"backtrace" : 4,
-					"path" : "/home/kxy/t23_signal_display/samples/modbus_task"
-				},
-				{
-					"backtrace" : 4,
 					"path" : "/home/kxy/t23_signal_display/samples/Peripheral"
 				},
 				{
@@ -88,10 +77,6 @@
 				{
 					"backtrace" : 4,
 					"path" : "/home/kxy/t23_signal_display/samples/utils"
-				},
-				{
-					"backtrace" : 4,
-					"path" : "/home/kxy/t23_signal_display/samples/tmp"
 				},
 				{
 					"backtrace" : 4,
@@ -144,28 +129,22 @@
 				{
 					"backtrace" : 4,
 					"path" : "/home/kxy/t23_signal_display/samples/../src/common/include"
-				},
-				{
-					"backtrace" : 5,
-					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/mpu"
 				}
 			],
 			"language" : "C",
 			"sourceIndexes" : 
 			[
-				0,
-				2,
-				4
+				0
 			]
 		}
 	],
-	"id" : "self_check_lib::@dd1bb5cd8d50bc74c843",
-	"name" : "self_check_lib",
-	"nameOnDisk" : "libself_check_lib.a",
+	"id" : "cli_command_lib::@ec3faa76f6536ff204f7",
+	"name" : "cli_command_lib",
+	"nameOnDisk" : "libcli_command_lib.a",
 	"paths" : 
 	{
-		"build" : "self_check",
-		"source" : "self_check"
+		"build" : "command",
+		"source" : "command"
 	},
 	"sourceGroups" : 
 	[
@@ -173,18 +152,14 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0,
-				2,
-				4
+				0
 			]
 		},
 		{
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				1,
-				3,
-				5
+				1
 			]
 		}
 	],
@@ -193,34 +168,12 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "self_check/cam_self_check.c",
+			"path" : "command/cli_command.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"path" : "self_check/cam_self_check.h",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "self_check/gyro_self_check.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"path" : "self_check/gyro_self_check.h",
-			"sourceGroupIndex" : 1
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "self_check/self_check.c",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"path" : "self_check/self_check.h",
+			"path" : "command/cli_command.h",
 			"sourceGroupIndex" : 1
 		}
 	],

@@ -1,4 +1,3 @@
-/home/kxy/t23_signal_display/build/CMakeFiles/samples_lib.dir
 /home/kxy/t23_signal_display/build/CMakeFiles/sample_camera_rst.dir
 /home/kxy/t23_signal_display/build/CMakeFiles/edit_cache.dir
 /home/kxy/t23_signal_display/build/CMakeFiles/rebuild_cache.dir
@@ -11,9 +10,6 @@
 /home/kxy/t23_signal_display/build/log/CMakeFiles/log_lib.dir
 /home/kxy/t23_signal_display/build/log/CMakeFiles/edit_cache.dir
 /home/kxy/t23_signal_display/build/log/CMakeFiles/rebuild_cache.dir
-/home/kxy/t23_signal_display/build/tmp/CMakeFiles/tmp_lib.dir
-/home/kxy/t23_signal_display/build/tmp/CMakeFiles/edit_cache.dir
-/home/kxy/t23_signal_display/build/tmp/CMakeFiles/rebuild_cache.dir
 /home/kxy/t23_signal_display/build/command/CMakeFiles/cli_command_lib.dir
 /home/kxy/t23_signal_display/build/command/CMakeFiles/edit_cache.dir
 /home/kxy/t23_signal_display/build/command/CMakeFiles/rebuild_cache.dir
@@ -26,9 +22,6 @@
 /home/kxy/t23_signal_display/build/door_detect/CMakeFiles/door_detect_lib.dir
 /home/kxy/t23_signal_display/build/door_detect/CMakeFiles/edit_cache.dir
 /home/kxy/t23_signal_display/build/door_detect/CMakeFiles/rebuild_cache.dir
-/home/kxy/t23_signal_display/build/modbus_task/CMakeFiles/modbus_task_lib.dir
-/home/kxy/t23_signal_display/build/modbus_task/CMakeFiles/edit_cache.dir
-/home/kxy/t23_signal_display/build/modbus_task/CMakeFiles/rebuild_cache.dir
 /home/kxy/t23_signal_display/build/self_check/CMakeFiles/self_check_lib.dir
 /home/kxy/t23_signal_display/build/self_check/CMakeFiles/edit_cache.dir
 /home/kxy/t23_signal_display/build/self_check/CMakeFiles/rebuild_cache.dir

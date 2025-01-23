@@ -13,8 +13,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/kxy/t23_signal_display/samples/Peripheral/camera/sample-common.c" "Peripheral/CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o" "gcc" "Peripheral/CMakeFiles/Peripheral_lib.dir/camera/sample-common.c.o.d"
   "/home/kxy/t23_signal_display/samples/Peripheral/mpu/mpu_ctrl.c" "Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o" "gcc" "Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/mpu_ctrl.c.o.d"
   "/home/kxy/t23_signal_display/samples/Peripheral/uart/cm_uart.c" "Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o" "gcc" "Peripheral/CMakeFiles/Peripheral_lib.dir/uart/cm_uart.c.o.d"
-  "/home/kxy/t23_signal_display/samples/Peripheral/usb/sample_uvc_video_ctl.c" "Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o" "gcc" "Peripheral/CMakeFiles/Peripheral_lib.dir/usb/sample_uvc_video_ctl.c.o.d"
-  "/home/kxy/t23_signal_display/samples/Peripheral/usb/wind_usb_connect.c" "Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o" "gcc" "Peripheral/CMakeFiles/Peripheral_lib.dir/usb/wind_usb_connect.c.o.d"
   "/home/kxy/t23_signal_display/samples/Peripheral/wdt/wdt.c" "Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o" "gcc" "Peripheral/CMakeFiles/Peripheral_lib.dir/wdt/wdt.c.o.d"
   "/home/kxy/t23_signal_display/samples/Peripheral/mpu/yq_mpu_impl_lsm6ds3trc.cpp" "Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o" "gcc" "Peripheral/CMakeFiles/Peripheral_lib.dir/mpu/yq_mpu_impl_lsm6ds3trc.cpp.o.d"
   )

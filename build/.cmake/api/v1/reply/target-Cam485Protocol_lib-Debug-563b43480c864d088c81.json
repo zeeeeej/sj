@@ -35,7 +35,7 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 35,
+				"line" : 58,
 				"parent" : 0
 			},
 			{
@@ -44,19 +44,19 @@
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 56,
+				"line" : 54,
 				"parent" : 3
 			},
 			{
 				"command" : 2,
 				"file" : 1,
-				"line" : 57,
+				"line" : 55,
 				"parent" : 3
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 30,
+				"line" : 50,
 				"parent" : 0
 			}
 		]
@@ -82,10 +82,6 @@
 				},
 				{
 					"backtrace" : 5,
-					"path" : "/home/kxy/t23_signal_display/samples/modbus_task"
-				},
-				{
-					"backtrace" : 5,
 					"path" : "/home/kxy/t23_signal_display/samples/Peripheral"
 				},
 				{
@@ -95,10 +91,6 @@
 				{
 					"backtrace" : 5,
 					"path" : "/home/kxy/t23_signal_display/samples/utils"
-				},
-				{
-					"backtrace" : 5,
-					"path" : "/home/kxy/t23_signal_display/samples/tmp"
 				},
 				{
 					"backtrace" : 5,
@@ -155,6 +147,18 @@
 				{
 					"backtrace" : 6,
 					"path" : "/home/kxy/t23_signal_display/samples/Peripheral/uart"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/kxy/t23_signal_display/samples/log/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/kxy/t23_signal_display/samples/log/port"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/kxy/t23_signal_display/samples/log/src"
 				}
 			],
 			"language" : "C",
@@ -167,15 +171,29 @@
 				8,
 				11,
 				13,
-				14,
-				16,
-				18,
-				20
+				15,
+				17,
+				19,
+				21,
+				22,
+				24,
+				27,
+				29,
+				31,
+				33,
+				34,
+				36,
+				39,
+				41
 			]
 		}
 	],
 	"dependencies" : 
 	[
+		{
+			"backtrace" : 2,
+			"id" : "log_lib::@e2c7cea07f24a8229370"
+		},
 		{
 			"backtrace" : 2,
 			"id" : "Peripheral_lib::@30bfad387d796e272f55"
@@ -202,10 +220,20 @@
 				8,
 				11,
 				13,
-				14,
-				16,
-				18,
-				20
+				15,
+				17,
+				19,
+				21,
+				22,
+				24,
+				27,
+				29,
+				31,
+				33,
+				34,
+				36,
+				39,
+				41
 			]
 		},
 		{
@@ -219,10 +247,20 @@
 				9,
 				10,
 				12,
-				15,
-				17,
-				19,
-				21
+				14,
+				16,
+				18,
+				20,
+				23,
+				25,
+				26,
+				28,
+				30,
+				32,
+				35,
+				37,
+				38,
+				40
 			]
 		}
 	],
@@ -285,6 +323,50 @@
 		},
 		{
 			"backtrace" : 1,
+			"path" : "Cam485Protocol/SID02_QueryAttribute.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Cam485Protocol/SID02_QueryAttribute.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Cam485Protocol/SID03_SetAttribute.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Cam485Protocol/SID03_SetAttribute.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Cam485Protocol/SID04_RestoreFactorySettings.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Cam485Protocol/SID04_RestoreFactorySettings.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Cam485Protocol/SID05_ResetCamera.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Cam485Protocol/SID05_ResetCamera.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
 			"path" : "Cam485Protocol/SID06_ActiveScreenshot.h",
 			"sourceGroupIndex" : 1
 		},
@@ -329,6 +411,50 @@
 		},
 		{
 			"backtrace" : 1,
+			"path" : "Cam485Protocol/SID0A_PhotoGetComplete.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Cam485Protocol/SID0A_PhotoGetComplete.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Cam485Protocol/SID0B_FirmwareUpdateNotice.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Cam485Protocol/SID0B_FirmwareUpdateNotice.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Cam485Protocol/SID0C_SendFirmwareUpdatePacket.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Cam485Protocol/SID0C_SendFirmwareUpdatePacket.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Cam485Protocol/SID0D_DoorOpenOrCloseSignal.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Cam485Protocol/SID0D_DoorOpenOrCloseSignal.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "Cam485Protocol/ImageInfoList.c",
 			"sourceGroupIndex" : 0
@@ -348,6 +474,28 @@
 			"backtrace" : 1,
 			"path" : "Cam485Protocol/md5.h",
 			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Cam485Protocol/ParseIni.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Cam485Protocol/ParseIni.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Cam485Protocol/cm_config.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "Cam485Protocol/cm_config.c",
+			"sourceGroupIndex" : 0
 		}
 	],
 	"type" : "STATIC_LIBRARY"
