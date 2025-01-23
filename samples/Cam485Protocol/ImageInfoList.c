@@ -8,19 +8,19 @@
 #include <libgen.h> // for basename
 #include <limits.h>
 #include "md5.h"
-#include "ProtocolPort.h"
+#include "Cam485ProtocolCommon.h"
 #include "cm_common.h"
-
-
-ThreadSafeList* gyroscopeTriggerList = NULL;
-ThreadSafeList* activeTriggerList    = NULL;
+#include "elog.h"
+#define LOG_TAG  "IMAGE-LIST"
+static ThreadSafeList* gyroscopeTriggerList = NULL;
+static ThreadSafeList* activeTriggerList    = NULL;
 
 
 // 初始化链表
 ThreadSafeList* initList() {
     ThreadSafeList* list = (ThreadSafeList*)malloc(sizeof(ThreadSafeList));
     if (!list) {
-        printf("mem malloc error\n");
+        log_e("malloc error");
         exit(1);
     }
     list->head = NULL;
@@ -35,7 +35,7 @@ ThreadSafeList* initList() {
  */
 BufferedDataNode* copy_list_to_buffer(ThreadSafeList *list, size_t *buffer_size) {
     if (list == NULL || list->head == NULL) {
-        printf("The list is empty or invalid.\n");
+        log_e("error param");
         *buffer_size = 0;
         return NULL;
     }
@@ -108,6 +108,11 @@ void appendNode(ThreadSafeList* list, DataNode data) {
 
 // 打印链表中的所有节点
 void printList(ThreadSafeList* list) {
+    if(list == NULL)
+    {
+        log_e("list is null");
+        return;
+    }
     pthread_mutex_lock(&list->lock);
     ListNode* temp = list->head;
     while (temp != NULL) {
@@ -122,7 +127,13 @@ void printList(ThreadSafeList* list) {
     }
     pthread_mutex_unlock(&list->lock);
 }
-
+void printAllListlist()
+{
+    printf("\n********* link list info *************** ");
+    printList(gyroscopeTriggerList);
+    printList(activeTriggerList);
+    printf("********* link list info *************** \n");
+}
 // 释放链表内存
 void freeList(ThreadSafeList* list) {
     pthread_mutex_destroy(&list->lock);
@@ -154,13 +165,26 @@ BufferedDataNode* copy_both_lists_to_buffer(size_t *buffer_size) {
         return NULL;
     }
 
+    if(gyro_buffer == NULL)
+    {
+        log_w("gyro list is empty or not init");
+    }
+    else if(active_buffer == NULL)
+    {
+        log_w("act list is empty or not init");
+    }   
+
+    log_i("gyr image info count : %d",gyro_count);
+    log_i("act image info count : %d",active_count);
+
+
     // 计算总大小并分配最终缓冲区
     *buffer_size = gyro_count + active_count;
     BufferedDataNode *combined_buffer = (BufferedDataNode *)malloc(*buffer_size * sizeof(BufferedDataNode));
     if (combined_buffer == NULL) {
         free(gyro_buffer);
         free(active_buffer);
-        printf("Failed to allocate memory for combined buffer.\n");
+        log_e("Failed to allocate memory for combined buffer.\n");
         *buffer_size = 0;
         return NULL;
     }
@@ -233,11 +257,81 @@ void appendToActiveTriggerList(DataNode data) {
     }
     appendNode(activeTriggerList, data);
 }
+/**
+ * 根据文件名决定在哪个链表中查找并删除节点。
+ * @param file_path 文件路径，例如 "/tmp/gyro_trigger/image_1_30"
+ */
+void deleteNodeByFileName(const char *file_path) {
+    if (file_path == NULL || strlen(file_path) < strlen(ACTIVE_TRIGGER_PHOTO_FILE_DIR)) {
+        log_e("error param\n");
+        return; // 文件路径为空或太短，直接返回
+    }
+    log_i("delete file path : %s",file_path);
+    // 确定使用哪个链表
+    ThreadSafeList *target_list = NULL;
 
-void deleteNodeById(ThreadSafeList *list, unsigned char id)
+    size_t act_dir_len = strlen(ACTIVE_TRIGGER_PHOTO_FILE_DIR);
+    size_t gyro_dir_len = strlen(GYRO_TRIGGER_PHOTO_FILE_DIR);
+
+    if (strncmp(file_path, ACTIVE_TRIGGER_PHOTO_FILE_DIR, act_dir_len) == 0) {
+        target_list = activeTriggerList;
+        log_i("target List is act list");
+    } else if (strncmp(file_path, GYRO_TRIGGER_PHOTO_FILE_DIR, gyro_dir_len) == 0) {
+        target_list = gyroscopeTriggerList;
+        log_w("target List is gyr list");
+    } else {
+        // 文件路径不属于任何一个指定目录，直接返回
+        log_i("unkown dir");
+        return;
+    }
+
+    // 调用具体的删除函数
+    if (target_list != NULL) {
+        deleteNodeByFilePath(target_list, file_path);
+    }
+}
+void deleteNodeByFilePath(ThreadSafeList *list, const char *file_path)
+{
+    if (list == NULL || list->head == NULL || file_path == NULL) {
+        log_e("error param");
+        return; // 链表为空或文件路径为空，直接返回
+    }
+
+    // 加锁以确保线程安全
+    pthread_mutex_lock(&list->lock);
+
+    ListNode *current = list->head;
+    ListNode *prev = NULL;
+
+    while (current != NULL) {
+        // 判断当前节点的数据 file_path 是否匹配
+        if (strcmp(current->data.file_path, file_path) == 0) {
+            // 如果匹配，释放当前节点
+            if (prev == NULL) {
+                // 删除的是头节点
+                list->head = current->next;
+            } else {
+                // 删除的是中间或尾部节点
+                prev->next = current->next;
+            }
+
+            // 释放当前节点
+            free(current);
+            pthread_mutex_unlock(&list->lock); // 解锁并退出
+            return;
+        }
+        // 继续遍历
+        prev = current;
+        current = current->next;
+    }
+
+    // 未找到匹配的节点
+    pthread_mutex_unlock(&list->lock);
+}
+static int deleteNodeById(ThreadSafeList *list, unsigned char id)
 {
    if (list == NULL || list->head == NULL) {
-        return; // 链表为空，直接返回
+        return -1; // 链表为空，直接返回
     }
 
     // 加锁以确保线程安全
@@ -262,7 +356,7 @@ void deleteNodeById(ThreadSafeList *list, unsigned char id)
             // 这里的 file_path 和 md5 是静态分配的，不需要额外释放
             free(current); // 释放当前节点
             pthread_mutex_unlock(&list->lock); // 解锁并退出
-            return;
+            return 0;
         }
         // 继续遍历
         prev = current;
@@ -271,9 +365,43 @@ void deleteNodeById(ThreadSafeList *list, unsigned char id)
 
     // 未找到匹配的节点
     pthread_mutex_unlock(&list->lock);
+    return -1;
 }
 
-void deleteAllNodes(ThreadSafeList *list)
+int deleteListNodeById(unsigned char id)
+{
+    int ret = 0;
+    ret = deleteNodeById(gyroscopeTriggerList,id);
+    if(ret!=0)
+    {
+        log_e("not found image id from gyto list");
+    }
+    else
+    {
+        /*找到了直接返回*/
+        log_i("delete id : %d scuess\n",id);
+        return ret;
+    }
+    ret = deleteNodeById(activeTriggerList,id);
+    if(ret!=0)
+    {
+        log_e("not found image id from act list");
+    }
+    else
+    {
+        /*找到了直接返回*/
+        log_e("delete id : %d scuess\n",id);
+        return ret;
+    }
+    return  ret;
+}
+
+
+
+
+
+
+static void deleteAllNodes(ThreadSafeList *list)
 {
     if (list == NULL || list->head == NULL) {
         return;
@@ -293,6 +421,13 @@ void deleteAllNodes(ThreadSafeList *list)
 
     // 解锁
     pthread_mutex_unlock(&list->lock);
+}
+
+
+void cleanAllLinkList()
+{
+    deleteAllNodes(gyroscopeTriggerList);
+    deleteAllNodes(activeTriggerList);
 }
 
 DataNode *getNodeById(ThreadSafeList *list, unsigned char id)
@@ -418,14 +553,14 @@ int parse_filename(const char *filepath, unsigned char *trigger_type, unsigned c
 
     filename = strrchr(full_path, '/');
     if (filename == NULL) {
-        fprintf(stderr, "Invalid file path: %s\n", filepath);
+        log_e("Invalid file path: %s", filepath);
         return -1;
     }
     *filename = '\0'; // 将路径和文件名分割开
     filename++; // 指向文件名部分
     dir_path = full_path;
-    printf("dir path : %s\n",dir_path);
-
+    log_d("dir path : %s",dir_path);
+    log_d("filename : %s",filename);
     // 检查是否在陀螺仪触发目录下
     if (strncmp(dir_path, GYRO_TRIGGER_PHOTO_FILE_DIR, strlen(GYRO_TRIGGER_PHOTO_FILE_DIR)-1) == 0) {
         *trigger_type = GYRO_TRIGGER_TYPE;
@@ -434,10 +569,9 @@ int parse_filename(const char *filepath, unsigned char *trigger_type, unsigned c
         // 文件名格式：image_id_angle
         if (sscanf(filename, "image_%u_%d", &parsed_id, &parsed_angle) != 2 || 
             parsed_id > UCHAR_MAX || parsed_angle > SCHAR_MAX || parsed_angle < SCHAR_MIN) {
-            fprintf(stderr, "Failed to parse filename or value out of byte range: %s\n", filename);
+            log_e("Failed to parse filename or value out of byte range: %s", filename);
             return -1;
         }
-        printf("gyro\n");
         *id = (unsigned char)parsed_id;
         *angle = (signed char)parsed_angle;
     }
@@ -447,14 +581,13 @@ int parse_filename(const char *filepath, unsigned char *trigger_type, unsigned c
         unsigned int parsed_id;
         // 文件名格式：image_id
         if (sscanf(filename, "image_%u", &parsed_id) != 1 || parsed_id > UCHAR_MAX) {
-            fprintf(stderr, "Failed to parse filename or id out of byte range: %s\n", filename);
+            log_e("Failed to parse filename or id out of byte range: %s", filename);
             return -1;
         }
-        printf("act\n");
         *id = (unsigned char)parsed_id;
         *angle = -1; // 对于主动拍照目录下的文件，angle设置为-1
     } else {
-        fprintf(stderr, "Unknown directory path: %s\n", dir_path);
+        log_w("Unknown directory path: %s", dir_path);
         *trigger_type = TRIGGER_TYPE_UNKNOWN;
         return -1;
     }
@@ -488,16 +621,18 @@ void generate_image_info(char *image_path) {
     ret = parse_filename(image_path, &trigger_type, &pic_id,&trigger_angle);
     if(ret == 0 )
     {
-        LOGD("parse file scuess\n");
+        log_d("parse file scuess");
     }
     else{
-        LOGD("parse file fail\n");
+        log_w("parse file fail");
     }
 
-    printf("trigger_type : %d\n",trigger_type);
-    printf("pic_id : %d\n",pic_id);
-    printf("trigger_angle : %d\n",trigger_angle);
-    // // 构建DataNode结构体
+    printf("\n");
+    log_i("trigger_type : %d",trigger_type);
+    log_i("pic_id : %d",pic_id);
+    log_i("trigger_angle : %d",trigger_angle);
+    printf("\n");
+
     DataNode data = {
         .id = pic_id,
         .trigger_type = trigger_type,
@@ -508,7 +643,6 @@ void generate_image_info(char *image_path) {
     memcpy(data.md5, md5, sizeof(md5));
     strncpy(data.file_path, image_path, PATH_MAX - 1);
     data.file_path[PATH_MAX - 1] = '\0'; // 确保字符串结束
-    printf("trigger_type : %d\n",trigger_type);
     // 根据触发类型决定添加到哪个链表
     if (trigger_type ==GYRO_TRIGGER_TYPE ) 
     {
@@ -520,8 +654,6 @@ void generate_image_info(char *image_path) {
     } 
     else 
     {
-        printf("unkow tigerr type : %d\n", trigger_type);
+        log_w("unkow trigger_type type : %d", trigger_type);
     }
-    // printList(gyroscopeTriggerList);
-    // printList(activeTriggerList);
 }

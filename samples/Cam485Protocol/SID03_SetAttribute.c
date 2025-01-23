@@ -3,7 +3,7 @@
 
 #include "stdbool.h"
 #include "SID03_SetAttribute.h"
-#include "ProtocolPort.h"
+#include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
     
 //AA 5A 01 03 02 00 00 00 0F 1E 97 5D

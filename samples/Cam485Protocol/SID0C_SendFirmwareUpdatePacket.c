@@ -9,7 +9,7 @@
 #include "stdbool.h"
 #include "SID0BC_FirmwareUpdateInfo.h"
 #include "SID0C_SendFirmwareUpdatePacket.h"
-#include "ProtocolPort.h"
+#include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
 #include "md5.h"
 

@@ -2,6 +2,12 @@
 #define SID0D_DOOROPENORCLOSESIGNAL
 #include <stdio.h>
 #include <stdint.h>
+#include <elog.h>
+
+#define SID0D_MSG_REQ_TOTAL_LEN      (10) 
+#define SID0D_MSG_RESP_DATA_LEN      (1)
+#define SID0D_MSG_RESP_TOTAL_LEN     (10+SID0D_MSG_RESP_DATA_LEN)
+
 
 
 

@@ -16,14 +16,15 @@
 #include "yq_mpu.h"
 #include "mpu_ctrl.h"
 #include "circular_log.h"
+#include "ImageInfoList.h"
 static char debug_flag = 0;
 static char *TAG = "door detect";
 static float debug_reference_ang = 0.0;
 static volatile int debug_print_enabled = 0; // 0: 不打印，1: 打印
 
-static float min_capture_angle = 6.0f;
+static float min_capture_angle = 20.0f;
 static float max_capture_angle = 36.0f;
-
+static char door_status = 0;
 static int direction = 2;
 
 #define CM_CONFIG_FILE "/system/etc/cm_config.ini"
@@ -106,7 +107,7 @@ typedef struct
     float angle_current_valid;
     AngleTolerance angle_tolerant;
     DoorOpenTimeout door_open_timeout;
-
+    uint8_t image_seq;
     CMVideoBuf buf;
 } DoorDetect;
 
@@ -168,25 +169,27 @@ static int door_open(float angle)
 static int image_cache()
 {
     /*移除上一个文件*/
+
     int ret;
     char old_path[256] = {0};
-    snprintf(old_path, sizeof(old_path), "/tmp/data/img-%llu-%d.jpg", s_door.open_count, (int)s_door.angle_last_valid);
+    snprintf(old_path, sizeof(old_path), "/tmp/gyro_trigger/image_%d_%d.jpg", s_door.image_seq, (int)s_door.angle_last_valid);
     char cmd_remove_path[256] = {0};
     snprintf(cmd_remove_path, sizeof(cmd_remove_path), "rm -rf %s", old_path);
     LOGD("remove [%s]\n", cmd_remove_path);
     system(cmd_remove_path);
-    
+    deleteNodeByFileName(old_path);
     DoorInfoItem item;
     item.open_count = s_door.open_count;
     item.image_angle = s_door.angle_current_valid;
     item.array_index = item.open_count % 5;
-    snprintf(item.image_path, sizeof(item.image_path), "/tmp/data/img-%llu-%d.jpg",
-             item.open_count, (int)item.image_angle);
+    snprintf(item.image_path, sizeof(item.image_path), "/tmp/gyro_trigger/image_%d_%d.jpg",
+             s_door.image_seq, (int)item.image_angle);
     ret = cm_video_take_photo_save_to_file(item.image_path);
     if(ret != 0 )
     {
-        log_write(LOG_ERROR, TAG, "image cache fail ");
+        log_write(LOG_ERROR, TAG, "image cache fail");
     }
+    generate_image_info(item.image_path);
     /*更新上一个角度为当前角度*/
     s_door.angle_last_valid = s_door.angle_current_valid;
     return 0;
@@ -248,7 +251,7 @@ static uint8_t door_open_detect(float diff, float last_ang, float *reference_yaw
         break;
     case DOOR_SHAKE:
         dyn_cnt++;
-        if (ang > 4.0)
+        if (ang > 20)
         { // 开门角度阈值
             action = DOOR_OPEN;
             LOGD("door detect [SHAKE -> OPEN]");
@@ -365,6 +368,9 @@ void door_status_detect(float yaw, char flag, float capture_angle)
     int ret = 0;
     static long open_door_time = 0;
 
+    /*表示是否第一次进入开门状态检测*/
+    static uint8_t door_status_flag = 0;
+
     diff_yaw = yaw - last_yaw;
     angle = yaw - reference_yaw; // 实时角度
 
@@ -411,6 +417,7 @@ void door_status_detect(float yaw, char flag, float capture_angle)
         break;
     case STAT_CLOSE:
         // diff，diff只是用来过滤掉小的抖动
+        door_status = 0;
         ret = door_open_detect(diff_yaw, last_yaw, &reference_yaw, angle);
         if (ret == 1)
         {
@@ -439,8 +446,15 @@ void door_status_detect(float yaw, char flag, float capture_angle)
         }
         break;
     case STAT_ACTION:
+        if(door_status_flag == 0)
+        {
+            /*第一次进入开门状态检测*/
+            s_door.image_seq = get_image_seq();
+            /*由于一次开门拍一次照，因此只需要一位图片序列号*/
+            door_status_flag = 1;
+        }
+        door_status = 1;
         max_angle = max_angle < angle ? angle : max_angle;
-        // LOGD("angle : %f max angle : %f\n",angle ,max_angle);
         
         if ((angle > min_capture_angle) && (angle < max_capture_angle)) // 拍照
         {
@@ -462,6 +476,8 @@ void door_status_detect(float yaw, char flag, float capture_angle)
             s_door.max_angle = 0;
             hmi_srv.door_status = STAT_CLOSE;
             max_angle = 0;
+            /*切换回第一次进入开门标志*/
+            door_status_flag = 0;
             log_write(LOG_INFO, TAG_NAME, "door status detect [ACTION -> CLOSE]");
             // printf("****door status detect [ACTION -> CLOSE]\n\n");
         }
@@ -622,4 +638,11 @@ int door_deinit()
     usleep(50000);
     cm_video_impl_deinit();
     return 0;
+}
+
+
+
+char get_door_status()
+{
+    return door_status;
 }

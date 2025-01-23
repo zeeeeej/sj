@@ -17,9 +17,9 @@
 
 #define TAKE_PHOTO_TMP_FILE "/tmp/act_trigger/image_"
 
-int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len);
-int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len);
-int DeletePicture(const uint8_t pic_id);
+
+int SID08_HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len);
+
 
 
 #endif // _SEMDPHOTO_H_

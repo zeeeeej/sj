@@ -18,12 +18,11 @@
 #include "circular_log.h"
 #include "cli_command.h"
 #include "debug_logger.h"
-#include "MsgDispatcher.h"
-#include "ProtocolPort.h"
+#include "Cam485Protocol.h"
 #include <sys/stat.h>
 #include "Log_init.h"
 #include <elog.h>
-#define TAG_NAME "[MAIN]"
+#define LOG_TAG   "[MAIN]"
 static int b_exited = 0;
 static pthread_t hmi_srv_tid = 0;
 
@@ -40,7 +39,7 @@ char *version = "jml_V1.0.1";
 static int write_version_to_file(void) {
     FILE *fp = fopen(VERSION_FILE, "w");  // 使用"w"模式会清除原有内容
     if (fp == NULL) {
-        log_write(LOG_ERROR, TAG_NAME, "Failed to open version file: %s", strerror(errno));
+        log_e("Failed to open version file: %s", strerror(errno));
         return -1;
     }
     // 写入版本信息
@@ -54,6 +53,7 @@ int main(int argc, char *argv[])
 {   
 
     my_log_init();
+    // linux_cmd_init();
     log_i("startup [%s:%s] Version [%s]", __DATE__, __TIME__, version);
     /*写入版本信息到文件*/
     if (write_version_to_file() < 0) {
@@ -74,50 +74,28 @@ int main(int argc, char *argv[])
     }
 
     Protocol_Init();
-    Cam485ProtocolInit();
 
     /*初始化video模块*/
     cm_video_impl_init("t23");
+    /*开始自检*/
     self_check_start();
-    cm_video_impl_deinit();
-    int ret1;
-
-
-    
-    // wind_connect_up_start();
+    /*495协议初始化*/
+    Protocol_Init();
+    /*门开关检测初始化*/
     door_init();
     
 
-
-
-    // printf("create hmi service thread\n");
-    // extern void *hmi_service_thread(void *args);
-    // int ret = pthread_create(&hmi_srv_tid, NULL, hmi_service_thread, NULL);
-    // if (ret != 0)
-    // {
-    //     fprintf(stderr, "Error creating thread: %s\n", strerror(ret));
-
-    //     return 1; 
-    // }
-    // else
-    // {
-    //     printf("Thread created successfully.\n");
-    // }
-
-
-    // printf("create hmi service thread\n");
-    // extern void *hmi_service_thread(void *args);
-    // int ret = pthread_create(&hmi_srv_tid, NULL, hmi_service_thread, NULL);
-    // if (ret != 0)
-    // {
-    //     fprintf(stderr, "Error creating thread: %s\n", strerror(ret));
-
-    //     return 1; 
-    // }
-    // else
-    // {
-    //     printf("Thread created successfully.\n");
-    // }
+    extern void *hmi_service_thread(void *args);
+    int ret = pthread_create(&hmi_srv_tid, NULL, hmi_service_thread, NULL);
+    if (ret != 0)
+    {
+        log_e("Error creating thread: %s\n", strerror(ret));
+        return -1; 
+    }
+    else
+    {
+        log_i("Thread created successfully.\n");
+    }
     while (!b_exited)
     {
         if (!wdt_disable)

@@ -8,7 +8,7 @@
 
 #include "stdbool.h"
 #include "SID0B_FirmwareUpdateNotice.h"
-#include "ProtocolPort.h"
+#include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
 
 static UpdatePacketStruct  UpdatePacketInfo;

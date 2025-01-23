@@ -3,4 +3,5 @@
 void *hmi_service_thread(void *args); 
 int door_init();
 int door_deinit();
+char get_door_status();
 #endif

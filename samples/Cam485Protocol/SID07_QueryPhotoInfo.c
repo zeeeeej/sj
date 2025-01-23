@@ -1,11 +1,17 @@
 
 
-#include "stdbool.h"
-#include "string.h"
+
 #include "SID07_QueryPhotoInfo.h"
-#include "ProtocolPort.h"
+#include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
 #include "cm_common.h"
+#include "elog.h"
+
+#include "stdbool.h"
+#include "string.h"
+
+
+#define TAG_NAME  "[SID07->QUERY PHOTO]"
 static int SID07_BuildMsgHeader(uint8_t *msg_buf, uint32_t msg_dlc)
 {
     int index = 0;
@@ -24,7 +30,7 @@ static int SID07_BuildMsgHeader(uint8_t *msg_buf, uint32_t msg_dlc)
 
 int SID07_QueryPhotoInfo(uint8_t *msg_buf, uint32_t msg_dlc)
 {
-    LOGD("SID07_QueryPhotoInfo\n");
+    log_i("quert photo");
 
     /*
         仅用作测试回包消息
@@ -40,9 +46,11 @@ int SID07_QueryPhotoInfo(uint8_t *msg_buf, uint32_t msg_dlc)
     image_info_buf = copy_both_lists_to_buffer(&image_info_count);
     /*info缓冲区长度*/
     uint32_t image_info_buf_len = image_info_count*sizeof(BufferedDataNode);
-    printf("total_node_count : %d\n",image_info_count);
-    printf("image_info_buf_len : %d\n",image_info_buf_len);
+    log_i("total pic info count : %d",image_info_count);
+    log_d("image info buf total len : %d",image_info_buf_len);
 
+
+    printAllListlist();
     /*8header + data(info+info_num) + 2crc*/
     uint8_t resp_buf[8+image_info_buf_len+1+2];
 

@@ -1,7 +1,11 @@
 #include "SID08_DeletePicture.h"
+#include "Cam485ProtocolCommon.h"
+#include "elog.h"
 
 
-int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len)
+
+#define LOG_TAG   "SID08"
+static int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len)
 {
     if (msg_buf == NULL || msg_len < 8) 
     {
@@ -9,7 +13,7 @@ int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len)
         return -1;
     }
     if (msg_buf[2] < 0x01 || msg_buf[2] > 0x10) {
-        LOGD("Invalid slave address\n");
+        LOGD("Invalid slave address");
         return -1;
     }
     const uint8_t *data = &msg_buf[8];
@@ -25,19 +29,70 @@ int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len)
     printf("\n");
     return data_length;
 }
-int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len)
-{
 
+
+
+static int DeletePicture(const uint8_t pic_id)
+{
+    int ret = 0;
+
+    /*如果需要删除所有图片*/
+    if (pic_id == 0xFF) 
+    {
+        /*删除所有图片*/
+        /*删除两个目录，然后重新创建目录*/
+        log_i("delete all pic");
+        remove_dir(ACTIVE_TRIGGER_PHOTO_FILE_DIR);
+        remove_dir(GYRO_TRIGGER_PHOTO_FILE_DIR);
+        check_and_create_dir(ACTIVE_TRIGGER_PHOTO_FILE_DIR);
+        check_and_create_dir(GYRO_TRIGGER_PHOTO_FILE_DIR);
+
+        /*清空所有链表节点*/
+        cleanAllLinkList();
+    } 
+    else 
+    {
+        // 删除单张照片
+        char file_path[255];
+        int ret =  0;
+        ret = find_file_path_by_id(pic_id,file_path);
+        if(ret != 0)
+        {
+            log_w("not found image");
+        }
+        else
+        {
+            log_d("found image path : %s",file_path);
+        }
+
+        if (access(file_path, F_OK) == 0) 
+        { // 检查文件是否存在
+            if (unlink(file_path) != 0) 
+            {
+                log_e("Failed to delete photo %s: %s", file_path, strerror(errno));
+                ret = -1;
+            } 
+            else 
+            {
+                log_i("Deleted photo: %s", file_path);
+            }
+
+        }
+        else 
+        {
+            log_e("file path : %s access error",file_path);
+            ret = -1;
+        }
+        deleteListNodeById(pic_id);
+    }
+    return ret;
 }
 
-int HandleDeletePhoto0(uint8_t *msg_buf, uint16_t msg_len)
+int SID08_HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len)
 {
+    log_i("handle delete photo");
     int datalen = checkDeletePhoto(msg_buf, msg_len);
     uint8_t *data = &msg_buf[8];
-    LOGD("Received data:");
-    for (int i = 0; i < datalen; i++) {
-        printf("%02X ", data[i]);
-    }
     printf("\n");
 
     // 执行删除操作
@@ -60,90 +115,8 @@ int HandleDeletePhoto0(uint8_t *msg_buf, uint16_t msg_len)
     send_msg_resp(response, index + 2);
 
     if (ret != 0) {
-        LOGD("Failed to delete photo, ret[%d]\n", ret);
+        LOGD("Failed to delete photo, ret[%d]", ret);
         return -1;
     }
     return 0;
 }
-
-int DeletePicture(const uint8_t pic_id)
-{
-    int ret = 0;
-
-    if (pic_id == 0xFF) 
-    {
-        // 删除 1~10 号照片
-        for (int i = 1; i <= 10; i++) 
-        {
-            char photo_file[256];
-            snprintf(photo_file, sizeof(photo_file), "%s%d.jpg", TAKE_PHOTO_TMP_FILE, i);
-            if (access(photo_file, F_OK) == 0) 
-            { 
-                if (unlink(photo_file) != 0) 
-                {
-                    fprintf(stderr, "Failed to delete photo %s: %s\n", photo_file, strerror(errno));
-                    ret = -1;
-                } 
-                else 
-                {
-                    printf("Deleted photo: %s\n", photo_file);
-                }
-            }
-        }
-        if(activeTriggerList == NULL)
-        {
-            printf("activeTriggerList is NULL\n");
-        }
-        else
-        {
-            printList(activeTriggerList);
-            deleteAllNodes(activeTriggerList); 
-            printf("After delete\n");
-            printList(activeTriggerList);
-        }
-        
-    } 
-    else 
-    {
-        // 删除单张照片
-        char photo_file[256];
-        snprintf(photo_file, sizeof(photo_file), "%s%d.jpg", TAKE_PHOTO_TMP_FILE, pic_id);
-        if (access(photo_file, F_OK) == 0) 
-        { // 检查文件是否存在
-            if (unlink(photo_file) != 0) 
-            {
-                fprintf(stderr, "Failed to delete photo %s: %s\n", photo_file, strerror(errno));
-                ret = -1;
-            } 
-            else 
-            {
-                printf("Deleted photo: %s\n", photo_file);
-            }
-
-        }
-        else 
-        {
-            fprintf(stderr, "Photo file %s not found.\n", photo_file);
-            ret = -1;
-        }
-        if(activeTriggerList == NULL)
-        {
-            printf("activeTriggerList is NULL\n");
-        }
-        else
-        {
-            printList(activeTriggerList);
-
-            //删除链表中的节点
-            deleteNodeById(activeTriggerList, pic_id); 
-
-            printf("After delete\n");
-            printList(activeTriggerList);
-        }
-
-        
-    }
-
-    return ret;
-}
-

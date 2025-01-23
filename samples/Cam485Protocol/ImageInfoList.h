@@ -39,9 +39,7 @@ typedef struct ThreadSafeList {
 } ThreadSafeList;
 
 
-// 静态变量表示两个链表
-extern ThreadSafeList* gyroscopeTriggerList;
-extern ThreadSafeList* activeTriggerList;
+
 
 // 初始化链表
 struct ThreadSafeList* initList();
@@ -61,22 +59,25 @@ void appendToGyroscopeTriggerList(DataNode data);
 // 向主动触发链表添加节点
 void appendToActiveTriggerList(DataNode data);
 
-//根据ID删除节点
-void deleteNodeById(struct ThreadSafeList* list, unsigned char id);
+// //根据ID删除节点
+// void deleteNodeById(struct ThreadSafeList* list, unsigned char id);
 
-//删除链表中所有的节点
-void deleteAllNodes(struct ThreadSafeList* list);
+
+int deleteListNodeById(unsigned char id);
+
 
 // 根据id获取链表中的节点
 DataNode* getNodeById(struct ThreadSafeList* list, unsigned char id);
-
-
 
 // 根据文件路径生成图片信息
 void generate_image_info(char *image_path);
 
 BufferedDataNode* copy_both_lists_to_buffer(size_t *buffer_size);
 
-
 int find_file_path_by_id(unsigned char id, char *file_path);
+
+void cleanAllLinkList();
+void deleteNodeByFileName(const char *file_path);
+
+void printAllListlist();
 #endif // THREAD_SAFE_LIST_H

@@ -3,7 +3,7 @@
 
 #include "stdbool.h"
 #include "SID06_ActiveScreenshot.h"
-#include "ProtocolPort.h"
+#include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
 /*主动抓图的id值*/
 /*开关门触发的id值*/

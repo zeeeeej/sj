@@ -1,7 +1,6 @@
-// author :li
 
 #include "CommonMsgTable.h"
-#include "Heartbeat.h"
+#include "SID01_Heartbeat.h"
 #include "SID02_QueryAttribute.h"
 #include "SID03_SetAttribute.h"
 #include "SID04_RestoreFactorySettings.h"
@@ -23,8 +22,9 @@ const MsgService MsgServiceList[SID_NUM]  =
     {SID_04, SID04_RestoreFactorySettings},
     {SID_05, SID05_ResetCamera},
     {SID_06, SID06_ActiveScreenshot},
+    {SID_08, SID08_HandleDeletePhoto},
     {SID_07, SID07_QueryPhotoInfo},
-    {SID_08, HandleDeletePhoto},
+    {SID_08, SID08_HandleDeletePhoto},
     {SID_09, SID09_GetPhoto},
     {SID_0A, SID0A_PhotoGetComplete},
     {SID_0B, SID0B_FirmwareUpdateNotice},

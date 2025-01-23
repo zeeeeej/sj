@@ -6,7 +6,7 @@
 
 #include "cm_common.h"
 #include "SID09_GetPhoto.h"
-#include "ProtocolPort.h"
+#include "Cam485ProtocolCommon.h"
 #include "MsgDispatcher.h"
 #include "ImageInfoList.h"
 

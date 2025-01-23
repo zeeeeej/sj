@@ -1,16 +1,15 @@
 add_library(Cam485Protocol_lib STATIC
-    # CommonInterface.h
-    Heartbeat.c
-    Heartbeat.h
-    SID08_DeletePicture.c
-    SID08_DeletePicture.h
-
+    Cam485Protocol.h
+    Cam485Protocol.c
+    Cam485ProtocolCommon.h
     MsgDispatcher.c
     MsgDispatcher.h
     MsgDispatherPort.c
     MsgDispatherPort.h
     CommonMsgTable.c
     CommonMsgTable.h
+    SID01_Heartbeat.c
+    SID01_Heartbeat.h
     SID02_QueryAttribute.h
     SID02_QueryAttribute.c
     SID03_SetAttribute.h
@@ -21,10 +20,10 @@ add_library(Cam485Protocol_lib STATIC
     SID05_ResetCamera.c
     SID06_ActiveScreenshot.h
     SID06_ActiveScreenshot.c
-    ProtocolPort.h
-    ProtocolPort.c
     SID07_QueryPhotoInfo.c
     SID07_QueryPhotoInfo.h
+    SID08_DeletePicture.c
+    SID08_DeletePicture.h
     SID09_GetPhoto.c
     SID09_GetPhoto.h
     SID0A_PhotoGetComplete.h
@@ -35,8 +34,6 @@ add_library(Cam485Protocol_lib STATIC
     SID0C_SendFirmwareUpdatePacket.c
     SID0D_DoorOpenOrCloseSignal.h
     SID0D_DoorOpenOrCloseSignal.c
-    ProtocolPort.c
-    ProtocolPort.h
     ImageInfoList.c
     ImageInfoList.h
     md5.c
@@ -56,6 +53,6 @@ target_include_directories(Cam485Protocol_lib PUBLIC ${CMAKE_SOURCE_DIR}/Cam485P
 
 
 target_link_libraries(Cam485Protocol_lib 
-    log_lib
     Peripheral_lib 
+    log_lib
 )

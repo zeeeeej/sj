@@ -3,7 +3,7 @@
 
 #include "stdbool.h"
 #include "SID04_RestoreFactorySettings.h"
-#include "ProtocolPort.h"
+#include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
     
 

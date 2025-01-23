@@ -2,7 +2,7 @@
 #include "cm_common.h"
 #include "stdbool.h"
 #include "SID05_ResetCamera.h"
-#include "ProtocolPort.h"
+#include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
 
 
