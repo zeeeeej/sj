@@ -100,6 +100,17 @@ void save_to_config(const char * section, const char * key, const char * value)
 
     // 保存 key-value 到对应 section
     Section *sec = &global_config.sections[sec_idx];
+    for (int i = 0; i < sec->key_count; i++) 
+    {
+        // 如果找到相同的 key，更新其值
+        if (strcmp(sec->keys[i].key, key) == 0) 
+        {
+            strncpy(sec->keys[i].value, value, MAX_VALUE_LENGTH);
+            return;
+        }
+    }
+
+    // 如果没有找到相同的 key，添加新的 key-value
     if (sec->key_count >= MAX_KEY_COUNT) {
         fprintf(stderr, "Key 超过最大数量\n");
         return;
@@ -117,9 +128,11 @@ int write_ini()
         return -1;
     }
 
-    for (int i = 0; i < global_config.section_count; i++) {
+    for (int i = 0; i < global_config.section_count; i++) 
+    {
         fprintf(file, "[%s]\n", global_config.sections[i].section);
-        for (int j = 0; j < global_config.sections[i].key_count; j++) {
+        for (int j = 0; j < global_config.sections[i].key_count; j++) 
+        {
             fprintf(file, "%s = %s\n",
                     global_config.sections[i].keys[j].key,
                     global_config.sections[i].keys[j].value);
