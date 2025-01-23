@@ -530,8 +530,11 @@ int wind_sample_jpeg_init()
 			enc_attr->enType = PT_JPEG;
 			enc_attr->bufSize = 0;
 			enc_attr->profile = 0;
-			enc_attr->picWidth = imp_chn_attr_tmp->picWidth;
-			enc_attr->picHeight = imp_chn_attr_tmp->picHeight;
+			// enc_attr->picWidth = imp_chn_attr_tmp->picWidth;
+			// enc_attr->picHeight = imp_chn_attr_tmp->picHeight;
+			enc_attr->picWidth = crop_width;
+			enc_attr->picHeight = crop_height;
+
 
 			/* Create Channel */
 			if(direct_switch == 1) {
@@ -1321,6 +1324,13 @@ int wind_sample_get_Luminance()
 int wind_sample_set_luminance(int value)
 {
     return uvc_pu_brightness_set(0,value);
+}
+
+int wind_sample_set_resolution(int width, int height)
+{
+	crop_width = width;
+	crop_height = height;
+	return 0;
 }
 
 int wind_sample_get_video_stream_byfd()

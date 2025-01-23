@@ -73,6 +73,9 @@ int main(int argc, char *argv[])
         log_i("wdt timeout set to [%d]\n", timeout);
     }
 
+    Protocol_Init();
+    Cam485ProtocolInit();
+
     /*初始化video模块*/
     cm_video_impl_init("t23");
     self_check_start();
@@ -80,8 +83,7 @@ int main(int argc, char *argv[])
     int ret1;
 
 
-    Protocol_Init();
-    Cam485ProtocolInit();
+    
     // wind_connect_up_start();
     door_init();
     

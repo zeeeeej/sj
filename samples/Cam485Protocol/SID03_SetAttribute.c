@@ -9,14 +9,14 @@
 //AA 5A 01 03 02 00 00 00 0F 1E 97 5D
 int SID03_SetAttribute(uint8_t *msg_buf, uint32_t msg_dlc)
 {
-    if (msg_buf == NULL ||  msg_dlc != 12) 
+    if (msg_buf == NULL) 
     {
-        printf("error:msg_len = %d",msg_dlc);
+        log_e("error:msg_len = %d",msg_dlc);
         return -1;
     }
      if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A) 
      {
-        printf("Error: Invalid frame header\n");
+        log_e("Error: Invalid frame header\n");
         return -1;
     }
     uint8_t command    = msg_buf[2];      
@@ -26,26 +26,31 @@ int SID03_SetAttribute(uint8_t *msg_buf, uint32_t msg_dlc)
      
     if (len != msg_dlc - 10)  //// 9字节 = 帧头(2) + 命令(2) + 长度(4) + 校验码(2)
     {
-        printf("Error: Data length mismatch\n");
+        log_e("Error: Data length mismatch\n");
         return -1;
     }
     uint8_t id     = msg_buf[8];           // 属性 ID
     uint8_t *value = &msg_buf[9];          // 属性值起始地址
-    printf("Command: 0x%02X, Subcommand: 0x%02X\n", command, subcommand);
-    printf("Attribute ID: 0x%02X\n", id);
-    printf("Value: ");
-    for (int i = 0; i < len - 1; i++) 
+    log_i("Command: 0x%02X, Subcommand: 0x%02X\n", command, subcommand);
+    log_i("Attribute ID: 0x%02X\n", id);
+    // for (int i = 0; i < len - 1; i++) 
+    // {
+    //     log_i("%d", value[i]);
+    // }
+    uint16_t width,height;
+    if (id == 5)
     {
-        printf("%d", value[i]);
+        width  = value[0] | (value[1] << 8); // 小端解析宽度
+        height = value[2] | (value[3] << 8); // 小端解析高度
+        log_i("Width = %d, Height = %d\n", width, height);
     }
-    printf("\n");
     switch (id) 
     {
     case SID03_Attribute_SloveAddress:
-        Handle_SID03_Attribute_SloveAddress(value[0] | (value[1] << 8));
+        Handle_SID03_Attribute_SloveAddress(value[0]);
         break;
     case SID03_Attribute_FirmwareVersion:
-        Handle_SID03_Attribute_FirmwareVersion(value[0] | (value[1] << 8));
+        Handle_SID03_Attribute_FirmwareVersion(value[0]);
         break;
     case SID03_Attribute_CameraNum:
         Handle_SID03_Attribute_CameraNum(value[0] | (value[1] << 8));
@@ -54,7 +59,7 @@ int SID03_SetAttribute(uint8_t *msg_buf, uint32_t msg_dlc)
         Handle_SID03_Attribute_Baudrate(value[0] | (value[1] << 8));
         break;
     case SID03_Attribute_PictureSize:
-        Handle_SID03_Attribute_PictureSize(value[0] | (value[1] << 8), value[2] | (value[3] << 8));
+        Handle_SID03_Attribute_PictureSize(width, height);
         break;
     case SID03_Attribute_Compressibility:
         Handle_SID03_Attribute_Compressibility(value[0] | (value[1] << 8));
@@ -84,7 +89,7 @@ int SID03_SetAttribute(uint8_t *msg_buf, uint32_t msg_dlc)
         Handle_SID03_Attribute_HeatingWire(value[0]);
         break;
     default:
-        printf("Error: Unknown attribute ID\n");
+        log_e("Error: Unknown attribute ID\n");
         break;
     }
     return 0;
@@ -92,6 +97,8 @@ int SID03_SetAttribute(uint8_t *msg_buf, uint32_t msg_dlc)
 
 int Handle_SID03_Attribute_SloveAddress(uint16_t slave_address)
 {
+    Set_g_slave_address(slave_address);
+    buildResponse(SID03_Attribute_SloveAddress,0);
     return 0;
 }
 
@@ -99,7 +106,7 @@ int Handle_SID03_Attribute_FirmwareVersion(uint16_t firmware_version)
 {
      FILE *fp = fopen(VERSION_FILE, "w");  // 使用"w"模式会清除原有内容
     if (fp == NULL) {
-        printf("Failed to open version file");
+        log_e("Failed to open version file");
         return -1;
     }
     fprintf(fp, "Version: %s\n", firmware_version);
@@ -121,6 +128,9 @@ int Handle_SID03_Attribute_Baudrate(uint16_t baudrate)
 
 int Handle_SID03_Attribute_PictureSize(uint16_t picture_size_x, uint16_t picture_size_y)
 {
+    int ret = wind_sample_set_resolution(picture_size_x, picture_size_y);
+    Set_Camera_config(picture_size_x, picture_size_y);
+    buildResponse(SID03_Attribute_PictureSize,0);
     return 0;
 }
 

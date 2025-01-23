@@ -2,11 +2,13 @@
 #define SID03_SETATTRIBUTE
 
 #include <stdio.h>
+#include <elog.h>
 #include <stdint.h>
 #include "sample-common.h"
 #include "ParseIni.h"
 #include "cm_common.h"
 #include "circular_log.h"
+#include "cm_config.h"
 
 enum SID03_Attribute {
     SID03_Attribute_Unknown = 0x00,
