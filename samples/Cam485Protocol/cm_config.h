@@ -15,9 +15,11 @@ extern uint16_t g_slave_address;
 
 void Set_g_slave_address(uint16_t slave_address);
 void Set_Camera_config(uint16_t width, uint16_t height);
+void Set_Luminance(uint16_t luminance);
 const char * Get_g_slave_address();
 const char * Get_Camera_config();
 const char *ReadFirware();
+const char * getLuminance();
 
 void LoadConfig();
 

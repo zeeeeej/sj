@@ -348,6 +348,7 @@ struct chn_conf{
 
 static int crop_width = SENSOR_WIDTH;
 static int crop_height = SENSOR_HEIGHT;
+extern int Luminance;
 
 int wind_sample_system_init();
 int wind_sample_system_exit();

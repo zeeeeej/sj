@@ -31,7 +31,7 @@
 static const int S_RC_METHOD = ENC_RC_MODE_CBR;
 int direct_switch = 0;
 int gosd_enable = 0; /* 1: ipu osd, 2: isp osd, 3: ipu osd and isp osd */
-
+int Luminance = 0;
 //#define SHOW_FRM_BITRATE
 #ifdef SHOW_FRM_BITRATE
 #define FRM_BIT_RATE_TIME 2
@@ -283,10 +283,11 @@ int wind_sample_system_init()
 		IMP_LOG_ERR(TAG, "IMP_ISP_EnableTuning failed\n");
 		return -1;
 	}
+	printf("[Info][sample-common.c-286] Luminance:%d\n",Luminance);
     IMP_ISP_Tuning_SetContrast(128);
     IMP_ISP_Tuning_SetSharpness(128);
     IMP_ISP_Tuning_SetSaturation(128);
-    IMP_ISP_Tuning_SetBrightness(128);
+    IMP_ISP_Tuning_SetBrightness(Luminance);
 #if 1
     ret = IMP_ISP_Tuning_SetISPRunningMode(IMPISP_RUNNING_MODE_DAY);
     if (ret < 0){

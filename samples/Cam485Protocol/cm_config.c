@@ -24,6 +24,16 @@ void Set_Camera_config(uint16_t width, uint16_t height)
     return;
 }
 
+void Set_Luminance(uint16_t luminance)
+{
+    static char buffer[16];  
+    snprintf(buffer, sizeof(buffer), "%u", luminance); 
+    save_to_config("camera", "luminance", buffer);
+    write_ini();
+    Luminance = luminance;
+    return;
+}
+
 const char * Get_g_slave_address()
 {
     const char *value = get_config_value("slave_device", "slave_address");
@@ -85,9 +95,22 @@ const char *ReadFirware()
     return buffer;
 }
 
+const char *getLuminance()
+{
+    const char *value = get_config_value("camera", "luminance");
+    log_i("luminance : %s\n",value);
+    if (value != "NULL")
+    {
+        return value;
+    }
+    Luminance = atoi(value);
+    return "nullptr";
+}
+
 void LoadConfig()
 {
     parse_ini();
     Get_g_slave_address();
     Get_Camera_config();
+    getLuminance();
 }

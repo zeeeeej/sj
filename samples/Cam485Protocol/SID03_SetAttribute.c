@@ -141,12 +141,7 @@ return 0;
 
 int Handle_SID03_Attribute_PictureLuminance(uint16_t picture_luminance)
 {
-    int ret = wind_sample_set_luminance(picture_luminance);
-    if(ret != 0)
-    {
-        buildResponse(SID03_Attribute_PictureLuminance,1);
-        return -1;
-    }
+    Set_Luminance(picture_luminance);
     buildResponse(SID03_Attribute_PictureLuminance,0);
     return 0;
 }
