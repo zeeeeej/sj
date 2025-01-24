@@ -2,6 +2,7 @@
 #define MsgDispatcher
 
 #include "ParseIni.h"
+#include <stdint.h>
 
 
 #define SLAVE_ADDR 0x01
@@ -16,5 +17,5 @@ typedef struct DataTransInterface {
 
 void Cam485ProtocolInit();
 uint8_t send_msg_resp(uint8_t *msg, uint32_t len);
-uint16_t crc16(uint8_t *q, int len);
+uint16_t crc16(uint8_t *buffer, uint16_t buffer_length);
 #endif

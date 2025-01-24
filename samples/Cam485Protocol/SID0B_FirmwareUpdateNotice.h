@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "SID0BC_FirmwareUpdateInfo.h"
+#include "MsgDispatcher.h"
 
 #define SID0B_MSG_REQ_TOTAL_LEN      (30) 
 #define SID0B_MSG_RESP_DATA_LEN      (5)
