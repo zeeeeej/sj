@@ -1,2 +1,0 @@
-/usr/bin/ar qc libtmp_lib.a CMakeFiles/tmp_lib.dir/file_trans.c.o CMakeFiles/tmp_lib.dir/mem_pool.c.o CMakeFiles/tmp_lib.dir/MessageDispatcher.c.o CMakeFiles/tmp_lib.dir/MessageDispaterPort.c.o CMakeFiles/tmp_lib.dir/modbus_master.c.o CMakeFiles/tmp_lib.dir/modbus_task.c.o CMakeFiles/tmp_lib.dir/ota_process.c.o CMakeFiles/tmp_lib.dir/self_check_process.c.o CMakeFiles/tmp_lib.dir/system_list.c.o CMakeFiles/tmp_lib.dir/take_photo.c.o CMakeFiles/tmp_lib.dir/trans_door_image.c.o
-/usr/bin/ranlib libtmp_lib.a

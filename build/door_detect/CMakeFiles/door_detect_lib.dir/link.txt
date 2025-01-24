@@ -1,2 +1,0 @@
-/usr/bin/ar qc libdoor_detect_lib.a CMakeFiles/door_detect_lib.dir/door_detect.c.o
-/usr/bin/ranlib libdoor_detect_lib.a
