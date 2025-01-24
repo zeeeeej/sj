@@ -13,4 +13,5 @@ typedef struct DataTransInterface {
 
 void Cam485ProtocolInit();
 uint8_t send_msg_resp(uint8_t *msg, uint32_t len);
+uint16_t crc16(uint8_t *q, int len);
 #endif

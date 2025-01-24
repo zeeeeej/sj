@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdint.h>
 
-
 #define SID0C_MSG_RESP_DATA_LEN      (1)
 #define SID0C_MSG_RESP_TOTAL_LEN     (11)
 

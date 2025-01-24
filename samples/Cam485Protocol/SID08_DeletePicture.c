@@ -25,8 +25,12 @@ int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len)
     printf("\n");
     return data_length;
 }
-
 int HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len)
+{
+
+}
+
+int HandleDeletePhoto0(uint8_t *msg_buf, uint16_t msg_len)
 {
     int datalen = checkDeletePhoto(msg_buf, msg_len);
     uint8_t *data = &msg_buf[8];

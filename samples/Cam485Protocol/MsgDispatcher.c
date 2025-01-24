@@ -8,7 +8,7 @@
 #include "CommonMsgTable.h"
 #include "MsgDispatcher.h"
 #include "cm_common.h"
-#define MSG_BUF_SIZE 1024
+#define MSG_BUF_SIZE (5*1024)
 
 typedef struct MsgNode {
     uint8_t *msg;
@@ -428,6 +428,19 @@ static void *msg_process_thread(void *arg)
 {
     LOGD("msg_process_thread ready");
     MsgNode *msg_node = NULL;
+
+    /*临时和海大调试用 拍3张图片*/
+    static int tmp = 1;
+    uint8_t msgtmp[10] = {0xAA ,0x5A ,0x01 ,0x06 ,0x00 ,0x00 ,0x00 ,0x00 ,0x88 ,0x99};
+    if(1==tmp)
+    {
+        tmp = 0;
+        for(int i=0;i<3;i++){
+            usleep(1000*1000);
+            MsgServiceList[5].msg_process_callback(msgtmp, 10);
+        }
+    }
+
     while (1)
     {
         uint8_t *msg;
