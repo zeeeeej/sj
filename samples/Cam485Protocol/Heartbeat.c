@@ -1,6 +1,9 @@
 #include "Heartbeat.h"
 #include "cm_common.h"
+#include <stdint.h>
 #include "MsgDispatcher.h"
+
+
 int SID01_HeartBeat(uint8_t *msg_buf, uint16_t msg_dlc)
 {
     int ret = SID01_CheckHeartBeat(msg_buf, msg_dlc);

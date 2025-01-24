@@ -17,34 +17,78 @@
 #include <linux/i2c-dev.h>
 #include <sys/ioctl.h>
 #include <sys/prctl.h>
-#include <fstream>
-#include <memory>
+#include "yq_mpu_impl_lsm6ds3trc.h"
 #include "cm_common.h"
 // #include "jemalloc/jemalloc.h"
 // #include "knlog.h"
 #include "yq_mpu.h"
-#include "cm_utils.h"
 // #include "shell_command.h"
-    typedef enum
-    {
-        YQ_ERROR_SUCCESS = 0,   // 一般指动作结束， 没有产生错误
-        YQ_ERROR_DONE = 1,      // 一般指读取操作成功，有数据
-        YQ_ERROR_NO_MEM = -100, // -99 -98
-        YQ_ERROR_ARGS,
-        YQ_ERROR_NO_PERMISSION,
-        YQ_ERROR_NOT_EXIST,
-        YQ_ERROR_HAS_EXIST,
-        YQ_ERROR_FILE_OPEN,
-        YQ_ERROR_FILE_CLOSE,
-        YQ_ERROR_FILE_READ,
-        YQ_ERROR_FILE_WRITE,
-        YQ_ERROR_NOT_INITED,
-        YQ_ERROR_HAS_INITED,
-        YQ_ERROR_NOT_STARTED,
-        YQ_ERROR_HAS_STARTED,
+/*===========knlog=============*/
+#include <cstdio>
+#include <cstdarg>
+#include <ctime>
 
-        YQ_ERROR_CUSTOM_NEXT = -1000,
-    } YQError;
+enum LogLevel {
+    INFO,
+    WARN,
+    ERROR,
+    DEBUG
+};
+
+const char* LogLevelToString(LogLevel level) {
+    switch (level) {
+        case INFO: return "INFO";
+        case WARN: return "WARN";
+        case ERROR: return "ERROR";
+        case DEBUG: return "DEBUG";
+        default: return "UNKNOWN";
+    }
+}
+
+void knlog(LogLevel level, const char* fmt, ...) {
+    // Get current time
+    std::time_t now = std::time(nullptr);
+    char timeStr[20];
+    std::strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
+
+    // Print log level and time
+    printf("[%s] [%s] ", LogLevelToString(level), timeStr);
+
+    // Handle variable arguments
+    va_list args;
+    va_start(args, fmt);
+    vprintf(fmt, args);
+    va_end(args);
+
+    // New line
+    printf("\n");
+}
+class KalmanFilter {
+public:
+    KalmanFilter(float processNoise, float measurementNoise, float estimatedError) {
+        Q = processNoise;
+        R = measurementNoise;
+        P = estimatedError;
+        X = 0;
+    }
+
+    float update(float measurement) {
+        P = P + Q;
+        K = P / (P + R);
+        X = X + K * (measurement - X);
+        P = (1 - K) * P;
+
+        return X;
+    }
+
+private:
+    float Q;
+    float R;
+    float P;
+    float K;
+    float X;
+};
+
 class Mpu_Lsm6ds3trc //: public CommandRegistry
 {
   private:
@@ -61,75 +105,101 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
     float Yaw = 0, Pitch = 0, Roll = 0;
     float lastProcTime = 0.0;
 
-    constexpr const static float Kp    = 10.0f;
-    constexpr const static float Ki    = 0.001f;
-    constexpr const static float scale = 57.2957795131f;
-    constexpr const static float YAW_SCALE = -10.4142;
+    constexpr static float Kp    = 10.0f;
+    constexpr static float Ki    = 0.001f;
+    constexpr static float YAW_SCALE = -1.4142;
 
-    std::vector<float> acc             = {0, 0, 0};
-    std::vector<float> gyr             = {0, 0, 0};
-    std::vector<float> gyr_dev         = {0, 0, 0};
-    std::vector<float> gyr_cali        = {0, 0, 0};
-    std::vector<float> acc_cali        = {0, 0, 0};
-    bool               calibrate       = false;
+    KalmanFilter kf_yaw1{0.001, 0.005, 1};
+
+    std::vector<float> acc             = {0.0, 0.0, 0.0};
+    std::vector<float> gyr             = {0.0, 0.0, 0.0};
+    std::vector<float> gyr_dev         = {0.0, 0.0, 0.0};
+    std::vector<float> gyr_cali        = {0.0, 0.0, 0.0};
+    std::vector<float> acc_cali        = {0.0, 0.0, 0.0};
+
+    int                filter_count    = 0;
     int                calibrate_count = 0;
-
-    bool debug_flag = false;
+    bool               calibrate       = false;
+    bool               debug_flag      = false;
+    bool               reset_flag      = false;
+    int                no_data_count   = 0;
 
   public:
     Mpu_Lsm6ds3trc(const char *device, int i2c_addr) //: CommandRegistry()
     {
         this->device   = device;
         this->i2c_addr = i2c_addr;
-        //registeCmd("MpuStatus", std::bind(&Mpu_Lsm6ds3trc::MpuStatus, this, std::placeholders::_1));
+        // registeCmd("MpuStatus", std::bind(&Mpu_Lsm6ds3trc::MpuStatus, this, std::placeholders::_1));
+        // registeCmd("imu", std::bind(&Mpu_Lsm6ds3trc::MpuStatus, this, std::placeholders::_1));
     }
 
     ~Mpu_Lsm6ds3trc()
     {
         is_exited = true;
         // Wait for the thread to finish
-        if (thread_.joinable())
-        {
+        if (thread_.joinable()) {
             thread_.join();
         }
-        LOGD("Mpu_Lsm6ds3trc destroyed!!!");
+        knlog(INFO, "Mpu_Lsm6ds3trc destroyed!!!");
     }
 
 #if 0
     void MpuStatus(const std::vector<std::string> &args)
     {
         int loop = 1;
-        if (args.size() > 1)
-        {
+        if (args.size() > 1) {
+            loop = 0;
             auto operation = parseArgument<std::string>(args[1]);
-            if (operation == "debug")
-            {
-                if (args.size() > 2)
-                {
+            if (operation == "debug") {
+                if (args.size() > 2) {
                     auto param = parseArgument<std::string>(args[2]);
-                    if (param == "on")
-                    {
+                    if (param == "on") {
                         std::cout << "set debug on" << std::endl;
                         debug_flag = true;
-                    }
-                    else if (param == "off")
-                    {
+                    } else if (param == "off") {
                         std::cout << "set debug off" << std::endl;
                         debug_flag = false;
                     }
                 }
-            }
-            else if (operation == "loop")
-            {
-                if (args.size() > 2)
-                {
+            } else if (operation == "loop") {
+                if (args.size() > 2) {
                     loop = parseArgument<int>(args[2]);
+                }
+            } else if (operation == "device") {
+                if (args.size() > 2) {
+                    auto param = parseArgument<std::string>(args[2]);
+                    if (param == "reset") {
+                        std::cout << "reset device, set reset_flag = true" << std::endl;
+                        reset_flag = true;
+                    } else if (param == "status") {
+                        uint8_t status = Lsm6ds3trc_Get_Status();
+                        std::cout << "device status: " << std::hex << status << std::endl;
+                        std::cout << "\t" << " gyr -- " << (status & 0x03) << std::endl;
+                        std::cout << "\t" << "temp -- " << (status & 0x04) << std::endl;
+                    }
+                }
+            } else if (operation == "cali") {
+                if (args.size() > 2) {
+                    auto param = parseArgument<std::string>(args[2]);
+                    if (param == "reset") {
+                        std::cout << "calibrate reset" << std::endl;
+                        calibrate_count = 0;
+                        filter_count = 0;
+                        gyr_cali[0] = 0;
+                        gyr_cali[1] = 0;
+                        gyr_cali[2] = 0;
+                        calibrate = false;
+                    } else if (param == "status") {
+                        std::cout << "calibrate status" << std::endl;
+                        std::cout << "calibrate: " << calibrate << std::endl;
+                        std::cout << "gyr_cali : "
+                                  << "[" << gyr_cali[0] << ", " << gyr_cali[1] << ", " << gyr_cali[2] << "]" << std::endl;
+                     }
                 }
             }
         }
 
-        for (int icnt = 0; icnt < loop; icnt++)
-        {
+        for (int icnt = 0; icnt < loop; icnt++) {
             std::cout << "Mpu status" << std::endl;
             std::cout << std::string(32, '-') << std::endl;
             std::cout << "calibrate: " << calibrate << std::endl;
@@ -143,8 +213,9 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
                       << "[" << acc[0] << ", " << acc[1] << ", " << acc[2] << "]" << std::endl;
             std::cout << "rpy_value: "
                       << "[" << Roll << ", " << Pitch << ", " << Yaw*YAW_SCALE<< "]" << std::endl;
-            if (icnt < loop - 1)
+            if (icnt < loop - 1) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            }
         }
     }
 #endif
@@ -152,114 +223,60 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
     bool Lsm6ds3trc_Init(void)
     {
         i2c_fd = open(device, O_RDWR);
-        if (i2c_fd < 0)
-        {
-            LOGD("Failed to open the i2c device %s", device);
-            return false;
-        }
-        if (ioctl(i2c_fd, I2C_SLAVE, i2c_addr) < 0)
-        {
-            LOGD("Failed to acquire bus access and/or talk to slave");
+        if (i2c_fd < 0) {
+            knlog(INFO, "Failed to open the i2c device %s", device);
             return false;
         }
 
-        uint8_t              buf[] = {LSM6DS3TRC_WHO_AM_I};
-        std::vector<uint8_t> data  = Lsm6ds3trc_read(buf);
-        if (data[0] != LSM6DS3TRC_WHO_AM_I_RESP)
-        {
-            LOGD("LSM6DS3TRC_WHO_AM_I_RESP = 0x%x, not equal 0x%x", data[0], LSM6DS3TRC_WHO_AM_I_RESP);
+        //检测设备是否存在且通信正常，通过I2C地址通信
+        if (ioctl(i2c_fd, I2C_SLAVE, i2c_addr) < 0) {
+            knlog(INFO, "Failed to acquire bus access and/or talk to slave");
             return false;
         }
+
+        //检测设备ID是否正确
+        uint8_t              buf[] = {LSM6DS3TRC_WHO_AM_I};
+        std::vector<uint8_t> data  = Lsm6ds3trc_read(buf);
+        if (data[0] != LSM6DS3TRC_WHO_AM_I_RESP) {
+            knlog(ERROR, "LSM6DS3TRC_WHO_AM_I_RESP = 0x%x, not equal 0x%x", data[0], LSM6DS3TRC_WHO_AM_I_RESP);
+            return false;
+        }
+
         Lsm6ds3trc_Reset();
         Lsm6ds3trc_Set_BDU(true);
+        // 1. ODR:输出数据选择
         Lsm6ds3trc_Set_Accelerometer_Rate(LSM6DS3TRC_ACC_RATE_833HZ);
         Lsm6ds3trc_Set_Gyroscope_Rate(LSM6DS3TRC_GYR_RATE_833HZ);
+        // 2. 满量程选择
+            //dps越低：角速度动态范围越小，精度越高；反之角速度范围大，精度低
         Lsm6ds3trc_Set_Accelerometer_Fullscale(LSM6DS3TRC_ACC_FSXL_2G);
-        Lsm6ds3trc_Set_Gyroscope_Fullscale(LSM6DS3TRC_GYR_FSG_2000);
-        Lsm6ds3trc_Set_Accelerometer_Bandwidth(LSM6DS3TRC_ACC_BW0XL_400HZ, LSM6DS3TRC_ACC_LOW_PASS_ODR_100);
+        Lsm6ds3trc_Set_Gyroscope_Fullscale(LSM6DS3TRC_GYR_FSG_2000); 
+        // 3. 加速度计带宽配置
+            //如果需要消除慢速漂移或重力影响，可以启用高通滤波器。
+            // 注意：
+            // ODR 过低会导致动态信号采样不足。
+            // ODR 过高可能增加功耗并带来额外噪声
+        Lsm6ds3trc_Set_Accelerometer_Bandwidth(LSM6DS3TRC_ACC_BW0XL_400HZ, LSM6DS3TRC_ACC_LOW_PASS_ODR_100); 
+        // 4.陀螺仪带宽配置
         Lsm6ds3trc_Set_Register7(LSM6DS3TRC_CTRL7_G_HM_MODE_DISABLE | LSM6DS3TRC_CTRL7_G_HPM_260MHZ);
+        //Lsm6ds3trc_Set_Register7(LSM6DS3TRC_CTRL7_G_HM_MODE_ENABLE | LSM6DS3TRC_CTRL7_G_HP_EN_ENABLE | LSM6DS3TRC_CTRL7_G_HPM_260MHZ);
         Lsm6ds3trc_Set_Register6(LSM6DS3TRC_CTRL6_C_FTYPE_1);
         Lsm6ds3trc_Set_Register4(LSM6DS3TRC_CTRL4_LPF1_SELG_ENABLE);
 
         thread_ = std::thread(&Mpu_Lsm6ds3trc::GetDataThread, this);
-        LOGD("Lsm6ds3trc_Init success");
+        knlog(INFO, "Lsm6ds3trc_Init success");
         return true;
     }
 
-    int  glbprint = 0;
     void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
     {
-        /*
-        float norm;
-        float vx, vy, vz;
-        float ex, ey, ez;
-
-        norm = sqrt(ax * ax + ay * ay + az * az);
-        ax   = ax / norm;
-        ay   = ay / norm;
-        az   = az / norm;
-
-        // 估计方向的重力
-        vx = 2 * (q1 * q3 - q0 * q2);
-        vy = 2 * (q0 * q1 + q2 * q3);
-        vz = q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3;
-
-        ex = (ay * vz - az * vy);
-        ey = (az * vx - ax * vz);
-        ez = (ax * vy - ay * vx);
-
-        // 积分误差比例积分增益,计算陀螺仪测量的重力向量与估计方向的重力向量之间的误差
-        exInt = exInt + ex * Ki;
-        eyInt = eyInt + ey * Ki;
-        ezInt = ezInt + ez * Ki;
-
-        gx = gx + Kp * ex + exInt;
-        gy = gy + Kp * ey + eyInt;
-        gz = gz + Kp * ez + ezInt;
-
         float curProcTime   = std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0f;
         float timeDelta     = curProcTime - lastProcTime;
-        float halftimeDelta = timeDelta * 0.5;
         lastProcTime        = curProcTime;
 
-        q0 = q0 + (-q1 * gx - q2 * gy - q3 * gz) * halftimeDelta;
-        q1 = q1 + (q0 * gx + q2 * gz - q3 * gy) * halftimeDelta;
-        q2 = q2 + (q0 * gy - q1 * gz + q3 * gx) * halftimeDelta;
-        q3 = q3 + (q0 * gz + q1 * gy - q2 * gx) * halftimeDelta;
-
-        // 归一化四元数
-        norm = sqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
-        q0   = q0 / norm;
-        q1   = q1 / norm;
-        q2   = q2 / norm;
-        q3   = q3 / norm;
-
-        Pitch = asin(2 * q2 * q3 + 2 * q0 * q1) * scale;
-        Roll  = atan2(-2 * q1 * q3 + 2 * q0 * q2, q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3) * scale;
-        // Yaw = atan2(2*(q1*q2 - q0*q3),q0*q0-q1*q1+q2*q2-q3*q3) * 57.3; //飘移太大
-        */
-
-        float curProcTime   = std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0f;
-        float timeDelta     = curProcTime - lastProcTime;
-        float halftimeDelta = timeDelta * 0.5;
-        lastProcTime        = curProcTime;
-
-        if (fabs(gx * scale) > 1.0f) {
-            Roll += gx * timeDelta;
-        }
-
-        if (fabs(gy * scale) > 1.0f) {
-            Pitch += gy * timeDelta;
-        }
-
-        if (fabs(gz * scale) > 1.0f) {
-            // printf(">0.01f gz : %f     timeDelta : %f     add : %f\n",gz,timeDelta,gz*timeDelta);
-            Yaw += gz * timeDelta;
-        }
-        else
-        {
-            // printf("<0.01f gz : %f     timeDelta : %f     add : %f\n",gz,timeDelta,gz*timeDelta);
-        }
+        Roll += gx * timeDelta;
+        Pitch += gy * timeDelta;
+        Yaw += gz * timeDelta;
 
         if (debug_flag) {
             uint64_t timecount = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -267,78 +284,137 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
             std::cout << std::dec << "[" << timecount / 1000 << "." << std::setw(3) << timecount % 1000 
                       << " gyr: [" << std::fixed << std::setprecision(3) << std::setw(8) << gyr_cali[0] << ", " << std::setw(8) << gyr_dev[0] << ", " << std::setw(8) << gyr[0] << "]"
                       << "] rpy: [" << std::fixed << std::setprecision(3) << std::setw(8) << Roll << ", " << std::setw(8) << Pitch << ", " << std::setw(8) << Yaw*YAW_SCALE << "] "
-                      << "u_g: [" << std::fixed << std::setprecision(3) << std::setw(8) << gx * scale << ", " << std::setw(8) << gy * scale << ", " << std::setw(8) << gz * scale << "] " << std::endl;
+                      << "u_g: [" << std::fixed << std::setprecision(3) << std::setw(8) << gx << ", " << std::setw(8) << gy << ", " << std::setw(8) << gz << "] " << std::endl;
         }
+    }
+
+    int CalibrateProc(void)
+    {
+        if (calibrate) {
+            return 0;
+        }
+
+        if (filter_count++ < 100) { // drop first 100 packet
+            //knlog(INFO, "[%d]mpu cali filter, data=[%f, %f, %f]", filter_count, gyr[0], gyr[1], gyr[2]);
+            return -1;
+        }
+
+        if (calibrate_count++ == 0) {
+            knlog(INFO, "mpu calibrate start.");
+        }
+
+        gyr_cali[0] += gyr[0];
+        gyr_cali[1] += gyr[1];
+        gyr_cali[2] += gyr[2];
+
+        if (fabs(gyr_cali[1]/calibrate_count - gyr[1]) > 1500) {
+            knlog(WARN, "mpu shaked, gyr_cali=[%f, %f, %f] gyr=[%f, %f, %f]",  gyr_cali[0]/calibrate_count,
+                    gyr_cali[1]/calibrate_count, gyr_cali[2]/calibrate_count, gyr[0], gyr[1], gyr[2]);
+
+            gyr_cali[0] = 0;
+            gyr_cali[1] = 0;
+            gyr_cali[2] = 0;
+            calibrate_count = 0;
+            filter_count = 0;
+
+            return -1;
+        }
+
+        if (calibrate_count < 2000) {
+            if (calibrate_count % 250 == 0) {
+                knlog(DEBUG, "calibrate count=[%d] gyr_cali=[%f, %f, %f] gyr=[%f, %f, %f]",
+                    calibrate_count, gyr_cali[0]/calibrate_count, gyr_cali[1]/calibrate_count,
+                    gyr_cali[2]/calibrate_count, gyr[0], gyr[1], gyr[2]);
+            }
+            return -1;
+        }
+
+        gyr_cali[0] = gyr_cali[0] / calibrate_count;
+        gyr_cali[1] = gyr_cali[1] / calibrate_count;
+        gyr_cali[2] = gyr_cali[2] / calibrate_count;
+
+        lastProcTime = std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0f;
+        calibrate = true;
+
+        knlog(INFO, "mpu calibrate done, data=[%f, %f, %f]", gyr_cali[0], gyr_cali[1], gyr_cali[2]);
+        return 0;
     }
 
     void GetDataThread(void)
     {
-        float temp;
-        LOGD("Lsm6ds3trc_GetDataThread start 2");
         prctl(PR_SET_NAME, "mpudata");
-        while (!is_exited)
-        {
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // wait for mpu steady
+        while (!is_exited) {
+            if (reset_flag) {
+                knlog(INFO, "mpu reset start....");
+                Lsm6ds3trc_Reset();
+                Lsm6ds3trc_Set_BDU(true);
+                Lsm6ds3trc_Set_Accelerometer_Rate(LSM6DS3TRC_ACC_RATE_833HZ);
+                Lsm6ds3trc_Set_Gyroscope_Rate(LSM6DS3TRC_GYR_RATE_833HZ);
+                Lsm6ds3trc_Set_Accelerometer_Fullscale(LSM6DS3TRC_ACC_FSXL_2G);
+                Lsm6ds3trc_Set_Gyroscope_Fullscale(LSM6DS3TRC_GYR_FSG_2000);
+                Lsm6ds3trc_Set_Accelerometer_Bandwidth(LSM6DS3TRC_ACC_BW0XL_400HZ, LSM6DS3TRC_ACC_LOW_PASS_ODR_100);
+                Lsm6ds3trc_Set_Register7(LSM6DS3TRC_CTRL7_G_HM_MODE_DISABLE | LSM6DS3TRC_CTRL7_G_HPM_260MHZ);
+                Lsm6ds3trc_Set_Register6(LSM6DS3TRC_CTRL6_C_FTYPE_1);
+                Lsm6ds3trc_Set_Register4(LSM6DS3TRC_CTRL4_LPF1_SELG_ENABLE);
+
+                calibrate_count = 0;
+                filter_count = 0;
+                gyr_cali[0] = 0;
+                gyr_cali[1] = 0;
+                gyr_cali[2] = 0;
+                calibrate = false;
+
+                reset_flag = false;
+                std::this_thread::sleep_for(std::chrono::milliseconds(100)); // wait for mpu steady
+            }
+
             uint8_t status = Lsm6ds3trc_Get_Status();
-            if (status & 0x03)
-            {
+            if (status & 0x03) {
                 acc     = Lsm6ds3trc_Get_Acceleration(LSM6DS3TRC_ACC_FSXL_2G);
                 gyr     = Lsm6ds3trc_Get_Gyroscope(LSM6DS3TRC_GYR_FSG_2000);
                 gyr_dev = gyr;
-            }
-            else
-            {
-                if (status & 0x04)
-                {
-                    temp = Lsm6ds3trc_Get_Temperature();
-                    std::cout << "TEMPERATURE: " << std::fixed << std::setprecision(3) << std::setw(7) << temp << "°C"
-                              << std::endl;
+                no_data_count = 0;
+            } else {
+                //if (status & 0x04) {
+                //    temp = Lsm6ds3trc_Get_Temperature();
+                //    std::cout << "TEMPERATURE: " << std::fixed << std::setprecision(3) << std::setw(7) << temp << "°C" << std::endl;
+                //}
+                no_data_count++;
+                if (no_data_count > 3000) {
+                    knlog(INFO, "mpu no data, set reset_flag = true");
+                    no_data_count = 0;
+                    reset_flag = true;
                 }
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                std::this_thread::sleep_for(std::chrono::milliseconds(2));
                 continue;
             }
 
-            if (!calibrate)
-            {
-                if (calibrate_count == 0)
-                    LOGD("mpu calibrate start....");
-                gyr_cali[0] += gyr[0];
-                gyr_cali[1] += gyr[1];
-                gyr_cali[2] += gyr[2];
-
-                acc_cali[2] += acc[2];
-                if (calibrate_count++ < 3000)
-                {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
-                    continue;
-                }
-
-                gyr_cali[0] = gyr_cali[0] / calibrate_count;
-                gyr_cali[1] = gyr_cali[1] / calibrate_count;
-                gyr_cali[2] = gyr_cali[2] / calibrate_count;
-
-                acc_cali[2] = acc_cali[2] / calibrate_count;
-                calibrate   = true;
-                LOGD("mpu calibrate done, data=[%f, %f, %f]", gyr_cali[0], gyr_cali[1], gyr_cali[2]);
-                lastProcTime = std::chrono::steady_clock::now().time_since_epoch().count() / 1000000000.0f;
+            //auto origin_gyr = gyr[0];
+            gyr[1] = kf_yaw1.update(gyr[1]);
+            //printf("kalmanfilter: %16f %16f\n", origin_gyr, gyr[0]);
+            if (CalibrateProc() < 0) {
+                continue;
             }
 
             gyr[0] -= gyr_cali[0];
             gyr[1] -= gyr_cali[1];
             gyr[2] -= gyr_cali[2];
-
-            if (std::abs(gyr[0]) < 1000)
-            {
+            if (std::abs(gyr[0]) < 1500) { // 2°/s
                 gyr[0] = 0;
             }
-            
-            if (std::abs(gyr[1]) < 1000)
+            if (std::abs(gyr[1]) < 1500) { // 2°/s
                 gyr[1] = 0;
-            if (std::abs(gyr[2]) < 1000)
+            }
+            if (std::abs(gyr[2]) < 1500) { // 2°/s
                 gyr[2] = 0;
+            }
+
             IMUupdate(gyr[2] / 1000, gyr[1] / 1000, -gyr[0] / 1000, acc[2] / 1000, acc[1] / 1000, acc[0] / 1000);
             std::this_thread::sleep_for(std::chrono::milliseconds(6));
         }
-        LOGD("mpu thread exit!!!");
+        knlog(INFO, "mpu thread exit!!!");
     }
 
     bool Lsm6ds3trc_Ready(void)
@@ -353,15 +429,6 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
         ypr[2] = Roll;
         return i2c_error;
     }
-
-    bool Lsm6ds3trc_Get_gyro(float *gyro)
-    {
-        gyro[0] = gyr_dev[0];
-        gyro[1] = gyr_dev[1];
-        gyro[2] = gyr_dev[2];
-        return i2c_error;
-    }
-
 
     float Lsm6ds3trc_Get_Temperature()
     {
@@ -403,7 +470,13 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
 
         return gry_float;
     }
-
+    bool Lsm6ds3trc_Get_gyro(float *gyro)
+    {
+        gyro[0] = gyr_dev[0];
+        gyro[1] = gyr_dev[1];
+        gyro[2] = gyr_dev[2];
+        return i2c_error;
+    }
     std::vector<float> Lsm6ds3trc_Get_Acceleration(int fsxl)
     {
         uint8_t              buf[] = {LSM6DS3TRC_OUTX_L_XL};
@@ -451,13 +524,13 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
         if (write(i2c_fd, buf, 1) != 1)
         {
             i2c_error = true;
-            LOGD("Failed to write to the i2c bus");
+            knlog(ERROR, "Failed to write to the i2c bus");
             return data;
         }
         if (read(i2c_fd, data.data(), length) != length)
         {
             i2c_error = true;
-            LOGD("Failed to read from the i2c bus");
+            knlog(ERROR, "Failed to read from the i2c bus");
             return data;
         }
 
@@ -470,7 +543,7 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
         if (write(i2c_fd, buf, length) != length)
         {
             i2c_error = true;
-            LOGD("Failed to write to the i2c bus");
+            knlog(ERROR, "Failed to write to the i2c bus");
         }
         i2c_error = false;
     }
@@ -536,6 +609,14 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
         Lsm6ds3trc_write(buf2);
     }
 
+    /**
+     * @brief 设置LSM6DS3TRC传感器的陀螺仪采样率。
+     * 
+     * 该函数通过修改传感器的CTRL2_G寄存器来设置陀螺仪的采样率。
+     * 采样率决定了传感器每秒采集多少个陀螺仪数据样本。
+     * 
+     * @param rate 一个8位无符号整数，表示要设置的采样率。具体的采样率值应参考传感器的数据手册。
+     */
     void Lsm6ds3trc_Set_Gyroscope_Rate(uint8_t rate)
     {
         uint8_t              buf[]  = {LSM6DS3TRC_CTRL2_G};
@@ -544,6 +625,14 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
         Lsm6ds3trc_write(buf2);
     }
 
+    /**
+     * @brief 设置LSM6DS3TRC传感器的加速度计采样率。
+     * 
+     * 该函数通过修改传感器的CTRL1_XL寄存器来设置加速度计的采样率。
+     * 采样率决定了传感器每秒采集多少个加速度数据样本。
+     * 
+     * @param rate 一个8位无符号整数，表示要设置的采样率。具体的采样率值应参考传感器的数据手册。
+     */
     void Lsm6ds3trc_Set_Accelerometer_Rate(uint8_t rate)
     {
         uint8_t              buf[]  = {LSM6DS3TRC_CTRL1_XL};
@@ -552,6 +641,15 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
         Lsm6ds3trc_write(buf2);
     }
 
+      /**
+     * @brief 设置LSM6DS3TRC传感器的BDU（Block Data Update）模式。
+     * 
+     * BDU模式决定了传感器在读取数据时是否更新寄存器的值。
+     * 如果启用BDU模式，寄存器的值将在读取操作完成后才更新，确保数据的一致性。
+     * 如果禁用BDU模式，寄存器的值将在每次读取操作时更新，可能导致数据不一致。
+     * 
+     * @param flag 一个布尔值，指示是否启用BDU模式。如果为true，则启用BDU模式；如果为false，则禁用BDU模式。
+     */
     void Lsm6ds3trc_Set_BDU(bool flag)
     {
         uint8_t              buf[] = {LSM6DS3TRC_CTRL3_C};
@@ -560,6 +658,10 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
         Lsm6ds3trc_write(buf2);
     }
 
+    /**
+     * @brief 重启,复位LSM6DS3TRC 芯片
+     * @param
+      */
     void Lsm6ds3trc_Reset()
     {
         uint8_t buf[] = {LSM6DS3TRC_CTRL3_C, 0x80};
@@ -570,7 +672,7 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
         data[0] |= 0x01;
         buf[1] = data[0];
         Lsm6ds3trc_write(buf);
-
+        usleep(15000);
         /*
         std::vector<uint8_t> status(1, 1)
         while (status[0]&0x01)
@@ -815,7 +917,7 @@ static int                      yq_mpu_impl_lsm6ds3trc_open(YQMpuContext *ctx, c
     bool ret = mpu_lsm6ds3trc->Lsm6ds3trc_Init();
     if (!ret)
     {
-        LOGD("mpu init fail [%d]", ret);
+        knlog(ERROR, "mpu init fail [%d]", ret);
         free(_priv);
         ctx->priv_data = NULL;
         return -2;
@@ -862,7 +964,6 @@ static int yq_mpu_impl_lsm6ds3trc_read_ypr(YQMpuContext *ctx, float ypr[])
         return YQ_ERROR_ARGS;
     }
 
-    YQMpuPrivData *_priv      = (YQMpuPrivData *)ctx->priv_data;
     bool           read_error = mpu_lsm6ds3trc->Lsm6ds3trc_Get_YawPitchRoll(ypr);
     if (read_error)
     {

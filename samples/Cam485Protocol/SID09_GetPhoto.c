@@ -122,6 +122,7 @@ int SID09_GetPhoto(uint8_t *msg_buf, uint32_t msg_len)
     char image_path[PATH_MAX] = {0};
     if (find_file_path_by_id(target_id, image_path) != 0) {
         LOGD("Failed to find file path for pic_id: %u, ret[-4]\n", target_id);
+        LOGD("find path : %s\n",image_path);
         return PackGetPictureResponse(resp_buf,negative_payload_len,NULL,0,1);
     }
     LOGD("find path : %s\n",image_path);

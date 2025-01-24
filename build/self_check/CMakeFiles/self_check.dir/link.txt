@@ -1,2 +1,0 @@
-/usr/bin/ar qc libself_check.a CMakeFiles/self_check.dir/cam_self_check.c.o CMakeFiles/self_check.dir/gyro_self_check.c.o CMakeFiles/self_check.dir/self_check.c.o
-/usr/bin/ranlib libself_check.a

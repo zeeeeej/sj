@@ -343,6 +343,12 @@ struct chn_conf{
 };
 
 #define  CHN_NUM  ARRAY_SIZE(chn)
+#define SENSOR_WIDTH 1920
+#define SENSOR_HEIGHT 1080
+
+static int crop_width = SENSOR_WIDTH;
+static int crop_height = SENSOR_HEIGHT;
+extern int Luminance;
 
 int wind_sample_system_init();
 int wind_sample_system_exit();
@@ -364,8 +370,13 @@ int wind_sample_get_frame();
 int wind_sample_get_video_stream();
 int wind_sample_get_video_stream_byfd();
 int wind_sample_get_jpeg_snap();
+int wind_sample_get_Luminance();
 
+int wind_sample_set_luminance(int value);
 int wind_sample_SetIRCUT(int enable);
+int wind_sample_set_resolution(int width, int height);
+
+
 void *wind_sample_soft_photosensitive_ctrl(void *p);
 
 
