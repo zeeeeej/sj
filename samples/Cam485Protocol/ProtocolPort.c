@@ -1,14 +1,13 @@
 #include "ProtocolPort.h"
 #include "cm_video_ctrl.h"
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
-
-
 
 
 uint8_t get_image_seq()
