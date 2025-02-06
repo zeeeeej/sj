@@ -184,6 +184,13 @@ uint16_t crc16(uint8_t *buffer, uint16_t buffer_length)
 
     return crc;
 }
+uint16_t image_crc16(uint16_t crc, uint8_t *buffer, uint16_t buffer_length)
+{
+     while (buffer_length-- > 0)
+        crc = (crc << 8) ^ ccitt_table[((crc >> 8) ^ *buffer++) & 0xff];
+
+    return crc;
+}
 uint8_t send_msg_resp(uint8_t *msg, uint32_t len)
 {
     printf("msg content (len = %u):\n", len);
@@ -206,6 +213,12 @@ uint8_t send_msg_resp(uint8_t *msg, uint32_t len)
     printf("\n");
     return add_msg_to_queue(&send_queue, msg, len) == 0 ? 0 : 1; // 0 for success, 1 for failure
 }
+
+uint8_t send_msg_image(uint8_t *msg, uint32_t len)
+{
+    return add_msg_to_queue(&send_queue, msg, len) == 0 ? 0 : 1;
+}
+
 static int send_msg_pre(uint8_t *req, int req_length)
 {
     uint16_t crc = crc16(req, req_length);
@@ -412,13 +425,15 @@ static void *msg_process_thread(void *arg)
     LOGD("msg_process_thread ready");
     MsgNode *msg_node = NULL;
 
+    usleep(3*1000*1000);
+
     /*临时和海大调试用 拍3张图片*/
     static int tmp = 1;
     uint8_t msgtmp[10] = {0xAA ,0x5A ,0x01 ,0x06 ,0x00 ,0x00 ,0x00 ,0x00 ,0x88 ,0x99};
     if(1==tmp)
     {
         tmp = 0;
-        for(int i=0;i<3;i++){
+        for(int i=0;i<10;i++){
             usleep(1000*1000);
             MsgServiceList[5].msg_process_callback(msgtmp, 10);
         }

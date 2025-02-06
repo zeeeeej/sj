@@ -2,6 +2,10 @@
 #define SID09_GET_PHOTO___
 
 #include "stdint.h"
+#include "MsgDispatcher.h"
+
+#define BUFFER_SIZE 4096
+
 typedef struct {
     uint8_t header[2];        // 帧头，例如 0xAA 0x5A
     uint8_t slave_addr;
@@ -14,4 +18,5 @@ typedef struct {
 } GetPictureRequest_t;
 
 int SID09_GetPhoto(uint8_t *msg_buf, uint32_t msg_len);
+void send_picture_data(uint8_t *msg_buf, uint32_t msg_len);
 #endif

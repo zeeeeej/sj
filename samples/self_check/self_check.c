@@ -13,7 +13,7 @@ void self_check_start(void)
 {
     cam_self_check_start(&CamcheckProperty);
 
-    gyro_self_check_start(&GyrocheckProperty);
+    // gyro_self_check_start(&GyrocheckProperty);
 
     self_check_flag = 1;
 }

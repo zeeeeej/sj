@@ -17,7 +17,7 @@ typedef struct {
     char file_path[PATH_MAX]; // 存储文件路径
 } DataNode;
 
-typedef struct {
+typedef struct __attribute__((packed)) {
     unsigned char id;
     unsigned char trigger_type;
     unsigned char trigger_angle;
