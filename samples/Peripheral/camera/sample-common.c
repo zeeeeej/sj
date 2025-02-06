@@ -283,7 +283,12 @@ int wind_sample_system_init()
 		IMP_LOG_ERR(TAG, "IMP_ISP_EnableTuning failed\n");
 		return -1;
 	}
-	printf("[Info][sample-common.c-286] Luminance:%d\n",Luminance);
+	
+	if(Luminance == 0)
+	{
+		printf("[Info][sample-common.c-289] Luminance is empty,Luminance:%d\n",Luminance);
+		Luminance = 128;
+	}
     IMP_ISP_Tuning_SetContrast(128);
     IMP_ISP_Tuning_SetSharpness(128);
     IMP_ISP_Tuning_SetSaturation(128);
