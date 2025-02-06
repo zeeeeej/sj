@@ -16,7 +16,7 @@
 #include <pthread.h>
 #include "self_check.h"
 #include "circular_log.h"
-#include "cli_command.h"
+#include "cli.h"
 #include "debug_logger.h"
 #include "Cam485Protocol.h"
 #include <sys/stat.h>
@@ -61,8 +61,8 @@ int main(int argc, char *argv[])
     } else {
         log_i("Version information written to %s", VERSION_FILE);
     }
-
-
+    /*初始化命令行*/
+    // command_init();
     /*启动看门狗*/
     int wdt_disable = (access("/system/etc/wdt_disable", F_OK) == 0);
     if (!wdt_disable)

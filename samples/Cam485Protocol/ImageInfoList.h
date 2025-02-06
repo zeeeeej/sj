@@ -26,6 +26,7 @@ typedef struct __attribute__((packed)) {
     unsigned char md5[16]; // 注意这里只保留16字节的md5值
 } BufferedDataNode;
 
+
 // 定义链表节点
 typedef struct Node {
     DataNode data;

@@ -4,7 +4,7 @@
 #include "stdint.h"
 #include "MsgDispatcher.h"
 
-#define BUFFER_SIZE 4096
+
 
 typedef struct {
     uint8_t header[2];        // 帧头，例如 0xAA 0x5A

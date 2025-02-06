@@ -3,5 +3,6 @@
 
 
 #include "stdint.h"
+void print_485_cir_buf_contents();
 
 #endif

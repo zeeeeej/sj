@@ -4,25 +4,27 @@
 #include <errno.h>   // 包含 errno 定义
 #include <limits.h>  // 包含 PATH_MAX 定义
 #include <stdbool.h> // 包含 bool 定义
-
+#include <unistd.h>
 #include "cm_common.h"
 #include "SID09_GetPhoto.h"
 #include "Cam485ProtocolCommon.h"
 #include "MsgDispatcher.h"
 #include "ImageInfoList.h"
+#include "elog.h"
+#define IMG_BUFFER_SIZE (8000)
+#define RESP_BUF_SIZE (IMG_BUFFER_SIZE + 50)
 
-#define RESPSIZE                (5000)
-
-static char resp_buf[RESPSIZE];
-
-static int ParseGetPictureRequest(const uint8_t *msg_buf, uint32_t msg_len,GetPictureRequest_t *req)
+#define TAG_NAME "[SID09->GET PHOTO]"
+static char resp_buf[RESP_BUF_SIZE];
+static char img_data_buf[IMG_BUFFER_SIZE];
+static int ParseGetPictureRequest(const uint8_t *msg_buf, uint32_t msg_len, GetPictureRequest_t *req)
 {
-    if (msg_buf == NULL || req == NULL || msg_len < 19) 
+    if (msg_buf == NULL || req == NULL || msg_len < 19)
     {
-        LOGD("error:msg_len = %d",msg_len);
+        LOGD("error:msg_len = %d", msg_len);
         return -1;
     }
-    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x01 || msg_buf[3] != 0x09) 
+    if (msg_buf[0] != 0xAA || msg_buf[1] != 0x5A || msg_buf[2] != 0x01 || msg_buf[3] != 0x09)
     {
         return -2;
     }
@@ -52,8 +54,10 @@ static int ParseGetPictureRequest(const uint8_t *msg_buf, uint32_t msg_len,GetPi
  * 打印 GetPictureRequest_t 结构体的内容
  * @param request 指向 GetPictureRequest_t 结构体的指针
  */
-void print_get_picture_request(const GetPictureRequest_t *request) {
-    if (request == NULL) {
+void print_get_picture_request(const GetPictureRequest_t *request)
+{
+    if (request == NULL)
+    {
         printf("Invalid request pointer.\n");
         return;
     }
@@ -65,11 +69,9 @@ void print_get_picture_request(const GetPictureRequest_t *request) {
     printf("Result: %d\n", request->result);
 }
 
-
-int PackGetPictureResponse(uint8_t *msg_buf, uint32_t data_payload_len, uint8_t* pic_data, uint32_t pic_data_len , uint8_t result)
+int PackGetPictureResponseHeader(uint8_t *msg_buf, uint32_t data_payload_len, uint8_t result)
 {
-    LOGD("pic data len : %d\n",pic_data_len);
-    LOGD("data_payload_len : %d\n",data_payload_len);
+
     int index = 0;
     msg_buf[index++] = 0xAA;
     msg_buf[index++] = 0x5A;
@@ -82,38 +84,41 @@ int PackGetPictureResponse(uint8_t *msg_buf, uint32_t data_payload_len, uint8_t*
     msg_buf[index++] = (uint8_t)((data_payload_len >> 16) & 0xFF); // 3rd byte
     msg_buf[index++] = (uint8_t)((data_payload_len >> 24) & 0xFF); // High byte
 
-    if(pic_data==NULL)
-    {
-        msg_buf[index++] = result;
-        send_msg_image(resp_buf,data_payload_len+8);
-    }
-    else{
-        msg_buf[index++] = result;
-        memcpy(msg_buf+index ,pic_data,pic_data_len);
-        send_msg_image(resp_buf,data_payload_len+8);
-    }
+    msg_buf[index++] = result;
+    send_msg_image(resp_buf, 9);
+    // if (pic_data == NULL)
+    // {
+    //     msg_buf[index++] = result;
+    //     send_msg_image(resp_buf, data_payload_len + 8);
+    // }
+    // else
+    // {
+    //     msg_buf[index++] = result;
+    //     memcpy(msg_buf + index, pic_data, pic_data_len);
+    //     send_msg_image(resp_buf, data_payload_len + 8);
+    // }
 }
-
 
 int SID09_GetPhoto(uint8_t *msg_buf, uint32_t msg_len)
 {
+    log_i("SID09_GetPhoto");
     GetPictureRequest_t req;
     int negative_payload_len = 1;
     int res = ParseGetPictureRequest(msg_buf, msg_len, &req);
-    if(0 != res)
+    if (0 != res)
     {
-        LOGD("Failed to parse photo request,ret[%d]\n",res);
-        return PackGetPictureResponse(resp_buf,negative_payload_len,NULL,0,1);
+        log_e("Failed to parse photo request,ret[%d]", res);
+        return PackGetPictureResponseHeader(resp_buf, negative_payload_len, 1);
     }
-    if (req.command != 0x09) 
+    if (req.command != 0x09)
     {
-        LOGD("Invalid command,ret[-2]\n");
-        return PackGetPictureResponse(resp_buf,negative_payload_len,NULL,0,1);
+        log_e("Invalid command,ret[-2]\n");
+        return PackGetPictureResponseHeader(resp_buf, negative_payload_len, 1);
     }
-    if (req.pic_id < 0) 
+    if (req.pic_id < 0)
     {
-        LOGD("Invalid pic id,ret[-3]\n");
-        return PackGetPictureResponse(resp_buf,negative_payload_len,NULL,0,1);
+        log_e("Invalid pic id,ret[-3]\n");
+        return PackGetPictureResponseHeader(resp_buf, negative_payload_len, 1);
     }
     print_get_picture_request(&req);
     /* 根据id找到对应的文件路径 */
@@ -121,93 +126,114 @@ int SID09_GetPhoto(uint8_t *msg_buf, uint32_t msg_len)
     uint32_t offset = req.offset;
     uint32_t read_len = req.read_len;
     char image_path[PATH_MAX] = {0};
-    if (find_file_path_by_id(target_id, image_path) != 0) {
-        LOGD("Failed to find file path for pic_id: %u, ret[-4]\n", target_id);
-        LOGD("find path : %s\n",image_path);
-        return PackGetPictureResponse(resp_buf,negative_payload_len,NULL,0,1);
+    if (find_file_path_by_id(target_id, image_path) != 0)
+    {
+        log_e("Failed to find file path for pic_id: %u, ret[-4]", target_id);
+        log_e("find path : %s", image_path);
+        return PackGetPictureResponseHeader(resp_buf, negative_payload_len, 1);
     }
-    LOGD("find path : %s\n",image_path);
+    log_i("find path : %s\n", image_path);
     /* 打开文件 */
     FILE *fp = fopen(image_path, "rb");
-    if (!fp) 
+    if (!fp)
     {
-        LOGD("Failed to open photo file: %s, ret[-5]\n", strerror(errno));
-        return PackGetPictureResponse(resp_buf,negative_payload_len,NULL,0,1);
+        log_e("Failed to open photo file: %s, ret[-5]\n", strerror(errno));
+        return PackGetPictureResponseHeader(resp_buf, negative_payload_len, 1);
     }
 
     /* 定位文件指针到指定偏移 */
-    if (fseek(fp, offset, SEEK_SET) != 0) 
+    if (fseek(fp, offset, SEEK_SET) != 0)
     {
         LOGD("Failed to seek to offset %lu in file: %s, ret[-6]\n", offset, strerror(errno));
         fclose(fp);
-        return PackGetPictureResponse(resp_buf,negative_payload_len,NULL,0,1);
+        return PackGetPictureResponseHeader(resp_buf, negative_payload_len, 1);
     }
 
     /* 分配缓冲区并读取数据 */
-    uint8_t *data_buffer = malloc(BUFFER_SIZE);
-    if (!data_buffer) 
+    // uint8_t *data_buffer = malloc(BUFFER_SIZE);
+    uint8_t *data_buffer = img_data_buf;
+    if (!data_buffer)
     {
         LOGD("Failed to allocate memory for data buffer, ret[-7]\n");
         fclose(fp);
-        return PackGetPictureResponse(resp_buf,negative_payload_len,NULL,0,1);
+        return PackGetPictureResponseHeader(resp_buf, negative_payload_len, 1);
     }
 
-    // uint16_t bytes_read = fread(data_buffer, 1, read_len, fp);
-    // /* 关闭文件 */
-    // fclose(fp);
-
-    // /*pic data + 1 result*/
-    // uint32_t data_payload_len = bytes_read+1;
-    // /* 构建响应 */
-    // int ret = PackGetPictureResponse(resp_buf, data_payload_len, data_buffer,bytes_read,0);
-
-    // free(data_buffer); // 释放分配的缓冲区
-
+    // 在打开文件之后立即获取文件大小
+    fseek(fp, 0L, SEEK_END);
+    uint32_t file_size = ftell(fp);
+    rewind(fp); // 将文件指针重置到起始位置
+    uint32_t data_payload_len = file_size + 1;
+    log_i("data payload len : %d", data_payload_len);
+    log_i("pic len : %d", file_size);
     bool first_packet = true;
     uint16_t crc_value = 0;
-    
+    uint32_t total_sent = 0; // 记录总共已经发送了多少字节
+    int send_sucess_flag = 0;
+    int ret;
     while (!feof(fp))
     {
-        size_t bytes_read = fread(data_buffer, 1, BUFFER_SIZE, fp);
-        if (bytes_read > 0) 
+        size_t bytes_read = fread(data_buffer, 1, IMG_BUFFER_SIZE, fp);
+        if (bytes_read > 0)
         {
-            crc_value = image_crc16(crc_value, data_buffer, bytes_read); 
-            if(first_packet)
+            crc_value = image_crc16(crc_value, data_buffer, bytes_read);
+            total_sent += bytes_read; // 更新已发送的总字节数
+
+            if (first_packet)
             {
-                uint32_t data_payload_len = bytes_read + 1; // 可能需要额外加上标识字节
-                int ret = PackGetPictureResponse(resp_buf, data_payload_len, data_buffer, bytes_read, 0);
-                first_packet = false;  // 标记第一次发送完成
-                if (ret < 0) 
+                /* 先发送帧头 */
+                ret = PackGetPictureResponseHeader(resp_buf, data_payload_len, 0);
+                first_packet = false; // 标记第一次发送完成
+                if (ret < 0)
                 {
-                    LOGD("Failed to send initial picture data, ret[%d]\n", ret);
+                    log_e("Failed to send initial picture data, ret[%d]", ret);
+                    send_sucess_flag = -1;
                     break;
+                }
+                /* 再发送IMG_BUFFER_SIZE个字节的像素数据 */
+                ret = send_msg_image(data_buffer, bytes_read);
+                if (ret < 0)
+                {
+                    log_e("Failed to send picture data, ret[%d]", ret);
+                    send_sucess_flag = -1;
+                    break; // 发送失败，退出循环
                 }
             }
             else
             {
-                uint32_t data_payload_len = bytes_read; // 可能需要额外加上标识字节
-                int ret = send_msg_image(data_buffer, bytes_read);
-                if (ret < 0) 
+                ret = send_msg_image(data_buffer, bytes_read);
+                if (ret < 0)
                 {
-                    LOGD("Failed to send picture data, ret[%d]\n", ret);
-                    break;  // 发送失败，退出循环
+                    log_e("Failed to send picture data, ret[%d]", ret);
+                    send_sucess_flag = -1;
+                    break; // 发送失败，退出循环
                 }
             }
+
+            // 打印进度信息（显示已发送的字节数和总字节数）
+            printf("Sending... Sent %u bytes out of %u\n", total_sent, file_size);
+
+            usleep(1000); // 暂停1毫秒以减少CPU占用率
         }
     }
 
-    /* 发送 CRC 校验值 */
-    uint8_t crc_bytes[2] = {crc_value & 0xFF, crc_value >> 8};
-    int ret = send_msg_image(crc_bytes, 2);
-    if (ret < 0) 
+    if (send_sucess_flag == 0)
     {
-        LOGD("Failed to send CRC value, ret[%d]\n", ret);
-    }   
+        // 发送 CRC 校验值
+        uint8_t crc_bytes[2] = {crc_value & 0xFF, crc_value >> 8};
+        int ret = send_msg_image(crc_bytes, 2);
+        if (ret < 0)
+        {
+            log_e("Failed to send CRC value, ret[%d]\n", ret);
+        }
+    }
+
+    // free(data_buffer); // 释放分配的缓冲区
+    fclose(fp);
 
     return 0;
 }
 
 void send_picture_data(uint8_t *msg_buf, uint32_t msg_len)
 {
-
 }

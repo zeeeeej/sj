@@ -1,4 +1,6 @@
 add_library(Cam485Protocol_lib STATIC
+    circular_buffer.c
+    circular_buffer.h
     Cam485Protocol.h
     Cam485Protocol.c
     Cam485ProtocolCommon.h

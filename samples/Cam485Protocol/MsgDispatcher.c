@@ -8,8 +8,9 @@
 #include "CommonMsgTable.h"
 #include "MsgDispatcher.h"
 #include "cm_common.h"
+#include "elog.h"
 #define MSG_BUF_SIZE (5*51200)
-
+#define TAG_NAME  "[msgDispatcher]"
 typedef struct MsgNode {
     uint8_t *msg;
     uint32_t len;
@@ -27,7 +28,7 @@ typedef struct ThreadSafeQueue {
 
 static ThreadSafeQueue send_queue;
 static ThreadSafeQueue recv_queue;
-static uint8_t MsgRecvBuf[MSG_BUF_SIZE];
+static uint8_t MsgRecvBuf[1024*6];
 // static MsgNode *send_head = NULL;
 // static MsgNode *recv_head = NULL;
 static DataTransInterface data_trans_interface;
@@ -48,13 +49,13 @@ int add_msg_to_queue(ThreadSafeQueue *q, const uint8_t *msg, uint32_t len)
 {
     MsgNode *new_node = (MsgNode *)malloc(sizeof(MsgNode));
     if (new_node == NULL) {
-        perror("Failed to allocate memory for new node");
+        log_e("Failed to allocate memory for new node");
         return -1;
     }
 
     new_node->msg = (uint8_t *)malloc(len);
     if (new_node->msg == NULL) {
-        perror("Failed to allocate memory for message");
+        log_e("Failed to allocate memory for message");
         free(new_node);
         return -1;
     }
@@ -96,27 +97,6 @@ MsgNode* remove_msg_from_queue(ThreadSafeQueue *q)
     return node;
 }
 
-// /* Table of CRC values for high-order byte */
-// static const uint8_t table_crc_hi[] = {
-//     0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,
-//     0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,
-//     0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1,
-//     0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
-//     0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,
-//     0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
-//     0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1,
-//     0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
-//     0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
-//     0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40,
-//     0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0,
-//     0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
-//     0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1,
-//     0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40,
-//     0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
-//     0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41,
-//     0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
-//     0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41,
-//     0x00, 0xC1, 0x81, 0x40};
 
 /* Table of CRC values for low-order byte */
 static const uint8_t table_crc_lo[] = {
@@ -174,6 +154,16 @@ static const uint16_t ccitt_table[256] = {
     0xEF1F, 0xFF3E, 0xCF5D, 0xDF7C, 0xAF9B, 0xBFBA, 0x8FD9, 0x9FF8,
     0x6E17, 0x7E36, 0x4E55, 0x5E74, 0x2E93, 0x3EB2, 0x0ED1, 0x1EF0
 };
+static int send_msg_low_level(uint8_t *msg, uint32_t len)
+{
+    // send_msg_pre(msg, len);
+    return data_trans_interface.send_data(msg, len);
+}
+
+static int recv_msg_low_level(uint8_t *msg, uint32_t len)
+{
+    return data_trans_interface.recv_data(msg, len);
+}
 
 uint16_t crc16(uint8_t *buffer, uint16_t buffer_length)
 {
@@ -193,30 +183,27 @@ uint16_t image_crc16(uint16_t crc, uint8_t *buffer, uint16_t buffer_length)
 }
 uint8_t send_msg_resp(uint8_t *msg, uint32_t len)
 {
-    printf("msg content (len = %u):\n", len);
-    
-   
+
     uint16_t crc_msg = crc16(msg, len - 2);
-    printf("crc_msg : %d\n",crc_msg);
+    log_d("send crc_msg : %d",crc_msg);
     msg[len - 2] = crc_msg & 0xFF;
     msg[len - 1] = crc_msg >> 8;
 
-    // 传输图片时，这个打印会暂用太多时间
-    // for (uint32_t i = 0; i < len; i++)
-    // {
-    //     printf("0x%02X ", msg[i]);
-    //     if ((i + 1) % 16 == 0)
-    //     {
-    //         printf("\n");
-    //     }
-    // }
     printf("\n");
+#ifndef SEND_MSG_BLOCK
     return add_msg_to_queue(&send_queue, msg, len) == 0 ? 0 : 1; // 0 for success, 1 for failure
+#else
+    return send_msg_low_level(msg,len);
+#endif
 }
 
 uint8_t send_msg_image(uint8_t *msg, uint32_t len)
 {
-    return add_msg_to_queue(&send_queue, msg, len) == 0 ? 0 : 1;
+#ifndef SEND_MSG_BLOCK
+    return add_msg_to_queue(&send_queue, msg, len) == 0 ? 0 : 1; // 0 for success, 1 for failure
+#else
+    return send_msg_low_level(msg,len);
+#endif
 }
 
 static int send_msg_pre(uint8_t *req, int req_length)
@@ -229,16 +216,6 @@ static int send_msg_pre(uint8_t *req, int req_length)
     req[req_length++] = crc >> 8;
 
     return req_length;
-}
-static uint8_t send_msg_low_level(uint8_t *msg, uint32_t len)
-{
-    // send_msg_pre(msg, len);
-    return data_trans_interface.send_data(msg, len);
-}
-
-static uint8_t recv_msg_low_level(uint8_t *msg, uint32_t len)
-{
-    return data_trans_interface.recv_data(msg, len);
 }
 
 static int msg_poll(uint8_t *data, uint32_t data_len)
@@ -253,16 +230,33 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
         switch (step)
         {
         case 1:
-            received_len = recv_msg_low_level(data + pos, 2);
-            if (received_len != 2 || !(data[pos] == 0xAA && data[pos + 1] == 0x5A))
+            received_len = recv_msg_low_level(data + pos, 1);
+            /*如果第一个字节不是AA*/
+            if (received_len != 1 || !(data[pos] == 0xAA))
             {
-                usleep(1000);
+                LOGD("firstbyte noequal 0xAA");
+                usleep(10000);
                 break;
             }
-            LOGD("Received frame header\n");
-            step = 2;
-            pos += 2;
+            else
+            {
+                /*如果第一个字节是AA，则判断下一个字节是不是5A*/
+                received_len = recv_msg_low_level(data + pos+1, 1);
+                if(received_len != 1 || !(data[pos+1] == 0x5A))
+                {
+                    usleep(2000);
+                    break;
+                }
+                else
+                {
+                    LOGD("Received frame header\n");
+                    step = 2;
+                    pos += 2;
+                    break;
+                }
+            }
             break;
+
 
         case 2:
             received_len = recv_msg_low_level(data + pos, 2);
@@ -309,6 +303,7 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
             break;
 
         case 4:
+            LOGD("recv data\n");
             received_len = recv_msg_low_level(data + pos, length);
             if (received_len != length)
             {
@@ -319,7 +314,7 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
                 break;
             }
             pos += received_len;
-            if (pos == length + 8)
+            if (pos == (length + 8))
             {
                 // LOGD("dara[pos-1] : %d\n",data[pos - 1]);
                 // LOGD("dara[pos-2] : %d\n",data[pos - 2]);
@@ -336,12 +331,13 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
                 //     LOGD("CRC error calculated_crc : %d , received_crc : %d\n",calculated_crc,received_crc);
                 //     return -1;
                 // }
+                LOGD("recv one frame complete");
                 return pos;
             }
-            break;
-
-        default:
-            step = 1;
+            else
+            {
+                LOGD("error pos : %d, length : %d\n",pos,length);
+            }
             break;
         }
     }
@@ -369,15 +365,18 @@ static void *msg_send_thread(void *arg)
                     }
                     printf("\n"); // 换行以便于输出格式
                 }
+                log_i("start send msg");
                 ret = send_msg_low_level(node->msg, node->len);
                 if(ret!= node->len)
                 {
-                    LOGD("error : send data\n");
+                    log_e("send data error\n");
                 }
+                log_i("send msg finish");
                 free(node->msg);
                 free(node);
                 node=NULL;
             }
+            usleep(2000);
         }
     return NULL;
 }
@@ -402,7 +401,7 @@ static void *msg_poll_thread(void *arg)
             add_msg_to_queue(&recv_queue, MsgRecvBuf, received_len);
             // Implement your callback logic here
         }
-        usleep(1000);
+        usleep(5000);
     }
     return NULL;
 }
@@ -476,12 +475,16 @@ void MsgDispatcherInit(DataTransInterface *interface)
     init_queue(&send_queue);
     init_queue(&recv_queue);
     pthread_t send_tid, poll_tid, process_tid;
+#ifndef SEND_MSG_BLOCK
     pthread_create(&send_tid, NULL, msg_send_thread, NULL);
+#endif
     pthread_create(&poll_tid, NULL, msg_poll_thread, NULL);
     pthread_create(&process_tid, NULL, msg_process_thread, NULL);
-
+    
     // Optionally, detach threads if they are daemon-like and should run indefinitely
+#ifndef SEND_MSG_BLOCK
     pthread_detach(send_tid);
+#endif
     pthread_detach(poll_tid);
     pthread_detach(process_tid);
 }

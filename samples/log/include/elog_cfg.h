@@ -36,7 +36,7 @@
 /* enable flush file cache. default open this macro */
 #define ELOG_FILE_FLUSH_CAHCE_ENABLE
 /* setting static output log level */
-#define ELOG_OUTPUT_LVL                      ELOG_LVL_VERBOSE
+#define ELOG_OUTPUT_LVL                      ELOG_LVL_INFO
 /* enable assert check */
 #define ELOG_ASSERT_ENABLE
 /* buffer size for every line's log */
@@ -56,7 +56,7 @@
 /* enable asynchronous output mode */
 #define ELOG_ASYNC_OUTPUT_ENABLE
 /* the highest output level for async mode, other level will sync output */
-#define ELOG_ASYNC_OUTPUT_LVL                ELOG_LVL_DEBUG
+#define ELOG_ASYNC_OUTPUT_LVL                ELOG_LVL_INFO
 /* buffer size for asynchronous output mode */
 #define ELOG_ASYNC_OUTPUT_BUF_SIZE           (ELOG_LINE_BUF_SIZE * 100)
 /* each asynchronous output's log which must end with newline sign */

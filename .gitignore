@@ -1,3 +1,7 @@
+<<<<<<< Updated upstream
 # 忽略生成的构建目录
 /build/
 /.vscode/
+=======
+# ;我不想要.vscode文件夹上传
+>>>>>>> Stashed changes
