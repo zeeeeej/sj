@@ -4,8 +4,8 @@
 
 
 
-#define LOG_TAG   "SID08"
-static int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len)
+#define LOG_TAG   "[SID08->delete photo]"
+static int checkDeletePhoto(const uint8_t *msg_buf, uint32_t msg_len)
 {
     if (msg_buf == NULL || msg_len < 8) 
     {
@@ -19,11 +19,11 @@ static int checkDeletePhoto(const uint8_t *msg_buf, uint16_t msg_len)
     const uint8_t *data = &msg_buf[8];
 
     // 数据段长度直接从帧的长度推算：去掉帧头和校验的长度
-    uint16_t data_length = msg_len - 8 - 2; // 8字节头部 + 1字节校验
+    uint32_t data_length = msg_len - 8 - 2; // 8字节头部 + 1字节校验
 
     printf("Data length: %d\n", data_length);
     printf("Data segment: ");
-    for (uint16_t i = 0; i < data_length; i++) {
+    for (uint32_t i = 0; i < data_length; i++) {
         printf("0x%02X ", data[i]);
     }
     printf("\n");
@@ -88,7 +88,7 @@ static int DeletePicture(const uint8_t pic_id)
     return ret;
 }
 
-int SID08_HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len)
+int SID08_HandleDeletePhoto(uint8_t *msg_buf, uint32_t msg_len)
 {
     log_i("handle delete photo");
     int datalen = checkDeletePhoto(msg_buf, msg_len);
@@ -98,7 +98,7 @@ int SID08_HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len)
     // 执行删除操作
     int ret = DeletePicture(data[0]); // 假设数据的第1字节是照片ID
     uint8_t response[1024] = {0};
-    uint16_t index = 0;
+    uint32_t index = 0;
 
     // 构造响应帧
     response[index++] = 0xAA;  // 帧头
@@ -118,5 +118,6 @@ int SID08_HandleDeletePhoto(uint8_t *msg_buf, uint16_t msg_len)
         LOGD("Failed to delete photo, ret[%d]", ret);
         return -1;
     }
+    log_i("DELETE PHOTO END");
     return 0;
 }

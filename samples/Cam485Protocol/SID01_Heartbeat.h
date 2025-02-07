@@ -21,8 +21,8 @@ typedef struct {
     uint16_t checksum;      // 校验和
 } HeartFrame_t;
 
-int SID01_HeartBeat(uint8_t* msg_buf, uint16_t msg_dlc);
-int SID01_CheckHeartBeat(const uint8_t* msg_buf, uint16_t msg_dlc);
+int SID01_HeartBeat(uint8_t* msg_buf, uint32_t msg_dlc);
+int SID01_CheckHeartBeat(const uint8_t* msg_buf, uint32_t msg_dlc);
 
 
 #endif // HEARTBEAT_H_

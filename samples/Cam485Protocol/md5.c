@@ -43,7 +43,7 @@ static void md5_decode(uint32_t *output, const uint8_t *input, uint32_t len);
 void md5_init(MD5_CTX *context);
 void md5_update(MD5_CTX *context, const uint8_t *input, uint32_t inputLen);
 void md5_final(uint8_t digest[16], MD5_CTX *context);
-int calculate_file_md5(const char *filepath, char *md5_str);
+
 
 // MD5 Transform Rounds
 #define FF(a, b, c, d, x, s, ac) { \
@@ -219,8 +219,7 @@ static void md5_decode(uint32_t *output, const uint8_t *input, uint32_t len) {
                    (((uint32_t)input[j+2]) << 16) | (((uint32_t)input[j+3]) << 24);
 }
 
-// Calculate file MD5
-int calculate_file_md5(const char *filepath, char *md5_str) {
+int calculate_file_md5(const char *filepath, unsigned char digest[16]) {
     FILE *file = fopen(filepath, "rb");
     if (!file) {
         printf("Failed to open file for MD5 calculation\n");
@@ -228,7 +227,6 @@ int calculate_file_md5(const char *filepath, char *md5_str) {
     }
 
     unsigned char buffer[MD5_BUF_SIZE];
-    unsigned char digest[16];
     size_t bytes_read;
     MD5_CTX md5_ctx;
 
@@ -238,14 +236,8 @@ int calculate_file_md5(const char *filepath, char *md5_str) {
         md5_update(&md5_ctx, buffer, bytes_read);
     }
 
-    md5_final(digest, &md5_ctx);
     fclose(file);
-
-    // Convert to hex string
-    for (int i = 0; i < 16; i++) {
-        sprintf(&md5_str[i * 2], "%02x", digest[i]);
-    }
-    md5_str[32] = '\0';
+    md5_final(digest, &md5_ctx); // digest现在包含了16字节的MD5哈希值
 
     return 0;
 }

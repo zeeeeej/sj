@@ -64,5 +64,7 @@ int SID07_QueryPhotoInfo(uint8_t *msg_buf, uint32_t msg_dlc)
     uint32_t total_length = data_payload_len + 8 + 2;
     memcpy(resp_buf+9 , image_info_buf ,image_info_buf_len);
     free(image_info_buf);
+
+    elog_hexdump("QueryPhotoInfo", 16, resp_buf, total_length);
     send_msg_resp(resp_buf,total_length);
 }

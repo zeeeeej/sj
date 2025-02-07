@@ -165,7 +165,7 @@ static int recv_msg_low_level(uint8_t *msg, uint32_t len)
     return data_trans_interface.recv_data(msg, len);
 }
 
-uint16_t crc16(uint8_t *buffer, uint16_t buffer_length)
+uint16_t crc16(uint8_t *buffer, uint32_t buffer_length)
 {
    uint16_t crc = 0;
 
@@ -174,7 +174,7 @@ uint16_t crc16(uint8_t *buffer, uint16_t buffer_length)
 
     return crc;
 }
-uint16_t image_crc16(uint16_t crc, uint8_t *buffer, uint16_t buffer_length)
+uint16_t image_crc16(uint16_t crc, uint8_t *buffer, uint32_t buffer_length)
 {
      while (buffer_length-- > 0)
         crc = (crc << 8) ^ ccitt_table[((crc >> 8) ^ *buffer++) & 0xff];
@@ -412,8 +412,9 @@ static void process_message(uint8_t *msg, uint32_t len)
     {
         if (MsgServiceList[i].sid == msg[3])
         {
-            LOGD("SID : %d", MsgServiceList[i].sid);
+            LOGD("start process protocol id : %d", MsgServiceList[i].sid);
             MsgServiceList[i].msg_process_callback(msg, len);
+            LOGD("process protocol id : %d finish", MsgServiceList[i].sid);
             break;
         }
     }
@@ -440,15 +441,13 @@ static void *msg_process_thread(void *arg)
 
     while (1)
     {
-        uint8_t *msg;
-        uint8_t len;
         msg_node = remove_msg_from_queue(&recv_queue);
-        if(msg_node!=NULL)
+        if(msg_node != NULL)
         {
-            LOGD("get msg node\n");
+            LOGD("msg_process_thread : get msg node\n");
             process_message(msg_node->msg, msg_node->len);
             free(msg_node->msg);
-            free(msg);
+            free(msg_node);
         }
         usleep(1000);
     }

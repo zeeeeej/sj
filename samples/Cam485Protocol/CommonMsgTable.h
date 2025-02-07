@@ -23,7 +23,7 @@
 typedef struct 
 {
     uint8_t sid;									// 数据帧id
-	void (* msg_process_callback)  (const uint8_t *, uint16_t);	// 消息处理函数
+	int (* msg_process_callback)  (uint8_t *msg_buf , uint32_t msg_dlc);	// 消息处理函数
 	// bool_t (* check_len)  (const uint8_t *, uint16_t);	// 检查数据长度是否合法
 }MsgService;
 

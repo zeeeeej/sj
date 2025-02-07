@@ -4,7 +4,7 @@
 #include "MsgDispatcher.h"
 
 
-int SID01_HeartBeat(uint8_t *msg_buf, uint16_t msg_dlc)
+int SID01_HeartBeat(uint8_t *msg_buf, uint32_t msg_dlc)
 {
     int ret = SID01_CheckHeartBeat(msg_buf, msg_dlc);
     if(ret < 0)
@@ -44,7 +44,7 @@ int SID01_HeartBeat(uint8_t *msg_buf, uint16_t msg_dlc)
 /// @param msg_buf 数据缓冲区
 /// @param msg_dlc 数据长度
 /// @return 
-int SID01_CheckHeartBeat(const uint8_t *msg_buf, uint16_t msg_dlc)
+int SID01_CheckHeartBeat(const uint8_t *msg_buf, uint32_t msg_dlc)
 {
     LOGD("SID01_CheckHeartBeat\n");
     if(msg_dlc != HEART_FRAME_SIZE)

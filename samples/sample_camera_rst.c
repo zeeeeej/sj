@@ -73,8 +73,6 @@ int main(int argc, char *argv[])
         log_i("wdt timeout set to [%d]\n", timeout);
     }
 
-    Protocol_Init();
-
     /*初始化video模块*/
     cm_video_impl_init("t23");
     /*开始自检*/

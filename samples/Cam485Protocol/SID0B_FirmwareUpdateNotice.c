@@ -44,7 +44,7 @@ void SID0B_InitFirmwaveUpdateInfo(UpdatePacketStruct *pUpdatePacketInfo,const ui
     pUpdatePacketInfo->updadeable = 0;
 }
 
-int SID0B_FirmwareUpdateNoticeCheck(const uint8_t *msg_buf, uint32_t msg_dlc)
+int SID0B_FirmwareUpdateNoticeCheck(uint8_t *msg_buf, uint32_t msg_dlc)
 {
     int ret = 0;
 
