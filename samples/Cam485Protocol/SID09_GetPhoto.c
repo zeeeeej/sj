@@ -239,7 +239,7 @@ int SID09_GetPhoto(uint8_t *msg_buf, uint32_t msg_len)
         size_t bytes_read = fread(data_buffer, 1, bytes_to_read, fp);
         if (bytes_read > 0)
         {
-            crc_value = image_crc16(crc_value, data_buffer, bytes_read);
+            
             total_sent += bytes_read; // 更新已发送的总字节数
 
             if (first_packet)
@@ -249,6 +249,7 @@ int SID09_GetPhoto(uint8_t *msg_buf, uint32_t msg_len)
                 /* 发送帧头 */
                 int frame_header_len = 1 + 8;
                 ret = send_msg_image(resp_buf, frame_header_len);
+                crc_value = image_crc16(crc_value, resp_buf, frame_header_len);
                 first_packet = false; // 标记第一次发送完成
                 if (ret < 0)
                 {
@@ -264,6 +265,7 @@ int SID09_GetPhoto(uint8_t *msg_buf, uint32_t msg_len)
                     send_success_flag = -1;
                     break; // 发送失败，退出循环
                 }
+                crc_value = image_crc16(crc_value, data_buffer, bytes_read);
             }
             else
             {
@@ -274,6 +276,7 @@ int SID09_GetPhoto(uint8_t *msg_buf, uint32_t msg_len)
                     send_success_flag = -1;
                     break; // 发送失败，退出循环
                 }
+                crc_value = image_crc16(crc_value, data_buffer, bytes_read);
             }
 
             // 打印进度信息（显示已发送的字节数和总字节数）

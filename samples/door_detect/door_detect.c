@@ -22,8 +22,8 @@ static char *TAG = "door detect";
 static float debug_reference_ang = 0.0;
 static volatile int debug_print_enabled = 0; // 0: 不打印，1: 打印
 
-static float min_capture_angle = 20.0f;
-static float max_capture_angle = 36.0f;
+static float min_capture_angle = 55.0f;
+static float max_capture_angle = 65.0f;
 static char door_status = 0;
 static int direction = 2;
 
