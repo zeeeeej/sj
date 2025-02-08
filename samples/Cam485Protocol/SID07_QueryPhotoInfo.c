@@ -47,7 +47,7 @@ int SID07_QueryPhotoInfo(uint8_t *msg_buf, uint32_t msg_dlc)
     /*info缓冲区长度*/
     uint32_t image_info_buf_len = image_info_count*sizeof(BufferedDataNode);
     log_i("total pic info count : %d",image_info_count);
-    log_d("image info buf total len : %d",image_info_buf_len);
+    // log_d("image info buf total len : %d",image_info_buf_len);
 
 
     printAllListlist();
@@ -65,6 +65,6 @@ int SID07_QueryPhotoInfo(uint8_t *msg_buf, uint32_t msg_dlc)
     memcpy(resp_buf+9 , image_info_buf ,image_info_buf_len);
     free(image_info_buf);
 
-    elog_hexdump("QueryPhotoInfo", 16, resp_buf, total_length);
+    // elog_hexdump("QueryPhotoInfo", 16, resp_buf, total_length);
     send_msg_resp(resp_buf,total_length);
 }

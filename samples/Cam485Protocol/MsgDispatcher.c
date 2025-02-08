@@ -249,7 +249,7 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
                 }
                 else
                 {
-                    LOGD("Received frame header\n");
+                    LOGD("Received frame header");
                     step = 2;
                     pos += 2;
                     break;
@@ -266,7 +266,7 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
                 pos = 0;
                 break;
             }
-            LOGD("Received slave address\n");
+            LOGD("Received slave address");
             step = 3;
             pos += 2;
             break;
@@ -287,12 +287,12 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
                          (data[pos - 3] << 8) |
                          data[pos - 4];
                 length += 2; // Include CRC
-                LOGD("Data length [%d]\n", length);
-                if (length > 8000)
+                LOGD("Recv Data length [%d]", length);
+                if (length > 5000)
                 {
                     step = 1;
                     pos = 0;
-                    LOGD("Invalid data length [%d]\n", length);
+                    LOGD("Invalid data length [%d]", length);
                     break;
                 }
                 else
@@ -303,40 +303,41 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
             break;
 
         case 4:
-            LOGD("recv data\n");
+            LOGD("start recv data");
             received_len = recv_msg_low_level(data + pos, length);
             if (received_len != length)
             {
                 step = 1;
                 pos = 0;
-                LOGD("received_len : %d\n", received_len);
-                LOGD("length not equal\n");
+                LOGD("received_len : %d expect len : %d", received_len,length);
+                LOGD("length not equal");
                 break;
             }
             pos += received_len;
             if (pos == (length + 8))
             {
-                // LOGD("dara[pos-1] : %d\n",data[pos - 1]);
-                // LOGD("dara[pos-2] : %d\n",data[pos - 2]);
-                // uint16_t calculated_crc = crc16(data, pos - 2);
-                // uint16_t received_crc = (data[pos - 1] << 8) | data[pos - 2];
-                // if (calculated_crc == received_crc)
-                // {
-                //     return pos;
-                // }
-                // else
-                // {
-                //     step = 1;
-                //     pos = 0;
-                //     LOGD("CRC error calculated_crc : %d , received_crc : %d\n",calculated_crc,received_crc);
-                //     return -1;
-                // }
-                LOGD("recv one frame complete");
+                LOGD("dara[pos-1] : %d",data[pos - 1]);
+                LOGD("dara[pos-2] : %d",data[pos - 2]);
+                uint16_t calculated_crc = crc16(data, pos - 2);
+                uint16_t received_crc = (data[pos - 1] << 8) | data[pos - 2];
+                if (calculated_crc == received_crc)
+                {
+                    LOGD("recv one frame complete");
+                    return pos;
+                }
+                else
+                {
+                    step = 1;
+                    pos = 0;
+                    LOGD("CRC error calculated_crc : %d , received_crc : %d",calculated_crc,received_crc);
+                    return -1;
+                }
+                
                 return pos;
             }
             else
             {
-                LOGD("error pos : %d, length : %d\n",pos,length);
+                LOGD("error pos : %d, length : %d",pos,length);
             }
             break;
         }
@@ -365,7 +366,6 @@ static void *msg_send_thread(void *arg)
                     }
                     printf("\n"); // 换行以便于输出格式
                 }
-                log_i("start send msg");
                 ret = send_msg_low_level(node->msg, node->len);
                 if(ret!= node->len)
                 {
@@ -383,7 +383,7 @@ static void *msg_send_thread(void *arg)
 
 static void *msg_poll_thread(void *arg)
 {
-    LOGD("msg_poll_thread ready\n");
+    LOGD("msg_poll_thread ready");
     while (1)
     {
         int received_len = msg_poll(MsgRecvBuf, sizeof(MsgRecvBuf));
@@ -397,7 +397,7 @@ static void *msg_poll_thread(void *arg)
         }
         if (received_len > 0)
         {
-            LOGD("add msg to queue\n");
+            LOGD("add msg to queue");
             add_msg_to_queue(&recv_queue, MsgRecvBuf, received_len);
             // Implement your callback logic here
         }
@@ -414,7 +414,6 @@ static void process_message(uint8_t *msg, uint32_t len)
         {
             LOGD("start process protocol id : %d", MsgServiceList[i].sid);
             MsgServiceList[i].msg_process_callback(msg, len);
-            LOGD("process protocol id : %d finish", MsgServiceList[i].sid);
             break;
         }
     }
@@ -444,7 +443,7 @@ static void *msg_process_thread(void *arg)
         msg_node = remove_msg_from_queue(&recv_queue);
         if(msg_node != NULL)
         {
-            LOGD("msg_process_thread : get msg node\n");
+            LOGD("msg_process_thread : get msg node");
             process_message(msg_node->msg, msg_node->len);
             free(msg_node->msg);
             free(msg_node);
@@ -458,7 +457,7 @@ void MsgDispatcherInit(DataTransInterface *interface)
 {
     if (interface == NULL)
     {
-        LOGD("Error: Interface initialization failed\n");
+        LOGD("Error: Interface initialization failed");
         return;
     }
 
@@ -468,7 +467,7 @@ void MsgDispatcherInit(DataTransInterface *interface)
 
     if (data_trans_interface.init() != 0)
     {
-        LOGD("Error: Low-level data transport initialization failed\n");
+        LOGD("Error: Low-level data transport initialization failed");
         return;
     }
     init_queue(&send_queue);
@@ -492,5 +491,8 @@ void Cam485ProtocolInit()
 {
     extern DataTransInterface uart_interface;
     parse_ini();
+    /*启动加热环*/
+    //     system("pkill -f pwm_start.sh");
+    // system("/system/init/pwm_start.sh &");
     MsgDispatcherInit(&uart_interface);
 }

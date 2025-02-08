@@ -392,7 +392,7 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
             }
 
             //auto origin_gyr = gyr[0];
-            gyr[1] = kf_yaw1.update(gyr[1]);
+            gyr[0] = kf_yaw1.update(gyr[0]);
             //printf("kalmanfilter: %16f %16f\n", origin_gyr, gyr[0]);
             if (CalibrateProc() < 0) {
                 continue;
@@ -411,7 +411,7 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
                 gyr[2] = 0;
             }
 
-            IMUupdate(gyr[2] / 1000, gyr[1] / 1000, -gyr[0] / 1000, acc[2] / 1000, acc[1] / 1000, acc[0] / 1000);
+            IMUupdate(gyr[2] / 1000, gyr[1] / 1000, gyr[0] / 1000, acc[2] / 1000, acc[1] / 1000, acc[0] / 1000);
             std::this_thread::sleep_for(std::chrono::milliseconds(6));
         }
         knlog(INFO, "mpu thread exit!!!");
@@ -424,7 +424,7 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
 
     bool Lsm6ds3trc_Get_YawPitchRoll(float *ypr)
     {
-        ypr[0] = Yaw*YAW_SCALE;
+        ypr[0] = Yaw;
         ypr[1] = Pitch;
         ypr[2] = Roll;
         return i2c_error;

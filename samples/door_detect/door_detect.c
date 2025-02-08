@@ -20,12 +20,12 @@
 static char debug_flag = 0;
 static char *TAG = "door detect";
 static float debug_reference_ang = 0.0;
-static volatile int debug_print_enabled = 0; // 0: 不打印，1: 打印
+static volatile int debug_print_enabled = 1; // 0: 不打印，1: 打印
 
 static float min_capture_angle = 55.0f;
 static float max_capture_angle = 65.0f;
 static char door_status = 0;
-static int direction = 2;
+static int direction = 0;
 
 #define CM_CONFIG_FILE "/system/etc/cm_config.ini"
 static CMConfig cm_config_local[100];
@@ -560,10 +560,10 @@ void *hmi_service_thread(void *args)
         if (gyroscope_read_yqr(ypr) == 0)
         {
             // debug_gs_status = DebugGSStatus::GS_READ_SUCC;
-
-            if (fabs(ypr[1] - last_yaw) < 7.2)
+            // LOGD("ypr[0] = %f , ypr[1] = %f , ypr[2] = %f",ypr[0], ypr[1] , ypr[2]);
+            if (fabs(ypr[0] - last_yaw) < 7.2)
             {
-                door_status_detect(ypr[1], reset_flag, 6);
+                door_status_detect(ypr[0], reset_flag, 6);
                 if (reset_flag)
                 {
                     reset_flag = 0;
@@ -574,7 +574,7 @@ void *hmi_service_thread(void *args)
                 LOGD("ypr[0] = %f, last_yaw = %f, fabs(ypr[0] - last_yaw) = %f > 7.2, filtered...", ypr[0], last_yaw, ypr[0] - last_yaw);
             }
 
-            last_yaw = ypr[1];
+            last_yaw = ypr[0];
             err_rd_cnt = 0;
             usleep(20000);
         }
