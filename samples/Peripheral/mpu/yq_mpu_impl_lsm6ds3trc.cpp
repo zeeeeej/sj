@@ -307,7 +307,7 @@ class Mpu_Lsm6ds3trc //: public CommandRegistry
         gyr_cali[1] += gyr[1];
         gyr_cali[2] += gyr[2];
 
-        if (fabs(gyr_cali[1]/calibrate_count - gyr[1]) > 1500) {
+        if (fabs(gyr_cali[0]/calibrate_count - gyr[0]) > 1500) {
             knlog(WARN, "mpu shaked, gyr_cali=[%f, %f, %f] gyr=[%f, %f, %f]",  gyr_cali[0]/calibrate_count,
                     gyr_cali[1]/calibrate_count, gyr_cali[2]/calibrate_count, gyr[0], gyr[1], gyr[2]);
 
