@@ -52,11 +52,13 @@ int SID0C_SendFirmwareUpdatePacketCheck(const uint8_t *msg_buf, uint32_t msg_dlc
 
     uint16_t crc_msg = crc16(msg_buf, msg_dlc - 2);
     printf("cacul crc_msg : %04X\n",crc_msg);
-    if(((crc_msg & 0xFF) != msg_buf[msg_dlc - 1]) || (msg_buf[msg_dlc - 1] != crc_msg >> 8))
+    printf("cacul crc_msg   : %02X %02X\n",crc_msg & 0xFF,crc_msg >> 8);
+    LOGD("msg_dlc:%d",msg_dlc);
+    if(((crc_msg & 0xFF) != msg_buf[msg_dlc - 2]) || (msg_buf[msg_dlc - 1] != crc_msg >> 8))
     {
         LOGD("ERROR:CRC16 ERROR\n");
         LOGD("CRC16:%02X %02X",msg_buf[msg_dlc - 2],msg_buf[msg_dlc - 1]);
-        //return -1;
+        return -1;
     }
 
     return ret;
@@ -88,6 +90,10 @@ int SID0C_SendFirmwareUpdatePacket(uint8_t *msg_buf, uint32_t msg_dlc)
     ret = SID0C_SendFirmwareUpdatePacketCheck(msg_buf, msg_dlc);
     if (ret != 0)
     {
+        LOGD("resend update firmwave \n");
+        SID0C_BuildMsgHeader(resp_buf, SID0C_MSG_RESP_DATA_LEN);
+        resp_buf[8] = 2;
+        send_msg_resp(resp_buf, SID0C_MSG_RESP_TOTAL_LEN);
         return -1;
     }
 
@@ -137,14 +143,20 @@ int SID0C_SendFirmwareUpdatePacket(uint8_t *msg_buf, uint32_t msg_dlc)
 
     else if((offset+write_len) == SID0C_GetFirmwaveSize())
     {
-        char calculated_md5[33] = {0};
+        unsigned char digest[16]={0};
 
         // 计算文件MD5
-        if (calculate_file_md5(OTA_FILE_PATH, calculated_md5) != 0)
+        if (calculate_file_md5(OTA_FILE_PATH, digest) != 0)
         {
             LOGD("Failed to calculate file MD5");
             return -6;
         }
+
+        char calculated_md5[33] = {0};
+        for (int i = 0; i < 16; i++) {
+            sprintf(&calculated_md5[i * 2], "%02x", digest[i]);
+        }
+        calculated_md5[32] = '\0';
 
         char md5_str[33] = {0};
         SID0C_GetFirmwaveMD5(md5_str);
@@ -191,7 +203,8 @@ int SID0C_SendFirmwareUpdatePacket(uint8_t *msg_buf, uint32_t msg_dlc)
     {
         SID0C_BuildMsgHeader(resp_buf, SID0C_MSG_RESP_DATA_LEN);
         resp_buf[8] = 1;
-        printf("After header:  msg_buf[8] = 0x%02X,   msg_buf[9] = 0x%02X\n", resp_buf[8], resp_buf[9]);
+        //printf("After header:  msg_buf[8] = 0x%02X,   aamsg_buf[9] = 0x%02X\n", resp_buf[8], resp_buf[9]);
+        printf("request next pack\n");
         send_msg_resp(resp_buf, SID0C_MSG_RESP_TOTAL_LEN);
     }
 

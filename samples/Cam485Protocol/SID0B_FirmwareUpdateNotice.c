@@ -52,13 +52,16 @@ int SID0B_FirmwareUpdateNoticeCheck(uint8_t *msg_buf, uint32_t msg_dlc)
     if (msg_dlc < SID0B_MSG_REQ_TOTAL_LEN)
         return -1;
 
-    uint16_t crc_msg = crc16(msg_buf, msg_dlc - 2);
+    uint16_t crc_msg = crc16(msg_buf, SID0B_MSG_REQ_TOTAL_LEN - 2);
     printf("cacul crc_msg : %04X\n",crc_msg);
-    if(((crc_msg & 0xFF) != msg_buf[msg_dlc - 1]) || (msg_buf[msg_dlc - 1] != crc_msg >> 8))
+    printf("cacul crc_msg : %02X %02X\n",crc_msg & 0xFF,crc_msg >> 8);
+    LOGD("msg_dlc:%d",msg_dlc);
+
+    if(((crc_msg & 0xFF) != msg_buf[SID0B_MSG_REQ_TOTAL_LEN - 2]) || (msg_buf[SID0B_MSG_REQ_TOTAL_LEN - 1] != crc_msg >> 8))
     {
         LOGD("ERROR:CRC16 ERROR \n");
-        LOGD("%02X %02X",msg_buf[msg_dlc - 2],msg_buf[msg_dlc - 1]);
-        //return -1;
+        LOGD("%02X %02X",msg_buf[SID0B_MSG_REQ_TOTAL_LEN - 2],msg_buf[SID0B_MSG_REQ_TOTAL_LEN - 1]);
+        return -1;
     }
     
     return ret;
@@ -104,6 +107,14 @@ int SID0B_FirmwareUpdateNotice(uint8_t *msg_buf, uint32_t msg_dlc)
     {
         LOGD("Failed to open %s file: %s, ret[-5]\n", OTA_FILE_INFO_PATH,strerror(errno));
         //return -2;
+        system("touch  /system/md5.xml");
+    }
+
+    fp = fopen(OTA_FILE_INFO_PATH, "r");
+    if (!fp) 
+    {
+        LOGD("Failed to open %s file: %s, ret[-5]\n", OTA_FILE_INFO_PATH,strerror(errno));
+        return -2;
     }
 
     char ota_file_info[128] = {0};
@@ -131,7 +142,7 @@ int SID0B_FirmwareUpdateNotice(uint8_t *msg_buf, uint32_t msg_dlc)
     // 比较MD5值
     if (strcmp(md5_str, UpdatePacketInfo.md5_str) == 0)
     {
-        LOGD("not new bin file");
+        LOGD("is the same bin file.");
         
         resp_buf[8]     = 1;
         resp_buf[9]     = 0;
@@ -141,7 +152,7 @@ int SID0B_FirmwareUpdateNotice(uint8_t *msg_buf, uint32_t msg_dlc)
         send_msg_resp(resp_buf, SID0B_MSG_RESP_TOTAL_LEN);
         return 0;
     }
-    LOGD("is new bin file");
+    LOGD("is new bin file...");
 
     resp_buf[8] = 1;
     resp_buf[9] = 0;
