@@ -27,7 +27,7 @@ static int b_exited = 0;
 static pthread_t hmi_srv_tid = 0;
 
 
-char *version = "jml_V1.0.1";
+char *version = "jml_V1.0.1a";
 
     
 #define VERSION_FILE "/system/etc/version"
