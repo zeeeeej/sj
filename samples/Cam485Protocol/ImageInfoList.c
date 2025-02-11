@@ -1,4 +1,4 @@
-#include "ImageInfoList.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,9 +8,11 @@
 #include <libgen.h> // for basename
 #include <limits.h>
 #include "md5.h"
+#include "ImageInfoList.h"
 #include "Cam485ProtocolCommon.h"
 #include "cm_common.h"
 #include "elog.h"
+#include "cm_config.h"
 #define LOG_TAG  "IMAGE-LIST"
 static ThreadSafeList* gyroscopeTriggerList = NULL;
 static ThreadSafeList* activeTriggerList    = NULL;
@@ -147,7 +149,53 @@ void freeList(ThreadSafeList* list) {
     free(list);
 }
 
+// 获取链表头节点的数据
+DataNode* get_list_head(ThreadSafeList* list) {
+    if (list == NULL || list->head == NULL) {
+        return NULL;
+    }
 
+    pthread_mutex_lock(&list->lock);
+    DataNode* head_data = &(list->head->data);
+    pthread_mutex_unlock(&list->lock);
+
+    return head_data;
+}
+
+// 从链表中删除指定节点
+int remove_list_node(ThreadSafeList* list, DataNode* node) {
+    if (list == NULL || list->head == NULL || node == NULL) {
+        log_e("Invalid parameters");
+        return -1;
+    }
+
+    pthread_mutex_lock(&list->lock);
+    
+    ListNode* current = list->head;
+    ListNode* prev = NULL;
+
+    // 查找要删除的节点
+    while (current != NULL) {
+        if (memcmp(&(current->data), node, sizeof(DataNode)) == 0) {
+            // 找到要删除的节点
+            if (prev == NULL) {
+                // 删除头节点
+                list->head = current->next;
+            } else {
+                // 删除中间或尾部节点
+                prev->next = current->next;
+            }
+            free(current);
+            pthread_mutex_unlock(&list->lock);
+            return 0;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    pthread_mutex_unlock(&list->lock);
+    return -1;  // 未找到节点
+}
 /**
  * 拷贝两个链表的所有节点信息到缓冲区中
  * @param buffer_size 输出缓冲区大小（以元素为单位）
@@ -514,26 +562,6 @@ int find_file_path_by_id(unsigned char id, char *file_path) {
 }
 
 
-// // 计算文件的MD5哈希值
-// void calculate_md5(const char *filename, unsigned char *md5_result) {
-//     FILE *file = fopen(filename, "rb");
-//     if (!file) {
-//         perror("无法打开文件");
-//         return;
-//     }
-
-//     MD5_CTX c;
-//     int bytes;
-//     unsigned char data[1024];
-
-//     MD5_Init(&c);
-//     while ((bytes = fread(data, 1, sizeof(data), file)) != 0)
-//         MD5_Update(&c, data, bytes);
-//     MD5_Final(md5_result, &c);
-
-//     fclose(file);
-// }
-
 /**
  * 解析文件名并提取触发类型、ID和角度信息
  * @param filepath 文件路径字符串
@@ -604,6 +632,7 @@ void generate_image_info(char *image_path) {
     }
 
     int ret = 0;
+
     // 获取文件大小
     unsigned int image_length = file_stat.st_size;
 
@@ -655,5 +684,47 @@ void generate_image_info(char *image_path) {
     else 
     {
         log_w("unkow trigger_type type : %d", trigger_type);
+    }
+
+    /*判断陀螺仪存储照片是否超过系统最大允许存储量*/
+    uint8_t GyroscopeSaveCount = 0;
+    ret = Get_Gyroscope_Image_Save_Count(&GyroscopeSaveCount);
+    if(ret != 0)
+    {
+        log_e("get gyroscope save count fail");
+        return;
+    }
+    else
+    {
+        /*判断当前系统中存储多少张图片*/
+        int GyroscopeListCount = 0;
+        GyroscopeListCount = get_list_node_count(gyroscopeTriggerList);
+        if(GyroscopeListCount > GyroscopeSaveCount)
+        {
+            log_i("gyroscope list count : %d",GyroscopeListCount);
+            log_i("gyroscope save count : %d",GyroscopeSaveCount);
+
+
+            int delete_count = GyroscopeListCount - GyroscopeSaveCount;
+            log_i("need to delete %d oldest images", delete_count);
+        
+        // 删除最旧的图片
+            for (int i = 0; i < delete_count; i++) {
+                DataNode* oldest_image = get_list_head(gyroscopeTriggerList);
+                if (oldest_image != NULL) {
+                    // 删除文件
+                    if (remove(oldest_image->file_path) != 0) {
+                        log_e("Failed to delete file: %s", oldest_image->file_path);
+                    } else {
+                        log_i("Deleted file: %s", oldest_image->file_path);
+                    }
+                    
+                    // 从列表中移除节点
+                    if (remove_list_node(gyroscopeTriggerList, oldest_image) != 0) {
+                        log_e("Failed to remove node from list");
+                    }
+                }
+            }
+        }
     }
 }

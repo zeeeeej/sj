@@ -116,21 +116,36 @@ void Set_Gyroscope_Image_Save_Count(uint8_t SaveCount)
     return;
 }
 /*获取陀螺仪抓图最多存储数量*/
-uint8_t Get_Gyroscope_Image_Save_Count()
+uint8_t Get_Gyroscope_Image_Save_Count(uint8_t *SaveCount)
 {
-    uint8_t SaveCount = 0;
+    if (SaveCount == NULL) {
+        log_e("SaveCount pointer is NULL!");
+        return 0;
+    }
+
     const char *value = get_config_value("Gyroscope", "SaveCount");
-    if (value != "NULL")
-    {
-        SaveCount = atoi(value);
-        log_i("Get Gyroscope Capture Image Save Count : %d",SaveCount);
+    
+    // 检查配置值是否有效
+    if (value == NULL) {
+        log_e("SaveCount value is NULL!");
+        *SaveCount = 0;
+        return -1;
     }
-    else
-    {
-        log_e("SaveCount value is NULL !");
-        SaveCount = -1;
+    
+    // 转换字符串到整数
+    char *endptr;
+    long count = strtol(value, &endptr, 10);
+    
+    // 检查转换是否成功且值在有效范围内
+    if (*endptr != '\0' || count < 0 || count > UINT8_MAX) {
+        log_e("Invalid SaveCount value: %s", value);
+        *SaveCount = 0;
+        return -1;
     }
-    return SaveCount;
+    
+    *SaveCount = (uint8_t)count;
+    log_i("Get Gyroscope Capture Image Save Count: %u", *SaveCount);
+    return 0;
 }
 
 

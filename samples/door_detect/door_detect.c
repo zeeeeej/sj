@@ -137,7 +137,6 @@ static int image_cache()
     snprintf(old_path, sizeof(old_path), "/tmp/gyro_trigger/image_%d_%d.jpg", s_door.image_seq, (int)s_door.angle_last_valid);
     char cmd_remove_path[256] = {0};
     snprintf(cmd_remove_path, sizeof(cmd_remove_path), "rm -rf %s", old_path);
-    log_i("remove [%s]\n", cmd_remove_path);
     system(cmd_remove_path);
     deleteNodeByFileName(old_path);
     DoorInfoItem item;
