@@ -21,6 +21,16 @@ const char * Get_Camera_config();
 const char *ReadFirware();
 const char * getLuminance();
 
+/*陀螺仪设置*/
+void Set_Gyroscope_Capture_image_direction(uint8_t direction);
+uint8_t  Get_Gyroscope_Capture_image_direction();
+void Set_Gyroscope_Enable_Status(uint8_t Enable_Status);
+uint8_t Get_Gyroscope_Enable_Status(uint8_t *Enable_Status);
+void Set_Gyroscope_Image_Save_Count(uint8_t SaveCount);
+uint8_t Get_Gyroscope_Image_Save_Count();
+/*陀螺仪设置*/
+
+
 void LoadConfig();
 
 #endif

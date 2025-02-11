@@ -1,48 +1,34 @@
 #include "stdint.h"
-// #include "cm_mpu_ctrl.h"
-#include <imp/imp_log.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <math.h>
-// #include "cm_config.h"
+#include <unistd.h>
+#include <signal.h> // 为了使用 sig_atomic_t
+#include <mqueue.h>
+
 #include "cm_video_ctrl.h"
 #include "cm_utils.h"
 #include "cm_conf.h"
-#include <signal.h>
-#include <unistd.h> // for access()
 #include "cm_common.h"
 #include "yq_mpu.h"
 #include "mpu_ctrl.h"
 #include "circular_log.h"
 #include "ImageInfoList.h"
-static char debug_flag = 0;
-static char *TAG = "door detect";
-static float debug_reference_ang = 0.0;
-static volatile int debug_print_enabled = 1; // 0: 不打印，1: 打印
-
-static float min_capture_angle = 55.0f;
-static float max_capture_angle = 65.0f;
-static char door_status = 0;
-static int direction = 0;
-
-#define CM_CONFIG_FILE "/system/etc/cm_config.ini"
-static CMConfig cm_config_local[100];
-static char *TAG_NAME = "door detect";
-#define DEBUG_FLAG_FILE "/tmp/door_debug_enable"
-
-
-/****************config param ******************/
+#include "elog.h"
+#include "cm_config.h"
 // 当次开门缓存下来的信息
-typedef struct {
+typedef struct
+{
     float image_angle;
     char image_path[256];
     unsigned long long open_count;
     int array_index;
 } DoorInfoItem;
 
-typedef struct {
+typedef struct
+{
     float angle_open;
     float angle_close;
     float angle_max;
@@ -64,7 +50,6 @@ typedef enum
     STAT_ABNORMAL
 } door_stat_e;
 
-/*==== soruce code  ===*/
 enum
 {
     DOOR_CLOSE = 0,
@@ -73,52 +58,22 @@ enum
 
 typedef struct
 {
-    float angle_start;
-    float angle_door_open;
-    float angle_door_close;
-
-    // 上一次的角度, 用于过滤抖动
-    float angle_last;
-    unsigned long long last_time;
-} AngleTolerance;
-
-typedef struct
-{
-    unsigned long long last_open_time;
-} DoorOpenTimeout;
-
-typedef struct
-{
     int status;
     int inited;
     DoorConfigArgs *door_config;
-
-    CMVideoImpl *video_impl;
-    CMVideoContext ctx;
-
     // 当前角度
     float angle_now;
     // 开门次数
     unsigned long long open_count;
-
     // 开门后的最大角度
     float max_angle;
     float angle_last_valid;
     float angle_current_valid;
-    AngleTolerance angle_tolerant;
-    DoorOpenTimeout door_open_timeout;
     uint8_t image_seq;
-    CMVideoBuf buf;
+    pthread_t door_detect_pid;
+    mqd_t door_detect_msg_queue;
+    volatile sig_atomic_t stop_thread; // 标志位用于通知线程退出
 } DoorDetect;
-
-static DoorDetect s_door;
-
-static door_act_e debug_action = DOOR_IDLE;
-static int debug_state = STAT_IDLE;
-
-/*根据实际门的角度来修改*/
-#define DOOE_DIRECTION 2
-#define CAPTURE_ANGLE 4.0
 typedef struct
 {
     char running;
@@ -131,51 +86,58 @@ typedef struct
     void (*release_cb)(void *args);
 } hmi_srv_t;
 
-hmi_srv_t hmi_srv;
+static char debug_flag = 0;
 
+static float debug_reference_ang = 0.0;
+static volatile int debug_print_enabled = 1; // 0: 不打印，1: 打印
 
+static float min_capture_angle = 55.0f;
+static float max_capture_angle = 65.0f;
+static int direction = 0;
+static char door_status = 0;
+static uint8_t gyroscope_enable_status = 0;
+
+static CMConfig cm_config_local[100];
+static DoorDetect s_door;
+static door_act_e debug_action = DOOR_IDLE;
+static int debug_state = STAT_IDLE;
+static hmi_srv_t hmi_srv;
+#define LOG_TAG "[DOOE_DETECT]"
+#define CM_CONFIG_FILE "/system/etc/cm_config.ini"
+
+#define DOOR_ERR_SUCCESS     0
+#define DOOR_ERR_INITIALIZED -1
+#define DOOR_ERR_NOT_INIT    -2
+#define DOOR_ERR_VIDEO_INIT  -3
+#define DOOR_ERR_THREAD      -4
+#define DOOR_ERR_NOT_ENABLE  -5
 static int door_close()
 {
-    DoorInfoItem item;
-    item.open_count = s_door.open_count;
-    item.image_angle = s_door.max_angle;
-    item.array_index = item.open_count % 5;
-    LOGD("door close open count [%llu] angle now [%f] array_index [%d]\n",
-         item.open_count, item.image_angle, item.array_index);
-    // wind_process_manager_status_changed(PROCESS_STATUS_IDLE);
-    // wind_connect_up_door_close(&item);
+
     return 0;
 }
-
 
 static int door_take_photo()
 {
-    DoorInfoItem item;
-    item.open_count = s_door.open_count;
-    item.image_angle = s_door.angle_current_valid;
-    item.array_index = item.open_count % 5;
-    // wind_connect_up_take_photo(&item);
+
     return 0;
 }
 
-
 static int door_open(float angle)
 {
-    // wind_process_manager_status_changed(PROCESS_STATUS_DOOR_OPEN);
-    // wind_connect_up_door_open(s_door.open_count, angle);
+
     return 0;
 }
 
 static int image_cache()
 {
     /*移除上一个文件*/
-
     int ret;
     char old_path[256] = {0};
     snprintf(old_path, sizeof(old_path), "/tmp/gyro_trigger/image_%d_%d.jpg", s_door.image_seq, (int)s_door.angle_last_valid);
     char cmd_remove_path[256] = {0};
     snprintf(cmd_remove_path, sizeof(cmd_remove_path), "rm -rf %s", old_path);
-    LOGD("remove [%s]\n", cmd_remove_path);
+    log_i("remove [%s]\n", cmd_remove_path);
     system(cmd_remove_path);
     deleteNodeByFileName(old_path);
     DoorInfoItem item;
@@ -185,9 +147,9 @@ static int image_cache()
     snprintf(item.image_path, sizeof(item.image_path), "/tmp/gyro_trigger/image_%d_%d.jpg",
              s_door.image_seq, (int)item.image_angle);
     ret = cm_video_take_photo_save_to_file(item.image_path);
-    if(ret != 0 )
+    if (ret != 0)
     {
-        log_write(LOG_ERROR, TAG, "image cache fail");
+        log_e("image cache fail");
     }
     generate_image_info(item.image_path);
     /*更新上一个角度为当前角度*/
@@ -209,7 +171,7 @@ unsigned long long cm_tick_milli()
 
 static uint8_t door_open_detect(float diff, float last_ang, float *reference_yaw, float ang)
 {
-    static uint32_t   dyn_cnt = 0, stable_cnt = 0, stable_flag = 0;
+    static uint32_t dyn_cnt = 0, stable_cnt = 0, stable_flag = 0;
     static door_act_e action = DOOR_IDLE;
 
     if (debug_flag)
@@ -226,11 +188,11 @@ static uint8_t door_open_detect(float diff, float last_ang, float *reference_yaw
             stable_cnt++;
 
             if (stable_cnt > 10)
-            {                              // 稳定约200ms
+            { // 稳定约200ms
                 dyn_cnt = 0;
                 *reference_yaw = last_ang; // 记录下门动作的初始角度值，应用层上消除陀螺仪零漂
-                stable_cnt     = 0;
-                stable_flag    = 1;
+                stable_cnt = 0;
+                stable_flag = 1;
             }
         }
         else
@@ -243,7 +205,7 @@ static uint8_t door_open_detect(float diff, float last_ang, float *reference_yaw
                 if (stable_flag)
                 { // 抖动前稳定过，防止缓慢开门小角度重复触发
                     LOGD("door detect [IDLE -> SHAKE]");
-                    action      = DOOR_SHAKE;
+                    action = DOOR_SHAKE;
                     stable_flag = 0;
                 }
             }
@@ -272,15 +234,14 @@ static uint8_t door_open_detect(float diff, float last_ang, float *reference_yaw
         break;
     }
 
-    debug_action        = action;
+    debug_action = action;
     debug_reference_ang = *reference_yaw;
     return (action == DOOR_OPEN) ? 1 : 0;
 }
 
-
 static uint8_t door_close_detect(float ang, float diff, long openTime)
 {
-    static uint16_t cnt  = 0;
+    static uint16_t cnt = 0;
     static uint16_t cnt2 = 0;
     if (debug_flag)
     {
@@ -298,7 +259,7 @@ static uint8_t door_close_detect(float ang, float diff, long openTime)
     }
 
     if (cnt >= 10)
-    { //静止约200ms
+    { // 静止约200ms
         cnt = 0;
         return 1;
     }
@@ -364,10 +325,8 @@ void door_status_detect(float yaw, char flag, float capture_angle)
     float angle = 0;
     static float max_angle = 0;
     static uint8_t take_photo_on = 0;
-    // static image_cache_counter = 0;
     int ret = 0;
     static long open_door_time = 0;
-
     /*表示是否第一次进入开门状态检测*/
     static uint8_t door_status_flag = 0;
 
@@ -411,7 +370,7 @@ void door_status_detect(float yaw, char flag, float capture_angle)
         if (gyroscope_stable(diff_yaw))
         {
             hmi_srv.door_status = STAT_CLOSE;
-            log_write(LOG_INFO, TAG, "door status detect [IDLE -> CLOSE]");
+            log_i("door status detect [IDLE -> CLOSE]");
             // printf("****door status detect [IDLE -> CLOSE]\n\n");
         }
         break;
@@ -426,41 +385,35 @@ void door_status_detect(float yaw, char flag, float capture_angle)
                 hmi_srv.open_cb(NULL);
             }
             open_door_time = cm_tick_milli();
-
-            take_photo_on = 1; // 一次开门只拍一张照
             hmi_srv.door_status = STAT_ACTION;
-            /*add door open event to list*/
-            
+
             s_door.open_count++;
             if (s_door.open_count >= INT32_MAX)
             {
                 s_door.open_count = 1;
             }
             door_open(angle);
-            log_write(LOG_INFO, TAG_NAME, "door status detect [CLOSE -> ACTION]\n");
-            // printf("****door status detect [CLOSE -> ACTION]\n\n");
+            log_i("door status detect [CLOSE -> ACTION]");
         }
         else if (ret == 2)
         {
-            // KNJindouGlobal::getInstance().getDoorTimeoutAlarm().stop();
         }
         break;
     case STAT_ACTION:
-        if(door_status_flag == 0)
-        {
-            /*第一次进入开门状态检测*/
-            s_door.image_seq = get_image_seq();
-            /*由于一次开门拍一次照，因此只需要一位图片序列号*/
-            door_status_flag = 1;
-        }
+
         door_status = 1;
         max_angle = max_angle < angle ? angle : max_angle;
-        
+
         if ((angle > min_capture_angle) && (angle < max_capture_angle)) // 拍照
         {
-            if(angle > s_door.max_angle)
-            {   
-                // LOGD("s_door max angel : %f\n",s_door.max_angle);
+            if (door_status_flag == 0)
+            {
+                /*进入开门状态检测,并且到达指定拍照角度,获取图片序列号*/
+                s_door.image_seq = get_image_seq();
+                door_status_flag = 1;
+            }
+            if (angle > s_door.max_angle)
+            {
                 s_door.max_angle = angle;
                 s_door.angle_current_valid = angle;
                 image_cache();
@@ -472,18 +425,15 @@ void door_status_detect(float yaw, char flag, float capture_angle)
         {
             door_close();
             door_take_photo();
-            take_photo_on = 0;
             s_door.max_angle = 0;
             hmi_srv.door_status = STAT_CLOSE;
             max_angle = 0;
             /*切换回第一次进入开门标志*/
             door_status_flag = 0;
-            log_write(LOG_INFO, TAG_NAME, "door status detect [ACTION -> CLOSE]");
-            // printf("****door status detect [ACTION -> CLOSE]\n\n");
+            log_i("door status detect [ACTION -> CLOSE]");
         }
         if (ret == 1)
         {
-            // KNJindouGlobal::getInstance().getDoorTimeoutAlarm().stop();
         }
         break;
     }
@@ -491,41 +441,22 @@ void door_status_detect(float yaw, char flag, float capture_angle)
     last_yaw = yaw; // 保存上一次的值
     debug_state = hmi_srv.door_status;
 }
-//  kill -SIGUSR1 <pid>
-static void toggle_debug_print(int signo)
-{
-    if (signo == SIGUSR1)
-    {
-        debug_print_enabled = !debug_print_enabled;
-        log_write(LOG_INFO, TAG, "Debug print %s", debug_print_enabled ? "enabled" : "disabled");
-    }
-}
 
-void *hmi_service_thread(void *args)
+void *door_detect_thread(void *args)
 {
-    struct sigaction sa;
-    sa.sa_handler = toggle_debug_print;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    if (sigaction(SIGUSR1, &sa, NULL) == -1)
-    {
-        log_write(LOG_ERROR, TAG, "Failed to register signal handler");
-    }
-    printf("enter hmi_service_thread\n");
+
+    log_i("Enter door detect thread");
     int err_rd_cnt = 0;
     float ypr[3] = {0};
     float last_yaw = 0;
-    // uint64_t last_handle = 0;
     char reset_flag = 1;
     unsigned long long lastGsResetTime = cm_tick_milli();
     char gs_open_flag = 0;
-
-    // debug_flag = cm_is_debug();
-    while (1)
+    while (!(s_door.stop_thread))
     {
         if (cm_tick_milli() - lastGsResetTime > 86400000)
         { // 24*60*60*1000
-            printf(TAG, "gyroscope cycle reset...");
+            log_i("gyroscope cycle reset...");
             lastGsResetTime = cm_tick_milli();
             // gyroscope_close();
             // debug_gs_status = DebugGSStatus::GS_RESET;
@@ -537,8 +468,7 @@ void *hmi_service_thread(void *args)
         {
             if (gyroscope_open() != 0)
             {
-                LOGD("gyroscope open fail!");
-                // debug_gs_status = DebugGSStatus::GS_OPEN_FAIL;
+                log_e("gyroscope open fail!");
                 gyroscope_close();
                 sleep(30);
                 continue;
@@ -552,15 +482,11 @@ void *hmi_service_thread(void *args)
         if (gyroscope_ready() != 0)
         {
             LOGD("wait gyroscope ready");
-            // debug_gs_status = DebugGSStatus::GS_NOT_READY;
             sleep(1);
             continue;
         }
-        // usleep()
-        if (gyroscope_read_yqr(ypr) == 0)
+        if (gyroscope_read_ypr(ypr) == 0)
         {
-            // debug_gs_status = DebugGSStatus::GS_READ_SUCC;
-            // LOGD("ypr[0] = %f , ypr[1] = %f , ypr[2] = %f",ypr[0], ypr[1] , ypr[2]);
             if (fabs(ypr[0] - last_yaw) < 7.2)
             {
                 door_status_detect(ypr[0], reset_flag, 6);
@@ -592,55 +518,108 @@ void *hmi_service_thread(void *args)
                 sleep(30);
             }
         }
-
-#if 0
-        if (cm_gettime_milli() - last_handle > 100) // 10Hz
-        {
-            if (GetDeviceCap()->GetCountTouch() != 0)
-            {
-                door_handle_detect();
-            }
-            last_handle = cm_gettime_milli();
-        }
-#endif
     }
-
-    /*deinit 待修改*/
-
-    // hmi_cmd_dl_deinit();
-    // gyroscope_close();
-    // hmi_srv_tid = 0;
-
+    gyroscope_close();
+    log_i("exit door detect thread");
     return NULL;
 }
 
-int door_init()
+/*获取陀螺仪配置*/
+static int get_door_config()
 {
-    // s_door.door_config = cm_get_door_config();
+    uint8_t Enable_Status = 0;
+    int ret = 0 ; 
+    ret = Get_Gyroscope_Enable_Status(&Enable_Status);
+    gyroscope_enable_status = Enable_Status;
+    return ret;
+}
 
-    s_door.status = DOOR_CLOSE;
-    char cmd[20];
-    snprintf(cmd, sizeof(cmd), "mkdir /tmp/data/");
-    system(cmd);
-    s_door.inited = 1;
-    int ret = cm_video_impl_init("t23");
-    if (ret != 0)
-    {
-        LOGD("door_init failed");
-        return -1;
+
+int door_detect_init()
+{
+    int ret = 0 ;
+    // 检查是否已经初始化
+    if (s_door.inited) {
+        log_w("door detect already initialized");
+        return DOOR_ERR_INITIALIZED;
     }
-    return 0;
+    ret = get_door_config();
+    if(ret != 0)
+    {
+        log_e("get door config fail");
+        return ret;
+    }
+    else
+    {
+        if(gyroscope_enable_status == 1)
+        {
+            log_i("gyroscope enable");
+        }
+        else
+        {
+            log_i("gyroscope disable");
+            /*读取配置文件，如果是关闭陀螺仪，则直接退出*/
+            return DOOR_ERR_NOT_ENABLE;
+        }
+    }
+    // 初始化结构体
+    memset(&s_door, 0, sizeof(s_door));  // 清空结构体
+    s_door.status = DOOR_CLOSE;
+    s_door.stop_thread = 0;
+    
+    // 创建数据目录
+    char cmd[20];
+    snprintf(cmd, sizeof(cmd), "mkdir -p /tmp/data/");
+    if (system(cmd) != 0) {
+        log_e("Failed to create data directory");
+        return DOOR_ERR_NOT_INIT;
+    }
+    
+    // 初始化视频模块
+    ret = cm_video_impl_init("t23");
+    if (ret != 0) {
+        log_e("door_init failed: video init error");
+        return DOOR_ERR_VIDEO_INIT;
+    }
+
+    // 创建检测线程
+    ret = pthread_create(&s_door.door_detect_pid, NULL, door_detect_thread, NULL);
+    if (ret != 0) {
+        log_e("Error creating thread: %s", strerror(ret));
+        cm_video_impl_deinit();
+        return DOOR_ERR_THREAD;
+    }
+    
+    // 设置初始化标志
+    s_door.inited = 1;
+    log_i("door detect initialized successfully");
+    return DOOR_ERR_SUCCESS;
 }
 
-int door_deinit()
+int door_detect_deinit()
 {
-    s_door.inited = 0;
-    usleep(50000);
+    // 检查是否已经初始化
+    if (!s_door.inited) {
+        log_w("door detect not initialized or already deinitialized");
+        return DOOR_ERR_NOT_INIT;
+    }
+
+    // 设置停止标志并等待线程退出
+    s_door.stop_thread = 1;
+    if (pthread_join(s_door.door_detect_pid, NULL) != 0) {
+        log_e("Error joining thread");
+        // 继续清理，但返回错误码
+        return DOOR_ERR_THREAD;
+    }
+
+    // 清理资源
     cm_video_impl_deinit();
-    return 0;
+    // 清空结构体
+    memset(&s_door, 0, sizeof(s_door));
+    
+    log_i("door detect deinitialized successfully");
+    return DOOR_ERR_SUCCESS;
 }
-
-
 
 char get_door_status()
 {

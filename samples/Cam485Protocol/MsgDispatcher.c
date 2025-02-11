@@ -10,7 +10,7 @@
 #include "cm_common.h"
 #include "elog.h"
 #define MSG_BUF_SIZE (5*51200)
-#define TAG_NAME  "[msgDispatcher]"
+#define TAG_NAME  "[MsgDispatcher]"
 typedef struct MsgNode {
     uint8_t *msg;
     uint32_t len;
@@ -487,7 +487,7 @@ void MsgDispatcherInit(DataTransInterface *interface)
     pthread_detach(process_tid);
 }
 
-void Cam485ProtocolInit()
+int Cam485ProtocolInit()
 {
     extern DataTransInterface uart_interface;
     parse_ini();

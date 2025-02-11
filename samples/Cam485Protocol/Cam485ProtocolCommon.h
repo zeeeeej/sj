@@ -27,4 +27,5 @@ uint8_t request_take_photo(char *file);
 uint8_t query_door_status();
 int remove_dir(const char *dir_path);
 int check_and_create_dir(const char *dir_path);
+
 #endif

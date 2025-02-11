@@ -15,5 +15,6 @@ add_library(Peripheral_lib STATIC
     ${CMAKE_SOURCE_DIR}/Peripheral/wdt/wdt.h
 )
 target_link_libraries(Peripheral_lib PUBLIC pthread)
-target_include_directories(Peripheral_lib PUBLIC ${CMAKE_SOURCE_DIR}/Peripheral)
+target_include_directories(Peripheral_lib PUBLIC ${CMAKE_SOURCE_DIR}/Peripheral
+    ${CMAKE_SOURCE_DIR}/log/include)
 

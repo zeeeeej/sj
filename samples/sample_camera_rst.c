@@ -22,7 +22,7 @@
 #include <sys/stat.h>
 #include "Log_init.h"
 #include <elog.h>
-#define LOG_TAG   "[MAIN]"
+#define TAG_NAME   "[MAIN]"
 static int b_exited = 0;
 static pthread_t hmi_srv_tid = 0;
 
@@ -73,27 +73,14 @@ int main(int argc, char *argv[])
         log_i("wdt timeout set to [%d]\n", timeout);
     }
 
-    /*初始化video模块*/
-    cm_video_impl_init("t23");
     /*开始自检*/
-    self_check_start();
-    /*495协议初始化*/
+    // self_check_start();
+    /*485协议初始化*/
     Protocol_Init();
     /*门开关检测初始化*/
-    door_init();
+    door_detect_init();
     
 
-    extern void *hmi_service_thread(void *args);
-    int ret = pthread_create(&hmi_srv_tid, NULL, hmi_service_thread, NULL);
-    if (ret != 0)
-    {
-        log_e("Error creating thread: %s\n", strerror(ret));
-        return -1; 
-    }
-    else
-    {
-        log_i("Thread created successfully.\n");
-    }
     while (!b_exited)
     {
         if (!wdt_disable)
@@ -103,7 +90,7 @@ int main(int argc, char *argv[])
         usleep(20000);
     }
 
-    door_deinit();
+    door_detect_deinit();
 
 
     return 0;

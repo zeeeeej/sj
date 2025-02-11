@@ -1,4 +1,4 @@
-/*主动拍照*/
+
 #include "cm_common.h"
 
 #include "stdbool.h"

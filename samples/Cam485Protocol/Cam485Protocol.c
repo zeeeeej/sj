@@ -3,7 +3,7 @@
 #include "MsgDispatherPort.h"
 #include "cm_video_ctrl.h"
 #include "door_detect.h"
-
+#include "MsgDispatcher.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,8 +15,6 @@
 
 
 static pthread_mutex_t seq_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-
 /*获取图片序列号*/
 uint8_t get_image_seq()
 {
@@ -41,7 +39,26 @@ uint8_t get_image_seq()
 
 uint8_t request_take_photo(char *file)
 {
-    return cm_video_take_photo_save_to_file(file);
+    int ret = 0;
+    ret = cm_video_take_photo_save_to_file(file);
+    if (ret != 0) {
+        log_e("take photo failed");
+        return -1;
+    }
+
+    /*尝试重新初始化视频模块*/
+    ret = cm_video_impl_init("t23");
+    if (ret != 0) {
+        log_e("reinit video module failed");
+        return -1;
+    }
+    /*再次拍照*/
+    ret = cm_video_take_photo_save_to_file(file);
+    if (ret != 0) {
+        log_e("take photo failed");
+        return -1;
+    }
+    return 0;
 }
 
 uint8_t query_door_status()
@@ -76,9 +93,22 @@ int remove_dir(const char *dir_path) {
     return 0;
 }
 
+
 int Protocol_Init()
 {
-    check_and_create_dir(ACTIVE_TRIGGER_PHOTO_FILE_DIR);
-    check_and_create_dir(GYRO_TRIGGER_PHOTO_FILE_DIR);
-    Cam485ProtocolInit();
-}   
+    int ret = 0;
+    ret = check_and_create_dir(ACTIVE_TRIGGER_PHOTO_FILE_DIR);
+    if (ret != 0) return ret;
+    ret = check_and_create_dir(GYRO_TRIGGER_PHOTO_FILE_DIR);
+    if (ret != 0) return ret;
+    ret = Cam485ProtocolInit();
+    if (ret != 0) return ret;
+
+    return 0;
+}
+
+void Protocol_Cleanup()
+{
+
+}
+
