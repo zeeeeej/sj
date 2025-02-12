@@ -1,14 +1,42 @@
 #include "cm_config.h"
 
-uint16_t g_slave_address = 0;
 
-void Set_g_slave_address(uint16_t slave_address)
+void Set_g_slave_address(uint8_t slave_address)
 {
     log_i("slave_address : %d\n",slave_address);
-    g_slave_address = slave_address;
     static char buffer[16];  
     snprintf(buffer, sizeof(buffer), "%u", slave_address); 
     save_to_config("slave_device", "slave_address", buffer);
+    write_ini();
+    return;
+}
+
+void Set_g_firmwareVersion(uint32_t firmwareVersion)
+{
+    log_i("slave_address : %d\n",firmwareVersion);
+    static char buffer[16];  
+    snprintf(buffer, sizeof(buffer), "%u", firmwareVersion); 
+    save_to_config("slave_device", "firmwareVersion", buffer);
+    write_ini();
+    return;
+}
+
+void Set_g_CameraNum(uint32_t CameraNum)
+{
+    log_i("CameraNum : %d\n",CameraNum);
+    static char buffer[16];  
+    snprintf(buffer, sizeof(buffer), "%u", CameraNum); 
+    save_to_config("slave_device", "CameraNum", buffer);
+    write_ini();
+    return;
+}
+
+void Set_g_Rs485Baudrate(uint32_t Rs485Baudrate)
+{
+    log_i("Rs485Baudrate : %d\n",Rs485Baudrate);
+    static char buffer[16];  
+    snprintf(buffer, sizeof(buffer), "%u", Rs485Baudrate); 
+    save_to_config("slave_device", "Rs485Baudrate", buffer);
     write_ini();
     return;
 }
@@ -34,18 +62,74 @@ void Set_Luminance(uint16_t luminance)
     return;
 }
 
-const char * Get_g_slave_address()
+// 判断字符串是否为纯数字
+int isPureDigits(const char *str) {
+    while (*str!= '\0') {
+        // 若字符不是数字，返回-1
+        if (!isdigit(*str)) {
+            return -1;
+        }
+        str++;
+    }
+    // 字符串所有字符都是数字，返回0
+    return 0;
+}
+
+uint8_t Get_slave_address()
 {
+    uint8_t slave_address = 0;
+    
     const char *value = get_config_value("slave_device", "slave_address");
     log_i("slave_address : %s\n",value);
-    if (value != "NULL")
+
+    if(0 != isPureDigits(value))
     {
-        g_slave_address = atoi(value);
+        return 0;
     }
-    else
+    slave_address = atoi(value);
+    return slave_address;
+}
+
+uint32_t Get_Firwareversion()
+{
+    uint32_t firmwareVersion = 0;
+    
+    const char *value = get_config_value("slave_device", "firmwareVersion");
+    log_i("firmwareVersion : %s\n",value);
+    if(0 != isPureDigits(value))
     {
-        g_slave_address = 0;
+        return 0;
     }
+    firmwareVersion = atoi(value);
+    return firmwareVersion;
+}
+
+uint32_t Get_CameraNum()
+{
+    uint32_t CameraNum = 0;
+    
+    const char *value = get_config_value("slave_device", "CameraNum");
+    log_i("CameraNum : %s\n",value);
+    if(0 != isPureDigits(value))
+    {
+        return 0;
+    }
+    CameraNum = atoi(value);
+    return CameraNum;
+}
+
+uint32_t Get_Rs485Baudrate()
+{
+    uint32_t Rs485Baudrate = 0;
+    
+    const char *value = get_config_value("slave_device", "Rs485Baudrate");
+    log_i("Rs485Baudrate : %s\n",value);
+    if(0 != isPureDigits(value))
+    {
+        return 0;
+    }
+    Rs485Baudrate = atoi(value);
+    return Rs485Baudrate;
 }
 
 const char * Get_Camera_config()
@@ -74,27 +158,6 @@ const char * Get_Camera_config()
     }
 }
 
-const char *ReadFirware()
-{
-    char *buffer;
-    size_t buffer_size;
-    FILE *file = fopen(VERSION_FILE, "r");
-    if (!file) 
-    {
-        log_e("无法打开版本文件");
-        return "";
-    }
-    if (fgets(buffer, buffer_size, file) == NULL) 
-    {
-        log_e("读取版本号失败");
-        fclose(file);
-        return;
-    }
-    buffer[strcspn(buffer, "\n")] = '\0';
-    fclose(file);
-    return buffer;
-}
-
 const char *getLuminance()
 {
     const char *value = get_config_value("camera", "luminance");
@@ -110,7 +173,7 @@ const char *getLuminance()
 void LoadConfig()
 {
     parse_ini();
-    Get_g_slave_address();
+    Get_slave_address();
     Get_Camera_config();
     getLuminance();
 }

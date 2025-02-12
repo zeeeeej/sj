@@ -1,16 +1,17 @@
-/*主动拍照*/
+/*查询属性*/
 #include "cm_common.h"
 
 #include "stdbool.h"
 #include "SID02_QueryAttribute.h"
 #include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
+#include "SID02_QueryAttribute_ID1_4.h"
 
 
 int SID02_QueryAttribute(uint8_t *msg_buf, uint32_t msg_dlc)
 {
     LOGD("SID02_QueryAttribute\n");
-    if (msg_buf == NULL || msg_dlc != 12) 
+    if (msg_buf == NULL || msg_dlc != 11) 
     {
         log_e("error:msg_len = %d",msg_dlc);
         return -1;
@@ -84,30 +85,6 @@ int SID02_QueryAttribute(uint8_t *msg_buf, uint32_t msg_dlc)
         log_e("Error: Unknown attribute ID\n");
         break;
     }
-}
-
-int Handle_SID02_Attribute_SloveAddress()
-{
-    const char* slave_address = Get_g_slave_address();
-    build_response(SID02_Attribute_SloveAddress, 0, 1, atoi(slave_address));
-    return 0;
-}
-
-int Handle_SID02_Attribute_FirmwareVersion()
-{
-    const char* firmware_version = ReadFirware();
-    build_response(SID02_Attribute_FirmwareVersion, 0, 1, atoi(firmware_version));
-    return 0;
-}
-
-int Handle_SID02_Attribute_CameraNum()
-{
-    return 0;
-}
-
-int Handle_SID02_Attribute_Baudrate()
-{
-    return 0;
 }
 
 int Handle_SID02_Attribute_PictureSize()

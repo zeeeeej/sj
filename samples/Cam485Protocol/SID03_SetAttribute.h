@@ -36,10 +36,10 @@ enum SID03_Attribute {
 
 int SID03_SetAttribute(uint8_t *msg_buf, uint32_t msg_dlc);
 
-int Handle_SID03_Attribute_SloveAddress(uint16_t slave_address);
-int Handle_SID03_Attribute_FirmwareVersion(uint16_t firmware_version);
-int Handle_SID03_Attribute_CameraNum(uint16_t camera_num);
-int Handle_SID03_Attribute_Baudrate(uint16_t baudrate);
+// int Handle_SID03_Attribute_SloveAddress(uint16_t slave_address);
+// int Handle_SID03_Attribute_FirmwareVersion(uint16_t firmware_version);
+// int Handle_SID03_Attribute_CameraNum(uint16_t camera_num);
+// int Handle_SID03_Attribute_Baudrate(uint16_t baudrate);
 int Handle_SID03_Attribute_PictureSize(uint16_t picture_size_x, uint16_t picture_size_y);
 int Handle_SID03_Attribute_Compressibility(uint16_t compressibility);
 int Handle_SID03_Attribute_PictureLuminance(uint16_t picture_luminance);

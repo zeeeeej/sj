@@ -14,8 +14,12 @@ add_library(Cam485Protocol_lib STATIC
     SID01_Heartbeat.h
     SID02_QueryAttribute.h
     SID02_QueryAttribute.c
+    SID02_QueryAttribute_ID1_4.h
+    SID02_QueryAttribute_ID1_4.c
     SID03_SetAttribute.h
     SID03_SetAttribute.c
+    SID03_SetAttribute_ID1_4.h
+    SID03_SetAttribute_ID1_4.c
     SID04_RestoreFactorySettings.h
     SID04_RestoreFactorySettings.c
     SID05_ResetCamera.h
