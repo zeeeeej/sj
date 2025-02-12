@@ -12,6 +12,8 @@
 #include <sys/time.h>
 #include <pthread.h>
 
+static int AttributeSetResp(uint8_t id,uint8_t result);
+
 
 // 被调用的函数
 void signal_handler(int signum) {
