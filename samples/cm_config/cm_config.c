@@ -378,3 +378,72 @@ int Get_g_Rs485Baudrate(uint32_t *Rs485Baudrate)
     log_i("Get RS485 baudrate: %u", *Rs485Baudrate);
     return 0;
 }
+
+/*******************PWM配置********************/
+int Get_PWM_GPIO_Pin(uint8_t *gpio_pin)
+{
+    if (gpio_pin == NULL) {
+        log_e("Invalid parameter: gpio_pin is NULL");
+        return -1;
+    }
+
+    const char *value = get_config_value("PWM_Config", "GPIO_PIN");
+    if (value != NULL && strcmp(value, "NULL") != 0) {
+        char *endptr;
+        long temp = strtol(value, &endptr, 10);
+        if (*endptr == '\0' && temp >= 0 && temp <= 40) { // 假设GPIO范围0-40
+            *gpio_pin = (uint8_t)temp;
+            log_i("Get PWM GPIO Pin: %d", *gpio_pin);
+            return 0;
+        }
+        log_e("Invalid GPIO_PIN value: %s", value);
+    } else {
+        log_e("GPIO_PIN value is NULL!");
+    }
+    return -1;
+}
+
+int Get_PWM_Duty_Cycle(uint8_t *duty_cycle)
+{
+    if (duty_cycle == NULL) {
+        log_e("Invalid parameter: duty_cycle is NULL");
+        return -1;
+    }
+
+    const char *value = get_config_value("PWM_Config", "DUTY_CYCLE");
+    if (value != NULL && strcmp(value, "NULL") != 0) {
+        int temp = atoi(value);
+        if (temp >= 0 && temp <= 100) { // 占空比范围0-100%
+            *duty_cycle = (uint8_t)temp;
+            log_i("Get PWM Duty Cycle: %d%%", *duty_cycle);
+            return 0;
+        }
+        log_e("Invalid DUTY_CYCLE value: %d", temp);
+    } else {
+        log_e("DUTY_CYCLE value is NULL!");
+    }
+    return -1;
+}
+
+int Get_PWM_Frequency(uint32_t *frequency)
+{
+    if (frequency == NULL) {
+        log_e("Invalid parameter: frequency is NULL");
+        return -1;
+    }
+
+    const char *value = get_config_value("PWM_Config", "FREQUENCY");
+    if (value != NULL && strcmp(value, "NULL") != 0) {
+        char *endptr;
+        unsigned long temp = strtoul(value, &endptr, 10);
+        if (*endptr == '\0' && temp >= 1 && temp <= 100000) { // 频率范围1-100000Hz
+            *frequency = (uint32_t)temp;
+            log_i("Get PWM Frequency: %lu Hz", temp);
+            return 0;
+        }
+        log_e("Invalid FREQUENCY value: %s", value);
+    } else {
+        log_e("FREQUENCY value is NULL!");
+    }
+    return -1;
+}

@@ -5,6 +5,7 @@
 
 #include "elog.h"
 #include "AttributeTable.h"
+#include "cm_config.h"
 #define TAG_NAME "[ID02_FirVersion]"
 
 int attribute_firmware_version_set(const uint8_t* value, uint32_t value_len)

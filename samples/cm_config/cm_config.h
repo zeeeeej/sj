@@ -21,4 +21,8 @@ int Get_Camera_Resolution(uint16_t *width, uint16_t *height);
 /*RS485波特率*/
 int Set_g_Rs485Baudrate(uint32_t Rs485Baudrate);
 int Get_g_Rs485Baudrate(uint32_t *Rs485Baudrate);
+
+int Get_PWM_Frequency(uint32_t *frequency);
+int Get_PWM_Duty_Cycle(uint8_t *duty_cycle);
+int Get_PWM_GPIO_Pin(uint8_t *gpio_pin);
 #endif

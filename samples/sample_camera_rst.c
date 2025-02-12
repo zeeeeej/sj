@@ -19,9 +19,10 @@
 #include "Cam485Protocol.h"
 #include <sys/stat.h>
 #include "Log_init.h"
-#include <elog.h>
+#include "elog.h"
 #include "cm_config.h"
 #include "ParseIni.h"
+#include "pwm_ctrl.h"
 #define TAG_NAME   "[MAIN]"
 static int b_exited = 0;
 
@@ -72,6 +73,10 @@ int main(int argc, char *argv[])
         log_i("wdt timeout set to [%d]\n", timeout);
     }
 
+    /*初始化视频模块*/
+    cm_video_impl_init("t23");
+
+    run_pwm();
     /*开始自检*/
     // self_check_start();
     /*485协议初始化*/

@@ -43,19 +43,18 @@ uint8_t request_take_photo(char *file)
     ret = cm_video_take_photo_save_to_file(file);
     if (ret != 0) {
         log_e("take photo failed");
-        return -1;
-    }
-
-    /*尝试重新初始化视频模块*/
-    ret = cm_video_impl_init("t23");
-    if (ret != 0) {
-        log_e("reinit video module failed");
-        return -1;
-    }
-    /*再次拍照*/
-    ret = cm_video_take_photo_save_to_file(file);
-    if (ret != 0) {
-        log_e("take photo failed");
+        // /*尝试重新初始化视频模块*/
+        // ret = cm_video_impl_init("t23");
+        // if (ret != 0) {
+        //     log_e("reinit video module failed");
+        //     return -1;
+        // }
+        // /*再次拍照*/
+        // ret = cm_video_take_photo_save_to_file(file);
+        // if (ret != 0) {
+        //     log_e("take photo failed");
+        //     return -1;
+        // }
         return -1;
     }
     return 0;

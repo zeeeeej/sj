@@ -691,7 +691,8 @@ void generate_image_info(char *image_path) {
     ret = Get_Gyroscope_Image_Save_Count(&GyroscopeSaveCount);
     if(ret != 0)
     {
-        log_e("get gyroscope save count fail");
+        log_w("get gyroscope save count fail");
+        /*无法获取则退出*/
         return;
     }
     else

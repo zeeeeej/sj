@@ -526,10 +526,13 @@ void *door_detect_thread(void *args)
 /*获取陀螺仪配置*/
 static int get_door_config()
 {
-    uint8_t Enable_Status = 0;
     int ret = 0 ; 
-    ret = Get_Gyroscope_Enable_Status(&Enable_Status);
-    gyroscope_enable_status = Enable_Status;
+    ret = Get_Gyroscope_Enable_Status(&gyroscope_enable_status);
+    if(ret != 0)
+    {
+        /*获取陀螺仪开启状态失败，使用默认值*/
+        gyroscope_enable_status = 1;/*设置为开启*/
+    }
     return ret;
 }
 
@@ -546,7 +549,7 @@ int door_detect_init()
     if(ret != 0)
     {
         log_e("get door config fail");
-        return ret;
+        /*获取失败不关闭陀螺仪线程*/
     }
     else
     {
@@ -612,7 +615,8 @@ int door_detect_deinit()
     }
 
     // 清理资源
-    cm_video_impl_deinit();
+    /*不关闭视频模块*/
+    // cm_video_impl_deinit();
     // 清空结构体
     memset(&s_door, 0, sizeof(s_door));
     

@@ -40,6 +40,7 @@ set(COMMON_INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/cm_config
     ${CMAKE_SOURCE_DIR}/Peripheral/camera
     ${CMAKE_SOURCE_DIR}/Peripheral/wdt
+    ${CMAKE_SOURCE_DIR}/Peripheral/pwm
     ${3dparty_DIR}/t23_sdk/include
     ${3dparty_DIR}/modbus/include
     ${3dparty_DIR}/ucamcore/include

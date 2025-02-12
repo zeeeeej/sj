@@ -13,6 +13,8 @@ add_library(Peripheral_lib STATIC
     ${CMAKE_SOURCE_DIR}/Peripheral/uart/cm_uart.h
     ${CMAKE_SOURCE_DIR}/Peripheral/wdt/wdt.c
     ${CMAKE_SOURCE_DIR}/Peripheral/wdt/wdt.h
+    ${CMAKE_SOURCE_DIR}/Peripheral/pwm/pwm_ctrl.c
+    ${CMAKE_SOURCE_DIR}/Peripheral/pwm/pwm_ctrl.h
 )
 target_link_libraries(Peripheral_lib PUBLIC pthread)
 target_include_directories(Peripheral_lib PUBLIC ${CMAKE_SOURCE_DIR}/Peripheral

@@ -19,12 +19,9 @@ int attribute_gyro_direction_set(const uint8_t* value, uint32_t value_len)
     return SendSetAttributeResp(0x0B,result);
 }
 
-int attribute_gyro_direction_get(uint8_t* value, uint32_t* value_len)
+int attribute_gyro_direction_get()
 {
-    if (value == NULL || value_len == NULL || *value_len < 1) {
-        log_e("Invalid parameter for gyro direction get");
-        return -1;
-    }
+
     uint8_t result = 0;
     log_i("Get Gyroscope capture direction");
     uint8_t direction;

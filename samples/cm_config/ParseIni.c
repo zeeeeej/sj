@@ -19,7 +19,7 @@ int parse_ini()
     FILE *file = fopen(CONFIG_FILE, "r");
     if (!file) {
         log_e("Can't open file: %s", CONFIG_FILE);
-        exit(EXIT_FAILURE);
+        return -1;
     }
 
     char line[MAX_NAME_LENGTH];

@@ -25,13 +25,9 @@ int attribute_gyro_store_picture_set(const uint8_t* value, uint32_t value_len)
     }
     return SendSetAttributeResp(0x0E,result);
 }
-int attribute_gyro_store_picture_get(uint8_t* value, uint32_t* value_len)
+int attribute_gyro_store_picture_get()
 {
 
-    if (value == NULL || value_len == NULL || *value_len < 1) {
-        log_e("Invalid parameter for gyro enable get");
-        return -1;
-    }
     uint8_t result = 0;
     uint8_t enable_status;
     if (Get_Gyroscope_Image_Save_Count(&enable_status) != 0) {
