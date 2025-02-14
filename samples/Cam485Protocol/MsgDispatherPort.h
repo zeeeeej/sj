@@ -5,6 +5,6 @@
 #include "stdint.h"
 void print_485_cir_buf_contents();
 int get_RS485uart_fd(void);
-void set_RS485uart_fd(uint32_t uartFd);
+void set_RS485uart_fd(int uartFd);
 
 #endif

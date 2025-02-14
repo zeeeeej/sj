@@ -32,7 +32,7 @@ int get_RS485uart_fd(void)
     return uart_fd;
 }
 
-void set_RS485uart_fd(uint32_t uartFd)
+void set_RS485uart_fd(int uartFd)
 {
     uart_fd = uartFd;
 }
@@ -253,7 +253,13 @@ static int uart_init()
         uart_fd = ret;
         uint32_t Rs485Baudrate = Get_Rs485Baudrate();
         LOGD("Rs485Baudrate=%u\n",Rs485Baudrate);
-        ret = cm_uart_init(ret, 460800, 0, 8, 1, 'n');
+        if(0 == Rs485Baudrate)
+        {
+            LOGD("get Rs485Baudrate config failed,use default Rs485Baudrate 460800\n");
+        }
+        Rs485Baudrate = 460800;
+        Set_g_Rs485Baudrate(Rs485Baudrate);
+        ret = cm_uart_init(ret, Rs485Baudrate, 0, 8, 1, 'n');
         if (ret < 0)
         {
             log_e("uart init failed");
