@@ -24,7 +24,6 @@
 #define UART_CIR_BUF_SIZE   10240
 static char *dev = "/dev/ttyS0";
 static int uart_fd;
-static int baudrate_old = 460800;
 static pthread_mutex_t uart_mutex = PTHREAD_MUTEX_INITIALIZER;
 static CircularBuffer *cb;
 
@@ -33,14 +32,9 @@ int get_RS485uart_fd(void)
     return uart_fd;
 }
 
-uint32_t get_RS485OldBaudrate(void)
+void set_RS485uart_fd(uint32_t uartFd)
 {
-    return baudrate_old;
-}
-
-void set_RS485OldBaudrate(uint32_t baudrate)
-{
-    baudrate_old = baudrate; 
+    uart_fd = uartFd;
 }
 
 static int enable_uart_recv()
@@ -257,7 +251,9 @@ static int uart_init()
     if (ret > 0)
     {
         uart_fd = ret;
-        ret = cm_uart_init(ret, baudrate_old, 0, 8, 1, 'n');
+        uint32_t Rs485Baudrate = Get_Rs485Baudrate();
+        LOGD("Rs485Baudrate=%u\n",Rs485Baudrate);
+        ret = cm_uart_init(ret, 460800, 0, 8, 1, 'n');
         if (ret < 0)
         {
             log_e("uart init failed");

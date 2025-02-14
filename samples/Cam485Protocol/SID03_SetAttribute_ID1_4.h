@@ -17,6 +17,4 @@ int Handle_SID03_Attribute_FirmwareVersion(uint8_t *msg_buf, uint32_t msg_dlc);
 int Handle_SID03_Attribute_CameraNum(uint8_t *msg_buf, uint32_t msg_dlc);
 int Handle_SID03_Attribute_Baudrate(uint8_t *msg_buf, uint32_t msg_dlc);
 
-void funtmp(uint8_t *msg_buf, uint32_t msg_dlc);
-
 #endif

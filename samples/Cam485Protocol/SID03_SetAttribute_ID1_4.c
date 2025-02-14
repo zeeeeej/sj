@@ -12,78 +12,89 @@
 #include <sys/time.h>
 #include <pthread.h>
 
+static pthread_mutex_t uart_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 static int AttributeSetResp(uint8_t id,uint8_t result);
-
-
-// 被调用的函数
-void signal_handler(int signum) {
-    static int count = 0;
-    printf("Function xxx is executed for the %d time.\n", ++count);
-}
-
-int RS485_reinit0(uint32_t Rs485Baudrate) {
-    // 注册信号处理函数
-    if (signal(SIGALRM, signal_handler) == SIG_ERR) {
-        perror("signal");
-        return 1;
-    }
-
-    // 设置定时器
-    struct itimerval value;
-    value.it_value.tv_sec = 2;  // 首次触发时间，2秒
-    value.it_value.tv_usec = 0;
-    value.it_interval.tv_sec = 0;  // 后续触发间隔时间，0秒  就出发一次
-    value.it_interval.tv_usec = 0;
-
-    if (setitimer(ITIMER_REAL, &value, NULL) == -1) {
-        perror("setitimer");
-        return 1;
-    }
-
-    return 0;
-}
+static int setRs485Baudrate(uint32_t baudrate);
 
 void initRs485(uint32_t newBaudrate)
 {
     printf("Timer callback executed2 baudrate: %u\n", newBaudrate);
     int uart_fd = get_RS485uart_fd();
 
+    pthread_mutex_lock(&uart_mutex);
+    /*关闭串口*/
     cm_uart_close(uart_fd);
+    //usleep(1000*10);
 
-    usleep(1000*10);
-
-    int ret = cm_uart_open("/dev/ttyS0");
-    if (ret > 0)
+    /*测试设置新波特率能不能成功*/
+    uart_fd = cm_uart_open("/dev/ttyS0");
+    /*打开文件成功*/
+    if (uart_fd > 0)
     {
         LOGD("cm_uart_open ok\n");
-        uart_fd = ret;
-        ret = cm_uart_init(ret, newBaudrate, 0, 8, 1, 'n');
+        
+        int ret = cm_uart_init(uart_fd, newBaudrate, 0, 8, 1, 'n');// 0 1
+        /*这一步判断设置波特率是不是成功*/
         if (ret < 0)
         {
+            /*失败了，重新设置会原来的波特率*/
             log_e("uart init failed");
+            /*关闭串口*/
             cm_uart_close(uart_fd);
-            usleep(1000*10);
-            int ret = cm_uart_open("/dev/ttyS0");
-            uart_fd = ret;
-            uint32_t Baudrate_old = get_RS485OldBaudrate();
-            cm_uart_init(ret, Baudrate_old, 0, 8, 1, 'n');
-            usleep(1000*10);
+            //usleep(1000*10);
+
+            /*重新设置会原来的波特率*/
+            uart_fd = cm_uart_open("/dev/ttyS0");
+            uint32_t Baudrate = Get_Rs485Baudrate();
+            LOGD("Baudrate=%u\n",Baudrate);
+            cm_uart_init(uart_fd, Baudrate, 0, 8, 1, 'n');
+            //usleep(1000*10);
+            /*回复海大，设置失败*/
             AttributeSetResp(4,1);
+            pthread_mutex_unlock(&uart_mutex);
             return;
         }
-        set_RS485OldBaudrate(newBaudrate);
-        usleep(1000*10);
+
+        /*设置成功了*/
+        cm_uart_close(uart_fd);
+        //usleep(1000*10);
+
+        /*这里还是要用原来的波特率回复一下海大，设置成功了*/
+        uart_fd = cm_uart_open("/dev/ttyS0");
+        uint32_t Baudrate = Get_Rs485Baudrate();
+        LOGD("Baudrate=%u\n",Baudrate);
+        cm_uart_init(uart_fd, Baudrate, 0, 8, 1, 'n');
+        //usleep(1000*10);
+        /*回复海大，设置成功了*/
         AttributeSetResp(4,0);
+
+        pthread_mutex_unlock(&uart_mutex);
+        /*2秒后，设置为新的波特率*/
+        usleep(1000*1000*2);
+        pthread_mutex_lock(&uart_mutex);
+        cm_uart_close(uart_fd);
+        //usleep(1000*10);
+
+        /*设置为新的波特率*/
+        LOGD("rs485 set newBaudrate %u\n",newBaudrate);
+        uart_fd = cm_uart_open("/dev/ttyS0");
+        cm_uart_init(uart_fd, newBaudrate, 0, 8, 1, 'n');
+        pthread_mutex_unlock(&uart_mutex);
+
+        /*保存句柄和波特率*/
+        set_RS485uart_fd(uart_fd);
+        setRs485Baudrate(newBaudrate);
         LOGD("cm_uart_init ok\n");
     }
 }
+
 
 // 回调函数
 void *timer_callback(void *args) 
 {
     uint32_t baudrate = *(uint32_t *)args;
     printf("Timer callback executed1 baudrate: %u\n", baudrate);
-    usleep(1000*1000*2);
     initRs485(baudrate);
     return NULL;
 }
@@ -203,12 +214,6 @@ int Handle_SID03_Attribute_Baudrate(uint8_t *msg_buf, uint32_t msg_dlc)
     uint8_t result = 0;
     uint32_t baudrate = ((msg_buf[9])|(msg_buf[10]<<8)|(msg_buf[11]<<16)|(msg_buf[12]<<24));
     LOGD("baudrate = %d\n",baudrate);
-    result = setRs485Baudrate(baudrate);
-    if(0 != result)
-    {
-        LOGD("ERROR:setRs485Baudrate\n");
-    }
-    //AttributeSetResp(4,result);
     RS485_reinit(baudrate);
     return 0;
 }
