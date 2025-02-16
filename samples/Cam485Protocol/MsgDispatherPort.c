@@ -20,6 +20,7 @@
 #include <sys/ioctl.h>
 
 #define TAG_NAME  "[485]"
+/*串口循环缓冲区大小*/
 #define UART_CIR_BUF_SIZE   10240
 static char *dev = "/dev/ttyS0";
 static int uart_fd;

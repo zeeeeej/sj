@@ -9,7 +9,7 @@
 #include "MsgDispatcher.h"
 #include "cm_common.h"
 #include "elog.h"
-#define MSG_BUF_SIZE (5*51200)
+#define MSG_BUF_SIZE (MAX_RECV_MSG_LEN)
 #define LOG_TAG  "[MsgDispatcher]"
 typedef struct MsgNode {
     uint8_t *msg;
@@ -28,9 +28,7 @@ typedef struct ThreadSafeQueue {
 
 static ThreadSafeQueue send_queue;
 static ThreadSafeQueue recv_queue;
-static uint8_t MsgRecvBuf[1024*6];
-// static MsgNode *send_head = NULL;
-// static MsgNode *recv_head = NULL;
+static uint8_t MsgRecvBuf[MSG_BUF_SIZE];
 static DataTransInterface data_trans_interface;
 
 
@@ -288,7 +286,7 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
                          data[pos - 4];
                 length += 2; // Include CRC
                 LOGD("Recv Data length [%d]", length);
-                if (length > 5000)
+                if (length > MAX_RECV_MSG_LEN)
                 {
                     step = 1;
                     pos = 0;

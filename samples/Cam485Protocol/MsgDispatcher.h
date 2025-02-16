@@ -10,6 +10,9 @@
 
 #define MSG_DISPATHER_RECV_DEBUG_EN  0
 #define MSG_DISPATHER_SEND_DEBUG_EN  0
+
+/*接收单次数据最大长度*/
+#define MAX_RECV_MSG_LEN (1024*7)
 typedef struct DataTransInterface {
     int (*send_data)(uint8_t *data, uint32_t len);
     int (*recv_data)(uint8_t *data, uint32_t len);

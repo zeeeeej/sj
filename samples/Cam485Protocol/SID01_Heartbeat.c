@@ -62,13 +62,5 @@ int SID01_CheckHeartBeat(const uint8_t *msg_buf, uint32_t msg_dlc)
         return -3;
     }
 
-    // for (int i = 5; i < 9; i++) 
-    // {
-    //     if (msg_buf[i] != 0x00) 
-    //     {
-    //         LOGD("SID01_CheckHeartBeat: reserved error\n");
-    //         return -4; 
-    //     }
-    // }
     return 0;
 }
