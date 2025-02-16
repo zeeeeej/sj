@@ -33,8 +33,8 @@ int SID02_QueryAttribute(uint8_t *msg_buf, uint32_t msg_dlc)
     }
     uint8_t id = msg_buf[8];           // 属性 ID
     
-    log_i("Command: 0x%02X, Subcommand: 0x%02X\n", command, subcommand);
-    log_i("Attribute ID: 0x%02X\n", id);
+    log_i("Command: 0x%02X, Subcommand: 0x%02X", command, subcommand);
+    log_i("Attribute ID: 0x%02X", id);
 
     // 查找属性处理函数
     const AttributeEntry* entry = find_attribute_handler(id);
@@ -48,9 +48,5 @@ int SID02_QueryAttribute(uint8_t *msg_buf, uint32_t msg_dlc)
     uint32_t value_len = entry->expected_value_len;
     
     // 调用属性的查询处理函数
-    int result = entry->get_handler(value_buffer, value_len);
-    if (result != ERR_SUCCESS) {
-        log_e("Failed to get attribute value, id: 0x%02X", id);
-        return result;
-    }
+    return entry->get_handler(value_buffer, value_len);
 }

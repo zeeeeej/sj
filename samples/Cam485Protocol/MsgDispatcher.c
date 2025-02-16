@@ -459,7 +459,9 @@ void MsgDispatcherInit(DataTransInterface *interface)
     if(ret != 0)
     {
         log_e("Get Rs485Baudrate failed");
-        return;
+        log_i("Get Rs485Baudrate failed, use default baudrate");
+        /*获取失败则使用默认波特率*/
+        Rs485Baudrate = 460800;
     }
     /*设置底层485波特率*/
     ret = data_trans_interface.control(0,&Rs485Baudrate,sizeof(Rs485Baudrate));

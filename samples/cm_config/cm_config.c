@@ -1,6 +1,6 @@
 #include "cm_config.h"
 #include "elog.h"
-#define LOG_TAG  "[CM_CONFIG]"
+#define TAG_NAME  "[CM_CONFIG]"
 /*******************陀螺仪设置********************/
 /*获取抓图方向*/
 int Get_Gyroscope_Capture_image_direction(uint8_t *direction)
@@ -203,14 +203,17 @@ int Get_g_slave_address(uint8_t *slave_address)
 }
 
 /*******************固件版本********************/
-int Set_g_firmwareVersion(uint32_t firmwareVersion)
+int Set_g_firmwareVersion(const char *version_str)
 {
-    log_i("Set firmware version: %u", firmwareVersion);
+    if (version_str == NULL) {
+        log_e("Version string is NULL");
+        return -1;
+    }
     
-    char buffer[16];  
-    snprintf(buffer, sizeof(buffer), "%u", firmwareVersion); 
+    log_i("Set firmware version: %s", version_str);
     
-    if (save_to_config("slave_device", "firmwareVersion", buffer) != 0) {
+    // 直接保存字符串版本号到配置文件
+    if (save_to_config("slave_device", "firmwareVersion", version_str) != 0) {
         log_e("Failed to save firmware version to config");
         return -1;
     }
@@ -224,25 +227,23 @@ int Set_g_firmwareVersion(uint32_t firmwareVersion)
 }
 
 /*获取固件版本*/
-int Get_g_firmwareVersion(uint32_t *firmwareVersion)
+int Get_g_firmwareVersion(char *version_str, size_t max_len)
 {
-    if (firmwareVersion == NULL) {
-        log_e("Invalid parameter: firmwareVersion is NULL");
+    if (version_str == NULL || max_len == 0) {
+        log_e("Invalid parameters: version_str is NULL or max_len is 0");
         return -1;
     }
 
     const char *value = get_config_value("slave_device", "firmwareVersion");
     if (value != NULL && strcmp(value, "NULL") != 0) {
-        char *endptr;
-        unsigned long version = strtoul(value, &endptr, 10);
-        
-        if (*endptr != '\0' || version > UINT32_MAX) {
-            log_e("Invalid firmware version value: %s", value);
+        if (strlen(value) >= max_len) {
+            log_e("Buffer too small for firmware version");
             return -1;
         }
         
-        *firmwareVersion = (uint32_t)version;
-        log_i("Get firmware version: %u", *firmwareVersion);
+        strncpy(version_str, value, max_len);
+        version_str[max_len - 1] = '\0';  // Ensure null termination
+        log_i("Get firmware version: %s", version_str);
         return 0;
     } else {
         log_e("Firmware version value is NULL!");

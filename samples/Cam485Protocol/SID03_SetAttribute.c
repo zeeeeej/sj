@@ -64,8 +64,7 @@ int SID03_SetAttribute(uint8_t *msg_buf, uint32_t msg_dlc) {
         return ERR_INVALID_PARAMS;
     }
     log_i("process attribute id: %d", id);
-    result = entry->set_handler(value, value_len);
-    return ERR_SUCCESS;
+    return entry->set_handler(value, value_len);
 }
 
 

@@ -24,27 +24,26 @@
 #include "ParseIni.h"
 #define TAG_NAME   "[MAIN]"
 static int b_exited = 0;
-static pthread_t hmi_srv_tid = 0;
 
-
-char *version = "jml_V1.0.1a";
-
-    
-#define VERSION_FILE "/system/etc/version"
 #define LOG_FILE "/system/log/t23.log"
 #define LOG_DIR "/system/log"
 #define LOG_FILE_SIZE 1024 * 30
 
+char *version = "1.0.2";
 
-static int write_version_to_file(void) {
-    FILE *fp = fopen(VERSION_FILE, "w");  // 使用"w"模式会清除原有内容
-    if (fp == NULL) {
-        log_e("Failed to open version file: %s", strerror(errno));
+static int save_version(const char *version_str) {
+    if (version_str == NULL) {
+        log_e("Version string is NULL");
         return -1;
     }
-    // 写入版本信息
-    fprintf(fp, "Version: %s\n", version);
-    fclose(fp);
+    // 调用函数保存版本号
+    int ret = Set_g_firmwareVersion(version);
+    if (ret != 0) {
+        log_e("Set firmware version failed");
+        return -1;
+    }
+
+    log_i("Successfully saved version: %s", version_str);
     return 0;
 }
 
@@ -55,12 +54,12 @@ int main(int argc, char *argv[])
     my_log_init();
     // linux_cmd_init();
     log_i("startup [%s:%s] Version [%s]", __DATE__, __TIME__, version);
-    /*写入版本信息到文件*/
-    if (write_version_to_file() < 0) {
+    /*解析配置文件*/    /*解析配置文件*/
+    parse_ini();
+    /*写入版本信息到配置文件*/
+    if (save_version(version) < 0) {
         log_e("Failed to write version information to file");
-    } else {
-        log_i("Version information written to %s", VERSION_FILE);
-    }
+    } 
     /*初始化命令行*/
     // command_init();
     /*启动看门狗*/
@@ -72,8 +71,7 @@ int main(int argc, char *argv[])
         int timeout = wdt_get_timeout();
         log_i("wdt timeout set to [%d]\n", timeout);
     }
-    /*解析配置文件*/
-    parse_ini();
+
     /*开始自检*/
     // self_check_start();
     /*485协议初始化*/

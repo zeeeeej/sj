@@ -9,7 +9,7 @@ int attribute_heating_wire_set(const uint8_t* value, uint32_t value_len)
     
     return 0;
 }
-int attribute_heating_wire_get(uint8_t* value, uint32_t* value_len)
+int attribute_heating_wire_get()
 {
     return 0;
 }

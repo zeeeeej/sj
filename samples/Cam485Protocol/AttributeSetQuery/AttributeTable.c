@@ -157,8 +157,10 @@ int SendGetAttributeResp(uint8_t id, uint8_t result,uint8_t* value,uint32_t valu
     resp_buf[index++] = id;
     resp_buf[index++] = result;
 
-
-    /*todo : 填充value值*/
+    if (value != NULL && value_length > 0) {
+        memcpy(&resp_buf[index], value, value_length);
+        index += value_length;
+    }
 
     return send_msg_resp(resp_buf,resp_buf_length);
 }

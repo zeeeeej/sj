@@ -8,7 +8,8 @@ int attribute_slave_address_set(const uint8_t* value, uint32_t value_len)
 {
     return 0;
 }
-int attribute_slave_address_get(uint8_t* value, uint32_t* value_len)
+int attribute_slave_address_get()
 {
+
     return 0;
 }
