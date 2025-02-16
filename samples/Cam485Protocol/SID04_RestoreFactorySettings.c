@@ -1,4 +1,4 @@
-/*主动拍照*/
+/*恢复出厂设置*/
 #include "cm_common.h"
 
 #include "stdbool.h"
@@ -10,4 +10,5 @@
 int SID04_RestoreFactorySettings(uint8_t *msg_buf, uint32_t msg_dlc)
 {
     LOGD("SID04_RestoreFactorySettings\n");
+
 }

@@ -144,7 +144,7 @@ int SID0B_FirmwareUpdateNotice(uint8_t *msg_buf, uint32_t msg_dlc)
     {
         LOGD("is the same bin file.");
         
-        resp_buf[8]     = 1;
+        resp_buf[8]     = 0;
         resp_buf[9]     = 0;
         resp_buf[10]    = 0;
         resp_buf[11]    = 0;
@@ -154,7 +154,7 @@ int SID0B_FirmwareUpdateNotice(uint8_t *msg_buf, uint32_t msg_dlc)
     }
     LOGD("is new bin file...");
 
-    resp_buf[8] = 1;
+    resp_buf[8] = 0;
     resp_buf[9] = 0;
     resp_buf[10] = 0;
     resp_buf[11] = 0;

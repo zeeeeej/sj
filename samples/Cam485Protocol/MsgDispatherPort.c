@@ -27,8 +27,6 @@ static int baudrate = 460800;
 static pthread_mutex_t uart_mutex = PTHREAD_MUTEX_INITIALIZER;
 static CircularBuffer *cb;
 
-
-
 // 添加错误码定义
 #define UART_SUCCESS 0
 #define UART_ERR_INVALID_PARAM -1
