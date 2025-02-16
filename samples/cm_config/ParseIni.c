@@ -1,6 +1,6 @@
 #include "ParseIni.h"
 #include <stddef.h>
-
+#include "elog.h"
 Config global_config = {0};
 
 char* trim(char* str)
@@ -18,7 +18,7 @@ int parse_ini()
 {
     FILE *file = fopen(CONFIG_FILE, "r");
     if (!file) {
-        fprintf(stderr, "无法打开文件: %s\n", CONFIG_FILE);
+        log_e("Can't open file: %s", CONFIG_FILE);
         exit(EXIT_FAILURE);
     }
 
@@ -75,7 +75,7 @@ const char *get_config_value(const char *section, const char *key)
     return "NULL";  
 }
 
-void save_to_config(const char * section, const char * key, const char * value)
+int save_to_config(const char * section, const char * key, const char * value)
 {
     int sec_idx = -1;
     for (int i = 0; i < global_config.section_count; i++) 
@@ -90,8 +90,8 @@ void save_to_config(const char * section, const char * key, const char * value)
     {
         if (global_config.section_count >= MAX_SECTION_COUNT) 
         {
-            fprintf(stderr, "Section 超过最大数量\n");
-            return;
+            log_e("Section over max count");
+            return -1;  // 返回错误：section 数量超出限制
         }
         sec_idx = global_config.section_count++;
         strncpy(global_config.sections[sec_idx].section, section, MAX_NAME_LENGTH);
@@ -106,25 +106,26 @@ void save_to_config(const char * section, const char * key, const char * value)
         if (strcmp(sec->keys[i].key, key) == 0) 
         {
             strncpy(sec->keys[i].value, value, MAX_VALUE_LENGTH);
-            return;
+            return 0;  // 返回成功：更新已存在的键值
         }
     }
 
     // 如果没有找到相同的 key，添加新的 key-value
     if (sec->key_count >= MAX_KEY_COUNT) {
-        fprintf(stderr, "Key 超过最大数量\n");
-        return;
+        log_e("Key over max count");
+        return -2;  // 返回错误：key 数量超出限制
     }
     strncpy(sec->keys[sec->key_count].key, key, MAX_NAME_LENGTH);
     strncpy(sec->keys[sec->key_count].value, value, MAX_VALUE_LENGTH);
     sec->key_count++;
+    return 0;  // 返回成功：添加新的键值对
 }
 
 int write_ini()
 {
     FILE *file = fopen(CONFIG_FILE, "w");
     if (!file) {
-        fprintf(stderr, "无法打开文件: %s\n", CONFIG_FILE);
+        log_e("Can't open file: %s", CONFIG_FILE);
         return -1;
     }
 

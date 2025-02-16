@@ -3,6 +3,8 @@
 
 
 #include "stdint.h"
-void print_485_cir_buf_contents();
-
+#include "MsgDispatcher.h"
+// 定义控制码
+#define UART_CTRL_SET_BAUDRATE 0
+DataTransInterface* get_uart_interface(void);
 #endif

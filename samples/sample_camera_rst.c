@@ -6,8 +6,6 @@
 #include "imp/imp_log.h"
 #include "door_detect.h"
 #include "cm_common.h"
-#include "module_config.h"
-#include <stdlib.h>
 #include "wdt.h"
 //echo V > /dev/watchdog
 #include "door_detect.h"
@@ -22,6 +20,8 @@
 #include <sys/stat.h>
 #include "Log_init.h"
 #include <elog.h>
+#include "cm_config.h"
+#include "ParseIni.h"
 #define TAG_NAME   "[MAIN]"
 static int b_exited = 0;
 static pthread_t hmi_srv_tid = 0;
@@ -72,7 +72,8 @@ int main(int argc, char *argv[])
         int timeout = wdt_get_timeout();
         log_i("wdt timeout set to [%d]\n", timeout);
     }
-
+    /*解析配置文件*/
+    parse_ini();
     /*开始自检*/
     // self_check_start();
     /*485协议初始化*/

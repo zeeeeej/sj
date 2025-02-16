@@ -8,14 +8,13 @@
 #define SLAVE_ADDR          0x01
 #define SEND_MSG_BLOCK      1
 
-
-
 #define MSG_DISPATHER_RECV_DEBUG_EN  0
 #define MSG_DISPATHER_SEND_DEBUG_EN  0
 typedef struct DataTransInterface {
     int (*send_data)(uint8_t *data, uint32_t len);
     int (*recv_data)(uint8_t *data, uint32_t len);
     int (*init)();
+    int (*control)(int control_code, void *user_data,uint32_t len);
 } DataTransInterface;
 
 int Cam485ProtocolInit();

@@ -5,6 +5,7 @@
 #ifndef SRC_CM_UART_H
 #define SRC_CM_UART_H
 
+#include <termios.h>
 #ifdef __cplusplus
 extern "C"
 {
@@ -26,6 +27,7 @@ extern "C"
 
     int cm_uart_send_until(int fd, unsigned char *send_buf, int data_len);
 
+    int try_set_baudrate(int fd, int baudrate);
 #ifdef __cplusplus
 }
 #endif

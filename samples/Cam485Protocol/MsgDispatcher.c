@@ -10,7 +10,7 @@
 #include "cm_common.h"
 #include "elog.h"
 #define MSG_BUF_SIZE (5*51200)
-#define TAG_NAME  "[MsgDispatcher]"
+#define LOG_TAG  "[MsgDispatcher]"
 typedef struct MsgNode {
     uint8_t *msg;
     uint32_t len;
@@ -421,22 +421,8 @@ static void process_message(uint8_t *msg, uint32_t len)
 
 static void *msg_process_thread(void *arg)
 {
-    LOGD("msg_process_thread ready");
+    log_i("msg process thread ready");
     MsgNode *msg_node = NULL;
-
-    usleep(3*1000*1000);
-
-    /*临时和海大调试用 拍10张图片*/
-    // static int tmp = 1;
-    // uint8_t msgtmp[10] = {0xAA ,0x5A ,0x01 ,0x06 ,0x00 ,0x00 ,0x00 ,0x00 ,0x88 ,0x99};
-    // if(1==tmp)
-    // {
-    //     tmp = 0;
-    //     for(int i=0;i<10;i++){
-    //         usleep(1000*1000);
-    //         MsgServiceList[5].msg_process_callback(msgtmp, 10);
-    //     }
-    // }
 
     while (1)
     {
@@ -457,19 +443,34 @@ void MsgDispatcherInit(DataTransInterface *interface)
 {
     if (interface == NULL)
     {
-        LOGD("Error: Interface initialization failed");
+        log_e("Interface initialization failed");
         return;
     }
-
-    // send_head = NULL;
-    // recv_head = NULL;
     data_trans_interface = *interface;
 
     if (data_trans_interface.init() != 0)
     {
-        LOGD("Error: Low-level data transport initialization failed");
+        log_e("Low-level data transport initialization failed");
         return;
     }
+    log_i("Low-level data transport initialization success");
+    int ret = 0;
+    /*读取配置文件获取波特率*/
+    uint32_t Rs485Baudrate = 0;
+    ret = Get_g_Rs485Baudrate(&Rs485Baudrate);
+    if(ret != 0)
+    {
+        log_e("Get Rs485Baudrate failed");
+        return;
+    }
+    /*设置底层485波特率*/
+    ret = data_trans_interface.control(0,&Rs485Baudrate,sizeof(Rs485Baudrate));
+    if(ret != 0)
+    {
+        log_e("Set Rs485Baudrate failed");
+        return;
+    }
+
     init_queue(&send_queue);
     init_queue(&recv_queue);
     pthread_t send_tid, poll_tid, process_tid;
@@ -489,10 +490,11 @@ void MsgDispatcherInit(DataTransInterface *interface)
 
 int Cam485ProtocolInit()
 {
-    extern DataTransInterface uart_interface;
+    DataTransInterface *uart_interface = get_uart_interface();
     parse_ini();
     /*启动加热环*/
-    //     system("pkill -f pwm_start.sh");
+    // system("pkill -f pwm_start.sh");
     // system("/system/init/pwm_start.sh &");
-    MsgDispatcherInit(&uart_interface);
+    MsgDispatcherInit(uart_interface);
+    return 0;
 }

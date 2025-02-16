@@ -1,4 +1,3 @@
-
 #include "cm_uart.h"
 #include "MsgDispatherPort.h"
 #include "MsgDispatcher.h"
@@ -24,8 +23,17 @@
 #define UART_CIR_BUF_SIZE   10240
 static char *dev = "/dev/ttyS0";
 static int uart_fd;
+static int baudrate = 460800;
 static pthread_mutex_t uart_mutex = PTHREAD_MUTEX_INITIALIZER;
 static CircularBuffer *cb;
+
+
+
+// 添加错误码定义
+#define UART_SUCCESS 0
+#define UART_ERR_INVALID_PARAM -1
+#define UART_ERR_HARDWARE -2
+#define UART_ERR_TIMEOUT -3
 
 
 
@@ -111,33 +119,6 @@ static void *debug_info_thread(void *arg)
 
 
 
-#include <asm-generic/ioctl.h>
-#include <termios.h>
-#include <linux/serial.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/ioctl.h>
- 
-int UartBuffSizeSet(char *dev_path,int size) {  
-
-    int ret;
-  struct serial_struct serial;
-  ret = ioctl(uart_fd, TIOCGSERIAL, &serial);
-  if (ret != 0) {
-    close(uart_fd);
-    printf("error 1\n");
-    return -2;
-  }
-  serial.xmit_fifo_size = 1024*100; //1M
-  ret = ioctl(uart_fd, TIOCSSERIAL, &serial);
-  if(ret != 0) {
-    close(uart_fd);
-    printf("error2 \n");
-    return -3;
-  }
-//   close(uart_fd);
-  return 0;
-}
 
 
 static int uart_recv(unsigned char *data, int len)
@@ -186,46 +167,6 @@ static void *data_recv_thread(void *arg)
     }
 }
 
-// void init_test_buf()
-// {
-//     uint8_t data[3010];
-//     data[0] = 0xAA;
-//     data[1] = 0x5A;
-//     data[2] = 0x01;
-//     data[3] = 0x01;
-//     data[4] = 0xb8;
-//     data[5] = 0x0b;
-//     data[6] = 0x00;
-//     data[7] = 0x00;
-//     for(int i = 8 ; i < 3010 ; i++)
-//     {
-//         data[i] = i;
-//     }
-//     push(&cb,data,3010);
-// }
-
-/*TEST*/
-// void cir_buf_test()
-// {
-//     uint8_t data[3010];
-//     uint8_t recv_data[3010];
-//     data[0] = 0xAA;
-//     data[1] = 0x5A;
-//     data[2] = 0x01;
-//     data[3] = 0x01;
-//     data[4] = 0xb8;
-//     data[5] = 0x0b;
-//     data[6] = 0x00;
-//     data[7] = 0x00;
-//     for(int i = 8 ; i < 3010 ; i++)
-//     {
-//         data[i] = i;
-//     }
-//     push(&cb,data,3010);
-//     pop_blocking(&cb,recv_data,3010);
-//     elog_hexdump("pop uart data", 16, recv_data, 3010);
-// }
-
 
 static int uart_init()
 {
@@ -243,7 +184,7 @@ static int uart_init()
     if (ret > 0)
     {
         uart_fd = ret;
-        ret = cm_uart_init(ret, 460800, 0, 8, 1, 'n');
+        ret = cm_uart_init(ret, baudrate, 0, 8, 1, 'n');
         if (ret < 0)
         {
             log_e("uart init failed");
@@ -252,12 +193,6 @@ static int uart_init()
         else
         {
             log_i("uart init success dev [%s]", dev);
-            // pthread_t debug_info_tid;
-            // pthread_create(&debug_info_tid, NULL, debug_info_thread, NULL);
-            // pthread_detach(debug_info_tid);
-            // UartBuffSizeSet(NULL,0);
-
-            
 
             /*初始化循环缓冲区*/
             cb = circular_buffer_create(UART_CIR_BUF_SIZE);
@@ -270,8 +205,6 @@ static int uart_init()
             /*建立接收485数据线程*/
             pthread_create(&data_recv_pid, NULL, data_recv_thread, NULL);
 
-            // init_test_buf();
-            // cir_buf_test();
             return 0;
         }
     }
@@ -341,11 +274,59 @@ static int uart_read(unsigned char *data, uint32_t len)
     return len;
 }
 
+static int uart_set_baudrate(uint32_t baudrate)
+{
 
+    
+    // 加锁保护串口操作
+    pthread_mutex_lock(&uart_mutex);
+    
+    int ret = try_set_baudrate(uart_fd, baudrate);
+    if(ret != 0)
+    {
+        log_e("set baudrate failed");
+        pthread_mutex_unlock(&uart_mutex);
+        return ret;
+    }
+    log_i("Setting UART baudrate to: %u", baudrate);
+    pthread_mutex_unlock(&uart_mutex);
+    return ret;
+}
+
+
+
+static int uart_control(int control_code, void *user_data, uint32_t len)
+{
+    if (user_data == NULL || len == 0) {
+        log_e("Invalid control parameters");
+        return UART_ERR_INVALID_PARAM;
+    }
+
+    switch (control_code) {
+        case UART_CTRL_SET_BAUDRATE:
+            if (len != sizeof(uint32_t)) {
+                log_e("Invalid baudrate parameter size: %u", len);
+                return UART_ERR_INVALID_PARAM;
+            }
+            uint32_t baudrate = *(uint32_t*)user_data;
+            return uart_set_baudrate(baudrate);
+            
+        default:
+            log_e("Unsupported control code: %d", control_code);
+            return UART_ERR_INVALID_PARAM;
+    }
+}
 
 DataTransInterface uart_interface = 
 {
     .init = uart_init,
     .recv_data = uart_read,
-    .send_data = uart_send
+    .send_data = uart_send,
+    .control = uart_control
 };
+
+// 添加接口获取函数
+DataTransInterface* get_uart_interface(void)
+{
+    return &uart_interface;
+}

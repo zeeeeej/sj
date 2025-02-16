@@ -37,6 +37,7 @@ set(COMMON_INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/log
     ${CMAKE_SOURCE_DIR}/command
     ${CMAKE_SOURCE_DIR}/Cam485Protocol
+    ${CMAKE_SOURCE_DIR}/cm_config
     ${CMAKE_SOURCE_DIR}/Peripheral/camera
     ${CMAKE_SOURCE_DIR}/Peripheral/wdt
     ${3dparty_DIR}/t23_sdk/include
@@ -73,6 +74,7 @@ add_subdirectory(Peripheral)
 add_subdirectory(door_detect)
 add_subdirectory(self_check)
 add_subdirectory(Cam485Protocol)
+add_subdirectory(cm_config)
 message(STATUS "Building utils_lib in ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
@@ -89,6 +91,7 @@ target_link_libraries(sample_camera_rst
     Peripheral_lib 
     self_check_lib 
     Cam485Protocol_lib
+    CM_Config_lib
     log_lib
     cli_command_lib
     src_common_lib

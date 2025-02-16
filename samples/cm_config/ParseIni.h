@@ -38,6 +38,6 @@ extern Config global_config;
 char* trim(char* str);
 int parse_ini();
 const char *get_config_value(const char *section, const char *key);
-void save_to_config(const char *section, const char *key, const char *value);
+int save_to_config(const char * section, const char * key, const char * value);
 int write_ini();
 #endif

@@ -17,7 +17,7 @@
 #include "circular_log.h"
 #include "ImageInfoList.h"
 #include "elog.h"
-#include "cm_config.h"
+#include "AttributeTable.h"
 // 当次开门缓存下来的信息
 typedef struct
 {

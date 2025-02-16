@@ -47,18 +47,20 @@ struct chn_conf wind_chn[FS_CHN_NUM] = {
 		.enable = CHN0_EN,
         .payloadType = PT_H264,
 		.fs_chn_attr = {
-			.pixFmt = PIX_FMT_NV12,
-			.outFrmRateNum = SENSOR_FRAME_RATE_NUM,
-			.outFrmRateDen = SENSOR_FRAME_RATE_DEN,
-			.nrVBs = 2,
-			.type = FS_PHY_CHANNEL,
+			.pixFmt = PIX_FMT_NV12,	/*像素类型*/
+			.outFrmRateNum = SENSOR_FRAME_RATE_NUM,	/*输出帧率分子*/
+			.outFrmRateDen = SENSOR_FRAME_RATE_DEN,	/*输出帧率分母*/
+			.nrVBs = 2,	/*帧缓冲区数量*/
+			.type = FS_PHY_CHANNEL,	/*物理通道类型*/
 
+			/*裁剪*/
 			.crop.enable = 1,
 			.crop.top = 0,
 			.crop.left = 0,
 			.crop.width = SENSOR_WIDTH,
 			.crop.height = SENSOR_HEIGHT,
 
+			/*缩放*/
 			.scaler.enable = 1,
 			.scaler.outwidth = SENSOR_WIDTH,
 			.scaler.outheight = SENSOR_HEIGHT,

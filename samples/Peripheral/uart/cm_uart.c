@@ -8,33 +8,72 @@
 #include <sys/types.h>
 #include <termios.h>
 #include <unistd.h>
-
+#include <string.h>
 #include "cm_uart.h"
+static speed_t get_baud_constant(int baudrate) {
+    switch(baudrate) {
+        case 9600:    return B9600;
+        case 19200:   return B19200;
+        case 38400:   return B38400;
+        case 57600:   return B57600;
+        case 115200:  return B115200;
+        case 230400:  return B230400;
+        case 460800:  return B460800;
+        case 921600:  return B921600;
+        default:      
+            printf("Unsupported baudrate: %d\n", baudrate);
+            return B0;  // 表示无效波特率
+    }
+}
 
-int try_set_baudrate(int fd, speed_t baudrate) {
+int try_set_baudrate(int fd, int baudrate) {  // 注意这里改为 int baudrate
     struct termios options;
+    
+    // 检查文件描述符是否有效
+    if (fd < 0) {
+        printf("Invalid file descriptor: %d\n", fd);
+        return -1;
+    }
+
+    printf("Requested baudrate: %d\n", baudrate);
+    
+    // 将实际波特率转换为系统常量
+    speed_t baud_const = get_baud_constant(baudrate);
+    if (baud_const == B0) {
+        return -1;
+    }
+    
+    // 获取当前串口配置
     if (tcgetattr(fd, &options) != 0) {
-        perror("tcgetattr");
+        printf("Failed to get serial port attributes: %s (errno: %d)\n", strerror(errno), errno);
         return -1;
     }
 
-    if (cfsetispeed(&options, baudrate) != 0 || cfsetospeed(&options, baudrate) != 0) {
+    // 设置输入波特率
+    if (cfsetispeed(&options, baud_const) != 0) {
+        printf("Failed to set input baudrate: %s (errno: %d)\n", strerror(errno), errno);
         return -1;
     }
 
+    // 设置输出波特率
+    if (cfsetospeed(&options, baud_const) != 0) {
+        printf("Failed to set output baudrate: %s (errno: %d)\n", strerror(errno), errno);
+        return -1;
+    }
+
+    // 应用新的串口配置
     if (tcsetattr(fd, TCSANOW, &options) != 0) {
+        printf("Failed to set serial port attributes: %s (errno: %d)\n", strerror(errno), errno);
         return -1;
     }
 
+    printf("Successfully set baudrate to %d\n", baudrate);
     return 0;
 }
 
-    speed_t baudrates[] = {
-        B0, B50, B75, B110, B134, B150, B200, B300, B600, B1200,
-        B1800, B2400, B4800, B9600, B19200, B38400, B57600, B115200,
-        B230400, B460800, B500000, B576000, B921600, B1000000, B1152000,
-        B1500000, B2000000, B2500000, B3000000, B3500000, B4000000
-    };
+
+
+
 int cm_uart_open(char *serial_port)
 {
     int fd;

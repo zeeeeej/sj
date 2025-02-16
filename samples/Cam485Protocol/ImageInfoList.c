@@ -10,9 +10,9 @@
 #include "md5.h"
 #include "ImageInfoList.h"
 #include "Cam485ProtocolCommon.h"
-#include "cm_common.h"
 #include "elog.h"
-#include "cm_config.h"
+#include "AttributeTable.h"
+#include "cm_common.h"
 #define LOG_TAG  "IMAGE-LIST"
 static ThreadSafeList* gyroscopeTriggerList = NULL;
 static ThreadSafeList* activeTriggerList    = NULL;

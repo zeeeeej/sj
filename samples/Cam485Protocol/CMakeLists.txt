@@ -14,8 +14,12 @@ add_library(Cam485Protocol_lib STATIC
     SID01_Heartbeat.h
     SID02_QueryAttribute.h
     SID02_QueryAttribute.c
+    # SID02_QueryAttribute_ID1_4.h
+    # SID02_QueryAttribute_ID1_4.c
     SID03_SetAttribute.h
     SID03_SetAttribute.c
+    # SID03_SetAttribute_ID1_4.h
+    # SID03_SetAttribute_ID1_4.c
     SID04_RestoreFactorySettings.h
     SID04_RestoreFactorySettings.c
     SID05_ResetCamera.h
@@ -40,16 +44,28 @@ add_library(Cam485Protocol_lib STATIC
     ImageInfoList.h
     md5.c
     md5.h
-    ParseIni.h
-    ParseIni.c
-    cm_config.h
-    cm_config.c
+    AttributeSetQuery/AttributeTable.c
+    AttributeSetQuery/AttributeTable.h
+    AttributeSetQuery/ID0A_GyrsocopeAngle.c
+    AttributeSetQuery/ID0B_GyrsocopeCaptureDir.c
+    AttributeSetQuery/ID0D_GyrsocopeEnableStatus.c
+    AttributeSetQuery/ID0E_GyrsocopeSaveCount.c
+    AttributeSetQuery/ID0F_PWM.c
+    AttributeSetQuery/ID01_SlaveAddr.c
+    AttributeSetQuery/ID02_FirVersion.c
+    AttributeSetQuery/ID03_CameraSn.c
+    AttributeSetQuery/ID04_485Baudrate.c
+    AttributeSetQuery/ID05_PicSize.c
+    AttributeSetQuery/ID06_ImageCompression.c
+    AttributeSetQuery/ID07_ImageLuminance.c
+    AttributeSetQuery/ID09_TimeStamp.c
 )
 
 target_include_directories(Cam485Protocol_lib PUBLIC ${CMAKE_SOURCE_DIR}/Cam485Protocol
     ${CMAKE_SOURCE_DIR}/Peripheral/uart
     ${CMAKE_SOURCE_DIR}/Peripheral/camera
     ${CMAKE_SOURCE_DIR}/log/include
+    ${CMAKE_SOURCE_DIR}/Cam485Protocol/AttributeSetQuery
 )
 
 
