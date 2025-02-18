@@ -5,7 +5,9 @@
 #include "SID0D_DoorOpenOrCloseSignal.h"
 #include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
-    
+#include "MsgDispatcher.h"
+
+#define LOG_TAG "[SID0D_DoorOpenOrCloseSignal]"
 int SID0D_DoorOpenOrCloseSignalCheck(const uint8_t *msg_buf, uint32_t msg_dlc)
 {
     int ret = 0;
@@ -19,10 +21,12 @@ int SID0D_DoorOpenOrCloseSignalCheck(const uint8_t *msg_buf, uint32_t msg_dlc)
 
 static int SID0D_BuildMsgHeader(uint8_t *msg_buf, uint32_t msg_dlc)
 {
+    uint8_t slave_address;
+    Get_Protocol_Slave_Address(&slave_address);
     int index = 0;
     msg_buf[index++] = 0xAA;
     msg_buf[index++] = 0x5A;
-    msg_buf[index++] = SLAVE_ADDR;
+    msg_buf[index++] = slave_address;
     msg_buf[index++] = 0x05;
 
     /*填充长度字段*/

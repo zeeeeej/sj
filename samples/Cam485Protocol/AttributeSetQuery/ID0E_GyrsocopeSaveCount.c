@@ -8,18 +8,18 @@
 int attribute_gyro_store_picture_set(const uint8_t* value, uint32_t value_len)
 {
     if (value == NULL || value_len != 1) {
-        log_e("Invalid parameter for gyro enable set");
+        log_e("Invalid parameter for gyro save count set");
         return -1;
     }
     uint8_t result = 0;
     // 验证使能状态值是否有效（0或1）
     if (value[0] != 0 && value[0] != 1) {
-        log_e("Invalid enable status value: %d", value[0]);
+        log_e("Invalid save count value: %d", value[0]);
         return -1;
     }
 
-    log_i("Set Gyroscope enable status: %d", value[0]);
-    if(Get_Gyroscope_Image_Save_Count(value[0])!=0)
+    log_i("Set Gyroscope save count: %d", value[0]);
+    if(Set_Gyroscope_Image_Save_Count(value[0])!=0)
     {
         result = 1;
     }

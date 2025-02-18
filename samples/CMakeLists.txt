@@ -6,6 +6,12 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 
+# 添加调试信息
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+
+# 添加生成 .map 文件的链接器选项
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=output.map")
 
 set (3dparty_DIR ${CMAKE_SOURCE_DIR}/../libs)
 set (SRC_DIR ${CMAKE_SOURCE_DIR}/../src)
@@ -81,6 +87,10 @@ message(STATUS "Building utils_lib in ${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_executable(sample_camera_rst
     sample_camera_rst.c
+)
+
+add_executable(set_baud_rate
+    set_baud_rate.c
 )
 
 target_link_libraries(sample_camera_rst utils_lib door_detect_lib  Peripheral_lib self_check_lib Cam485Protocol_lib)

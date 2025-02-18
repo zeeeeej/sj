@@ -13,7 +13,7 @@
 #define ACTIVE_TRIGGER_TYPE 0x01
 #define GYRO_TRIGGER_TYPE 0x00
 #define TRIGGER_TYPE_UNKNOWN -1
-#define SLAVE_ADDR 0x01
+#define SLAVE_ADDR_DEFAULT 0x01
 
 typedef enum
 {
@@ -27,5 +27,7 @@ uint8_t request_take_photo(char *file);
 uint8_t query_door_status();
 int remove_dir(const char *dir_path);
 int check_and_create_dir(const char *dir_path);
+int Get_Protocol_Slave_Address(uint8_t *slave_address);
+int Set_Protocol_Slave_Address(uint8_t slave_address);
 
 #endif

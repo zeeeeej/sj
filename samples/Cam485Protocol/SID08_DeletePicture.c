@@ -99,11 +99,12 @@ int SID08_HandleDeletePhoto(uint8_t *msg_buf, uint32_t msg_len)
     int ret = DeletePicture(data[0]); // 假设数据的第1字节是照片ID
     uint8_t response[1024] = {0};
     uint32_t index = 0;
-
+    uint8_t slave_address;
+    Get_Protocol_Slave_Address(&slave_address);
     // 构造响应帧
     response[index++] = 0xAA;  // 帧头
     response[index++] = 0x5A;
-    response[index++] = 0x01;
+    response[index++] = slave_address;
     response[index++] = 0x08;  // 主命令
     response[index++] = 0x01;  // 子命令
     response[index++] = 0x00;  // 子命令

@@ -17,7 +17,9 @@ int SID01_HeartBeat(uint8_t *msg_buf, uint32_t msg_dlc)
     //合法，则构建回复数据帧
     rsp_buf[index++] = 0xAA;
     rsp_buf[index++] = 0x5A;
-    rsp_buf[index++] = 0x01;
+    uint8_t slave_address;
+    Get_Protocol_Slave_Address(&slave_address);
+    rsp_buf[index++] = slave_address;
     rsp_buf[index++] = 0x01;
 
     rsp_buf[index++] = 0x01;

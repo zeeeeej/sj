@@ -8,7 +8,8 @@
 #define LOG_TAG "[SIDFF_TestChannel]"
 int SIDFF_TestChannel(uint8_t *msg_buf, uint32_t msg_dlc)
 {
-
+    uint8_t slave_address;
+    Get_Protocol_Slave_Address(&slave_address); 
     log_i("SIDFF_TestChannel");
     log_i("msg_dlc: %d", msg_dlc);
     int index = 0;
@@ -17,7 +18,7 @@ int SIDFF_TestChannel(uint8_t *msg_buf, uint32_t msg_dlc)
     //合法，则构建回复数据帧
     rsp_buf[index++] = 0xAA;
     rsp_buf[index++] = 0x5A;
-    rsp_buf[index++] = 0x01;
+    rsp_buf[index++] = slave_address;
     rsp_buf[index++] = 0x01;
 
     rsp_buf[index++] = 0x01;

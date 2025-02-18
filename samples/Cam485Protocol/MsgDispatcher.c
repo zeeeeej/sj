@@ -33,7 +33,18 @@ static ThreadSafeQueue send_queue;
 static ThreadSafeQueue recv_queue;
 static uint8_t MsgRecvBuf[MSG_BUF_SIZE];
 static DataTransInterface data_trans_interface;
+static uint8_t slave_address;
 
+int set_slave_address(uint8_t slave_address_param)
+{
+    slave_address = slave_address_param;
+    return 0;
+}
+int get_slave_address(uint8_t *slave_address_param)
+{
+    *slave_address_param = slave_address;
+    return 0;
+}
 
 
 
@@ -290,8 +301,12 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
 
         case 2:
             received_len = recv_msg_low_level(data + pos, 2);
-            if (received_len != 2 || data[pos] != SLAVE_ADDR)
+            if (received_len != 2 || data[pos] != slave_address)
             {
+                if(data[pos] != slave_address)
+                {
+                    log_e("slave address not equal ,current slave address : %d",slave_address);
+                }
                 step = 1;
                 pos = 0;
                 break;
@@ -502,6 +517,15 @@ void MsgDispatcherInit(DataTransInterface *interface)
         log_e("Set Rs485Baudrate failed");
         return;
     }
+    /*获取从机地址*/
+    uint8_t slaveAddress = 0;
+    ret = Get_g_slave_address(&slaveAddress);
+    if(ret != 0)
+    {
+        log_e("Get slave address failed , use default slave address : %d",SLAVE_ADDR_DEFAULT);
+        slaveAddress = SLAVE_ADDR_DEFAULT;
+    }
+    set_slave_address(slaveAddress);
 
     init_queue(&send_queue);
     init_queue(&recv_queue);

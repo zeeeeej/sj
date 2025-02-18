@@ -59,10 +59,12 @@ static int ParseGetPictureRequest(const uint8_t *msg_buf, uint32_t msg_len, GetP
 
 static int send_pic_finish_resp(uint8_t* msg_buf,uint8_t result)
 {
+    uint8_t slave_address;
+    Get_Protocol_Slave_Address(&slave_address);
     int index = 0;
     msg_buf[index++] = 0xAA;
     msg_buf[index++] = 0x5A;
-    msg_buf[index++] = SLAVE_ADDR;
+    msg_buf[index++] = slave_address;
     msg_buf[index++] = 0x0A;
 
     uint32_t data_payload_len = 1;
@@ -102,10 +104,12 @@ void print_get_picture_request(const GetPictureRequest_t *request)
 
 int PackGetPictureResponseHeader(uint8_t *msg_buf, uint32_t data_payload_len, uint8_t result)
 {
+    uint8_t slave_address;
+    Get_Protocol_Slave_Address(&slave_address);
     int index = 0;
     msg_buf[index++] = 0xAA;
     msg_buf[index++] = 0x5A;
-    msg_buf[index++] = SLAVE_ADDR;
+    msg_buf[index++] = slave_address;
     msg_buf[index++] = 0x09;
 
     /*填充长度字段*/

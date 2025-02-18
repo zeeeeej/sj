@@ -93,6 +93,19 @@ int remove_dir(const char *dir_path) {
 }
 
 
+int Get_Protocol_Slave_Address(uint8_t *slave_address)
+{
+    get_slave_address(slave_address);
+    return 0;
+}
+
+int Set_Protocol_Slave_Address(uint8_t slave_address)
+{
+    set_slave_address(slave_address);
+    return 0;
+}
+
+
 int Protocol_Init()
 {
     int ret = 0;

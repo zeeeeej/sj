@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 
-#define SLAVE_ADDR          0x01
+#define SLAVE_ADDR_DEFAULT          (1)
 #define SEND_MSG_BLOCK      1
 
 #define MSG_DISPATHER_RECV_DEBUG_EN  0
@@ -26,4 +26,6 @@ uint8_t send_msg_resp(uint8_t *msg, uint32_t len);
 uint8_t send_msg_image(uint8_t *msg, uint32_t len);
 uint16_t crc16(uint8_t *buffer, uint32_t buffer_length);
 uint16_t image_crc16(uint16_t crc, uint8_t *buffer, uint32_t buffer_length);
+int set_slave_address(uint8_t slave_address_param);
+int get_slave_address(uint8_t *slave_address_param);
 #endif

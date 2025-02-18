@@ -14,10 +14,12 @@
 #define TAG_NAME  "[SID07->QUERY PHOTO]"
 static int SID07_BuildMsgHeader(uint8_t *msg_buf, uint32_t msg_dlc)
 {
+    uint8_t slave_address;
+    Get_Protocol_Slave_Address(&slave_address);
     int index = 0;
     msg_buf[index++] = 0xAA;
     msg_buf[index++] = 0x5A;
-    msg_buf[index++] = SLAVE_ADDR;
+    msg_buf[index++] = slave_address;
     msg_buf[index++] = 0x07;
 
     /*填充长度字段*/
