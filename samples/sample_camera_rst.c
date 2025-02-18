@@ -73,6 +73,9 @@ int main(int argc, char *argv[])
         log_i("wdt timeout set to [%d]\n", timeout);
     }
 
+     //启动配置
+     LoadConfig();
+
     /*初始化视频模块*/
     cm_video_impl_init("t23");
 
@@ -82,9 +85,21 @@ int main(int argc, char *argv[])
     /*485协议初始化*/
     Protocol_Init();
     /*门开关检测初始化*/
+    // door_init();
     door_detect_init();
     
 
+    // extern void *hmi_service_thread(void *args);
+    // int ret = pthread_create(&hmi_srv_tid, NULL, hmi_service_thread, NULL);
+    // if (ret != 0)
+    // {
+    //     log_e("Error creating thread: %s\n", strerror(ret));
+    //     return -1; 
+    // }
+    // else
+    // {
+    //     log_i("Thread created successfully.\n");
+    // }
     while (!b_exited)
     {
         if (!wdt_disable)
