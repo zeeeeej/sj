@@ -3,6 +3,9 @@
 #include <string.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <fcntl.h>           // 用于 O_WRONLY 等文件操作标志
+#include <sys/types.h>       // 用于基本系统数据类型
+#include <sys/stat.h>        // 用于文件状态相关定义
 #include "elog.h"
 #define CONFIG_FILE "/system/etc/cm_config.ini"
 
@@ -63,12 +66,14 @@ void* pwm_thread(void* arg) {
     snprintf(value_path, sizeof(value_path), "/sys/class/gpio/gpio%d/value", config->gpio_pin);
 
     // 打开文件并保持打开状态
-    FILE* value_file = fopen(value_path, "w");
-    if (!value_file) {
-        perror("Unable to open GPIO value file");
+    int gpio_fd = open(value_path, O_WRONLY);
+    if (gpio_fd < 0) {
+        log_e("Unable to open GPIO value file");
         return NULL;
     }
 
+    char value_str[2] = {'0', '\0'};
+    
     // 模拟PWM
     while (1) {
         pthread_mutex_lock(&config->lock);
@@ -77,16 +82,20 @@ void* pwm_thread(void* arg) {
         int low_time = period_us - high_time;
         pthread_mutex_unlock(&config->lock);
 
-        fprintf(value_file, "1");
-        fflush(value_file); // 确保数据写入
-        usleep(high_time);
+        // 使用write替代fprintf，减少文件系统开销
+        value_str[0] = '1';
+        write(gpio_fd, value_str, 1);
+        printf("1\n");
+        usleep(high_time*10);
+        
+        value_str[0] = '0';
+        write(gpio_fd, value_str, 1);
+        printf("0\n");
 
-        fprintf(value_file, "0");
-        fflush(value_file); // 确保数据写入
-        usleep(low_time);
+        usleep(low_time*10);
     }
 
-    fclose(value_file); // 关闭文件
+    close(gpio_fd);
     return NULL;
 }
 

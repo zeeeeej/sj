@@ -81,11 +81,9 @@ size_t circular_buffer_write(CircularBuffer *cb, const void *data, size_t bytes,
     if (timeout_ms > 0) {
         clock_gettime(CLOCK_REALTIME, &ts);
         ts.tv_sec += timeout_ms / 1000;
-        ts.tv_nsec += (timeout_ms % 1000) * 1000000;
-        if (ts.tv_nsec >= 1000000000) {
-            ts.tv_sec++;
-            ts.tv_nsec -= 1000000000;
-        }
+        long nsec = ts.tv_nsec + (timeout_ms % 1000) * 1000000L;
+        ts.tv_sec += nsec / 1000000000L;
+        ts.tv_nsec = nsec % 1000000000L;
     }
 
     while (bytes_written < bytes && !cb->shutdown) {
@@ -156,26 +154,26 @@ size_t circular_buffer_read(CircularBuffer *cb, void *data, size_t bytes, int ti
     if (timeout_ms > 0) {
         clock_gettime(CLOCK_REALTIME, &ts);
         ts.tv_sec += timeout_ms / 1000;
-        ts.tv_nsec += (timeout_ms % 1000) * 1000000;
-        if (ts.tv_nsec >= 1000000000) {
-            ts.tv_sec++;
-            ts.tv_nsec -= 1000000000;
-        }
+        long nsec = ts.tv_nsec + (timeout_ms % 1000) * 1000000L;
+        ts.tv_sec += nsec / 1000000000L;
+        ts.tv_nsec = nsec % 1000000000L;
     }
 
     while (bytes_read < bytes && !cb->shutdown) {
         // 等待可用数据
         while (circular_buffer_available(cb) == 0 && !cb->shutdown) {
-            if (timeout_ms == 0) { // 非阻塞模式
+            if (timeout_ms == 0) {
                 pthread_mutex_unlock(&cb->mutex);
                 return bytes_read;
-            } else if (timeout_ms > 0) { // 限时等待
-                if (pthread_cond_timedwait(&cb->cond_not_empty, &cb->mutex, &ts) == ETIMEDOUT) {
+            } else if (timeout_ms > 0) {
+                int ret = pthread_cond_timedwait(&cb->cond_not_empty, &cb->mutex, &ts);
+                if (ret == ETIMEDOUT || circular_buffer_available(cb) == 0) {
                     pthread_mutex_unlock(&cb->mutex);
                     return bytes_read;
                 }
-            } else { // 无限等待
+            } else {
                 pthread_cond_wait(&cb->cond_not_empty, &cb->mutex);
+                if (cb->shutdown) break;
             }
         }
 
@@ -208,6 +206,41 @@ size_t circular_buffer_read(CircularBuffer *cb, void *data, size_t bytes, int ti
 
     pthread_mutex_unlock(&cb->mutex);
     return bytes_read;
+}
+
+// 添加一个完整读取的函数
+size_t circular_buffer_read_exact(CircularBuffer *cb, void *data, size_t bytes, int timeout_ms) {
+    size_t total_read = 0;
+    int remaining_timeout = timeout_ms;
+    struct timespec start_time;
+    
+    if (timeout_ms > 0) {
+        clock_gettime(CLOCK_REALTIME, &start_time);
+    }
+    
+    while (total_read < bytes) {
+        size_t read_size = circular_buffer_read(cb, (char*)data + total_read, 
+                                              bytes - total_read, remaining_timeout);
+        if (read_size == 0) {
+            break;  // 超时或出错
+        }
+        
+        total_read += read_size;
+        
+        if (timeout_ms > 0 && total_read < bytes) {
+            // 更新剩余超时时间
+            struct timespec current_time;
+            clock_gettime(CLOCK_REALTIME, &current_time);
+            long elapsed_ms = (current_time.tv_sec - start_time.tv_sec) * 1000 +
+                            (current_time.tv_nsec - start_time.tv_nsec) / 1000000;
+            remaining_timeout = timeout_ms - elapsed_ms;
+            if (remaining_timeout <= 0) {
+                break;
+            }
+        }
+    }
+    
+    return total_read;
 }
 
 /******************** 测试用例 ********************/

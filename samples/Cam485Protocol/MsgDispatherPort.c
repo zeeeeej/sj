@@ -1,23 +1,25 @@
+// 系统头文件
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <termios.h>
+#include <pthread.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+
+// 项目头文件
 #include "cm_uart.h"
 #include "MsgDispatherPort.h"
 #include "MsgDispatcher.h"
 #include "cm_common.h"
 #include "circular_buffer.h"
 #include "elog.h"
-
-
-#include "stdio.h"
-#include "stdint.h"
-#include "unistd.h"
-#include "sys/wait.h"
-#include "sys/types.h"
-#include "sys/stat.h"
-#include "fcntl.h"
-#include "errno.h"
-#include "stdlib.h"
-#include "termios.h"
-#include <pthread.h>
-#include <sys/ioctl.h>
 
 #define TAG_NAME  "[485]"
 /*串口循环缓冲区大小*/
@@ -27,6 +29,7 @@ static int uart_fd;
 static int baudrate = 460800;
 static pthread_mutex_t uart_mutex = PTHREAD_MUTEX_INITIALIZER;
 static CircularBuffer *cb;
+static int gpio_fd = -1;
 
 // 添加错误码定义
 #define UART_SUCCESS 0
@@ -34,44 +37,41 @@ static CircularBuffer *cb;
 #define UART_ERR_HARDWARE -2
 #define UART_ERR_TIMEOUT -3
 
-
+static int init_gpio_control() {
+    char value_path[64];
+    snprintf(value_path, sizeof(value_path), "/sys/class/gpio/gpio53/value");
+    gpio_fd = open(value_path, O_WRONLY);
+    if (gpio_fd < 0) {
+        log_e("Failed to open GPIO control");
+        return -1;
+    }
+    return 0;
+}
 
 static int enable_uart_recv()
 {
-    int ret = system("echo 0 > /sys/class/gpio/gpio53/value");
-    if (ret == -1)
-    {
-        perror("system call failed");
+    if (gpio_fd < 0) return -1;
+    int ret = write(gpio_fd, "0", 1);
+    if (ret != 1) {
+        log_e("Failed to set GPIO for recv, ret=%d", ret);
         return -1;
     }
-    else if (WIFEXITED(ret) && WEXITSTATUS(ret) == 0)
-    {
-        return 0; // Success
-    }
-    else
-    {
-        fprintf(stderr, "Command failed with exit status %d\n", WEXITSTATUS(ret));
-        return -1;
-    }
+    // 添加小延时确保GPIO状态稳定
+    usleep(100);
+    return 0;
 }
 
 static int enable_uart_send()
 {
-    int ret = system("echo 1 > /sys/class/gpio/gpio53/value");
-    if (ret == -1)
-    {
-        perror("system call failed");
+    if (gpio_fd < 0) return -1;
+    int ret = write(gpio_fd, "1", 1);
+    if (ret != 1) {
+        log_e("Failed to set GPIO for send, ret=%d", ret);
         return -1;
     }
-    else if (WIFEXITED(ret) && WEXITSTATUS(ret) == 0)
-    {
-        return 0; // Success
-    }
-    else
-    {
-        fprintf(stderr, "Command failed with exit status %d\n", WEXITSTATUS(ret));
-        return -1;
-    }
+    // 添加小延时确保GPIO状态稳定
+    usleep(100);
+    return 0;
 }
 
 static int uart_ready()
@@ -169,49 +169,55 @@ static void *data_recv_thread(void *arg)
 
 static int uart_init()
 {
-    if(uart_ready() != 0)
-    {
+    // 1. 首先初始化GPIO
+    if(uart_ready() != 0) {
         log_e("uart ready failed");
         return -1;
     }
-    if(enable_uart_recv() != 0)
-    {
+
+    // 2. 初始化GPIO控制
+    if (init_gpio_control() != 0) {
+        log_e("Failed to init GPIO control");
+        return -1;
+    }
+
+    // 3. 设置接收模式
+    if(enable_uart_recv() != 0) {
         log_e("enable uart recv failed");
         return -1;
     }
+
+    // 4. 打开并初始化串口
     int ret = cm_uart_open(dev);
-    if (ret > 0)
-    {
+    if (ret > 0) {
         uart_fd = ret;
         ret = cm_uart_init(ret, baudrate, 0, 8, 1, 'n');
-        if (ret < 0)
-        {
+        if (ret < 0) {
             log_e("uart init failed");
             cm_uart_close(uart_fd);
+            return -1;
         }
-        else
-        {
-            log_i("uart init success dev [%s]", dev);
 
-            /*初始化循环缓冲区*/
-            cb = circular_buffer_create(UART_CIR_BUF_SIZE);
-            if(cb==NULL)
-            {
-                log_e("create uart cir buf fail");
-                return -1;
-            }
-            pthread_t data_recv_pid;
-            /*建立接收485数据线程*/
-            pthread_create(&data_recv_pid, NULL, data_recv_thread, NULL);
+        log_i("uart init success dev [%s]", dev);
 
-            return 0;
+        // 5. 初始化循环缓冲区
+        cb = circular_buffer_create(UART_CIR_BUF_SIZE);
+        if(cb == NULL) {
+            log_e("create uart cir buf fail");
+            return -1;
         }
-    }
-    else
-    {
-        log_e("open uart [%s] failed ret [%d]\n", dev, ret);
+
+        // 6. 创建接收线程
+        pthread_t data_recv_pid;
+        if (pthread_create(&data_recv_pid, NULL, data_recv_thread, NULL) != 0) {
+            log_e("Failed to create recv thread");
+            return -1;
+        }
+
+        return 0;
     }
 
+    log_e("open uart [%s] failed ret [%d]\n", dev, ret);
     return -1;
 }
 
@@ -223,6 +229,10 @@ static int close_uart()
         cm_uart_close(uart_fd);
         uart_fd = -1;
     }
+    if (gpio_fd > 0) {
+        close(gpio_fd);
+        gpio_fd = -1;
+    }
     return 0;
 }
 
@@ -230,47 +240,37 @@ static int close_uart()
 
 static int uart_send(unsigned char *data, uint32_t len)
 {
-    // 加锁
     pthread_mutex_lock(&uart_mutex);
 
     int ret = enable_uart_send();
-    if (ret != 0)
-    {
-        // 解锁并返回错误
-        LOGD("enable_uart_send error");
+    if (ret != 0) {
+        log_e("enable_uart_send error");
         pthread_mutex_unlock(&uart_mutex);
         return ret;
     }
 
     ret = cm_uart_send_until(uart_fd, data, len);
-
-    // // 刷新发送缓冲区
-    // if (ret >= 0) {
-    //     // TCIOFLUSH 清除输入和输出队列
-    //     // TCOFLUSH 只清除输出队列
-    //     tcflush(uart_fd, TCOFLUSH); // 仅刷新发送缓冲区
-    //     // 或者使用 tcflush(uart_fd, TCIOFLUSH); // 清除输入和输出队列
-    // }
-    // 解锁
+    
+    // 发送完成后切换回接收模式
+    enable_uart_recv();
+    
     pthread_mutex_unlock(&uart_mutex);
-
     return ret;
 }
 
 
 
-static int uart_read(unsigned char *data, uint32_t len)
+static int uart_read(unsigned char *data, uint32_t len, int time_out_ms)
 {
-    int ret =  0;
-    size_t read = circular_buffer_read(cb, data, len, -1);
-    log_d("pop data length : %d , expect len : %d",read,len);
-    // elog_hexdump("pop uart data", 16, data, len);
-    // print_buffer_contents(&cb);
-    if(ret != 0)
-    {
-        return -1;  
+    if (!data || len == 0) {
+        log_e("Invalid parameters");
+        return -1;
     }
-    return len;
+
+    size_t read_bytes = circular_buffer_read_exact(cb, data, len, time_out_ms);
+    log_d("pop data length: %zu, expect len: %d", read_bytes, len);
+    
+    return (int)read_bytes;  // 返回实际读取的字节数
 }
 
 static int uart_set_baudrate(uint32_t baudrate)

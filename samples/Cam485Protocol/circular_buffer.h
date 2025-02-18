@@ -28,4 +28,5 @@ CircularBuffer* circular_buffer_create(size_t capacity);
 void circular_buffer_destroy(CircularBuffer *cb);
 size_t circular_buffer_write(CircularBuffer *cb, const void *data, size_t bytes, int timeout_ms);
 size_t circular_buffer_read(CircularBuffer *cb, void *data, size_t bytes, int timeout_ms);
+size_t circular_buffer_read_exact(CircularBuffer *cb, void *data, size_t bytes, int timeout_ms);
 #endif // CIRCULAR_BUFFER_H

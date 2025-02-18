@@ -58,7 +58,7 @@ static const AttributeEntry ATTRIBUTE_TABLE[] = {
         SID03_Attribute_PictureArguments,    // 图片参数
         // attribute_picture_params_set,
         // attribute_picture_params_get,
-        2
+        // 2
     },
     {
         SID03_Attribute_TimeStamp,           // 时间戳
@@ -82,7 +82,7 @@ static const AttributeEntry ATTRIBUTE_TABLE[] = {
         SID03_Attribute_GyroscopeConfig,     // 陀螺仪配置
         // attribute_gyro_config_set,
         // attribute_gyro_config_get,
-        1
+        // 1
     },
     {
         SID03_Attribute_GyroscopeOpenning,   // 陀螺仪启用状态

@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <unistd.h>
 
@@ -32,6 +31,47 @@ static int b_exited = 0;
 
 char *version = "1.0.2";
 
+// 在头文件后添加宏定义
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
+// 通过Makefile传递的编译信息
+#ifndef GIT_VERSION
+#define GIT_VERSION "unknown"
+#endif
+#ifndef BUILD_TIMESTAMP
+#define BUILD_TIMESTAMP "unavailable"
+#endif
+#ifndef COMPILER_FLAGS
+#define COMPILER_FLAGS "default"
+#endif
+
+// 版本信息结构体
+static const char* COMPILE_INFO =
+    "Firmware Version: %s\n"
+    "Build Time: %s %s\n"
+    "Compiler: %s\n"
+    "Flags: %s\n"
+    "Git Commit: %s\n"
+    "Architecture: %s\n";
+
+static void print_build_info(void) {
+    log_i(COMPILE_INFO,
+          version,
+          __DATE__, __TIME__,
+          __VERSION__,
+          TOSTRING(COMPILER_FLAGS),
+          GIT_VERSION,
+#if defined(__arm__)
+          "ARM"
+#elif defined(__aarch64__)
+          "ARM64"
+#else
+          "Unknown"
+#endif
+    );
+}
+
 static int save_version(const char *version_str) {
     if (version_str == NULL) {
         log_e("Version string is NULL");
@@ -48,11 +88,10 @@ static int save_version(const char *version_str) {
     return 0;
 }
 
-
 int main(int argc, char *argv[])
 {   
-
     my_log_init();
+    print_build_info();  // 新增编译信息打印
     // linux_cmd_init();
     log_i("startup [%s:%s] Version [%s]", __DATE__, __TIME__, version);
     /*解析配置文件*/    /*解析配置文件*/
@@ -76,7 +115,7 @@ int main(int argc, char *argv[])
     /*初始化视频模块*/
     cm_video_impl_init("t23");
 
-    run_pwm();
+    // run_pwm();
     /*开始自检*/
     // self_check_start();
     /*485协议初始化*/
@@ -84,7 +123,6 @@ int main(int argc, char *argv[])
     /*门开关检测初始化*/
     door_detect_init();
     
-
     while (!b_exited)
     {
         if (!wdt_disable)
@@ -95,7 +133,6 @@ int main(int argc, char *argv[])
     }
 
     door_detect_deinit();
-
 
     return 0;
 }

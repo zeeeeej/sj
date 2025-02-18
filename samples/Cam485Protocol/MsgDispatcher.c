@@ -9,6 +9,7 @@
 #include "MsgDispatcher.h"
 #include "cm_common.h"
 #include "elog.h"
+#include "MsgDispatherPort.h"
 #define MSG_BUF_SIZE (MAX_RECV_MSG_LEN)
 #define LOG_TAG  "[MsgDispatcher]"
 typedef struct MsgNode {
@@ -22,6 +23,8 @@ typedef struct ThreadSafeQueue {
     MsgNode *head;
     MsgNode *tail; 
     pthread_mutex_t mutex;
+    pthread_cond_t cond;
+    volatile size_t size;
 } ThreadSafeQueue;
 
 
@@ -36,23 +39,49 @@ static DataTransInterface data_trans_interface;
 
 
 // 初始化队列
-void init_queue(ThreadSafeQueue *q) {
-    q->head = NULL;
-    q->tail = NULL;
-    pthread_mutex_init(&q->mutex, NULL);
+static int init_queue(ThreadSafeQueue *q) {
+    memset(q, 0, sizeof(ThreadSafeQueue));
+    if (pthread_mutex_init(&q->mutex, NULL) != 0) {
+        return -1;
+    }
+    if (pthread_cond_init(&q->cond, NULL) != 0) {
+        pthread_mutex_destroy(&q->mutex);
+        return -1;
+    }
+    return 0;
+}
+
+static void destroy_queue(ThreadSafeQueue *q) {
+    pthread_mutex_lock(&q->mutex);
+    MsgNode *current = q->head;
+    while (current) {
+        MsgNode *next = current->next;
+        free(current->msg);
+        free(current);
+        current = next;
+    }
+    q->head = q->tail = NULL;
+    q->size = 0;
+    pthread_mutex_unlock(&q->mutex);
+    pthread_mutex_destroy(&q->mutex);
+    pthread_cond_destroy(&q->cond);
 }
 
 // 添加消息到队列（追加到尾部）
-int add_msg_to_queue(ThreadSafeQueue *q, const uint8_t *msg, uint32_t len)
+static int add_msg_to_queue(ThreadSafeQueue *q, const uint8_t *msg, uint32_t len)
 {
-    MsgNode *new_node = (MsgNode *)malloc(sizeof(MsgNode));
-    if (new_node == NULL) {
+    if (!q || !msg || len == 0) {
+        return -1;
+    }
+
+    MsgNode *new_node = calloc(1, sizeof(MsgNode));
+    if (!new_node) {
         log_e("Failed to allocate memory for new node");
         return -1;
     }
 
-    new_node->msg = (uint8_t *)malloc(len);
-    if (new_node->msg == NULL) {
+    new_node->msg = malloc(len);
+    if (!new_node->msg) {
         log_e("Failed to allocate memory for message");
         free(new_node);
         return -1;
@@ -60,16 +89,16 @@ int add_msg_to_queue(ThreadSafeQueue *q, const uint8_t *msg, uint32_t len)
 
     memcpy(new_node->msg, msg, len);
     new_node->len = len;
-    new_node->next = NULL;
 
     pthread_mutex_lock(&q->mutex);
-    if (q->tail != NULL) {
+    if (q->tail) {
         q->tail->next = new_node;
         q->tail = new_node;
     } else {
-        // 如果队列为空，则新节点既是头也是尾
         q->head = q->tail = new_node;
     }
+    q->size++;
+    pthread_cond_signal(&q->cond);
     pthread_mutex_unlock(&q->mutex);
 
     return 0;
@@ -79,17 +108,17 @@ int add_msg_to_queue(ThreadSafeQueue *q, const uint8_t *msg, uint32_t len)
 MsgNode* remove_msg_from_queue(ThreadSafeQueue *q)
 {
     pthread_mutex_lock(&q->mutex);
-    if (q->head == NULL) {
-        pthread_mutex_unlock(&q->mutex);
-        return NULL; // 表示失败（空列表）
+    while (q->head == NULL) {
+        pthread_cond_wait(&q->cond, &q->mutex);
     }
 
+
     MsgNode *node = q->head;
-    q->head = q->head->next;
-    if (q->head == NULL) {
-        // 如果队列变为空，则更新尾指针
+    q->head = node->next;
+    if (!q->head) {
         q->tail = NULL;
     }
+    q->size--;
     pthread_mutex_unlock(&q->mutex);
 
     return node;
@@ -160,7 +189,7 @@ static int send_msg_low_level(uint8_t *msg, uint32_t len)
 
 static int recv_msg_low_level(uint8_t *msg, uint32_t len)
 {
-    return data_trans_interface.recv_data(msg, len);
+    return data_trans_interface.recv_data(msg, len,READ_TIME_OUT_MS);
 }
 
 uint16_t crc16(uint8_t *buffer, uint32_t buffer_length)
@@ -229,11 +258,14 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
         {
         case 1:
             received_len = recv_msg_low_level(data + pos, 1);
-            /*如果第一个字节不是AA*/
+            /*如果第一个字节不是AA或接收超时*/
             if (received_len != 1 || !(data[pos] == 0xAA))
             {
-                LOGD("firstbyte noequal 0xAA");
-                usleep(10000);
+                if((data[pos] != 0xAA) && received_len ==1 )
+                {
+                    LOGD("firstbyte noequal 0xAA");
+                }
+                usleep(2000);
                 break;
             }
             else
