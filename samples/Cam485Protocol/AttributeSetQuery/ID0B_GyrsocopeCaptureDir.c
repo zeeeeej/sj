@@ -16,6 +16,11 @@ int attribute_gyro_direction_set(const uint8_t* value, uint32_t value_len)
     if (Set_Gyroscope_Capture_image_direction(value[0]) != 0) {
         result = 1;
     }
+    else
+    {
+        /*设置陀螺仪抓图方向*/
+        set_capture_direction(value[0]);
+    }
     return SendSetAttributeResp(0x0B,result);
 }
 

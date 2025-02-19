@@ -93,9 +93,9 @@ static volatile int debug_print_enabled = 1; // 0: 不打印，1: 打印
 
 static float min_capture_angle = 55.0f;
 static float max_capture_angle = 65.0f;
-static int direction = 0;
 static char door_status = 0;
 static uint8_t gyroscope_enable_status = 0;
+static uint8_t capture_direction = 0;
 
 static CMConfig cm_config_local[100];
 static DoorDetect s_door;
@@ -332,7 +332,7 @@ void door_status_detect(float yaw, char flag, float capture_angle)
     diff_yaw = yaw - last_yaw;
     angle = yaw - reference_yaw; // 实时角度
 
-    if (direction == 2)
+    if (capture_direction == 1)
     {
         angle = angle * (-1);
     }
@@ -533,6 +533,11 @@ static int get_door_config()
         /*获取陀螺仪开启状态失败，使用默认值*/
         gyroscope_enable_status = 1;/*设置为开启*/
     }
+    ret = Get_Gyroscope_Capture_image_direction(&capture_direction);
+    if(ret != 0)
+    {
+        capture_direction = 0;/*设置为默认逆时针抓图*/
+    }
     return ret;
 }
 
@@ -627,4 +632,11 @@ int door_detect_deinit()
 char get_door_status()
 {
     return door_status;
+}
+
+
+int set_capture_direction(uint8_t capture_direction)
+{
+    capture_direction = capture_direction;
+    return 0;
 }
