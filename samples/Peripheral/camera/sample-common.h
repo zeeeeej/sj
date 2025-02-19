@@ -12,7 +12,7 @@
 #include <imp/imp_framesource.h>
 #include <imp/imp_isp.h>
 #include <unistd.h>
-#include "cm_config.h"
+#include "cm_config/cm_config.h"
 
 #ifdef __cplusplus
 #if __cplusplus

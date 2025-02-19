@@ -46,13 +46,14 @@ static const AttributeEntry ATTRIBUTE_TABLE[] = {
         SID03_Attribute_Compressibility,     // 压缩率
         attribute_compression_ratio_set,
         attribute_compression_ratio_get,
-        2
+        1
+        
     },
     {
         SID03_Attribute_PictureLuminance,    // 图片亮度
         attribute_picture_brightness_set,
         attribute_picture_brightness_get,
-        2
+        1
     },
     {
         SID03_Attribute_PictureArguments,    // 图片参数

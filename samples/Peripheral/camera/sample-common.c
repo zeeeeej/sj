@@ -25,6 +25,7 @@
 //#include "logodata_100x100_bgra.h"
 
 #include "sample-common.h"
+#include "cm_config.h"
 
 #define TAG "Sample-Common"
 
@@ -288,8 +289,8 @@ int wind_sample_system_init()
 	
 	if(Luminance == 0)
 	{
-		printf("[Info][sample-common.c-289] Luminance is empty,Luminance:%d\n",Luminance);
-		Luminance = 128;
+		Luminance = Get_Luminance();
+		IMP_LOG_ERR(TAG, "Luminance = %d\n", Luminance);
 	}
     IMP_ISP_Tuning_SetContrast(128);
     IMP_ISP_Tuning_SetSharpness(128);
@@ -541,25 +542,25 @@ int wind_sample_jpeg_init()
 			// enc_attr->picWidth = imp_chn_attr_tmp->picWidth;
 			// enc_attr->picHeight = imp_chn_attr_tmp->picHeight;
 			
-			IMP_LOG_ERR(TAG, "wind_sample_jpeg_init crop_width:%d crop_height:%d\n",
-				cemare_crop_width, cemare_crop_height);
+			
 
 			if(cemare_crop_width == SENSOR_WIDTH && cemare_crop_height == SENSOR_HEIGHT) 
 			{
-				//再重新获取一次
-				CameraConfig  imageSize = Get_Camera_config();
-				enc_attr->picWidth = imageSize.width;
-				enc_attr->picHeight = imageSize.height;
+				// //再重新获取一次
+				CameraSizeConfig size = Get_Camera_config();
+				enc_attr->picWidth = size.width;
+				enc_attr->picHeight = size.height;
 
 				IMP_LOG_ERR(TAG, "[INFO][Line:552][wind_sample_jpeg_init] Reset ImageSize\n");
-
+			
 			} 
 			else 
 			{
 				enc_attr->picWidth = cemare_crop_width;
 				enc_attr->picHeight = cemare_crop_height;
 			}
-
+			IMP_LOG_ERR(TAG, "[INFO][Line:563][wind_sample_jpeg_init] crop_width:%d crop_height:%d\n",
+				enc_attr->picWidth, enc_attr->picHeight);
 
 			/* Create Channel */
 			if(direct_switch == 1) {

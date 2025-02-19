@@ -1,6 +1,6 @@
 
 #include <string.h>
-
+#include "cm_config.h"
 #include "cm_video_ctrl.h"
 #include "sample-common.h"
 #include <imp/imp_log.h>

@@ -19,12 +19,11 @@ add_library(Peripheral_lib STATIC
 target_link_libraries(Peripheral_lib PUBLIC 
     pthread
     log_lib
-    
+    CM_Config_lib
 )
 
 target_include_directories(Peripheral_lib PUBLIC ${CMAKE_SOURCE_DIR}/Peripheral
-    
-    ${CMAKE_SOURCE_DIR}/Cam485Protocol
+    ${CMAKE_SOURCE_DIR}/cm_config
     ${CMAKE_SOURCE_DIR}/log/include
 )
 

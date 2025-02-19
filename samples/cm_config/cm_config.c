@@ -1,6 +1,11 @@
 #include "cm_config.h"
 #include "elog.h"
 #define TAG_NAME  "[CM_CONFIG]"
+
+CameraSizeConfig camera_size_config = {
+    .width = 1920,
+    .height = 1080
+};
 /*******************陀螺仪设置********************/
 /*获取抓图方向*/
 int Get_Gyroscope_Capture_image_direction(uint8_t *direction)
@@ -252,9 +257,123 @@ int Get_g_firmwareVersion(char *version_str, size_t max_len)
 }
 
 
+CameraSizeConfig Get_Camera_config()
+{
+    CameraSizeConfig config = {0, 0};  
+
+    const char* value = get_config_value("camera", "width");
+    log_i("width : %s\n", value);
+    if (value != "NULL") 
+    {
+        config.width = atoi(value);
+        camera_size_config.width = atoi(value);
+        
+    }
+
+    value = get_config_value("camera", "height");
+    log_i("height : %s\n", value);
+    if (value != "NULL") 
+    {
+        config.height = atoi(value);
+        camera_size_config.height = atoi(value); 
+    }
+
+    return config; 
+}
+
+int Set_Camera_config(uint16_t width, uint16_t height)
+{
+    log_i("Set camera resolution: %ux%u", width, height);
+    static char str[20];
+    snprintf(str, sizeof(str), "%u", width);
+    if (save_to_config("camera", "width", str) != 0) 
+    {
+        log_e("Failed to save firmware version to config");
+        return -1;
+    }
+    
+    if (write_ini() != 0) 
+    {
+        log_e("Failed to write config to file");
+        return -1;
+    }
+    static char height_str[20];
+    snprintf(height_str, sizeof(height_str), "%u", height);
+
+    if (save_to_config("camera", "height", height_str) != 0) 
+    {
+        log_e("Failed to save firmware version to config");
+        return -1;
+    }
+    
+    if (write_ini() != 0) 
+    {
+        log_e("Failed to write config to file");
+        return -1;
+    }
+    return 0;
+}
+
+int Get_Luminance()
+{
+    const char *value = get_config_value("camera", "luminance");
+    log_i("luminance : %s\n",value);
+    if (value != "NULL")
+    {
+        return atoi(value);
+    }
+    return -1;   
+}
+
+int Set_g_Luminance(uint16_t luminance)
+{
+    log_i("Set luminance: %u", luminance);
+    static char str[20];
+    snprintf(str, sizeof(str), "%u", luminance);
+    if (save_to_config("camera", "luminance", str) != 0) 
+    {
+        log_e("Failed to save firmware version to config");
+        return -1;
+    }
+    
+    if (write_ini() != 0) 
+    {
+        log_e("Failed to write config to file");
+        return -1;
+    }
+    return 0;
+}
+
+int Get_compressibility()
+{
+    const char *value = get_config_value("camera", "compressibility");
+    log_i("compressibility : %s\n",value);
+    if (value != "NULL")
+    {
+        return atoi(value);
+    }
+    return -1;
+}
 
 
-
+int Set_g_compressibility(int compression)
+{
+    log_i("Set compressibility: %u", compression);
+    static char str[20];
+    snprintf(str, sizeof(str), "%u", compression);
+    if (save_to_config("slave_device", "compressibility", str) != 0) 
+    {
+        log_e("Failed to save firmware version to config");
+        return -1;
+    }
+    
+    if (write_ini() != 0) 
+    {
+        log_e("Failed to write config to file");
+        return -1;
+    }
+    return 0;
+}
 
 /*设置相机宽高配置*/
 int Set_Camera_Resolution(uint16_t width, uint16_t height)

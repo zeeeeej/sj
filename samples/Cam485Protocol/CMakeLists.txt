@@ -68,6 +68,7 @@ target_include_directories(Cam485Protocol_lib PUBLIC ${CMAKE_SOURCE_DIR}/Cam485P
     ${CMAKE_SOURCE_DIR}/Peripheral/camera
     ${CMAKE_SOURCE_DIR}/log/include
     ${CMAKE_SOURCE_DIR}/Cam485Protocol/AttributeSetQuery
+    ${CMAKE_SOURCE_DIR}/cm_config
 )
 
 
@@ -75,4 +76,5 @@ target_include_directories(Cam485Protocol_lib PUBLIC ${CMAKE_SOURCE_DIR}/Cam485P
 target_link_libraries(Cam485Protocol_lib 
     Peripheral_lib 
     log_lib
+    
 )

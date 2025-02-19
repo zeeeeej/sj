@@ -3,6 +3,14 @@
 #include <stdint.h>
 #include <stdio.h>
 
+typedef struct {
+    uint16_t width;
+    uint16_t height;
+} CameraSizeConfig;
+
+extern CameraSizeConfig camera_size_config;
+
+
 /*抓图方向*/
 int Get_Gyroscope_Capture_image_direction(uint8_t *direction);
 int Set_Gyroscope_Capture_image_direction(uint8_t direction);
@@ -25,4 +33,16 @@ int Get_g_Rs485Baudrate(uint32_t *Rs485Baudrate);
 int Get_PWM_Frequency(uint32_t *frequency);
 int Get_PWM_Duty_Cycle(uint8_t *duty_cycle);
 int Get_PWM_GPIO_Pin(uint8_t *gpio_pin);
+
+
+/*图片Size*/
+CameraSizeConfig Get_Camera_config();
+int Set_Camera_config(uint16_t width, uint16_t height);
+/*图片亮度*/
+int Get_Luminance();
+int Set_g_Luminance(uint16_t luminance);
+/*压缩率*/
+int Get_compressibility();
+int Set_g_compressibility(int compression);
+
 #endif

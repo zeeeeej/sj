@@ -17,6 +17,7 @@
 #include "cli.h"
 #include "debug_logger.h"
 #include "Cam485Protocol.h"
+#include "cm_config.h"
 #include <sys/stat.h>
 #include "Log_init.h"
 #include "elog.h"
@@ -73,8 +74,7 @@ int main(int argc, char *argv[])
         log_i("wdt timeout set to [%d]\n", timeout);
     }
 
-     //启动配置
-     LoadConfig();
+
 
     /*初始化视频模块*/
     cm_video_impl_init("t23");
