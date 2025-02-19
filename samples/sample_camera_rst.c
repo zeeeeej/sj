@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
     log_i("startup [%s:%s] Version [%s]", __DATE__, __TIME__, version);
     /*解析配置文件*/    /*解析配置文件*/
     parse_ini();
+    generate_sn();
     /*写入版本信息到配置文件*/
     if (save_version(version) < 0) {
         log_e("Failed to write version information to file");
@@ -86,7 +87,7 @@ int main(int argc, char *argv[])
     Protocol_Init();
     /*门开关检测初始化*/
     // door_init();
-    door_detect_init();
+    // door_detect_init();
     
 
     // extern void *hmi_service_thread(void *args);
