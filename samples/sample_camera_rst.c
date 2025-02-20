@@ -16,6 +16,7 @@
 #include "cli.h"
 #include "debug_logger.h"
 #include "Cam485Protocol.h"
+#include "cm_config.h"
 #include <sys/stat.h>
 #include "Log_init.h"
 #include "elog.h"
@@ -96,6 +97,7 @@ int main(int argc, char *argv[])
     log_i("startup [%s:%s] Version [%s]", __DATE__, __TIME__, version);
     /*解析配置文件*/    /*解析配置文件*/
     parse_ini();
+    generate_sn();
     /*写入版本信息到配置文件*/
     if (save_version(version) < 0) {
         log_e("Failed to write version information to file");
@@ -112,6 +114,8 @@ int main(int argc, char *argv[])
         log_i("wdt timeout set to [%d]\n", timeout);
     }
 
+
+
     /*初始化视频模块*/
     cm_video_impl_init("t23");
 
@@ -121,7 +125,8 @@ int main(int argc, char *argv[])
     /*485协议初始化*/
     Protocol_Init();
     /*门开关检测初始化*/
-    door_detect_init();
+    door_init();
+    // door_detect_init();
     
     while (!b_exited)
     {

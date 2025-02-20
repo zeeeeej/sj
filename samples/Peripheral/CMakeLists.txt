@@ -16,7 +16,14 @@ add_library(Peripheral_lib STATIC
     ${CMAKE_SOURCE_DIR}/Peripheral/pwm/pwm_ctrl.c
     ${CMAKE_SOURCE_DIR}/Peripheral/pwm/pwm_ctrl.h
 )
-target_link_libraries(Peripheral_lib PUBLIC pthread)
+target_link_libraries(Peripheral_lib PUBLIC 
+    pthread
+    log_lib
+    CM_Config_lib
+)
+
 target_include_directories(Peripheral_lib PUBLIC ${CMAKE_SOURCE_DIR}/Peripheral
-    ${CMAKE_SOURCE_DIR}/log/include)
+    ${CMAKE_SOURCE_DIR}/cm_config
+    ${CMAKE_SOURCE_DIR}/log/include
+)
 

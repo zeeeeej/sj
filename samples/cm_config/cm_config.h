@@ -2,6 +2,23 @@
 #define __CM_CONFIG_H__
 #include <stdint.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <unistd.h>
+#include <stdint.h>
+
+
+typedef struct {
+    uint16_t width;
+    uint16_t height;
+} CameraSizeConfig;
+
+extern CameraSizeConfig camera_size_config;
+
+#define MEMORY_ADDRESS_BASE 0x13540200  // 起始物理地址
+#define NUM_READS 12    // 总共读取的地址数
+
+#define SN_FILE_PATH "/tmp/chip_id.txt"
 
 /*抓图方向*/
 int Get_Gyroscope_Capture_image_direction(uint8_t *direction);
@@ -25,4 +42,22 @@ int Get_g_Rs485Baudrate(uint32_t *Rs485Baudrate);
 int Get_PWM_Frequency(uint32_t *frequency);
 int Get_PWM_Duty_Cycle(uint8_t *duty_cycle);
 int Get_PWM_GPIO_Pin(uint8_t *gpio_pin);
+
+
+/*图片Size*/
+CameraSizeConfig Get_Camera_config();
+int Set_Camera_config(uint16_t width, uint16_t height);
+/*图片亮度*/
+int Get_Luminance();
+int Set_g_Luminance(uint16_t luminance);
+/*压缩率*/
+int Get_compressibility();
+int Set_g_compressibility(int compression);
+
+/*摄像头sn*/
+void get_last_two_digits(unsigned int value, char *output);
+unsigned int read_mem(unsigned int address);
+int  generate_sn();
+int  Get_g_CameraSn(char *sn, uint8_t max_len);
+
 #endif

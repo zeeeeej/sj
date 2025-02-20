@@ -5,12 +5,6 @@ project(samples)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
-
-# 添加调试信息
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
-
-# 添加生成 .map 文件的链接器选项
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=output.map")
 
 set (3dparty_DIR ${CMAKE_SOURCE_DIR}/../libs)
@@ -74,14 +68,15 @@ link_directories(${3dparty_DIR}/t23_sdk/lib/uclibc)
 message(STATUS "Adding subdirectory: ${CMAKE_SOURCE_DIR}/../src/common")
 add_subdirectory(${CMAKE_SOURCE_DIR}/../src/common ${CMAKE_BINARY_DIR}/common_build)
 add_subdirectory(${CMAKE_SOURCE_DIR}/../src/modules ${CMAKE_BINARY_DIR}/modules_build)
+add_subdirectory(Cam485Protocol)
 add_subdirectory(log)
 add_subdirectory(command)
 add_subdirectory(utils)
 add_subdirectory(Peripheral)
 add_subdirectory(door_detect)
 add_subdirectory(self_check)
-add_subdirectory(Cam485Protocol)
 add_subdirectory(cm_config)
+
 message(STATUS "Building utils_lib in ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
@@ -101,7 +96,6 @@ target_link_libraries(sample_camera_rst
     door_detect_lib 
     Peripheral_lib 
     self_check_lib 
-    Cam485Protocol_lib
     CM_Config_lib
     log_lib
     cli_command_lib
@@ -111,6 +105,7 @@ target_link_libraries(sample_camera_rst
     imp
     sysutils
     rt
+    Cam485Protocol_lib
     src_modules_lib
     ${3dparty_DIR}/ucamcore/lib/uclibc/libusbcamera.a
     ${3dparty_DIR}/modbus/lib/libmodbus.a

@@ -25,6 +25,7 @@
 //#include "logodata_100x100_bgra.h"
 
 #include "sample-common.h"
+#include "cm_config.h"
 
 #define TAG "Sample-Common"
 
@@ -288,8 +289,8 @@ int wind_sample_system_init()
 	
 	if(Luminance == 0)
 	{
-		printf("[Info][sample-common.c-289] Luminance is empty,Luminance:%d\n",Luminance);
-		Luminance = 128;
+		Luminance = Get_Luminance();
+		IMP_LOG_ERR(TAG, "Luminance = %d\n", Luminance);
 	}
     IMP_ISP_Tuning_SetContrast(128);
     IMP_ISP_Tuning_SetSharpness(128);
@@ -540,9 +541,26 @@ int wind_sample_jpeg_init()
 			enc_attr->profile = 0;
 			// enc_attr->picWidth = imp_chn_attr_tmp->picWidth;
 			// enc_attr->picHeight = imp_chn_attr_tmp->picHeight;
-			enc_attr->picWidth = crop_width;
-			enc_attr->picHeight = crop_height;
+			
+			
 
+			if(cemare_crop_width == SENSOR_WIDTH && cemare_crop_height == SENSOR_HEIGHT) 
+			{
+				// //再重新获取一次
+				CameraSizeConfig size = Get_Camera_config();
+				enc_attr->picWidth = size.width;
+				enc_attr->picHeight = size.height;
+
+				IMP_LOG_ERR(TAG, "[INFO][Line:552][wind_sample_jpeg_init] Reset ImageSize\n");
+			
+			} 
+			else 
+			{
+				enc_attr->picWidth = cemare_crop_width;
+				enc_attr->picHeight = cemare_crop_height;
+			}
+			IMP_LOG_ERR(TAG, "[INFO][Line:563][wind_sample_jpeg_init] crop_width:%d crop_height:%d\n",
+				enc_attr->picWidth, enc_attr->picHeight);
 
 			/* Create Channel */
 			if(direct_switch == 1) {
@@ -1334,11 +1352,38 @@ int wind_sample_set_luminance(int value)
     return uvc_pu_brightness_set(0,value);
 }
 
+int cemare_crop_width = SENSOR_WIDTH;
+int cemare_crop_height = SENSOR_HEIGHT;
+
 int wind_sample_set_resolution(int width, int height)
 {
-	crop_width = width;
-	crop_height = height;
+	cemare_crop_width = width;
+	cemare_crop_height = height;
+	printf("wind_sample_set_resolution crop_width = %d, crop_height = %d\n", cemare_crop_width, cemare_crop_height);
 	return 0;
+}
+
+void wind_MakeTables(int q, uint8_t *lqt, uint8_t *cqt)
+{
+	int i;
+	int factor = q;
+	if (q < 1) factor = 1;
+	if (q > 99) factor = 99;
+	if (q < 50)
+		q = 5000 / factor;
+	else
+		q = 200 - factor*2;
+	for (i=0; i < 64; i++) {
+		int lq = (jpeg_luma_quantizer[i] * q + 50) / 100;
+		int cq = (jpeg_chroma_quantizer[i] * q + 50) / 100;
+		/* Limit the quantizers to 1 <= q <= 255 */
+		if (lq < 1) lq = 1;
+		else if (lq > 255) lq = 255;
+		lqt[i] = lq;
+		if (cq < 1) cq = 1;
+		else if (cq > 255) cq = 255;
+		cqt[i] = cq;
+	}
 }
 
 int wind_sample_get_video_stream_byfd()
