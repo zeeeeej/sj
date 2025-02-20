@@ -8,9 +8,6 @@
 #define TAG_NAME "[ATTRIBUTE_TABLE]"
 
 
-
-
-
 static const AttributeEntry ATTRIBUTE_TABLE[] = {
     {
         SID03_Attribute_SloveAddress,        // 从地址

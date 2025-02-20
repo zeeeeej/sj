@@ -1,10 +1,16 @@
 /*主动拍照*/
+#define LOG_TAG "[SID06_ActiveScreenshot]"
 #include "cm_common.h"
 
 #include "stdbool.h"
 #include "SID06_ActiveScreenshot.h"
 #include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
+#include "MsgDispatcher.h"
+
+#include "elog.h"
+
+
 /*主动抓图的id值*/
 /*开关门触发的id值*/
 /*这两个是否冲突*
@@ -61,7 +67,7 @@ int SID06_ActiveScreenshot(uint8_t *msg_buf, uint32_t msg_dlc)
     {
         return -1;
     }
-    char filename[50];
+    char filename[DATA_NODE_PATH_MAX];
     id = get_image_seq();                                                   // Buffer to hold the full filename
     sprintf(filename, "%simage_%d.jpg", ACTIVE_TRIGGER_PHOTO_FILE_DIR, id); // Create full filename with directory
     result = request_take_photo(filename);                                  // Pass the full filename to the function

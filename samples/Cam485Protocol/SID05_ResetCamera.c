@@ -1,10 +1,16 @@
 /*重启摄像头*/
+#define LOG_TAG "[SID05_ResetCamera]"
+#include <string.h>
+#include <unistd.h>
+#include <stdbool.h>
+#include <stdlib.h>
 #include "cm_common.h"
-#include "stdbool.h"
+#include "MsgDispatcher.h"
 #include "SID05_ResetCamera.h"
 #include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
 
+#include "elog.h"
 
 
 int SID05_ResetCameraCheck(const uint8_t *msg_buf, uint32_t msg_dlc)

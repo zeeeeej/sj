@@ -5,6 +5,8 @@
 #include "AttributeTable.h"
 #include "cm_config.h"
 #include "MsgDispatcher.h"
+#include "AttributeTable.h"
+#include "Cam485ProtocolCommon.h"
 int attribute_slave_address_set(const uint8_t* value, uint32_t value_len)
 {
     if (value == NULL || value_len != 1) {

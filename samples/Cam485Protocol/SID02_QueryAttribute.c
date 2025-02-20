@@ -1,12 +1,14 @@
 /*查询属性*/
+#define LOG_TAG "[SID02_QueryAttribute]"
 #include "cm_common.h"
 
 #include "stdbool.h"
 #include "SID02_QueryAttribute.h"
 #include "Cam485ProtocolCommon.h"
 #include "AttributeTable.h"
+
 #include "elog.h"
-#define LOG_TAG "[SID02_QueryAttribute]"
+
 
 // 定义错误码
 #define ERR_SUCCESS 0

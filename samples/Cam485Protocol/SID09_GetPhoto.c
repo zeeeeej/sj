@@ -1,3 +1,4 @@
+#define LOG_TAG "[SID09->GET PHOTO]"
 #include "stdio.h"
 #include "malloc.h"
 #include <string.h>  // 包含 strerror 声明
@@ -15,7 +16,7 @@
 #define IMG_BUFFER_SIZE (8000)
 #define RESP_BUF_SIZE (IMG_BUFFER_SIZE + 50)
 
-#define TAG_NAME "[SID09->GET PHOTO]"
+
 static char resp_buf[RESP_BUF_SIZE];
 static char img_data_buf[IMG_BUFFER_SIZE];
 static int send_count = 0;

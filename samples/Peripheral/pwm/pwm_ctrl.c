@@ -1,3 +1,4 @@
+#define LOG_TAG "[PWM_CTRL]"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,13 +8,14 @@
 #include <sys/types.h>       // 用于基本系统数据类型
 #include <sys/stat.h>        // 用于文件状态相关定义
 #include "elog.h"
+#include "cm_config.h"
 #define CONFIG_FILE "/system/etc/cm_config.ini"
 
 // PWM配置结构体
 typedef struct {
-    int gpio_pin;
-    int duty_cycle;
-    int frequency;
+    uint8_t gpio_pin;
+    uint8_t duty_cycle;
+    uint32_t frequency;
     pthread_mutex_t lock;
     pthread_t thread_id;
 } PWMConfig;
@@ -22,32 +24,32 @@ typedef struct {
 static PWMConfig global_pwm_config;
 
 // 从ini文件获取配置值的函数
-static char* get_config_value(const char* section, const char* key) {
-    static char value[256];
-    char line[256];
-    FILE* file = fopen(CONFIG_FILE, "r");
-    if (!file) {
-        perror("Unable to open config file");
-        return NULL;
-    }
+// static char* get_config_value(const char* section, const char* key) {
+//     static char value[256];
+//     char line[256];
+//     FILE* file = fopen(CONFIG_FILE, "r");
+//     if (!file) {
+//         perror("Unable to open config file");
+//         return NULL;
+//     }
 
-    int in_section = 0;
-    while (fgets(line, sizeof(line), file)) {
-        if (line[0] == '[') {
-            in_section = (strncmp(line, section, strlen(section)) == 0);
-        } else if (in_section && strstr(line, key)) {
-            char* pos = strchr(line, '=');
-            if (pos) {
-                strcpy(value, pos + 1);
-                value[strcspn(value, "\n")] = '\0'; // 去除换行符
-                fclose(file);
-                return value;
-            }
-        }
-    }
-    fclose(file);
-    return NULL;
-}
+//     int in_section = 0;
+//     while (fgets(line, sizeof(line), file)) {
+//         if (line[0] == '[') {
+//             in_section = (strncmp(line, section, strlen(section)) == 0);
+//         } else if (in_section && strstr(line, key)) {
+//             char* pos = strchr(line, '=');
+//             if (pos) {
+//                 strcpy(value, pos + 1);
+//                 value[strcspn(value, "\n")] = '\0'; // 去除换行符
+//                 fclose(file);
+//                 return value;
+//             }
+//         }
+//     }
+//     fclose(file);
+//     return NULL;
+// }
 
 // 模拟PWM的线程函数
 void* pwm_thread(void* arg) {

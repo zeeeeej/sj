@@ -1,4 +1,5 @@
-/*主动拍照*/
+/*门开关信号*/
+#define LOG_TAG "[SID0D_DoorOpenOrCloseSignal]"
 #include "cm_common.h"
 
 #include "stdbool.h"
@@ -7,7 +8,12 @@
 #include "ImageInfoList.h"
 #include "MsgDispatcher.h"
 
-#define LOG_TAG "[SID0D_DoorOpenOrCloseSignal]"
+
+#include "elog.h"
+
+#define DOOR_CLOSED 0
+#define DOOR_OPENED 1
+
 int SID0D_DoorOpenOrCloseSignalCheck(const uint8_t *msg_buf, uint32_t msg_dlc)
 {
     int ret = 0;

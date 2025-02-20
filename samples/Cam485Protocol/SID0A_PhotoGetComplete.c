@@ -4,7 +4,7 @@
 #include "SID0A_PhotoGetComplete.h"
 #include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
-
+#include "MsgDispatcher.h"
 
 int SID0A_PhotoGetCompleteCheck(const uint8_t *msg_buf, uint32_t msg_dlc)
 {
@@ -20,7 +20,7 @@ int SID0A_PhotoGetCompleteCheck(const uint8_t *msg_buf, uint32_t msg_dlc)
 static int SID0A_BuildMsgHeader(uint8_t *msg_buf, uint32_t msg_dlc)
 {
     uint8_t slave_address;
-    get_slave_address(&slave_address);
+    Get_Protocol_Slave_Address(&slave_address);
     int index = 0;
     msg_buf[index++] = 0xAA;
     msg_buf[index++] = 0x5A;

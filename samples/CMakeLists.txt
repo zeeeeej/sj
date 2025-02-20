@@ -7,6 +7,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Map=output.map")
 
+# 添加编译器警告选项
+# if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+#     add_compile_options(-Wall)
+# endif()
+
+# # 添加ASan编译器选项
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
+
 set (3dparty_DIR ${CMAKE_SOURCE_DIR}/../libs)
 set (SRC_DIR ${CMAKE_SOURCE_DIR}/../src)
 
@@ -84,9 +94,6 @@ add_executable(sample_camera_rst
     sample_camera_rst.c
 )
 
-add_executable(set_baud_rate
-    set_baud_rate.c
-)
 
 target_link_libraries(sample_camera_rst utils_lib door_detect_lib  Peripheral_lib self_check_lib Cam485Protocol_lib)
 target_include_directories(sample_camera_rst PRIVATE ${COMMON_INCLUDE_DIRS})

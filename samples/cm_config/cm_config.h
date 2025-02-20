@@ -26,6 +26,12 @@ int Set_Gyroscope_Capture_image_direction(uint8_t direction);
 /*陀螺仪使能*/
 int Get_Gyroscope_Enable_Status(uint8_t *Enable_Status);
 int Set_Gyroscope_Enable_Status(uint8_t Enable_Status);
+/*陀螺仪抓图角度*/
+int Get_Gyroscope_Capture_image_angle(uint8_t *angleA, uint8_t *angleB);
+int Set_Gyroscope_Capture_image_angle(uint8_t angleA, uint8_t angleB);
+/*陀螺仪抓图最多存储数量*/
+int Set_Gyroscope_Image_Save_Count(uint8_t SaveCount);
+int Get_Gyroscope_Image_Save_Count(uint8_t *SaveCount);
 /*从机地址*/
 int Set_g_slave_address(uint8_t slave_address);
 int Get_g_slave_address(uint8_t *slave_address);

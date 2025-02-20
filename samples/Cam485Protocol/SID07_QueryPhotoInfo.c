@@ -6,10 +6,11 @@
 #include "ImageInfoList.h"
 #include "cm_common.h"
 #include "elog.h"
+#include "MsgDispatcher.h"
 
-#include "stdbool.h"
-#include "string.h"
-
+#include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
 
 #define TAG_NAME  "[SID07->QUERY PHOTO]"
 static int SID07_BuildMsgHeader(uint8_t *msg_buf, uint32_t msg_dlc)
@@ -42,7 +43,7 @@ int SID07_QueryPhotoInfo(uint8_t *msg_buf, uint32_t msg_dlc)
 
 
     /*info缓冲区*/
-    uint8_t* image_info_buf;
+    BufferedDataNode* image_info_buf;
     /*image info的个数*/
     uint8_t image_info_count;
     image_info_buf = copy_both_lists_to_buffer(&image_info_count);
@@ -50,7 +51,6 @@ int SID07_QueryPhotoInfo(uint8_t *msg_buf, uint32_t msg_dlc)
     uint32_t image_info_buf_len = image_info_count*sizeof(BufferedDataNode);
     log_i("total pic info count : %d",image_info_count);
     // log_d("image info buf total len : %d",image_info_buf_len);
-
 
     printAllListlist();
     /*8header + data(info+info_num) + 2crc*/

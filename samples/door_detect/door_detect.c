@@ -1,3 +1,4 @@
+#define LOG_TAG "[DOOE_DETECT]"
 #include "stdint.h"
 #include <stdio.h>
 #include <sys/types.h>
@@ -16,8 +17,9 @@
 #include "mpu_ctrl.h"
 #include "circular_log.h"
 #include "ImageInfoList.h"
-#include "elog.h"
+#include "Cam485ProtocolCommon.h"
 #include "AttributeTable.h"
+#include "cm_config.h"
 // 当次开门缓存下来的信息
 typedef struct
 {
@@ -91,18 +93,30 @@ static char debug_flag = 0;
 static float debug_reference_ang = 0.0;
 static volatile int debug_print_enabled = 1; // 0: 不打印，1: 打印
 
+/*动态拍照*/
 static float min_capture_angle = 55.0f;
 static float max_capture_angle = 65.0f;
 static char door_status = 0;
-static uint8_t gyroscope_enable_status = 0;
-static uint8_t capture_direction = 0;
 
-static CMConfig cm_config_local[100];
+/*配置信息*/
+static uint8_t gyroscope_enable_status = 0;
+static uint8_t gyroscope_capture_direction = 0;
+static uint8_t gyroscope_capture_angle = 0;     /*静态拍照*/
+
+/*默认配置*/
+#define GYROSCOPE_ENABLE_STATUS 1
+#define GYROSCOPE_CAPTURE_DIRECTION 0   /*0:逆时针，1:顺时针*/
+#define GYROSCOPE_CAPTURE_ANGLE 60      /*开门角度*/
+
+/*编译选项*/
+#define DYNAMIC_CAPTURE_ENABLE 0     /*0:静态拍照，1:动态拍照*/
+
+
 static DoorDetect s_door;
 static door_act_e debug_action = DOOR_IDLE;
 static int debug_state = STAT_IDLE;
 static hmi_srv_t hmi_srv;
-#define LOG_TAG "[DOOE_DETECT]"
+
 #define CM_CONFIG_FILE "/system/etc/cm_config.ini"
 
 #define DOOR_ERR_SUCCESS     0
@@ -332,7 +346,7 @@ void door_status_detect(float yaw, char flag, float capture_angle)
     diff_yaw = yaw - last_yaw;
     angle = yaw - reference_yaw; // 实时角度
 
-    if (capture_direction == 1)
+    if (gyroscope_capture_direction == 1)
     {
         angle = angle * (-1);
     }
@@ -402,7 +416,8 @@ void door_status_detect(float yaw, char flag, float capture_angle)
 
         door_status = 1;
         max_angle = max_angle < angle ? angle : max_angle;
-
+#if DYNAMIC_CAPTURE_ENABLE
+/*动态拍照:在最低阈值和最高阈值取一张*/
         if ((angle > min_capture_angle) && (angle < max_capture_angle)) // 拍照
         {
             if (door_status_flag == 0)
@@ -418,7 +433,21 @@ void door_status_detect(float yaw, char flag, float capture_angle)
                 image_cache();
             }
         }
-
+#else
+/*静态拍照：大于角度阈值只拍一张图*/
+        if (angle > gyroscope_capture_angle)
+        {
+            if(take_photo_on == 0)
+            {
+                s_door.image_seq = get_image_seq();
+                take_photo_on = 1;
+                // s_door.max_angle = angle;
+                s_door.angle_current_valid = angle;
+                image_cache();
+            }
+            
+        }
+#endif
         ret = door_close_detect(angle, diff_yaw, open_door_time);
         if (ret != 0)
         {
@@ -427,6 +456,7 @@ void door_status_detect(float yaw, char flag, float capture_angle)
             s_door.max_angle = 0;
             hmi_srv.door_status = STAT_CLOSE;
             max_angle = 0;
+            take_photo_on = 0;
             /*切换回第一次进入开门标志*/
             door_status_flag = 0;
             log_i("door status detect [ACTION -> CLOSE]");
@@ -530,14 +560,44 @@ static int get_door_config()
     ret = Get_Gyroscope_Enable_Status(&gyroscope_enable_status);
     if(ret != 0)
     {
+        log_w("get gyroscope enable status fail , use default value : %d",GYROSCOPE_ENABLE_STATUS);
         /*获取陀螺仪开启状态失败，使用默认值*/
-        gyroscope_enable_status = 1;/*设置为开启*/
+        gyroscope_enable_status = GYROSCOPE_ENABLE_STATUS;/*设置为开启*/
     }
-    ret = Get_Gyroscope_Capture_image_direction(&capture_direction);
+    ret = Get_Gyroscope_Capture_image_direction(&gyroscope_capture_direction);
     if(ret != 0)
     {
-        capture_direction = 0;/*设置为默认逆时针抓图*/
+        log_w("get gyroscope capture image direction fail , use default value : %d",GYROSCOPE_CAPTURE_DIRECTION);
+        gyroscope_capture_direction = GYROSCOPE_CAPTURE_DIRECTION;/*设置为默认逆时针抓图*/
     }
+    uint8_t angle_valid = 0;
+    uint8_t angle_a = 0;
+    uint8_t angle_b = 0;    
+    ret = Get_Gyroscope_Capture_image_angle(&angle_a, &angle_b);
+    if(ret != 0)
+    {
+        log_w("get gyroscope capture image angle fail , use default value : %d",GYROSCOPE_CAPTURE_ANGLE);
+        gyroscope_capture_angle = GYROSCOPE_CAPTURE_ANGLE;/*设置为默认开门角度*/
+    }
+    else
+    {
+        if(angle_a!=0)
+        {
+
+            gyroscope_capture_angle = angle_a;
+        }
+        else if(angle_b!=0)
+        {
+            gyroscope_capture_angle = angle_b;
+        }
+        else
+        {
+            /*都为0则使用默认值*/
+            gyroscope_capture_angle = GYROSCOPE_CAPTURE_ANGLE;
+        }
+        log_i("get gyroscope capture image angle success , angle : %d",gyroscope_capture_angle);
+    }
+
     return ret;
 }
 
@@ -635,8 +695,14 @@ char get_door_status()
 }
 
 
-int set_capture_direction(uint8_t capture_direction)
+int set_gyroscope_capture_direction(uint8_t capture_direction)
 {
-    capture_direction = capture_direction;
+    gyroscope_capture_direction = capture_direction;
+    return 0;
+}
+
+int set_gyroscope_capture_angle(uint8_t capture_angle)
+{
+    gyroscope_capture_angle = capture_angle;
     return 0;
 }

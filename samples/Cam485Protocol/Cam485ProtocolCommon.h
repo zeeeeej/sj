@@ -13,13 +13,9 @@
 #define ACTIVE_TRIGGER_TYPE 0x01
 #define GYRO_TRIGGER_TYPE 0x00
 #define TRIGGER_TYPE_UNKNOWN -1
-#define SLAVE_ADDR_DEFAULT 0x01
+// #define SLAVE_ADDR_DEFAULT 0x01
 
-typedef enum
-{
-    DOOR_CLOSED, // 门关闭状态
-    DOOR_OPEN    // 门打开状态
-} door_state_t;
+
 
 
 uint8_t get_image_seq();

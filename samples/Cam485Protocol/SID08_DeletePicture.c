@@ -1,10 +1,11 @@
+#define LOG_TAG   "[SID08->delete photo]"
 #include "SID08_DeletePicture.h"
 #include "Cam485ProtocolCommon.h"
 #include "elog.h"
+#include "MsgDispatcher.h"
 
 
 
-#define LOG_TAG   "[SID08->delete photo]"
 static int checkDeletePhoto(const uint8_t *msg_buf, uint32_t msg_len)
 {
     if (msg_buf == NULL || msg_len < 8) 

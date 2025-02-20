@@ -1,12 +1,13 @@
+#define LOG_TAG "[SID03_SetAttribute]"
 #include "cm_common.h"
 #include "stdbool.h"
 #include "SID03_SetAttribute.h"
 #include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
-#include "elog.h"
-#include "AttributeTable.h"
-#define LOG_TAG "[SID03_SetAttribute]"
 
+#include "AttributeTable.h"
+
+#include "elog.h"
 
 
 

@@ -4,7 +4,7 @@
 #include <pthread.h>
 #include <limits.h>
 
-#define PATH_MAX 1024
+#define DATA_NODE_PATH_MAX 255
 
 // 定义结构体
 typedef struct {
@@ -14,7 +14,7 @@ typedef struct {
     unsigned int capture_time;
     unsigned int image_length;
     unsigned char md5[33];
-    char file_path[PATH_MAX]; // 存储文件路径
+    char file_path[DATA_NODE_PATH_MAX]; // 存储文件路径
 } DataNode;
 
 typedef struct __attribute__((packed)) {
@@ -73,7 +73,7 @@ DataNode* getNodeById(struct ThreadSafeList* list, unsigned char id);
 // 根据文件路径生成图片信息
 void generate_image_info(char *image_path);
 
-BufferedDataNode* copy_both_lists_to_buffer(size_t *buffer_size);
+BufferedDataNode* copy_both_lists_to_buffer(uint8_t *buffer_size);
 
 int find_file_path_by_id(unsigned char id, char *file_path);
 

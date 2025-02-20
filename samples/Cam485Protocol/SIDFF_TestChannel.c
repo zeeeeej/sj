@@ -1,11 +1,14 @@
 /*测试用*/
-
+#define LOG_TAG "[SIDFF_TestChannel]"
 #include "SID01_Heartbeat.h"
 #include "cm_common.h"
 #include <stdint.h>
 #include "MsgDispatcher.h"
+#include "Cam485ProtocolCommon.h"
+
+
 #include "elog.h"
-#define LOG_TAG "[SIDFF_TestChannel]"
+
 int SIDFF_TestChannel(uint8_t *msg_buf, uint32_t msg_dlc)
 {
     uint8_t slave_address;

@@ -4,7 +4,7 @@
 #include "elog.h"
 #include "AttributeTable.h"
 #include "cm_config.h"
-
+#include "door_detect.h"
 int attribute_gyro_direction_set(const uint8_t* value, uint32_t value_len)
 {   
     if (value == NULL || value_len != 1) {
@@ -19,14 +19,13 @@ int attribute_gyro_direction_set(const uint8_t* value, uint32_t value_len)
     else
     {
         /*设置陀螺仪抓图方向*/
-        set_capture_direction(value[0]);
+        set_gyroscope_capture_direction(value[0]);
     }
     return SendSetAttributeResp(0x0B,result);
 }
 
 int attribute_gyro_direction_get()
 {
-
     uint8_t result = 0;
     log_i("Get Gyroscope capture direction");
     uint8_t direction;

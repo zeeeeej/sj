@@ -1,10 +1,10 @@
 #include "yq_mpu.h"
-#include "elog.h"
+
 #include <pthread.h>
 #include <string.h>
 
 #define LOG_TAG "[GYRO_CTRL]"
-
+#include "elog.h"
 // 错误码定义
 #define GYRO_OK             0
 #define GYRO_ERR_NULLPTR   -1

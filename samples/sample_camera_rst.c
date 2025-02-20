@@ -125,8 +125,7 @@ int main(int argc, char *argv[])
     /*485协议初始化*/
     Protocol_Init();
     /*门开关检测初始化*/
-    door_init();
-    // door_detect_init();
+    door_detect_init();
     
     while (!b_exited)
     {

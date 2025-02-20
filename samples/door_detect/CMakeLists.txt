@@ -6,4 +6,5 @@ add_library(door_detect_lib STATIC
 target_include_directories(door_detect_lib PUBLIC ${CMAKE_SOURCE_DIR}/Peripheral/mpu
     ${CMAKE_SOURCE_DIR}/log/include
     ${CMAKE_SOURCE_DIR}/Cam485Protocol/AttributeSetQuery
+    ${CMAKE_SOURCE_DIR}/Peripheral/mpu
 )

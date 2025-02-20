@@ -1,5 +1,6 @@
-
+#define LOG_TAG  "IMAGE-LIST"
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -13,7 +14,7 @@
 #include "elog.h"
 #include "AttributeTable.h"
 #include "cm_common.h"
-#define LOG_TAG  "IMAGE-LIST"
+void deleteNodeByFilePath(ThreadSafeList *list, const char *file_path);
 static ThreadSafeList* gyroscopeTriggerList = NULL;
 static ThreadSafeList* activeTriggerList    = NULL;
 
@@ -201,33 +202,31 @@ int remove_list_node(ThreadSafeList* list, DataNode* node) {
  * @param buffer_size 输出缓冲区大小（以元素为单位）
  * @return 分配并填充好的缓冲区，或 NULL 表示失败
  */
-BufferedDataNode* copy_both_lists_to_buffer(size_t *buffer_size) {
+BufferedDataNode* copy_both_lists_to_buffer(uint8_t *buffer_size) {
     // 初始化计数器和缓冲区
     size_t gyro_count = 0;
     size_t active_count = 0;
+
+    // 调用原有的 copy_list_to_buffer 函数
     BufferedDataNode *gyro_buffer = copy_list_to_buffer(gyroscopeTriggerList, &gyro_count);
     BufferedDataNode *active_buffer = copy_list_to_buffer(activeTriggerList, &active_count);
 
     if (gyro_buffer == NULL && active_buffer == NULL) {
-        *buffer_size = 0;
+        *buffer_size = 0;  // 使用 uint8_t 类型的指针
         return NULL;
     }
 
-    if(gyro_buffer == NULL)
-    {
+    if (gyro_buffer == NULL) {
         log_w("gyro list is empty or not init");
-    }
-    else if(active_buffer == NULL)
-    {
+    } else if (active_buffer == NULL) {
         log_w("act list is empty or not init");
-    }   
+    }
 
-    log_i("gyr image info count : %d",gyro_count);
-    log_i("act image info count : %d",active_count);
-
+    log_i("gyr image info count : %d", gyro_count);
+    log_i("act image info count : %d", active_count);
 
     // 计算总大小并分配最终缓冲区
-    *buffer_size = gyro_count + active_count;
+    *buffer_size = (uint8_t)(gyro_count + active_count);  // 确保转换为 uint8_t
     BufferedDataNode *combined_buffer = (BufferedDataNode *)malloc(*buffer_size * sizeof(BufferedDataNode));
     if (combined_buffer == NULL) {
         free(gyro_buffer);
@@ -519,8 +518,8 @@ static int find_in_list(ThreadSafeList *list, unsigned char id, char *file_path)
     ListNode *current = list->head;
     while (current != NULL) {
         if (current->data.id == id) {
-            strncpy(file_path, current->data.file_path, PATH_MAX);
-            file_path[PATH_MAX - 1] = '\0'; // 确保字符串以null结尾
+            strncpy(file_path, current->data.file_path, DATA_NODE_PATH_MAX);
+            file_path[DATA_NODE_PATH_MAX - 1] = '\0'; // 确保字符串以null结尾
             pthread_mutex_unlock(&list->lock);
             return 0;
         }
@@ -571,7 +570,7 @@ int find_file_path_by_id(unsigned char id, char *file_path) {
  * @return 成功返回0，失败返回-1
  */
 int parse_filename(const char *filepath, unsigned char *trigger_type, unsigned char *id, unsigned char *angle) {
-    char full_path[PATH_MAX];
+    char full_path[DATA_NODE_PATH_MAX];
     strncpy(full_path, filepath, sizeof(full_path) - 1);
     full_path[sizeof(full_path) - 1] = '\0';
 
@@ -670,8 +669,8 @@ void generate_image_info(char *image_path) {
         .image_length = image_length,
     };
     memcpy(data.md5, md5, sizeof(md5));
-    strncpy(data.file_path, image_path, PATH_MAX - 1);
-    data.file_path[PATH_MAX - 1] = '\0'; // 确保字符串结束
+    strncpy(data.file_path, image_path, DATA_NODE_PATH_MAX - 1);
+    data.file_path[DATA_NODE_PATH_MAX - 1] = '\0'; // 确保字符串结束
     // 根据触发类型决定添加到哪个链表
     if (trigger_type ==GYRO_TRIGGER_TYPE ) 
     {

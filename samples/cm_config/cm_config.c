@@ -1,7 +1,12 @@
+#define TAG_NAME  "[CM_CONFIG]"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "cm_config.h"
 #include "elog.h"
 #include <errno.h>
-#define TAG_NAME  "[CM_CONFIG]"
+
 
 CameraSizeConfig camera_size_config = {
     .width = 1920,
@@ -103,6 +108,57 @@ int Get_Gyroscope_Enable_Status(uint8_t *Enable_Status)
         return -1;
     }
 }
+
+/*设置陀螺仪抓图角度*/
+int Set_Gyroscope_Capture_image_angle(uint8_t angleA, uint8_t angleB)
+{
+    log_i("Set Gyroscope Capture image angle: %d, %d", angleA, angleB);
+    char buffer[16];  
+    snprintf(buffer, sizeof(buffer), "%d", angleA); 
+    if (save_to_config("Gyroscope", "CaptureAngleA", buffer) != 0) {
+        log_e("Failed to save CaptureAngle to config");
+        return -1;
+    }
+    snprintf(buffer, sizeof(buffer), "%d", angleB); 
+    if (save_to_config("Gyroscope", "CaptureAngleB", buffer) != 0) {
+        log_e("Failed to save CaptureAngle to config");
+        return -1;
+    }
+    if (write_ini() != 0) {
+        log_e("Failed to write config to file");
+        return -1;
+    }
+    return 0;
+}
+
+/*获取陀螺仪抓图角度*/
+int Get_Gyroscope_Capture_image_angle(uint8_t *angleA , uint8_t *angleB)
+{
+    const char *value = get_config_value("Gyroscope", "CaptureAngleA");
+    if (value != NULL && strcmp(value, "NULL") != 0) {
+        *angleA = atoi(value);
+        log_i("Get Gyroscope Capture image angleA: %d", *angleA);
+    }
+    else
+    {
+        log_e("CaptureAngleA value is NULL!");
+        return -1;
+    }
+    value = get_config_value("Gyroscope", "CaptureAngleB");
+    if (value != NULL && strcmp(value, "NULL") != 0) {
+        *angleB = atoi(value);
+        log_i("Get Gyroscope Capture image angleB: %d", *angleB);
+        return 0;
+    }
+    else
+    {
+        log_e("CaptureAngleB value is NULL!");
+        return -1;
+    }
+}
+
+
+
 
 /*设置陀螺仪抓图最多存储数量*/
 int Set_Gyroscope_Image_Save_Count(uint8_t SaveCount)

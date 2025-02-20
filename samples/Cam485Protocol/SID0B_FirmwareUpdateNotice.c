@@ -5,7 +5,7 @@
 #include <limits.h>  // 包含 PATH_MAX 定义
 /*固件升级通知*/
 #include "cm_common.h"
-
+#include "MsgDispatcher.h"
 #include "stdbool.h"
 #include "SID0B_FirmwareUpdateNotice.h"
 #include "Cam485ProtocolCommon.h"

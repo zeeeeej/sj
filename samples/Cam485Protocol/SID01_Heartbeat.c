@@ -1,8 +1,12 @@
+#define LOG_TAG "[SID01_Heartbeat]"
 #include "SID01_Heartbeat.h"
 #include "cm_common.h"
 #include <stdint.h>
 #include "MsgDispatcher.h"
+#include "Cam485ProtocolCommon.h"
 
+
+#include "elog.h"
 
 int SID01_HeartBeat(uint8_t *msg_buf, uint32_t msg_dlc)
 {

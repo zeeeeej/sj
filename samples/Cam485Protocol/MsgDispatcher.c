@@ -1,3 +1,4 @@
+#define LOG_TAG  "[MsgDispatcher]"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -8,10 +9,11 @@
 #include "CommonMsgTable.h"
 #include "MsgDispatcher.h"
 #include "cm_common.h"
+#include "cm_config.h"
 #include "elog.h"
 #include "MsgDispatherPort.h"
 #define MSG_BUF_SIZE (MAX_RECV_MSG_LEN)
-#define LOG_TAG  "[MsgDispatcher]"
+
 typedef struct MsgNode {
     uint8_t *msg;
     uint32_t len;

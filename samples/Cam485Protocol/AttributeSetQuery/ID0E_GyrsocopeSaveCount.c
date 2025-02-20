@@ -1,9 +1,12 @@
+#define LOG_TAG "[ID0E_GyrsocopeSaveCount]"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "elog.h"
 #include "AttributeTable.h" 
-
+#include "MsgDispatcher.h"
+#include "Cam485ProtocolCommon.h"
+#include "cm_config.h"
 
 int attribute_gyro_store_picture_set(const uint8_t* value, uint32_t value_len)
 {
