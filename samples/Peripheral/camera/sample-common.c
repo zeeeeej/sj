@@ -32,9 +32,9 @@
 /*默认配置*/
 #define DEFAULT_LUMINANCE 128
 #define DEFAULT_COMPRESSIBILITY 99	/*压缩率 1-99*/
-#define DEFAULT_WIDTH 1920
-#define DEFAULT_HEIGHT 1080
-#define DEFAULE_IMAGE_ROTATE 0  /*0:不旋转, 1:旋转90度*/
+#define DEFAULT_WIDTH 1920		/*保证64位对齐*/
+#define DEFAULT_HEIGHT 1088		/*保证64位对齐*/
+#define DEFAULE_IMAGE_ROTATE 1  /*0:不旋转, 1:旋转90度*/
 
 
 
@@ -513,7 +513,6 @@ static void set_chennel_width_height(uint16_t width, uint16_t height)
 int wind_sample_framesource_init()
 {
 	int i, ret;
-
 	/*加载宽高属性*/
 	uint16_t width = 0;
 	uint16_t height = 0;
@@ -524,6 +523,30 @@ int wind_sample_framesource_init()
 		width = DEFAULT_WIDTH;
 		height = DEFAULT_HEIGHT;
 	}
+    // 检查宽度是否能被64整除，如果不能则调整
+    if (width % 64 != 0) {
+        width += (64 - (width % 64)); // 向上调整到下一个64的倍数
+        IMP_LOG_WARN(TAG, "width %d is not 64's multiple, adjust to %d\n", width - (64 - (width % 64)), width);
+    }
+
+    // 检查高度是否能被64整除，如果不能则调整
+    if (height % 64 != 0) {
+        height += (64 - (height % 64)); // 向上调整到下一个64的倍数
+        IMP_LOG_WARN(TAG, "height %d is not 64's multiple, adjust to %d\n", height - (64 - (height % 64)), height);
+    }
+
+	IMP_LOG_INFO(TAG, "width = %d, height = %d\n", width, height);
+
+	/*设置图片旋转*/
+#if DEFAULE_IMAGE_ROTATE
+	ret = IMP_FrameSource_SetChnRotate(0, 1, width, height);
+	if (ret) {
+		IMP_LOG_ERR(TAG, "IMP_FrameSource_SetChnRotate error !\n");
+	} else {
+		IMP_LOG_INFO(TAG, "IMP_FrameSource_SetChnRotate(%d-%d-%d-%d) is success!\n", 0, 1, height, width);
+	}
+#endif
+
 	/*只使用通道1 , 设置其宽高属性*/
 	set_chennel_width_height(width, height);
 
@@ -583,25 +606,11 @@ int wind_sample_jpeg_init()
 			enc_attr->picWidth = imp_chn_attr_tmp->picWidth;
 			enc_attr->picHeight = imp_chn_attr_tmp->picHeight;
 			
-			// imp_chn_attr_tmp->picHeight;
-
-			// if(cemare_crop_width == SENSOR_WIDTH && cemare_crop_height == SENSOR_HEIGHT) 
-			// {
-			// 	// //再重新获取一次
-			// 	CameraSizeConfig size = Get_Camera_config();
-			// 	enc_attr->picWidth = size.width;
-			// 	enc_attr->picHeight = size.height;
-
-			// 	IMP_LOG_ERR(TAG, "[INFO][Line:552][wind_sample_jpeg_init] Reset ImageSize\n");
-			
-			// } 
-			// else 
-			// {
-			// 	enc_attr->picWidth = cemare_crop_width;
-			// 	enc_attr->picHeight = cemare_crop_height;
-			// }
-			// IMP_LOG_ERR(TAG, "[INFO][Line:563][wind_sample_jpeg_init] crop_width:%d crop_height:%d\n",
-			// 	enc_attr->picWidth, enc_attr->picHeight);
+/*如果图片旋转，则交换宽高属性*/
+#if DEFAULE_IMAGE_ROTATE
+			enc_attr->picWidth = imp_chn_attr_tmp->picHeight;
+			enc_attr->picHeight = imp_chn_attr_tmp->picWidth;
+#endif
 
 			/* Create Channel */
 			if(direct_switch == 1) {
@@ -624,7 +633,8 @@ int wind_sample_jpeg_init()
 			}
 		}
 	}
-	/*设置压缩率*/
+
+	/*设置jpeg压缩率*/
 	IMPEncoderJpegeQl pstJpegeQl;
 	uint8_t compression = 0;
 	ret = Get_compressibility(&compression);
@@ -1404,37 +1414,6 @@ int wind_sample_get_Luminance()
 {
 
     return uvc_pu_brightness_get(0);
-}
-
-int wind_sample_rotate_clockwise(int video_index)
-{
-
-    // int ret = 0;
-    // int chn_index = ((video_index < 1) ? UVC_VIDEO_CH : UVC2_VIDEO_CH);
-
-	// CameraSizeConfig size = Get_Camera_config();  
-	// if((size.width % 8 != 0) && (size.height % 8 != 0))
-	// {
-	// 	IMP_LOG_ERR("Picturte size isn't 64, video_index = %d, res [%d x %d]!\n", video_index, size.width, size.height);
-	// 	return -1;
-	// }	
-	// sleep(1);
-	// sleep(1);
-    int ret = 0;
-    ret = IMP_FrameSource_SetChnRotate(0, 2, 640, 480);
-	sleep(1);
-    if (ret) 
-	{
-        IMP_LOG_ERR(TAG,"IMP_FrameSource_SetChnRotate error %d!\n",ret);
-    } 
-	else 
-	{
-        IMP_LOG_INFO(TAG,"IMP_FrameSource_SetChnRotate(%d-%d-%d-%d) is success!\n", 0, 2, 640, 480);
-    }
-    // 图像重置（调整分辨率，旋转后宽高交换）
-    //imp_isp_scaler(video_index, size.height, size.width);
-
-    return 0;
 }
 
 int wind_sample_set_luminance(int value)
