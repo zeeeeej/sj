@@ -196,8 +196,8 @@ int SID0C_SendFirmwareUpdatePacket(uint8_t *msg_buf, uint32_t msg_dlc)
  
             printf("update.....\n");
             usleep(1000*100);
-            system("cd /system ; /system/bin/xz -d  sample_camera_rst.xz ; chmod 777  sample_camera_rst ; \
-             cp sample_camera_rst bin -f ; rm sample_camera_rst;reboot ; cd -");
+            system("cp /system/sample_camera_rst.xz /tmp && rm /system/sample_camera_rst.xz ; cd /tmp ; /system/bin/xz -d  sample_camera_rst.xz ; chmod 777  sample_camera_rst ; \
+            mv sample_camera_rst  /system/bin ;  reboot ; cd -");
 
         }
     }

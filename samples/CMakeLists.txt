@@ -38,6 +38,9 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
 
+# 添加优化和调试信息选项^M
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g")
 # 在主CMakeLists.txt中定义全局包含目录变量
 set(COMMON_INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/door_detect
