@@ -15,7 +15,7 @@ typedef struct UpdatePacket{
 }UpdatePacketStruct;
 
 #define OTA_FILE_INFO_PATH "/system/md5.xml"
-#define OTA_FILE_PATH   "/system/sample_camera_rst.xz"
+#define OTA_FILE_PATH   "/tmp/sample_camera_rst.xz"
 
 void SID0BC_GetFirmwaveUpdateInfo(UpdatePacketStruct *pUpdatePacketInfo);
 #endif
