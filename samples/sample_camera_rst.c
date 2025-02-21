@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
     print_build_info();  // 新增编译信息打印
     // linux_cmd_init();
     log_i("startup [%s:%s] Version [%s]", __DATE__, __TIME__, version);
-    /*解析配置文件*/    /*解析配置文件*/
+    /*解析配置文件*/    
     parse_ini();
     generate_sn();
     /*写入版本信息到配置文件*/

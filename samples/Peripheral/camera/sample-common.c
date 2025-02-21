@@ -21,18 +21,27 @@
 #include <imp/imp_encoder.h>
 #include <imp/imp_isp.h>
 #include <imp/imp_osd.h>
-
 //#include "logodata_100x100_bgra.h"
-
 #include "sample-common.h"
-#include "cm_config.h"
+#include "imp/imp-common.h"
 
+
+#include "cm_config.h"
 #define TAG "Sample-Common"
+
+/*默认配置*/
+#define DEFAULT_LUMINANCE 128
+#define DEFAULT_COMPRESSIBILITY 99	/*压缩率 1-99*/
+#define DEFAULT_WIDTH 1920
+#define DEFAULT_HEIGHT 1080
+#define DEFAULE_IMAGE_ROTATE 0  /*0:不旋转, 1:旋转90度*/
+
+
 
 static const int S_RC_METHOD = ENC_RC_MODE_CBR;
 int direct_switch = 0;
 int gosd_enable = 0; /* 1: ipu osd, 2: isp osd, 3: ipu osd and isp osd */
-int Luminance = 0;
+static uint8_t Luminance = 0; /*亮度属性*/
 //#define SHOW_FRM_BITRATE
 #ifdef SHOW_FRM_BITRATE
 #define FRM_BIT_RATE_TIME 2
@@ -214,18 +223,18 @@ int wind_sample_system_init()
 {
 	int ret = 0;
 
-	/* isp osd and ipu osd buffer size set */
-	if(1 == gosd_enable) { /* only use ipu osd */
-		IMP_OSD_SetPoolSize(512*1024);
-	} else if(2 == gosd_enable) { /* only use isp osd */
-		IMP_ISP_Tuning_SetOsdPoolSize(512 * 1024);
-	}else if(3 == gosd_enable) { /* use ipu osd and isp osd */
-		IMP_OSD_SetPoolSize(512*1024);
-		IMP_ISP_Tuning_SetOsdPoolSize(512 * 1024);
-	} else {
-		IMP_OSD_SetPoolSize(512*1024);
-		IMP_ISP_Tuning_SetOsdPoolSize(512 * 1024);
-    }
+	// /* isp osd and ipu osd buffer size set */
+	// if(1 == gosd_enable) { /* only use ipu osd */
+	// 	IMP_OSD_SetPoolSize(512*1024);
+	// } else if(2 == gosd_enable) { /* only use isp osd */
+	// 	IMP_ISP_Tuning_SetOsdPoolSize(512 * 1024);
+	// }else if(3 == gosd_enable) { /* use ipu osd and isp osd */
+	// 	IMP_OSD_SetPoolSize(512*1024);
+	// 	IMP_ISP_Tuning_SetOsdPoolSize(512 * 1024);
+	// } else {
+	// 	IMP_OSD_SetPoolSize(512*1024);
+	// 	IMP_ISP_Tuning_SetOsdPoolSize(512 * 1024);
+    // }
 
 	memset(&sensor_info, 0, sizeof(IMPSensorInfo));
 	memcpy(sensor_info.name, SENSOR_NAME, sizeof(SENSOR_NAME));
@@ -287,15 +296,19 @@ int wind_sample_system_init()
 		return -1;
 	}
 	
-	if(Luminance == 0)
+	ret = Get_Luminance(&Luminance);
+	if(ret < 0)
 	{
-		Luminance = Get_Luminance();
-		IMP_LOG_ERR(TAG, "Luminance = %d\n", Luminance);
+		IMP_LOG_ERR(TAG, "Get_Luminance failed , use default value : %d\n", DEFAULT_LUMINANCE);
+		Luminance = DEFAULT_LUMINANCE;
 	}
+	IMP_LOG_ERR(TAG, "Luminance = %d\n", Luminance);
     IMP_ISP_Tuning_SetContrast(128);
     IMP_ISP_Tuning_SetSharpness(128);
     IMP_ISP_Tuning_SetSaturation(128);
     IMP_ISP_Tuning_SetBrightness(Luminance);
+
+
 #if 1
     ret = IMP_ISP_Tuning_SetISPRunningMode(IMPISP_RUNNING_MODE_DAY);
     if (ret < 0){
@@ -483,9 +496,37 @@ int wind_sample_get_frame()
 	return 0;
 }
 
+
+static void set_chennel_width_height(uint16_t width, uint16_t height)
+{
+	wind_chn[0].fs_chn_attr.picWidth = width;
+	wind_chn[0].fs_chn_attr.picHeight = height;
+
+	wind_chn[0].fs_chn_attr.crop.width = width;
+	wind_chn[0].fs_chn_attr.crop.height = height;
+
+	wind_chn[0].fs_chn_attr.scaler.outwidth = width;
+	wind_chn[0].fs_chn_attr.scaler.outheight = height;
+}
+
+
 int wind_sample_framesource_init()
 {
 	int i, ret;
+
+	/*加载宽高属性*/
+	uint16_t width = 0;
+	uint16_t height = 0;
+	ret = Get_Camera_config(&width, &height);
+	if (ret < 0)
+	{
+		IMP_LOG_ERR(TAG, "Get_Camera_config failed ret = [%d] , use default value : %d, %d\n", ret, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		width = DEFAULT_WIDTH;
+		height = DEFAULT_HEIGHT;
+	}
+	/*只使用通道1 , 设置其宽高属性*/
+	set_chennel_width_height(width, height);
+
 
 	for (i = 0; i < FS_CHN_NUM; i++) {
 		if (wind_chn[i].enable) {
@@ -539,28 +580,28 @@ int wind_sample_jpeg_init()
 			enc_attr->enType = PT_JPEG;
 			enc_attr->bufSize = 0;
 			enc_attr->profile = 0;
-			// enc_attr->picWidth = imp_chn_attr_tmp->picWidth;
-			// enc_attr->picHeight = imp_chn_attr_tmp->picHeight;
+			enc_attr->picWidth = imp_chn_attr_tmp->picWidth;
+			enc_attr->picHeight = imp_chn_attr_tmp->picHeight;
 			
-			
+			// imp_chn_attr_tmp->picHeight;
 
-			if(cemare_crop_width == SENSOR_WIDTH && cemare_crop_height == SENSOR_HEIGHT) 
-			{
-				// //再重新获取一次
-				CameraSizeConfig size = Get_Camera_config();
-				enc_attr->picWidth = size.width;
-				enc_attr->picHeight = size.height;
+			// if(cemare_crop_width == SENSOR_WIDTH && cemare_crop_height == SENSOR_HEIGHT) 
+			// {
+			// 	// //再重新获取一次
+			// 	CameraSizeConfig size = Get_Camera_config();
+			// 	enc_attr->picWidth = size.width;
+			// 	enc_attr->picHeight = size.height;
 
-				IMP_LOG_ERR(TAG, "[INFO][Line:552][wind_sample_jpeg_init] Reset ImageSize\n");
+			// 	IMP_LOG_ERR(TAG, "[INFO][Line:552][wind_sample_jpeg_init] Reset ImageSize\n");
 			
-			} 
-			else 
-			{
-				enc_attr->picWidth = cemare_crop_width;
-				enc_attr->picHeight = cemare_crop_height;
-			}
-			IMP_LOG_ERR(TAG, "[INFO][Line:563][wind_sample_jpeg_init] crop_width:%d crop_height:%d\n",
-				enc_attr->picWidth, enc_attr->picHeight);
+			// } 
+			// else 
+			// {
+			// 	enc_attr->picWidth = cemare_crop_width;
+			// 	enc_attr->picHeight = cemare_crop_height;
+			// }
+			// IMP_LOG_ERR(TAG, "[INFO][Line:563][wind_sample_jpeg_init] crop_width:%d crop_height:%d\n",
+			// 	enc_attr->picWidth, enc_attr->picHeight);
 
 			/* Create Channel */
 			if(direct_switch == 1) {
@@ -583,7 +624,25 @@ int wind_sample_jpeg_init()
 			}
 		}
 	}
-
+	/*设置压缩率*/
+	IMPEncoderJpegeQl pstJpegeQl;
+	uint8_t compression = 0;
+	ret = Get_compressibility(&compression);
+	if(ret < 0)
+	{
+		IMP_LOG_ERR(TAG, "Get_compressibility failed ret = [%d] use default value : %d\n", ret, DEFAULT_COMPRESSIBILITY);
+		compression = DEFAULT_COMPRESSIBILITY;
+	}
+	for (i = 0; i < FS_CHN_NUM; i++) 
+	{
+		if (wind_chn[i].enable) 
+		{
+			IMP_Encoder_GetJpegeQl(3+wind_chn[i].index, &pstJpegeQl);
+			wind_MakeTables(compression, &(pstJpegeQl.qmem_table[0]), &(pstJpegeQl.qmem_table[64]));
+			pstJpegeQl.user_ql_en = 1;
+			IMP_Encoder_SetJpegeQl(3+wind_chn[i].index, &pstJpegeQl);
+		}
+	}
 	return 0;
 }
 
@@ -1347,6 +1406,37 @@ int wind_sample_get_Luminance()
     return uvc_pu_brightness_get(0);
 }
 
+int wind_sample_rotate_clockwise(int video_index)
+{
+
+    // int ret = 0;
+    // int chn_index = ((video_index < 1) ? UVC_VIDEO_CH : UVC2_VIDEO_CH);
+
+	// CameraSizeConfig size = Get_Camera_config();  
+	// if((size.width % 8 != 0) && (size.height % 8 != 0))
+	// {
+	// 	IMP_LOG_ERR("Picturte size isn't 64, video_index = %d, res [%d x %d]!\n", video_index, size.width, size.height);
+	// 	return -1;
+	// }	
+	// sleep(1);
+	// sleep(1);
+    int ret = 0;
+    ret = IMP_FrameSource_SetChnRotate(0, 2, 640, 480);
+	sleep(1);
+    if (ret) 
+	{
+        IMP_LOG_ERR(TAG,"IMP_FrameSource_SetChnRotate error %d!\n",ret);
+    } 
+	else 
+	{
+        IMP_LOG_INFO(TAG,"IMP_FrameSource_SetChnRotate(%d-%d-%d-%d) is success!\n", 0, 2, 640, 480);
+    }
+    // 图像重置（调整分辨率，旋转后宽高交换）
+    //imp_isp_scaler(video_index, size.height, size.width);
+
+    return 0;
+}
+
 int wind_sample_set_luminance(int value)
 {
     return uvc_pu_brightness_set(0,value);
@@ -1384,6 +1474,11 @@ void wind_MakeTables(int q, uint8_t *lqt, uint8_t *cqt)
 		else if (cq > 255) cq = 255;
 		cqt[i] = cq;
 	}
+}
+
+void wind_sample_isp_scaler(int video_index, int width, int height)
+{
+	
 }
 
 int wind_sample_get_video_stream_byfd()

@@ -21,12 +21,16 @@ int attribute_compression_ratio_set(const uint8_t* value, uint32_t value_len)
 }
 int attribute_compression_ratio_get()
 {
+    int ret = 0;
     uint8_t result = 0;
-    result = Get_compressibility();
-    uint32_t valueLen = sizeof(result);
-    if(result < 0)
+    uint8_t compression = 0;
+    ret = Get_compressibility(&compression);
+    if(ret < 0)
     {
-        return SendGetAttributeResp(0x08, result, result,valueLen);
+        result = 1; 
     }
-    return SendGetAttributeResp(0x08, 0,&result,valueLen);
+    uint8_t GetValue[1];
+    GetValue[0] = compression;
+    uint32_t valueLen = sizeof(GetValue);
+    return SendGetAttributeResp(0x08, result, GetValue,valueLen);
 }

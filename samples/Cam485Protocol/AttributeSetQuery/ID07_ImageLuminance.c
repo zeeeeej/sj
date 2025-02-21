@@ -22,11 +22,14 @@ int attribute_picture_brightness_set(const uint8_t* value, uint32_t value_len)
 int attribute_picture_brightness_get()
 {
     uint8_t result = 0;
-    result = Get_Luminance();
-    uint32_t valueLen = sizeof(result);
-    if(result < 0)
+    uint8_t luminance = 0;
+    int ret = Get_Luminance(&luminance);
+    if(ret < 0)
     {
-        return SendGetAttributeResp(0x07, result, result,valueLen);
+        result = 1;
     }
-    return SendGetAttributeResp(0x07, 0, &result,valueLen);
+    uint8_t GetValue[1];
+    GetValue[0] = luminance;
+    uint32_t valueLen = sizeof(GetValue);
+    return SendGetAttributeResp(0x07, result, GetValue,valueLen);
 }

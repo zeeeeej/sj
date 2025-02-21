@@ -21,6 +21,9 @@ typedef struct {
 
 extern struct chn_conf wind_chn[];
 
+
+
+
 static int cm_video_ctrl_open(CMVideoContext *ctx, const char *dev)
 {
     int ret = wind_sample_system_init();
@@ -29,6 +32,9 @@ static int cm_video_ctrl_open(CMVideoContext *ctx, const char *dev)
         IMP_LOG_ERR(TAG, "system init failed ret = [%d]\n", ret);
         return -1;
     }
+
+
+
     ret = wind_sample_framesource_init();
     if (ret < 0)
     {
@@ -52,21 +58,6 @@ static int cm_video_ctrl_open(CMVideoContext *ctx, const char *dev)
 		IMP_LOG_ERR(TAG, "Encoder init failed ret = [%d]\n", ret);
 		return -4;
 	}
-
-	//创建压缩率
-	IMPEncoderJpegeQl pstJpegeQl;
-	int compression = Get_compressibility();
-	for (i = 0; i < FS_CHN_NUM; i++) 
-	{
-		if (wind_chn[i].enable) 
-		{
-			IMP_Encoder_GetJpegeQl(3+wind_chn[i].index, &pstJpegeQl);
-			wind_MakeTables(compression, &(pstJpegeQl.qmem_table[0]), &(pstJpegeQl.qmem_table[64]));
-			pstJpegeQl.user_ql_en = 1;
-			IMP_Encoder_SetJpegeQl(3+wind_chn[i].index, &pstJpegeQl);
-		}
-	}
-
 
     for (i = 0; i < FS_CHN_NUM; i++) {
 		if (wind_chn[i].enable) {

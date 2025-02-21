@@ -8,10 +8,7 @@
 #include <errno.h>
 
 
-CameraSizeConfig camera_size_config = {
-    .width = 1920,
-    .height = 1080
-};
+
 /*******************陀螺仪设置********************/
 /*获取抓图方向*/
 int Get_Gyroscope_Capture_image_direction(uint8_t *direction)
@@ -314,28 +311,55 @@ int Get_g_firmwareVersion(char *version_str, size_t max_len)
 }
 
 
-CameraSizeConfig Get_Camera_config()
+int Get_Camera_config(uint16_t *width, uint16_t *height)
 {
-    CameraSizeConfig config = {0, 0};  
+    // 检查输入参数
+    if (width == NULL || height == NULL) {
+        log_e("Invalid parameter: config pointer is NULL");
+        return -1;  // 失败
+    }
 
+    // 初始化配置
+    *width = 0;
+    *height = 0;
+
+    // 获取宽度
     const char* value = get_config_value("camera", "width");
-    log_i("width : %s\n", value);
-    if (value != "NULL") 
+    if (value != NULL && strcmp(value, "NULL") != 0) 
     {
-        config.width = atoi(value);
-        camera_size_config.width = atoi(value);
-        
+        char *endptr;
+        long temp_width = strtol(value, &endptr, 10);
+        if (*endptr == '\0' && temp_width >= 0 && temp_width <= UINT16_MAX) {
+            *width = (uint16_t)temp_width;  // 安全转换
+            log_i("Get width: %u", *width);
+        } else {
+            log_e("Invalid width value: %s", value);
+            return -1;  // 失败
+        }
+    } else {
+        log_e("Width value is NULL or invalid!");
+        return -1;  // 失败
     }
 
+    // 获取高度
     value = get_config_value("camera", "height");
-    log_i("height : %s\n", value);
-    if (value != "NULL") 
+    if (value != NULL && strcmp(value, "NULL") != 0) 
     {
-        config.height = atoi(value);
-        camera_size_config.height = atoi(value); 
+        char *endptr;
+        long temp_height = strtol(value, &endptr, 10);
+        if (*endptr == '\0' && temp_height >= 0 && temp_height <= UINT16_MAX) {
+            *height = (uint16_t)temp_height;  // 安全转换
+            log_i("Get height: %u", *height);
+        } else {
+            log_e("Invalid height value: %s", value);
+            return -1;  // 失败
+        }
+    } else {
+        log_e("Height value is NULL or invalid!");
+        return -1;  // 失败
     }
 
-    return config; 
+    return 0;  // 成功
 }
 
 int Set_Camera_config(uint16_t width, uint16_t height)
@@ -371,18 +395,37 @@ int Set_Camera_config(uint16_t width, uint16_t height)
     return 0;
 }
 
-int Get_Luminance()
+int Get_Luminance(uint8_t *luminance)
 {
-    const char *value = get_config_value("camera", "luminance");
-    log_i("luminance : %s\n",value);
-    if (value != "NULL")
-    {
-        return atoi(value);
+    // 检查输入参数
+    if (luminance == NULL) {
+        log_e("Invalid parameter: luminance pointer is NULL");
+        return -1;  // 失败
     }
-    return -1;   
+
+    const char *value = get_config_value("camera", "luminance");
+    
+    if (value != NULL && strcmp(value, "NULL") != 0)
+    {
+        char *endptr;
+        long temp_luminance = strtol(value, &endptr, 10);
+
+        // 检查转换是否成功
+        if (*endptr == '\0' && temp_luminance >= 0 && temp_luminance <= UINT8_MAX) {
+            *luminance = (uint8_t)temp_luminance;
+            log_i("Get luminance: %u", *luminance);
+            return 0;  // 成功
+        } else {
+            log_e("Invalid luminance value: %s", value);
+            return -1;  // 失败
+        }
+    }
+    
+    log_e("Luminance value is NULL or invalid!");
+    return -1;  // 失败
 }
 
-int Set_g_Luminance(uint16_t luminance)
+int Set_g_Luminance(uint8_t luminance)
 {
     log_i("Set luminance: %u", luminance);
     static char str[20];
@@ -401,24 +444,30 @@ int Set_g_Luminance(uint16_t luminance)
     return 0;
 }
 
-int Get_compressibility()
+int Get_compressibility(uint8_t *compressibility)
 {
+    if (compressibility == NULL) {
+        log_e("Invalid parameter: compressibility pointer is NULL");
+        return -1;  // 失败
+    }
     const char *value = get_config_value("camera", "compressibility");
-    log_i("compressibility : %s\n",value);
-    if (value != "NULL")
+    log_i("compressibility : %s",value);
+    if (value != NULL && strcmp(value, "NULL") != 0)
     {
-        return atoi(value);
+        *compressibility = (uint8_t)atoi(value);
+        log_i("Get compressibility: %u", *compressibility);
+        return 0;
     }
     return -1;
 }
 
 
-int Set_g_compressibility(int compression)
+int Set_g_compressibility(uint8_t compression)
 {
     log_i("Set compressibility: %u", compression);
     static char str[20];
     snprintf(str, sizeof(str), "%u", compression);
-    if (save_to_config("slave_device", "compressibility", str) != 0) 
+    if (save_to_config("camera", "compressibility", str) != 0) 
     {
         log_e("Failed to save firmware version to config");
         return -1;

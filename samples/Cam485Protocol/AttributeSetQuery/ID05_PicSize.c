@@ -31,8 +31,15 @@ int attribute_picture_size_set(const uint8_t* value, uint32_t value_len)
 }
 int attribute_picture_size_get()
 {
-    CameraSizeConfig config = Get_Camera_config();
-    uint8_t result[4] = {config.width & 0xFF, (config.width >> 8) & 0xFF, config.height & 0xFF, (config.height >> 8) & 0xFF};
-    uint32_t valueLen = sizeof(result);
-    return SendGetAttributeResp(0x05, 0, result, valueLen);
+    uint8_t result = 0;
+    uint16_t width = 0;
+    uint16_t height = 0;
+    int ret = Get_Camera_config(&width, &height);
+    if (ret < 0) {
+        log_e("Failed to get camera configuration");
+        result = 1;
+    }
+    uint8_t GetValue[4] = {width & 0xFF, (width >> 8) & 0xFF, height & 0xFF, (height >> 8) & 0xFF};
+    uint32_t valueLen = sizeof(GetValue);
+    return SendGetAttributeResp(0x05, result, GetValue, valueLen);
 }

@@ -6,14 +6,9 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <stdint.h>
+#include "ParseIni.h"
 
 
-typedef struct {
-    uint16_t width;
-    uint16_t height;
-} CameraSizeConfig;
-
-extern CameraSizeConfig camera_size_config;
 
 #define MEMORY_ADDRESS_BASE 0x13540200  // 起始物理地址
 #define NUM_READS 12    // 总共读取的地址数
@@ -51,14 +46,14 @@ int Get_PWM_GPIO_Pin(uint8_t *gpio_pin);
 
 
 /*图片Size*/
-CameraSizeConfig Get_Camera_config();
+int Get_Camera_config(uint16_t *width, uint16_t *height);
 int Set_Camera_config(uint16_t width, uint16_t height);
 /*图片亮度*/
-int Get_Luminance();
-int Set_g_Luminance(uint16_t luminance);
+int Get_Luminance(uint8_t *luminance);
+int Set_g_Luminance(uint8_t luminance);
 /*压缩率*/
-int Get_compressibility();
-int Set_g_compressibility(int compression);
+int Get_compressibility(uint8_t *compressibility);
+int Set_g_compressibility(uint8_t compression);
 
 /*摄像头sn*/
 void get_last_two_digits(unsigned int value, char *output);

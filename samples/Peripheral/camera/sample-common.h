@@ -337,7 +337,7 @@ extern "C"
 struct chn_conf{
 	unsigned int index;//0 for main channel ,1 for second channel
 	unsigned int enable;
-        IMPPayloadType  payloadType;
+    IMPPayloadType  payloadType;
 	IMPFSChnAttr fs_chn_attr;
 	IMPCell framesource_chn;
 	IMPCell imp_encoder;
@@ -345,11 +345,11 @@ struct chn_conf{
 
 #define  CHN_NUM  ARRAY_SIZE(chn)
 #define SENSOR_WIDTH 1920
-#define SENSOR_HEIGHT 720
+#define SENSOR_HEIGHT 1080
 
-extern int cemare_crop_width;
-extern int cemare_crop_height;
-extern int Luminance;
+// extern int cemare_crop_width;
+// extern int cemare_crop_height;
+// extern int Luminance;
 
 
 static const int jpeg_chroma_quantizer[64] = {
