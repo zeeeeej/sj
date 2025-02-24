@@ -40,6 +40,8 @@ add_library(Cam485Protocol_lib STATIC
     SID0C_SendFirmwareUpdatePacket.c
     SID0D_DoorOpenOrCloseSignal.h
     SID0D_DoorOpenOrCloseSignal.c
+    SIDFE_GetFile.c
+    SIDFE_GetFile.h
     SIDFF_TestChannel.h
     SIDFF_TestChannel.c
     ImageInfoList.c

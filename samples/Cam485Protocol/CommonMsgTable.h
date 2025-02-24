@@ -20,6 +20,7 @@
 #define SID_0B		  (0x0B) /*固件升级通知*/
 #define SID_0C		  (0x0C) /*发送固件升级包*/
 #define SID_0D		  (0x0D) /*门开关信号*/
+#define SID_FE		  (0xFE) /*core文件传输*/
 #define SID_FF		  (0xFF) /*测试通道*/	
 typedef struct 
 {

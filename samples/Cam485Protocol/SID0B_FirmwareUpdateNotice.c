@@ -109,7 +109,12 @@ int SID0B_FirmwareUpdateNotice(uint8_t *msg_buf, uint32_t msg_dlc)
     {
         LOGD("Failed to open %s file: %s, ret[-5]\n", OTA_FILE_INFO_PATH,strerror(errno));
         //return -2;
-        system("touch  /system/md5.xml");
+        //system("touch  /system/md5.xml");
+        fp = fopen(OTA_FILE_INFO_PATH, "w");
+        if(fp)
+        {
+            close(fp);
+        }
     }
 
     fp = fopen(OTA_FILE_INFO_PATH, "r");
@@ -139,8 +144,8 @@ int SID0B_FirmwareUpdateNotice(uint8_t *msg_buf, uint32_t msg_dlc)
     LOGD("md5_str: %s", md5_str);
     LOGD("UpdatePacketInfo.md5_str: %s", UpdatePacketInfo.md5_str);
 
-    system("rm /system/sample_camera_rst.xz");
-    system("touch /system/sample_camera_rst.xz");
+    system("rm /tmp/sample_camera_rst.xz");
+    system("touch /tmp/sample_camera_rst.xz");
     // 比较MD5值
     if (strcmp(md5_str, UpdatePacketInfo.md5_str) == 0)
     {
