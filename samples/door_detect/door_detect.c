@@ -15,7 +15,6 @@
 #include "cm_common.h"
 #include "yq_mpu.h"
 #include "mpu_ctrl.h"
-#include "circular_log.h"
 #include "ImageInfoList.h"
 #include "Cam485ProtocolCommon.h"
 #include "AttributeTable.h"

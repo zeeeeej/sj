@@ -3,7 +3,7 @@
 #include <string.h>  // 包含 strerror 声明
 #include <errno.h>   // 包含 errno 定义
 #include <limits.h>  // 包含 PATH_MAX 定义
-
+#include <unistd.h> 
 /*获取升级文件*/
 #include "cm_common.h"
 #include "stdbool.h"
@@ -12,7 +12,7 @@
 #include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
 #include "md5.h"
-
+#include "MsgDispatcher.h"
 int SID0C_GetFirmwaveUpdateFlag(void)
 {
     UpdatePacketStruct UpdatePacketInfo;

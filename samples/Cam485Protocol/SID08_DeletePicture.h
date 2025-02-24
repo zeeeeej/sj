@@ -6,7 +6,6 @@
 #include <errno.h>
 #include "sys/stat.h"
 #include "unistd.h"
-#include "circular_log.h"
 #include "MsgDispatcher.h"
 #include "cm_common.h"
 #include "SID09_GetPhoto.h"

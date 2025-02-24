@@ -12,7 +12,6 @@
 #include <errno.h>
 #include <pthread.h>
 #include "self_check.h"
-#include "circular_log.h"
 #include "cli.h"
 #include "debug_logger.h"
 #include "Cam485Protocol.h"
@@ -114,11 +113,8 @@ int main(int argc, char *argv[])
         log_i("wdt timeout set to [%d]\n", timeout);
     }
 
-
-// extern int sample_Change_Resolution_test();
     /*初始化视频模块*/
     cm_video_impl_init("t23");
-    // sample_Change_Resolution_test();
 
     // run_pwm();
     /*开始自检*/

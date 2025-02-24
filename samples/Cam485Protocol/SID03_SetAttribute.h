@@ -7,7 +7,6 @@
 #include "sample-common.h"
 #include "ParseIni.h"
 #include "cm_common.h"
-#include "circular_log.h"
 
 
 #define VERSION_FILE "/system/etc/version"

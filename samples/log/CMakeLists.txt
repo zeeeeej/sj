@@ -3,7 +3,6 @@ set(LOG_SRC_DIR ${CMAKE_SOURCE_DIR}/log)
 
 # 添加源文件到静态库，不要包含头文件
 add_library(log_lib STATIC
-    ${LOG_SRC_DIR}/circular_log.c
     ${LOG_SRC_DIR}/debug_logger.c
     ${LOG_SRC_DIR}/port/elog_file_port.c
     ${LOG_SRC_DIR}/port/elog_port.c

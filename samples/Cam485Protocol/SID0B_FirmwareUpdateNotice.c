@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h> 
 #include "malloc.h"
 #include <string.h>  // 包含 strerror 声明
 #include <errno.h>   // 包含 errno 定义
@@ -113,7 +114,7 @@ int SID0B_FirmwareUpdateNotice(uint8_t *msg_buf, uint32_t msg_dlc)
         fp = fopen(OTA_FILE_INFO_PATH, "w");
         if(fp)
         {
-            close(fp);
+            fclose(fp);
         }
     }
 
