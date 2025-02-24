@@ -52,14 +52,14 @@ set(COMMON_INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/Peripheral/wdt
     ${CMAKE_SOURCE_DIR}/Peripheral/pwm
     ${3dparty_DIR}/t23_sdk/include
-    ${3dparty_DIR}/modbus/include
-    ${3dparty_DIR}/ucamcore/include
-    ${3dparty_DIR}/anticopy/include
+    # ${3dparty_DIR}/modbus/include
+    # ${3dparty_DIR}/ucamcore/include
+    # ${3dparty_DIR}/anticopy/include
     ${SRC_DIR}/include
-    ${SRC_DIR}/common/imp
+    # ${SRC_DIR}/common/imp
     ${CMAKE_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/../src/common/include
-    ${CMAKE_SOURCE_DIR}/../src/include
+    # ${CMAKE_SOURCE_DIR}/../src/common/include
+    # ${CMAKE_SOURCE_DIR}/../src/include
     CACHE INTERNAL "Common include directories"  
 )
 
@@ -76,8 +76,8 @@ link_directories(${3dparty_DIR}/t23_sdk/lib/uclibc)
 
 # 添加子目录
 message(STATUS "Adding subdirectory: ${CMAKE_SOURCE_DIR}/../src/common")
-add_subdirectory(${CMAKE_SOURCE_DIR}/../src/common ${CMAKE_BINARY_DIR}/common_build)
-add_subdirectory(${CMAKE_SOURCE_DIR}/../src/modules ${CMAKE_BINARY_DIR}/modules_build)
+# add_subdirectory(${CMAKE_SOURCE_DIR}/../src/common ${CMAKE_BINARY_DIR}/common_build)
+# add_subdirectory(${CMAKE_SOURCE_DIR}/../src/modules ${CMAKE_BINARY_DIR}/modules_build)
 add_subdirectory(Cam485Protocol)
 add_subdirectory(log)
 add_subdirectory(command)
@@ -106,15 +106,15 @@ target_link_libraries(sample_camera_rst
     CM_Config_lib
     log_lib
     cli_command_lib
-    src_common_lib
+    # src_common_lib
     pthread
     alog
     imp
     sysutils
     rt
     Cam485Protocol_lib
-    src_modules_lib
-    ${3dparty_DIR}/ucamcore/lib/uclibc/libusbcamera.a
+    # src_modules_lib
+    # ${3dparty_DIR}/ucamcore/lib/uclibc/libusbcamera.a
     ${3dparty_DIR}/modbus/lib/libmodbus.a
 )
 

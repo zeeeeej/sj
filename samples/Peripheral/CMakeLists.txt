@@ -2,6 +2,7 @@ add_library(Peripheral_lib STATIC
     ${CMAKE_SOURCE_DIR}/Peripheral/camera/cm_video_ctrl_t23.c
     ${CMAKE_SOURCE_DIR}/Peripheral/camera/cm_video_ctrl.h
     ${CMAKE_SOURCE_DIR}/Peripheral/camera/cm_video_ctrl.c
+    # ${CMAKE_SOURCE_DIR}/Peripheral/camera/sample-Change-Resolution.c
     ${CMAKE_SOURCE_DIR}/Peripheral/camera/sample-common.c
     ${CMAKE_SOURCE_DIR}/Peripheral/camera/sample-common.h
     ${CMAKE_SOURCE_DIR}/Peripheral/mpu/mpu_ctrl.c
@@ -20,7 +21,7 @@ target_link_libraries(Peripheral_lib PUBLIC
     pthread
     log_lib
     CM_Config_lib
-    src_common_lib
+    # src_common_lib
 )
 
 target_include_directories(Peripheral_lib PUBLIC ${CMAKE_SOURCE_DIR}/Peripheral

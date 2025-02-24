@@ -6,7 +6,7 @@
 #define CM_VIDEO_INTERFACE_H
 
 #include <unistd.h>
-
+#include <stdint.h>
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,19 +30,6 @@ extern "C"
         size_t length;
     } CMVideoBuf;
 
-    typedef struct
-    {
-        char dev[64];
-        int  width;
-        int  height;
-        int  fps;
-        char rc_mode[8];
-        char codec[16];
-        int  sformat;
-        int  bitrate;
-        int  channel;
-    } CMCodecParam;
-
     /**
      * 上下文句柄对象
      */
@@ -51,21 +38,37 @@ extern "C"
         void *priv_data; // 内部使用，勿改，首次置 NULL
     } CMVideoContext;
 
-    /**
-     * control 控制命令列表
-     */
-    typedef enum
-    {
-        CM_VIDEO_CMD_NONE = 0,
-        CM_VIDEO_CMD_SET_WIDTH,      // width
-        CM_VIDEO_CMD_SET_HEIGHT,     // height
-        CM_VIDEO_CMD_SET_BUF_TYPE,   // V4L2_BUF_TYPE_XXX (linux/videodev2.h)
-        CM_VIDEO_CMD_SET_PIX_FORMAT, // V4L2_BUF_TYPE_XXX (linux/videodev2.h)
-        CM_VIDEO_CMD_SET_FPS,
-        CM_VIDEO_CMD_SET_CHANNEL,     
-        CM_VIDEO_CMD_SET_KEY_FRAME,
-    } CM_VIDEO_CMD;
+    /*控制*/
+    typedef enum {
+        PARAM_BRIGHTNESS = 1,   // 亮度参数
+        PARAM_COMPRESSION,      // 压缩率参数
+        PARAM_RESOLUTION,       // 分辨率参数（宽高）
+        // 添加更多参数...
+    } CMVideoParamID;
 
+    typedef enum {
+        CMD_SINGLE_PARAM,      // 设置单个参数
+        CMD_MULTI_PARAMS,      // 设置多个参数
+        CMD_OTHER_OPERATION,   // 其他操作类型
+    } CMCommandType;
+
+    typedef struct {
+        CMVideoParamID param_id;
+        union {
+            uint8_t value;      // 亮度和压缩率
+            struct {
+                uint16_t width;  // 宽度
+                uint16_t height; // 高度
+            } resolution;        // 分辨率
+        };
+    } CMVideoParam;
+
+    typedef struct {
+        CMCommandType cmd_type;   // 命令类型
+        CMVideoParam single_param; // 单参数模式
+    } CMVideoCommand;
+
+    /*video interface */
     typedef struct
     {
         char *name; // 设置惟一识别码
@@ -82,7 +85,7 @@ extern "C"
          * @param cmd  命令见 CM_VIDEO_CMD
          * @param args
          */
-        int (*ctrl)(CMVideoContext *ctx, int cmd, void *args);
+        int (*ctrl)(CMVideoContext *ctx, CMVideoCommand cmd, void *args);
         int (*start)(CMVideoContext *ctx);
         int (*stop)(CMVideoContext *ctx);
         /**

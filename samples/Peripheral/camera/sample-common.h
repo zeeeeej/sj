@@ -343,66 +343,45 @@ struct chn_conf{
 	IMPCell imp_encoder;
 };
 
+
+/*属性配置值*/
+typedef struct {
+    uint8_t luminance;      // 亮度属性
+    uint8_t compression;    // 压缩率属性
+    uint8_t contrast;       // 对比度属性
+    uint16_t height;        // 图像高度
+    uint16_t width;         // 图像宽度
+} ImageAttributesConfigs;
+
+
 #define  CHN_NUM  ARRAY_SIZE(chn)
 #define SENSOR_WIDTH 1920
 #define SENSOR_HEIGHT 1080
 
-// extern int cemare_crop_width;
-// extern int cemare_crop_height;
-// extern int Luminance;
+
+int sample_system_init(ImageAttributesConfigs configs);
+int sample_system_exit();
+
+int sample_framesource_streamon();
+int sample_framesource_streamoff();
+
+int sample_framesource_init();
+int sample_framesource_exit();
+
+int sample_jpeg_init();
+int sample_encoder_exit();
+
+int sample_res_deinit();
+int sample_res_init();
+
+/*图片属性设置*/
+int sample_set_attributes_luminance(uint8_t luminance);
+int sample_set_attributes_compression(uint8_t compression);
+int sample_set_attributes_resolution(uint16_t width, uint16_t height);
 
 
-static const int jpeg_chroma_quantizer[64] = {
-	17, 18, 24, 47, 99, 99, 99, 99,
-	18, 21, 26, 66, 99, 99, 99, 99,
-	24, 26, 56, 99, 99, 99, 99, 99,
-	47, 66, 99, 99, 99, 99, 99, 99,
-	99, 99, 99, 99, 99, 99, 99, 99,
-	99, 99, 99, 99, 99, 99, 99, 99,
-	99, 99, 99, 99, 99, 99, 99, 99,
-	99, 99, 99, 99, 99, 99, 99, 99
-};
-
-static const int jpeg_luma_quantizer[64] = {
-	16, 11, 10, 16, 24, 40, 51, 61,
-	12, 12, 14, 19, 26, 58, 60, 55,
-	14, 13, 16, 24, 40, 57, 69, 56,
-	14, 17, 22, 29, 51, 87, 80, 62,
-	18, 22, 37, 56, 68, 109, 103, 77,
-	24, 35, 55, 64, 81, 104, 113, 92,
-	49, 64, 78, 87, 103, 121, 120, 101,
-	72, 92, 95, 98, 112, 100, 103, 99
-};
-
-int wind_sample_system_init();
-int wind_sample_system_exit();
-
-int wind_sample_framesource_streamon();
-int wind_sample_framesource_streamoff();
-
-int wind_sample_framesource_init();
-int wind_sample_framesource_exit();
-
-int wind_sample_encoder_init();
-int wind_sample_jpeg_init();
-int wind_sample_encoder_exit(void);
-
-IMPRgnHandle *wind_sample_osd_init(int grpNum);
-int wind_sample_osd_exit(IMPRgnHandle *prHandle,int grpNum);
-
-int wind_sample_get_frame();
-int wind_sample_get_video_stream();
-int wind_sample_get_video_stream_byfd();
-int wind_sample_get_jpeg_snap();
-int wind_sample_get_Luminance();
-
-int wind_sample_set_luminance(int value);
-int wind_sample_SetIRCUT(int enable);
-int wind_sample_set_resolution(int width, int height);
-void wind_MakeTables(int q, uint8_t *lqt, uint8_t *cqt);
 
 
-void *wind_sample_soft_photosensitive_ctrl(void *p);
 
 
 #ifdef __cplusplus

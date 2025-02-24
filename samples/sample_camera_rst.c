@@ -115,9 +115,10 @@ int main(int argc, char *argv[])
     }
 
 
-
+// extern int sample_Change_Resolution_test();
     /*初始化视频模块*/
     cm_video_impl_init("t23");
+    // sample_Change_Resolution_test();
 
     // run_pwm();
     /*开始自检*/

@@ -2,7 +2,7 @@
  * @file cm_video_ctrl.c
  * @author jmdvirus
  */
-
+#define LOG_TAG "CM_VIDEO_CTRL"
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -10,6 +10,7 @@
 
 #include "cm_video_ctrl.h"
 #include "cm_video_interface.h"
+#include "elog.h"
 
 static const CMVideoImpl *cm_video_impl_list[] = {
     &cm_video_impl_t23,
@@ -39,18 +40,18 @@ const CMVideoImpl *cm_video_impl_find(const char *type)
 int cm_video_impl_init(const char *type)
 {
     if (is_initialized) {
-        printf("[%s] Already initialized\n", VIDEO_TAG);
+        log_w("Video already initialized");
         return 0;
     }
 
     if (type == NULL) {
-        printf("[%s] Error: type is NULL\n", VIDEO_TAG);
+        log_e("video type is NULL");
         return -1;
     }
 
     CurVideoImpl = cm_video_impl_find(type);
     if (CurVideoImpl == NULL) {
-        printf("[%s] Error: failed to find implementation\n", VIDEO_TAG);
+        log_e("can not find video implementation");
         return -1;
     }
 
@@ -59,13 +60,13 @@ int cm_video_impl_init(const char *type)
 
     // Open device
     if (CurVideoImpl->open && CurVideoImpl->open(&ctx, "") != 0) {
-        printf("[%s] Error: failed to open device\n", VIDEO_TAG);
+        log_e("failed to open device");
         return -1;
     }
 
     // Start device
     if (CurVideoImpl->start && CurVideoImpl->start(&ctx) != 0) {
-        printf("[%s] Error: failed to start device\n", VIDEO_TAG);
+        log_e("failed to start device");
         if (CurVideoImpl->close) {
             CurVideoImpl->close(&ctx);
         }
@@ -86,19 +87,19 @@ int cm_video_take_photo_save_to_file(const char *file_path)
     int ret = 0;
 
     if (pthread_mutex_lock(&video_mutex) != 0) {
-        printf("[%s] Failed to acquire mutex\n", VIDEO_TAG);
+        log_e("Failed to acquire mutex");
         return -1;
     }
 
     do {
         if (!is_initialized || !CurVideoImpl) {
-            printf("[%s] Error: Not initialized\n", VIDEO_TAG);
+            log_e("Not initialized");
             ret = -1;
             break;
         }
 
         if (file_path == NULL) {
-            printf("[%s] Error: Invalid parameters\n", VIDEO_TAG);
+            log_e("Invalid parameters");
             ret = -1;
             break;
         }
@@ -109,7 +110,7 @@ int cm_video_take_photo_save_to_file(const char *file_path)
         // 读取图像数据
         if (CurVideoImpl->read == NULL || 
             CurVideoImpl->read(&ctx, &buf) != 0) {
-            printf("[%s] Error: Failed to read image data\n", VIDEO_TAG);
+            log_e("Failed to read image data");
             ret = -1;
             break;
         }
@@ -120,8 +121,7 @@ int cm_video_take_photo_save_to_file(const char *file_path)
         // 保存文件
         FILE *fp = fopen(file_path, "wb");
         if (fp == NULL) {
-            printf("[%s] Error: Failed to open file: %s\n", 
-                   VIDEO_TAG, file_path);
+            log_e("Failed to open file: %s", file_path);
             return -1;
         }
 
@@ -130,19 +130,49 @@ int cm_video_take_photo_save_to_file(const char *file_path)
 
         // 重新获取锁以检查结果
         if (pthread_mutex_lock(&video_mutex) != 0) {
-            printf("[%s] Failed to reacquire mutex\n", VIDEO_TAG);
+            log_e("Failed to reacquire mutex");
             return -1;
         }
 
         if (written != buf.length) {
-            printf("[%s] Error: Failed to write file\n", VIDEO_TAG);
+            log_e("Failed to write file");
             ret = -1;
             break;
         }
 
-        printf("[%s] Successfully saved photo to: %s\n", 
-               VIDEO_TAG, file_path);
+        log_i("Successfully saved photo to: %s", file_path);
     } while (0);
+
+    pthread_mutex_unlock(&video_mutex);
+    return ret;
+}
+
+
+
+int cm_video_ctrl(CMVideoCommand cmd, void *arg)
+{
+    int ret = 0;
+    if (CurVideoImpl == NULL) {
+        return -1;
+    }
+
+    if (pthread_mutex_lock(&video_mutex) != 0) {
+        log_e("Failed to acquire mutex");
+        return -1;
+    }
+
+    if (CurVideoImpl->ctrl) {
+        // 直接传递完整参数结构
+        ret = CurVideoImpl->ctrl(&ctx, cmd, arg);
+        if (ret < 0)
+        {
+            log_e("Failed to control video");
+        }
+        else
+        {
+            log_i("Successfully control video");
+        }
+    }
 
     pthread_mutex_unlock(&video_mutex);
     return ret;

@@ -1,17 +1,16 @@
-
 #include <string.h>
-#include "cm_config.h"
-#include "cm_video_ctrl.h"
-#include "sample-common.h"
+#include <malloc.h>
+
+
 #include <imp/imp_log.h>
 #include <imp/imp_common.h>
 #include <imp/imp_system.h>
 #include <imp/imp_framesource.h>
 #include <imp/imp_encoder.h>
-#include <sample-common.h>
-#include <malloc.h>
+#include "sample-common.h"
 
-
+#include "cm_video_ctrl.h"
+#include "cm_config.h"
 #define TAG "[T23]"
 
 typedef struct {
@@ -19,23 +18,51 @@ typedef struct {
     size_t buf_cap;
 } CMVideoCtrlT23Private;
 
-extern struct chn_conf wind_chn[];
+extern struct chn_conf chn[];
+/*默认配置*/
+#define DEFAULT_WIDTH 1920  /*分辨率*/
+#define DEFAULT_HEIGHT 1080  /*分辨率*/
+#define DEFAULT_LUMINANCE 128  /*亮度*/
+#define DEFAULT_COMPRESSION 99  /*压缩率*/
 
-
-
+/*从配置文件中读取配置信息*/
+static int LoadImageAttributesConfigs(ImageAttributesConfigs* configs)
+{
+    int ret = 0;
+    ret = Get_Camera_config(&configs->width, &configs->height);
+    if(ret < 0)
+    {
+        IMP_LOG_ERR(TAG, "Get_Camera_config failed , use default value : %d, %d\n", DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        configs->width = DEFAULT_WIDTH;
+        configs->height = DEFAULT_HEIGHT;
+    }
+    ret = Get_Luminance(&configs->luminance);
+    if(ret < 0)
+    {
+        IMP_LOG_ERR(TAG, "Get_Luminance failed , use default value : %d\n", DEFAULT_LUMINANCE);
+        configs->luminance = DEFAULT_LUMINANCE;
+    }
+    ret = Get_compressibility(&configs->compression);
+    if(ret < 0)
+    {
+        IMP_LOG_ERR(TAG, "Get_compressibility failed , use default value : %d\n", DEFAULT_COMPRESSION);
+        configs->compression = DEFAULT_COMPRESSION;
+    }
+    return 0;
+}
 
 static int cm_video_ctrl_open(CMVideoContext *ctx, const char *dev)
 {
-    int ret = wind_sample_system_init();
+	ImageAttributesConfigs configs = {0};
+    LoadImageAttributesConfigs(&configs);
+    int ret = sample_system_init(configs);
     if (ret < 0)
     {
         IMP_LOG_ERR(TAG, "system init failed ret = [%d]\n", ret);
         return -1;
     }
 
-
-
-    ret = wind_sample_framesource_init();
+    ret = sample_framesource_init();
     if (ret < 0)
     {
         IMP_LOG_ERR(TAG, "frame source init failed ret = [%d]\n", ret);
@@ -44,8 +71,8 @@ static int cm_video_ctrl_open(CMVideoContext *ctx, const char *dev)
 
     int i;
     for (i = 0; i < FS_CHN_NUM; i++) {
-		if (wind_chn[i].enable) {
-			ret = IMP_Encoder_CreateGroup(wind_chn[i].index);
+		if (chn[i].enable) {
+			ret = IMP_Encoder_CreateGroup(chn[i].index);
 			if (ret < 0) {
 				IMP_LOG_ERR(TAG, "IMP_Encoder_CreateGroup(%d) error !\n", i);
 				return -3;
@@ -53,22 +80,21 @@ static int cm_video_ctrl_open(CMVideoContext *ctx, const char *dev)
 		}
 	}
 
-    ret = wind_sample_jpeg_init();
+    ret = sample_jpeg_init();
 	if (ret < 0) {
 		IMP_LOG_ERR(TAG, "Encoder init failed ret = [%d]\n", ret);
 		return -4;
 	}
 
     for (i = 0; i < FS_CHN_NUM; i++) {
-		if (wind_chn[i].enable) {
-			ret = IMP_System_Bind(&wind_chn[i].framesource_chn, &wind_chn[i].imp_encoder);
+		if (chn[i].enable) {
+			ret = IMP_System_Bind(&chn[i].framesource_chn, &chn[i].imp_encoder);
 			if (ret < 0) {
 				IMP_LOG_ERR(TAG, "Bind FrameSource channel%d and Encoder failed ret = [%d]\n",i, ret);
 				return -5;
 			}
 		}
 	}
-
     CMVideoCtrlT23Private *in = (CMVideoCtrlT23Private*)calloc(1, sizeof(CMVideoCtrlT23Private));
     ctx->priv_data = in;
 
@@ -80,8 +106,8 @@ static int cm_video_ctrl_close(CMVideoContext *ctx)
     int i, ret = 0;
     /* Step.b UnBind */
 	for (i = 0; i < FS_CHN_NUM; i++) {
-		if (wind_chn[i].enable) {
-			ret = IMP_System_UnBind(&wind_chn[i].framesource_chn, &wind_chn[i].imp_encoder);
+		if (chn[i].enable) {
+			ret = IMP_System_UnBind(&chn[i].framesource_chn, &chn[i].imp_encoder);
 			if (ret < 0) {
 				IMP_LOG_ERR(TAG, "UnBind FrameSource channel%d and Encoder failed\n",i);
 				return -1;
@@ -90,15 +116,15 @@ static int cm_video_ctrl_close(CMVideoContext *ctx)
 	}
 
 	/* Step.c Encoder exit */
-	ret = wind_sample_encoder_exit();
+	ret = sample_encoder_exit();
 	if (ret < 0) {
 		IMP_LOG_ERR(TAG, "Encoder exit failed\n");
 		return -2;
 	}
 
 	for (i = 0; i < FS_CHN_NUM; i++) {
-		if (wind_chn[i].enable) {
-			ret = IMP_Encoder_DestroyGroup(wind_chn[i].index);
+		if (chn[i].enable) {
+			ret = IMP_Encoder_DestroyGroup(chn[i].index);
 			if (ret < 0) {
 				IMP_LOG_ERR(TAG, "IMP_Encoder_CreateGroup(%d) error !\n", i);
 				return -3;
@@ -107,14 +133,14 @@ static int cm_video_ctrl_close(CMVideoContext *ctx)
 	}
 
 	/* Step.d FrameSource exit */
-	ret = wind_sample_framesource_exit();
+	ret = sample_framesource_exit();
 	if (ret < 0) {
 		IMP_LOG_ERR(TAG, "FrameSource exit failed\n");
 		return -4;
 	}
 
 	/* Step.e System exit */
-	ret = wind_sample_system_exit();
+	ret = sample_system_exit();
 	if (ret < 0) {
 		IMP_LOG_ERR(TAG, "wind_sample_system_exit() failed\n");
 		return -5;
@@ -134,7 +160,7 @@ static int cm_video_ctrl_close(CMVideoContext *ctx)
 
 static int cm_video_ctrl_start(CMVideoContext *ctx)
 {
-    int ret = wind_sample_framesource_streamon();
+    int ret = sample_framesource_streamon();
 	if (ret < 0) {
 		IMP_LOG_ERR(TAG, "ImpStreamOn failed ret = [%d]\n", ret);
 		return -2;
@@ -144,7 +170,7 @@ static int cm_video_ctrl_start(CMVideoContext *ctx)
 
 static int cm_video_ctrl_stop(CMVideoContext *ctx)
 {
-    int ret = wind_sample_framesource_streamoff();
+    int ret = sample_framesource_streamoff();
 	if (ret < 0) {
 		IMP_LOG_ERR(TAG, "FrameSource StreamOff failed = [%d]\n", ret);
 		return -2;
@@ -152,9 +178,30 @@ static int cm_video_ctrl_stop(CMVideoContext *ctx)
     return 0;
 }
 
-static int cm_video_ctrl_ctrl(CMVideoContext *ctx, int cmd, void *arg)
-{
-    return 0;
+
+static int cm_video_ctrl_ctrl(CMVideoContext *ctx, CMVideoCommand cmd, void *arg)
+{    
+    switch (cmd.cmd_type) {
+    case CMD_SINGLE_PARAM:
+        // 处理单个参数
+        switch (cmd.single_param.param_id) {
+        case PARAM_BRIGHTNESS:
+            return sample_set_attributes_luminance(cmd.single_param.value);
+        case PARAM_COMPRESSION:
+            return sample_set_attributes_compression(cmd.single_param.value);
+        case PARAM_RESOLUTION:
+            // 设置分辨率
+            return sample_set_attributes_resolution(cmd.single_param.resolution.width, cmd.single_param.resolution.height);
+        default:
+            printf("Unknown single parameter ID: %d\n", cmd.single_param.param_id);
+            return -1;
+        }
+        break;
+
+    default:
+        printf("Unsupported command type: %d\n", cmd.cmd_type);
+        return -1;
+    }
 }
 
 static int cm_video_ctrl_read(CMVideoContext *ctx, CMVideoBuf *buf)
@@ -167,16 +214,16 @@ static int cm_video_ctrl_read(CMVideoContext *ctx, CMVideoBuf *buf)
     int i, ret, j = 0;
 
 	for (i = 0; i < FS_CHN_NUM; i++) {
-		if (wind_chn[i].enable) {
-			ret = IMP_Encoder_StartRecvPic(3 + wind_chn[i].index);
+		if (chn[i].enable) {
+			ret = IMP_Encoder_StartRecvPic(3 + chn[i].index);
 			if (ret < 0) {
-				IMP_LOG_ERR(TAG, "IMP_Encoder_StartRecvPic(%d) failed\n", 3 + wind_chn[i].index);
+				IMP_LOG_ERR(TAG, "IMP_Encoder_StartRecvPic(%d) failed\n", 3 + chn[i].index);
 				return -1;
 			}
             while (j++ < 3)
             {
 				/* Polling JPEG Snap, set timeout as 1000msec */
-				ret = IMP_Encoder_PollingStream(3 + wind_chn[i].index, 100);
+				ret = IMP_Encoder_PollingStream(3 + chn[i].index, 100);
 				if (ret < 0) {
 					IMP_LOG_ERR(TAG, "Polling stream timeout j = [%d]\n", j);
 					continue;
@@ -184,7 +231,7 @@ static int cm_video_ctrl_read(CMVideoContext *ctx, CMVideoBuf *buf)
 
 				IMPEncoderStream stream;
 				/* Get JPEG Snap */
-				ret = IMP_Encoder_GetStream(wind_chn[i].index + 3, &stream, 1);
+				ret = IMP_Encoder_GetStream(chn[i].index + 3, &stream, 1);
 				if (ret < 0) {
 					IMP_LOG_ERR(TAG, "IMP_Encoder_GetStream() failed\n");
 					return -2;
@@ -217,11 +264,11 @@ static int cm_video_ctrl_read(CMVideoContext *ctx, CMVideoBuf *buf)
                 buf->length = curLength;
                 buf->start = in->buf.start;
 
-				ret = IMP_Encoder_ReleaseStream(3 + wind_chn[i].index, &stream);
+				ret = IMP_Encoder_ReleaseStream(3 + chn[i].index, &stream);
 				break;
 			}
         
-			ret = IMP_Encoder_StopRecvPic(3 + wind_chn[i].index);
+			ret = IMP_Encoder_StopRecvPic(3 + chn[i].index);
 			if (ret < 0) {
 				IMP_LOG_ERR(TAG, "IMP_Encoder_StopRecvPic() failed\n");
 				return -3;
