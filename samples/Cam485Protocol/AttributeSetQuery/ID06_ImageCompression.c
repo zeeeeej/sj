@@ -40,7 +40,7 @@ int attribute_compression_ratio_set(const uint8_t* value, uint32_t value_len)
             result = 1;
         }
     }
-    return SendSetAttributeResp(0x08, result);
+    return SendSetAttributeResp(0x06, result);
 }
 int attribute_compression_ratio_get()
 {
@@ -55,5 +55,5 @@ int attribute_compression_ratio_get()
     uint8_t GetValue[1];
     GetValue[0] = compression;
     uint32_t valueLen = sizeof(GetValue);
-    return SendGetAttributeResp(0x08, result, GetValue,valueLen);
+    return SendGetAttributeResp(0x06, result, GetValue,valueLen);
 }
