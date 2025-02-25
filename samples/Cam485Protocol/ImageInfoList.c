@@ -635,9 +635,16 @@ void generate_image_info(char *image_path) {
     // 获取文件大小
     unsigned int image_length = file_stat.st_size;
 
-    // 获取抓取时间（文件修改时间）
-    unsigned int capture_time = file_stat.st_mtime;
-
+    // 获取抓取时间时间戳
+    uint32_t timestamp = 0;
+    ret = Get_g_timeStamp(&timestamp);
+    if(ret != 0)
+    {
+        log_w("get timestamp fail");
+        return;
+    }
+    log_i("capture time : ");
+    showDate(timestamp);
     // 计算MD5哈希值
     unsigned char md5[33] = {0};
     calculate_file_md5(image_path, md5);
@@ -665,7 +672,7 @@ void generate_image_info(char *image_path) {
         .id = pic_id,
         .trigger_type = trigger_type,
         .trigger_angle = trigger_angle,
-        .capture_time = capture_time,
+        .capture_time = timestamp,
         .image_length = image_length,
     };
     memcpy(data.md5, md5, sizeof(md5));

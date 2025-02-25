@@ -85,12 +85,10 @@ int SendSetAttributeResp(uint8_t id, uint8_t result);
 
 
 
-
-
-
 int Get_Gyroscope_Capture_image_direction(uint8_t *direction);
 int Get_Gyroscope_Enable_Status(uint8_t *Enable_Status);
 int Get_Gyroscope_Image_Save_Count(uint8_t *SaveCount);
 
-
+int Get_g_timeStamp(uint32_t *timestamp);/*获取当前时间戳*/
+int showDate(uint32_t _timestamp);
 #endif
