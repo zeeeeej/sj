@@ -229,6 +229,10 @@ uint8_t send_msg_resp(uint8_t *msg, uint32_t len)
     msg[len - 2] = crc_msg & 0xFF;
     msg[len - 1] = crc_msg >> 8;
 
+#if SEND_DEBUG_ENABLE
+    elog_hexdump("send_msg" , 16 , msg , len);
+#endif
+
     printf("\n");
 #ifndef SEND_MSG_BLOCK
     return add_msg_to_queue(&send_queue, msg, len) == 0 ? 0 : 1; // 0 for success, 1 for failure

@@ -39,8 +39,8 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
 
 
 # 添加优化和调试信息选项^M
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -g")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g")
+# set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -g")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g")
 # 在主CMakeLists.txt中定义全局包含目录变量
 set(COMMON_INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/door_detect
@@ -89,7 +89,7 @@ add_subdirectory(Peripheral)
 add_subdirectory(door_detect)
 add_subdirectory(self_check)
 add_subdirectory(cm_config)
-
+add_subdirectory(camera_sn)
 message(STATUS "Building utils_lib in ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
@@ -109,6 +109,7 @@ target_link_libraries(sample_camera_rst
     CM_Config_lib
     log_lib
     cli_command_lib
+    CameraSn
     # src_common_lib
     pthread
     alog

@@ -10,7 +10,7 @@
 
 
 
-#define MEMORY_ADDRESS_BASE 0x13540200  // 起始物理地址
+
 #define NUM_READS 12    // 总共读取的地址数
 
 #define SN_FILE_PATH "/tmp/chip_id.txt"
@@ -56,9 +56,6 @@ int Get_compressibility(uint8_t *compressibility);
 int Set_g_compressibility(uint8_t compression);
 
 /*摄像头sn*/
-void get_last_two_digits(unsigned int value, char *output);
-unsigned int read_mem(unsigned int address);
-int  generate_sn();
 int  Get_g_CameraSn(char *sn, uint8_t max_len);
 
 #endif

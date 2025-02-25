@@ -481,75 +481,7 @@ int Set_g_compressibility(uint8_t compression)
     return 0;
 }
 
-void get_last_two_digits(unsigned int value, char *output)
-{
-    unsigned int last_two_bytes = value & 0xFF;  // 获取最低 8 位，即最后两位
-    snprintf(output, 3, "%02x", last_two_bytes);  // 转为 2 位十六进制字符串  
-}
 
-unsigned int read_mem(unsigned int address)
-{
-    unsigned int value;
-    char command[128];
-    snprintf(command, sizeof(command), "devmem 0x%x", address);
-    FILE *fp = popen(command, "r");
-    if (fp == NULL) 
-    {
-        perror("popen failed");
-        exit(1);
-    }
-    // 读取并解析值
-    if (fscanf(fp, "%x", &value) != 1) 
-    {
-        fprintf(stderr, "Failed to read memory at address 0x%x\n", address);
-        exit(1);
-    }
-    log_i("Read memory at address 0x%x: 0x%x\n", address, value);
-    fclose(fp);
-    return value;
-}
-
-int generate_sn()
-{
-    char chip_id[128];  // 用于存储最终的芯片 ID 字符串
-    unsigned int chip_value;
-    char chip_value_str[16];
-    char sn_part[3];  
-
-    
-    for (int i = 0; i < 10; ++i) {
-        chip_value = read_mem(MEMORY_ADDRESS_BASE + i);
-        get_last_two_digits(chip_value, sn_part);  
-        strcat(chip_id, sn_part);
-        usleep(100);  // 暂停 100 微秒
-    }
-
-    // 读取 0x1354020a 和 0x1354020b 地址
-    chip_value = read_mem(0x1354020a);
-    get_last_two_digits(chip_value, sn_part);
-    strcat(chip_id, sn_part);  
-
-    chip_value = read_mem(0x1354020b);
-    get_last_two_digits(chip_value, sn_part);
-    strcat(chip_id, sn_part);
-
-    // 输出最终的芯片 ID 字符串
-    log_i("chip_id:%s\n", chip_id);
-
-    if(save_to_config("camera", "camera_sn", chip_id) != 0)
-    {
-        log_e("Failed to save chip_id to config");
-        return -1;
-    }
-
-    if (write_ini() != 0) 
-    {
-        log_e("Failed to write config to file");
-        return -1;
-    }
-
-    return 0;
-}
 
 int Get_g_CameraSn(char *sn, uint8_t max_len)
 {
@@ -558,14 +490,20 @@ int Get_g_CameraSn(char *sn, uint8_t max_len)
         return -1;
     }
     const char* value = get_config_value("camera", "camera_sn");
-    if (value != "NULL") 
+    int strlen_value = strlen(value);
+    log_i("strlen len : %d", strlen_value);
+    for(int i = 0; i < strlen_value; i++)
+    {
+        log_i("value[%d] = %c", i, value[i]);
+    }
+    if (value != NULL)    
     {
         if (strlen(value) > max_len) 
         {
             log_e("Buffer too small for camera sn");
             return -1;
         }
-        strncpy(sn, value, max_len);
+        strncpy(sn, value, strlen(value));
         log_i("Get camera sn: %s", sn);
         return 0;
     } 

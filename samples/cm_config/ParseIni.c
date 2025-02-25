@@ -5,6 +5,7 @@ Config global_config = {0};
 
 char* trim(char* str)
 {
+    if (str == NULL) return NULL;  
     char *end;
     while (isspace((unsigned char)*str)) str++;  // 去掉前导空格
     if (*str == '\0') return str;
@@ -55,6 +56,7 @@ int parse_ini()
     }
 
     fclose(file);
+    return 0;
 }
 
 const char *get_config_value(const char *section, const char *key)
@@ -72,7 +74,7 @@ const char *get_config_value(const char *section, const char *key)
             }
         }
     }
-    return "NULL";  
+    return NULL;  
 }
 
 int save_to_config(const char * section, const char * key, const char * value)

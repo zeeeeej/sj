@@ -5,6 +5,8 @@
 #include <stdint.h>
 
 
+#define SEND_DEBUG_ENABLE 1
+
 #define SLAVE_ADDR_DEFAULT          (1)
 #define SEND_MSG_BLOCK      1
 

@@ -22,6 +22,7 @@
 #include "cm_config.h"
 #include "ParseIni.h"
 #include "pwm_ctrl.h"
+#include "camera_sn.h"
 #define TAG_NAME   "[MAIN]"
 static int b_exited = 0;
 
