@@ -3,7 +3,7 @@
 #include <string.h>  // 包含 strerror 声明
 #include <errno.h>   // 包含 errno 定义
 #include <limits.h>  // 包含 PATH_MAX 定义
-#include <unistd.h> 
+
 /*获取升级文件*/
 #include "cm_common.h"
 #include "stdbool.h"
@@ -12,7 +12,7 @@
 #include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
 #include "md5.h"
-#include "MsgDispatcher.h"
+
 int SID0C_GetFirmwaveUpdateFlag(void)
 {
     UpdatePacketStruct UpdatePacketInfo;
@@ -79,7 +79,24 @@ static int SID0C_BuildMsgHeader(uint8_t *msg_buf, uint32_t msg_dlc)
     msg_buf[index++] = (uint8_t)((msg_dlc >> 8) & 0xFF);  // 2nd byte
     msg_buf[index++] = (uint8_t)((msg_dlc >> 16) & 0xFF); // 3rd byte
     msg_buf[index++] = (uint8_t)((msg_dlc >> 24) & 0xFF); // High byte
-}           
+}
+
+
+int makeotashell()
+{
+    // 定义一维字符数组存储多行字符串
+    char str[] = OTASHELLDATA;
+    FILE *fp = fopen(OTA_SHELL_PATH, "w");
+    if (fp == NULL) {
+        perror("fopen error");
+        return 1;
+    }
+    // 将字符数组中的内容写入文件
+    fputs(str, fp);
+    fclose(fp);
+    printf("fopen success\n");
+    return 0;
+}
 
 int SID0C_SendFirmwareUpdatePacket(uint8_t *msg_buf, uint32_t msg_dlc)
 {
@@ -194,11 +211,14 @@ int SID0C_SendFirmwareUpdatePacket(uint8_t *msg_buf, uint32_t msg_dlc)
 
             fclose(fp);
  
-            printf("update.....\n");
+            printf("updating.....\n");
             usleep(1000*100);
-            system("cd /tmp ; /system/bin/xz -d  sample_camera_rst.xz ; chmod 777  sample_camera_rst ; \
-            rm /system/bin/sample_camera_rst; mv sample_camera_rst  /system/bin ;  reboot ; cd -");
 
+            //system("chmod 777 /system/init/myotatest.sh;sh /system/init/myotatest.sh");
+            makeotashell();
+            system(CAT_OTA_SHELL_PATH);
+            system(CHMOD_OTA_SHELL_PATH);
+            system(SH_OTA_SHELL_PATH);
         }
     }
     else

@@ -145,8 +145,8 @@ int SID0B_FirmwareUpdateNotice(uint8_t *msg_buf, uint32_t msg_dlc)
     LOGD("md5_str: %s", md5_str);
     LOGD("UpdatePacketInfo.md5_str: %s", UpdatePacketInfo.md5_str);
 
-    system("rm /tmp/sample_camera_rst.xz");
-    system("touch /tmp/sample_camera_rst.xz");
+    system(RM_OTA_FILE_PATH);
+    system(TOUCH_OTA_FILE_PATH);
     // 比较MD5值
     if (strcmp(md5_str, UpdatePacketInfo.md5_str) == 0)
     {
