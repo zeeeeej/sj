@@ -559,15 +559,17 @@ static int get_door_config()
     ret = Get_Gyroscope_Enable_Status(&gyroscope_enable_status);
     if(ret != 0)
     {
-        log_w("get gyroscope enable status fail , use default value : %d",GYROSCOPE_ENABLE_STATUS);
+        
         /*获取陀螺仪开启状态失败，使用默认值*/
         gyroscope_enable_status = GYROSCOPE_ENABLE_STATUS;/*设置为开启*/
+        log_w("get gyroscope enable status fail , use default value : %d",gyroscope_enable_status);
     }
     ret = Get_Gyroscope_Capture_image_direction(&gyroscope_capture_direction);
     if(ret != 0)
     {
-        log_w("get gyroscope capture image direction fail , use default value : %d",GYROSCOPE_CAPTURE_DIRECTION);
+        
         gyroscope_capture_direction = GYROSCOPE_CAPTURE_DIRECTION;/*设置为默认逆时针抓图*/
+        log_w("get gyroscope capture image direction fail , use default value : %d",gyroscope_capture_direction);
     }
     uint8_t angle_valid = 0;
     uint8_t angle_a = 0;
@@ -575,8 +577,8 @@ static int get_door_config()
     ret = Get_Gyroscope_Capture_image_angle(&angle_a, &angle_b);
     if(ret != 0)
     {
-        log_w("get gyroscope capture image angle fail , use default value : %d",GYROSCOPE_CAPTURE_ANGLE);
         gyroscope_capture_angle = GYROSCOPE_CAPTURE_ANGLE;/*设置为默认开门角度*/
+        log_w("get gyroscope capture image angle fail , use default value : %d",gyroscope_capture_angle);
     }
     else
     {
@@ -615,19 +617,20 @@ int door_detect_init()
         log_e("get door config fail");
         /*获取失败不关闭陀螺仪线程*/
     }
+    /*判断门检测是否开启*/
+    if(gyroscope_enable_status == 1)
+    {
+        /*开启陀螺仪*/
+        log_i("gyroscope enable");
+    }
     else
     {
-        if(gyroscope_enable_status == 1)
-        {
-            log_i("gyroscope enable");
-        }
-        else
-        {
-            log_i("gyroscope disable");
-            /*读取配置文件，如果是关闭陀螺仪，则直接退出*/
-            return DOOR_ERR_NOT_ENABLE;
-        }
-    }
+
+        log_i("gyroscope disable");
+        /*读取配置文件，如果是关闭陀螺仪，则直接退出*/
+        return DOOR_ERR_NOT_ENABLE;
+     }
+    
     // 初始化结构体
     memset(&s_door, 0, sizeof(s_door));  // 清空结构体
     s_door.status = DOOR_CLOSE;
@@ -642,6 +645,7 @@ int door_detect_init()
     }
     
     // 初始化视频模块
+    /*如果门检测开启，则初始化视频模块*/
     ret = cm_video_impl_init("t23");
     if (ret != 0) {
         log_e("door_init failed: video init error");
