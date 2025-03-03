@@ -359,6 +359,9 @@ typedef struct {
 #define SENSOR_HEIGHT 1080
 
 
+#define MAX_WIDTH 1920
+#define MAX_HEIGHT 1024
+
 int sample_system_init(ImageAttributesConfigs configs);
 int sample_system_exit();
 

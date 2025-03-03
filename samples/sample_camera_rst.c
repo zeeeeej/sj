@@ -30,7 +30,7 @@ static int b_exited = 0;
 #define LOG_DIR "/system/log"
 #define LOG_FILE_SIZE 1024 * 30
 
-char *version = "1.0.2";
+char *version = "1.0.3";
 
 // 在头文件后添加宏定义
 #define STRINGIFY(x) #x

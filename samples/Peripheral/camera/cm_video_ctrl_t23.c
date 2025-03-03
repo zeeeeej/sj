@@ -21,9 +21,10 @@ typedef struct {
 extern struct chn_conf chn[];
 /*默认配置*/
 #define DEFAULT_WIDTH 1920  /*分辨率*/
-#define DEFAULT_HEIGHT 1080  /*分辨率*/
+#define DEFAULT_HEIGHT 1024  /*分辨率*/
 #define DEFAULT_LUMINANCE 128  /*亮度*/
 #define DEFAULT_COMPRESSION 99  /*压缩率*/
+
 
 /*从配置文件中读取配置信息*/
 static int LoadImageAttributesConfigs(ImageAttributesConfigs* configs)
@@ -33,6 +34,12 @@ static int LoadImageAttributesConfigs(ImageAttributesConfigs* configs)
     if(ret < 0)
     {
         IMP_LOG_ERR(TAG, "Get_Camera_config failed , use default value : %d, %d\n", DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        configs->width = DEFAULT_WIDTH;
+        configs->height = DEFAULT_HEIGHT;
+    }
+    if(configs->width > MAX_WIDTH || configs->height > MAX_HEIGHT)
+    {
+        IMP_LOG_ERR(TAG, "Camera_config too large , use default value : %d, %d\n", DEFAULT_WIDTH, DEFAULT_HEIGHT);
         configs->width = DEFAULT_WIDTH;
         configs->height = DEFAULT_HEIGHT;
     }

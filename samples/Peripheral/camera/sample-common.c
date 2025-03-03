@@ -658,6 +658,7 @@ int sample_res_deinit()
 
 int sample_res_init()
 {
+
 	int ret, i;
 
 	/* Step.2 FrameSource init */
@@ -745,7 +746,8 @@ int sample_set_attributes_compression(uint8_t compression)
 
 /*过滤不合理分辨率
 
-64对齐：1920 1088
+64对齐：1920 1088 
+1280 1024
 			*/
 static int is_valid_resolution(uint16_t width, uint16_t height) {
     // 检查宽高比
@@ -769,7 +771,7 @@ static int is_valid_resolution(uint16_t width, uint16_t height) {
 
 
     // 检查最大和最小限制
-    if (width < 320 || height < 240 || width > 1920 || height > 1088) {
+    if (width < 320 || height < 240 || width > 1920 || height > 1024) {
         return -1; // 超出范围
     }
 
@@ -806,6 +808,18 @@ int sample_set_attributes_resolution(uint16_t width, uint16_t height)
 
 	chn[0].fs_chn_attr.scaler.outwidth = width;
 	chn[0].fs_chn_attr.scaler.outheight = height;
+
+
+/*重新初始化图片旋转*/
+#if DEFAULE_IMAGE_ROTATE
+	ret = IMP_FrameSource_SetChnRotate(0, 1, width, height);
+	if (ret) {
+		IMP_LOG_ERR(TAG, "IMP_FrameSource_SetChnRotate error !\n");
+	} else {
+		IMP_LOG_INFO(TAG, "IMP_FrameSource_SetChnRotate(%d-%d-%d-%d) is success!\n", 0, 1, height, width);
+	}
+#endif
+
 
 /*如果分辨率设定的值不合理，会创建FS失败*/
 	ret = sample_res_init();
