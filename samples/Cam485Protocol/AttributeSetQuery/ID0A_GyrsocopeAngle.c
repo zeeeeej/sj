@@ -12,10 +12,6 @@ static uint8_t gyroscope_capture_angle[2] = {0};
 
 int attribute_gyro_angle_set(const uint8_t* value, uint32_t value_len)
 {
-    if (value == NULL || value_len != 1) {
-        log_e("Invalid parameter for gyro direction set");
-        return -1;
-    }
     uint8_t result = 0;
     log_i("Set Gyroscope capture angle");
     gyroscope_capture_angle[0] = value[0];
