@@ -13,6 +13,14 @@ int attribute_slave_address_set(const uint8_t* value, uint32_t value_len)
         log_e("Invalid parameter for slave address set");
         return -1;
     }
+    uint8_t cur_recv_slave_address = 0;
+    Get_CurRecvSlaveAddress(&cur_recv_slave_address);
+    if(cur_recv_slave_address != BROADCAST_ADDR)
+    {
+        /*只有是广播地址才能去设置从机地址*/
+        log_e("Only broadcast address can set slave address");
+        return -1;
+    }
     uint8_t result = 0;
     log_i("Set slave address");
     if (Set_g_slave_address(value[0]) != 0) {
@@ -26,6 +34,15 @@ int attribute_slave_address_set(const uint8_t* value, uint32_t value_len)
 }
 int attribute_slave_address_get()
 {
+    uint8_t cur_recv_slave_address = 0;
+    Get_CurRecvSlaveAddress(&cur_recv_slave_address);
+    /*判断当前接收帧是不是广播地址*/
+    if(cur_recv_slave_address != BROADCAST_ADDR)
+    {
+        /*只有是广播地址才能去获取从机地址*/
+        log_e("Only broadcast address can get slave address");
+        return -1;
+    }
     uint8_t result = 0;
     log_i("Get slave address");
     uint8_t slave_address = 0;

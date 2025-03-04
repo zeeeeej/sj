@@ -36,7 +36,9 @@ static ThreadSafeQueue recv_queue;
 static uint8_t MsgRecvBuf[MSG_BUF_SIZE];
 static DataTransInterface data_trans_interface;
 static uint8_t slave_address;
-
+/*当前接收到的从机地址
+    有可能是广播地址,也有可能是普通从机地址*/
+static uint8_t curRecvSlaveAddress;
 int set_slave_address(uint8_t slave_address_param)
 {
     slave_address = slave_address_param;
@@ -307,9 +309,10 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
 
         case 2:
             received_len = recv_msg_low_level(data + pos, 2);
-            if (received_len != 2 || data[pos] != slave_address)
+            /*如果从机地址不是广播地址,则判断是否与从机地址一致*/
+            if (received_len != 2 || (data[pos] != slave_address && data[pos] != BROADCAST_ADDR))
             {
-                if(data[pos] != slave_address)
+                if(data[pos] != slave_address && data[pos] != BROADCAST_ADDR)
                 {
                     log_e("slave address not equal ,current slave address : %d",slave_address);
                 }
@@ -317,6 +320,13 @@ static int msg_poll(uint8_t *data, uint32_t data_len)
                 pos = 0;
                 break;
             }
+            if(data[pos] == BROADCAST_ADDR)
+            {
+                /*接收到广播地址*/
+                log_i("Received broadcast Packet");
+            }
+
+            curRecvSlaveAddress = data[pos];
             LOGD("Received slave address");
             step = 3;
             pos += 2;
@@ -490,6 +500,34 @@ static void *msg_process_thread(void *arg)
     return NULL;
 }
 
+
+/* 波特率有效性校验函数 
+ * @param baudrate 待校验波特率
+ * @param valid_rates 有效波特率数组
+ * @param length 数组长度
+ * @return 0-有效 1-无效 */
+static int is_baudrate_valid(uint32_t baudrate, const uint32_t *valid_rates, size_t length)
+{
+    for(size_t i = 0; i < length; i++) {
+        if(baudrate == valid_rates[i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+// 建议的通用有效波特率列表
+static const uint32_t RS485_VALID_BAUDRATES[] = {
+    9600, 19200, 38400, 57600, 
+    115200, 230400, 460800,921600
+};
+
+int Get_CurRecvSlaveAddress(uint8_t *slave_address)
+{
+    *slave_address = curRecvSlaveAddress;
+    return 0;
+}
+
 void MsgDispatcherInit(DataTransInterface *interface)
 {
     if (interface == NULL)
@@ -511,10 +549,15 @@ void MsgDispatcherInit(DataTransInterface *interface)
     ret = Get_g_Rs485Baudrate(&Rs485Baudrate);
     if(ret != 0)
     {
-        log_e("Get Rs485Baudrate failed");
-        log_i("Get Rs485Baudrate failed, use default baudrate");
+        log_w("Get Rs485Baudrate failed, use default baudrate");
         /*获取失败则使用默认波特率*/
-        Rs485Baudrate = 460800;
+        if(is_baudrate_valid(Rs485Baudrate, 
+                        RS485_VALID_BAUDRATES,
+                        sizeof(RS485_VALID_BAUDRATES)/sizeof(uint32_t)))
+        {
+            log_w("Invalid baudrate %lu, fallback to 460800", Rs485Baudrate);
+            Rs485Baudrate = 460800;
+        }
     }
     /*设置底层485波特率*/
     ret = data_trans_interface.control(0,&Rs485Baudrate,sizeof(Rs485Baudrate));
