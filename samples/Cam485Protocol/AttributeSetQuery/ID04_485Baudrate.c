@@ -91,6 +91,19 @@ static int reinit_RS485(uint32_t new_baudrate) {
     return 0;
 }
 
+
+// static int get_cur_baudrate()
+// {
+//     DataTransInterface* uart_if = get_uart_interface();
+//     if (uart_if == NULL) {
+//         log_e("Failed to get UART interface");
+//         return -1;
+//     }
+//     uint32_t baudrate;
+//     uart_if->control(UART_CTRL_GET_BAUDRATE, &baudrate, sizeof(baudrate));
+//     return baudrate;
+// }
+
 void *timer_callback(void *args) {
     BaudrateChangeParams *params = (BaudrateChangeParams *)args;
     if (params == NULL) {
@@ -107,7 +120,7 @@ void *timer_callback(void *args) {
     int result = reinit_RS485(params->baudrate);
     
     // 发送设置结果响应
-    SendSetAttributeResp(SID03_Attribute_Baudrate, (result == 0) ? 0 : 1);
+    // SendSetAttributeResp(SID03_Attribute_Baudrate, (result == 0) ? 0 : 1);
 
     // 通知完成状态
     pthread_mutex_lock(&params->mutex);
@@ -171,31 +184,62 @@ int RS485_reinit(uint32_t Rs485Baudrate) {
 
 
 int attribute_baudrate_set(const uint8_t* value, uint32_t value_len) {
-    if (value == NULL || value_len < 4) {
-        log_e("Invalid baudrate parameters");
-        return -1;
-    }
+    // if (value == NULL || value_len < 4) {
+    //     log_e("Invalid baudrate parameters");
+    //     return -1;
+    // }
 
-    uint32_t baudrate = ((value[0])|(value[1]<<8)|(value[2]<<16)|(value[3]<<24));
-    log_i("Setting baudrate to: %d", baudrate);
+    uint32_t new_baudrate = ((value[0])|(value[1]<<8)|(value[2]<<16)|(value[3]<<24));
+    log_i("Setting baudrate to: %u", new_baudrate);
     
     // 验证波特率值是否支持
-    if (!is_baudrate_supported(baudrate)) {
-        log_e("Unsupported baudrate value: %u", baudrate);
+    if (!is_baudrate_supported(new_baudrate)) {
+        log_e("Unsupported baudrate value: %u", new_baudrate);
+        SendSetAttributeResp(0x04, 1);  // 发送失败响应
         return -1;
     }
 
-    // 启动重新初始化过程
-    int result = RS485_reinit(baudrate);
-    if (result != 0) {
-        log_e("Failed to start RS485 reinit");
+    // 获取当前波特率
+    DataTransInterface* uart_if = get_uart_interface();
+    uint32_t old_baudrate;
+    int ret = uart_if->control(UART_CTRL_GET_BAUDRATE, &old_baudrate, sizeof(old_baudrate));
+    if (ret != 0) {
+        log_e("Failed to get current baudrate");
+        SendSetAttributeResp(0x04, 1);
         return -1;
     }
+    
+    log_i("Current baudrate: %u, attempting to set new baudrate: %u", old_baudrate, new_baudrate);
+
+    // 尝试设置新波特率
+    ret = reinit_RS485(new_baudrate);
+    if (ret != 0) {
+        log_e("Failed to set new baudrate");
+        SendSetAttributeResp(0x04, 1);
+        return -1;
+    }
+
+    // 等待一小段时间确保新波特率生效
+    usleep(100000);  // 100ms
+
+    // 切回旧波特率发送响应
+    ret = reinit_RS485(old_baudrate);
+    if (ret != 0) {
+        log_e("Failed to restore old baudrate");
+        return -1;
+    }
+
+    // 发送成功响应
+    SendSetAttributeResp(0x04, 0);
+
+    // 启动异步线程进行最终的波特率切换
+    RS485_reinit(new_baudrate);
 
     return 0;
 }
 
 int attribute_baudrate_get()
 {
+
     return 0;
 }

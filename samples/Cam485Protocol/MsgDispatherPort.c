@@ -37,6 +37,10 @@ static int gpio_fd = -1;
 #define UART_ERR_HARDWARE -2
 #define UART_ERR_TIMEOUT -3
 
+// 在控制码定义处添加获取波特率的控制码
+#define UART_CTRL_SET_BAUDRATE    0  // 已有的设置波特率控制码
+#define UART_CTRL_GET_BAUDRATE    1  // 新增获取波特率控制码
+
 static int init_gpio_control() {
     char value_path[64];
     snprintf(value_path, sizeof(value_path), "/sys/class/gpio/gpio53/value");
@@ -309,6 +313,21 @@ static int uart_control(int control_code, void *user_data, uint32_t len)
             }
             uint32_t baudrate = *(uint32_t*)user_data;
             return uart_set_baudrate(baudrate);
+            
+        case UART_CTRL_GET_BAUDRATE:
+            if (len != sizeof(uint32_t)) {
+                log_e("Invalid buffer size for get baudrate: %u", len);
+                return UART_ERR_INVALID_PARAM;
+            }
+            int current_baudrate;
+            int ret = cm_uart_get_baudrate(uart_fd, &current_baudrate);
+            if (ret != 0) {
+                log_e("Failed to get baudrate");
+                return UART_ERR_HARDWARE;
+            }
+            log_i("Current baudrate: %d", current_baudrate);
+            *(uint32_t*)user_data = (uint32_t)current_baudrate;
+            return UART_SUCCESS;
             
         default:
             log_e("Unsupported control code: %d", control_code);

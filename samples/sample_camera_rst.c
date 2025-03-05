@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
     /*初始化视频模块*/
     cm_video_impl_init("t23");
 
-    // run_pwm();
+    run_pwm();
     /*开始自检*/
     // self_check_start();
     /*485协议初始化*/

@@ -71,8 +71,43 @@ int try_set_baudrate(int fd, int baudrate) {  // 注意这里改为 int baudrate
     return 0;
 }
 
+/*获取当前串口波特率*/
+int cm_uart_get_baudrate(int fd, int *baudrate)
+{
+    struct termios options;
+    speed_t speed;
 
+    if (fd < 0 || baudrate == NULL) {
+        return -1;
+    }
 
+    // 获取当前串口配置
+    if (tcgetattr(fd, &options) != 0) {
+        printf("Failed to get serial port attributes: %s (errno: %d)\n", 
+               strerror(errno), errno);
+        return -2;
+    }
+
+    // 获取输入波特率（通常输入输出波特率是一致的）
+    speed = cfgetispeed(&options);
+
+    // 将系统常量转换为实际波特率值
+    switch(speed) {
+        case B9600:    *baudrate = 9600;    break;
+        case B19200:   *baudrate = 19200;   break;
+        case B38400:   *baudrate = 38400;   break;
+        case B57600:   *baudrate = 57600;   break;
+        case B115200:  *baudrate = 115200;  break;
+        case B230400:  *baudrate = 230400;  break;
+        case B460800:  *baudrate = 460800;  break;
+        case B921600:  *baudrate = 921600;  break;
+        default:
+            printf("Unknown baudrate constant: %d\n", (int)speed);
+            return -3;
+    }
+
+    return 0;
+}
 
 int cm_uart_open(char *serial_port)
 {

@@ -88,13 +88,13 @@ void* pwm_thread(void* arg) {
         value_str[0] = '1';
         write(gpio_fd, value_str, 1);
         printf("1\n");
-        usleep(high_time*10);
+        usleep(high_time);
         
         value_str[0] = '0';
         write(gpio_fd, value_str, 1);
         printf("0\n");
 
-        usleep(low_time*10);
+        usleep(low_time);
     }
 
     close(gpio_fd);
