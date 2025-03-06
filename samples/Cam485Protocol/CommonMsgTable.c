@@ -13,6 +13,7 @@
 #include "SID0B_FirmwareUpdateNotice.h"
 #include "SID0C_SendFirmwareUpdatePacket.h"
 #include "SID0D_DoorOpenOrCloseSignal.h"
+#include "SIDF1_PwmEnDn.h"
 #include "SIDFE_GetFile.h"
 #include "SIDFF_TestChannel.h"
 // 服务配置表
@@ -32,6 +33,7 @@ const MsgService MsgServiceList[SID_NUM]  =
     {SID_0B, SID0B_FirmwareUpdateNotice},
     {SID_0C, SID0C_SendFirmwareUpdatePacket},
     {SID_0D, SID0D_DoorOpenOrCloseSignal},
+    {SID_F1, SIDF1_PwmEnDn},
     {SID_FE, SIDFE_GetFile},
     {SID_FF, SIDFF_TestChannel},    
 };

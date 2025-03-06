@@ -22,6 +22,7 @@
 #define SID_0D		  (0x0D) /*门开关信号*/
 #define SID_FE		  (0xFE) /*core文件传输*/
 #define SID_FF		  (0xFF) /*测试通道*/	
+#define SID_F1		  (0xF1) /*PWM控制*/
 typedef struct 
 {
     uint8_t sid;									// 数据帧id
