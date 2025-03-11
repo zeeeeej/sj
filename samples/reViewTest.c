@@ -19,6 +19,6 @@ int main()
                 printf("revi
                 printf("revi
                     printf("reviprintf("revi
-                        xx
+        xx
     }
 }
