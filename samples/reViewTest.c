@@ -13,5 +13,12 @@ int main()
         for(int k=0;k<100;k++)
         printf("111\n")
         printf("review test\n");
+        printf("revi
+            printf("revi
+            printf("revi
+                printf("revi
+                printf("revi
+                    printf("reviprintf("revi
+                        xx
     }
 }
