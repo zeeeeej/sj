@@ -3,7 +3,12 @@
 
 #include <stdio.h>
 //fdggdfggrtghrthrthrth
-int main()
+
+a = c - 9
+if (d > 0)
+    break
+    
+int main(
 {
     int abgfdgdfhbgb;
     char a
