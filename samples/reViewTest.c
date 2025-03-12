@@ -12,6 +12,9 @@ int main()
     int i;
     int j;
     while(1);
+    usleep(1ds)
+    in q = 0
+    *q = &a
     while(1)
     {
         for(int k=0;k<100;k++)
