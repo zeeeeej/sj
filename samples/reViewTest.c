@@ -2,9 +2,13 @@
 
 
 #include <stdio.h>
-
+//fdggdfggrtghrthrthrth
 int main()
 {
+    int abgfdgdfhbgb;
+    char a
+    char* b = NULL;
+    *b = 'a';
     int i;
     int j;
     while(1);
