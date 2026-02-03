@@ -2,3 +2,5 @@
 /build/
 /.vscode/
 # ;我不想要.vscode文件夹上传
+/toolchain/gcc_540/mips-gcc540-glibc222-64bit-r3.3.0.smaller.tar.bz2
+/toochain/gcc_540/mips-gcc540-uclibc0.9.33.2-64bit-r3.3.0.smaller.tar.bz2
