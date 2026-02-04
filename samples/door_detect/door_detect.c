@@ -363,9 +363,9 @@ void door_status_detect(float yaw, char flag, float capture_angle)
         unsigned long long current_time = cm_tick_milli();
 
         // 只在debug_print_enabled为真时打印
-        if (debug_print_enabled && current_time - last_print_time >= 1000)
+        if (debug_print_enabled && current_time - last_print_time >= 5000)
         {
-            LOGD("ypr[0] = %f,door_status = %d , reference_yaw = %f", yaw, hmi_srv.door_status, reference_yaw);
+            LOGD("ypr[0] = %f,door_status = %d , reference_yaw = %f ,angel = %f", yaw, hmi_srv.door_status, reference_yaw,angle);
             last_print_time = current_time;
         }
     }
