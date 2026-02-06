@@ -12,6 +12,8 @@
 #include "cm_config.h"
 #include "elog.h"
 #include "MsgDispatherPort.h"
+#include "hd_ota.h"
+
 #define MSG_BUF_SIZE (MAX_RECV_MSG_LEN)
 
 typedef struct MsgNode {
@@ -203,6 +205,11 @@ static int send_msg_low_level(uint8_t *msg, uint32_t len)
 }
 
 static int recv_msg_low_level(uint8_t *msg, uint32_t len)
+{
+    return data_trans_interface.recv_data(msg, len,READ_TIME_OUT_MS);
+}
+
+static int recv_msg_high_level(uint8_t *msg, uint32_t len)
 {
     return data_trans_interface.recv_data(msg, len,READ_TIME_OUT_MS);
 }
@@ -442,10 +449,12 @@ static void *msg_send_thread(void *arg)
     return NULL;
 }
 
+pthread_t *g_poll_tid;
+static int msg_polling = 0;
 static void *msg_poll_thread(void *arg)
 {
     LOGD("msg_poll_thread ready");
-    while (1)
+    while (msg_polling)
     {
         int received_len = msg_poll(MsgRecvBuf, sizeof(MsgRecvBuf));
         if (MSG_DISPATHER_RECV_DEBUG_EN)
@@ -528,6 +537,25 @@ int Get_CurRecvSlaveAddress(uint8_t *slave_address)
     return 0;
 }
 
+int hd_ota_stop_poll(){
+    msg_polling = 0;
+    if (*g_poll_tid!=NULL)
+    {
+       pthread_detach(*g_poll_tid);
+       *g_poll_tid = NULL;
+    }
+    
+    return 0;
+}
+
+int hd_read_file(uint8_t *buf,int file_size){
+    printf("--> hd_read_file file_size = %d\n",file_size);    
+    int  received_len = recv_msg_high_level(buf , file_size);
+    printf("--> hd_read_file file_size = %d ,received_len= %d\n",file_size,received_len);  
+    return received_len;
+}
+
+
 void MsgDispatcherInit(DataTransInterface *interface)
 {
     if (interface == NULL)
@@ -582,6 +610,8 @@ void MsgDispatcherInit(DataTransInterface *interface)
 #ifndef SEND_MSG_BLOCK
     pthread_create(&send_tid, NULL, msg_send_thread, NULL);
 #endif
+    msg_polling = 1;
+    *g_poll_tid = poll_tid;
     pthread_create(&poll_tid, NULL, msg_poll_thread, NULL);
     pthread_create(&process_tid, NULL, msg_process_thread, NULL);
     

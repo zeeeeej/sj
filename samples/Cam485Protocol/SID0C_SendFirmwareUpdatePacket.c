@@ -12,6 +12,7 @@
 #include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
 #include "md5.h"
+#include "hd_ota.h"
 
 int SID0C_GetFirmwaveUpdateFlag(void)
 {
@@ -233,5 +234,118 @@ int SID0C_SendFirmwareUpdatePacket(uint8_t *msg_buf, uint32_t msg_dlc)
      return 0;
 
 }
+
+int hd_ota_poll_file(){
+    LOGD("--> hd_ota_poll_file");
+    uint8_t resp_buf[SID0C_MSG_RESP_TOTAL_LEN];
+    memset(resp_buf, 0, SID0C_MSG_RESP_TOTAL_LEN);
+    int ret = 0;
+    uint8_t result = 0;
+    uint8_t id;
+  
+    /*判断是否可以升级*/
+    if(0!=SID0C_GetFirmwaveUpdateFlag())
+    {
+        LOGD("can not update firmwave  \n");
+        SID0C_BuildMsgHeader(resp_buf, SID0C_MSG_RESP_DATA_LEN);
+        resp_buf[8] = 1;
+        send_msg_resp(resp_buf, SID0C_MSG_RESP_TOTAL_LEN);
+        return -2;
+    }
+
+    FILE * fp = fopen(OTA_FILE_PATH, "r+");
+    if (!fp) 
+    {
+        LOGD("Failed to open %s file: %s,ret[-5]\n", OTA_FILE_PATH,strerror(errno));
+        return -3;
+    }
+
+    int file_size = SID0C_GetFirmwaveSize();
+    if (file_size<=0)
+    {
+        return -2;
+    }
+    
+    uint8_t  msg_buf [1024*1024*2];
+    int read_size = hd_read_file(msg_buf,file_size);
+    printf("--> hd_ota_poll_file read_size = %d\n",read_size);
+    if (read_size!=file_size)
+    {
+        printf("--> hd_ota_poll_file read_size!=file_size %d != %d\n",read_size,file_size);
+        return -1;
+    }
+    
+    fwrite(msg_buf,sizeof(uint8_t), read_size, fp);
+
+    unsigned char digest[16]={0};
+
+    // 计算文件MD5
+    if (calculate_file_md5(OTA_FILE_PATH, digest) != 0)
+    {
+        LOGD("Failed to calculate file MD5");
+        return -6;
+    }
+
+    char calculated_md5[33] = {0};
+    for (int i = 0; i < 16; i++) {
+        sprintf(&calculated_md5[i * 2], "%02x", digest[i]);
+    }
+    calculated_md5[32] = '\0';
+
+    char md5_str[33] = {0};
+    SID0C_GetFirmwaveMD5(md5_str);
+
+    LOGD("Expected: %s", md5_str);
+    LOGD("Calculated: %s", calculated_md5);
+    // 比较MD5值
+    if (strcmp(calculated_md5, md5_str) == 0)
+    {
+        SID0C_BuildMsgHeader(resp_buf, SID0C_MSG_RESP_DATA_LEN);
+        resp_buf[8] = 0;
+        //printf("After header: msg_buf[8] = 0x%02X, msg_buf[9] = 0x%02X\n", resp_buf[8], resp_buf[9]);
+        send_msg_resp(resp_buf, SID0C_MSG_RESP_TOTAL_LEN);
+
+        FILE *fp = fopen(OTA_FILE_INFO_PATH, "w+");
+        if (!fp)
+        {
+            LOGD("Failed to open %s file: %s, ret[-6]\n", OTA_FILE_INFO_PATH,strerror(errno));
+            //return -2;
+        }
+        
+
+        char ota_file_info[128] = {0};
+
+        sprintf(ota_file_info,"{MD5:%s}{SIZE:%u}{UPDATE:%d}",md5_str,SID0C_GetFirmwaveSize(),SID0C_GetFirmwaveUpdateFlag());
+        printf("SID0C %s\n",ota_file_info);
+
+        if(sizeof(ota_file_info) != fwrite(ota_file_info,sizeof(uint8_t), sizeof(ota_file_info), fp))
+        {
+            LOGD("error:write update firmwave  info");
+            //ret = -2;
+        }
+
+        fclose(fp);
+
+        printf("updating.....\n");
+        usleep(1000*100);
+
+        //system("chmod 777 /system/init/myotatest.sh;sh /system/init/myotatest.sh");
+        makeotashell();
+        system(CAT_OTA_SHELL_PATH);
+        system(CHMOD_OTA_SHELL_PATH);
+        system(SH_OTA_SHELL_PATH);
+        printf("--> prepare reboot !\n");
+        sleep(1);
+        system("reboot");
+    }else{
+         printf("--> hd_ota_poll_file file md5 error !\n");
+         return -9;
+    }
+
+    return 0;    
+
+}
+
+
 
 

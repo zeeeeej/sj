@@ -11,6 +11,7 @@
 #include "SID0B_FirmwareUpdateNotice.h"
 #include "Cam485ProtocolCommon.h"
 #include "ImageInfoList.h"
+#include "hd_ota.h"
 
 static UpdatePacketStruct  UpdatePacketInfo;
 
@@ -167,7 +168,15 @@ int SID0B_FirmwareUpdateNotice(uint8_t *msg_buf, uint32_t msg_dlc)
     resp_buf[10] = 0;
     resp_buf[11] = 0;
     resp_buf[12] = 0;
-
+    
+    
+    // 停止接受串口数据
+    int ret;
+    ret = hd_ota_stop_poll();
+    printf("--> hd_ota_stop_poll ret = %d\n",ret);
     send_msg_resp(resp_buf, SID0B_MSG_RESP_TOTAL_LEN);
+    // 读取ota数据
+    ret = hd_ota_poll_file();    
+    printf("--> hd_ota_poll_file ret = %d\n",ret);
     return 0;
 }
